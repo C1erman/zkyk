@@ -1,0 +1,48 @@
+.footer-wrapper{
+    font-size: 14px;
+}
+.footer-wrapper a{
+    color: white;
+    border-bottom: 1px solid white;
+    padding-bottom: 2px;
+    margin: 0 4px;
+}
+.footer-svgContainer{
+    margin-bottom: -1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+.footer-textContainer{
+    position: relative;
+    z-index: 2;
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #5c7cff;
+    color: white;
+    padding-bottom: 0.8rem;
+}
+.footer-text{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.footer-text > div{
+    margin-left: 1rem;
+    line-height: 2;
+}
+.footer-email{
+    white-space: nowrap;
+}
+.footer-wechat{
+    margin: 0.2rem 0;
+    text-align: center;
+}
+.footer-wechatImg{
+    box-sizing: border-box;
+    display: block;
+    max-width: 100%;
+    border-radius: 0.8rem;
+    padding: 0.5rem;
+}

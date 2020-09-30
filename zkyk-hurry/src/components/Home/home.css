@@ -1,0 +1,76 @@
+.home-container{
+    height: calc(100vh - 212px);
+}
+.home-textContainer{
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.home-logoContainer{
+    max-width: 320px;
+    overflow: hidden;
+}
+.home-logoContainer > img{
+    height: 70px;
+}
+.home-title{
+    margin-top: 1rem;
+    font-size: 1rem;
+    font-weight: bolder;
+}
+.home-btnContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30%;
+    overflow: auto;
+    border-bottom-left-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
+}
+.home-btn{
+    cursor: pointer;
+    display: block;
+    width: 80%;
+    border: 1px solid #5c7cff;
+    color: #5c7cff;
+    line-height: 1.5;
+    padding: 0.5rem;
+    border-radius: 2rem;
+    font-size: 0.9rem;
+    background: transparent;
+    transition: all;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in;
+}
+button.home-btm:active{
+    color: #ffffff;
+    background: #5c7cff;
+}
+.home-btn-center{
+    margin: 0 auto;
+}
+.home-btn-sm{
+    width: 50%;
+    line-height: normal;
+    font-size: 0.9rem;
+}
+.home-input{
+    display: block;
+    width: 95%;
+    margin: 0 auto;
+    font-size: 0.95rem;
+    padding: 0.5rem 0;
+    border: 0;
+    border-bottom: 1px solid #cccccc;
+    appearance: none;
+    outline: 0;
+}
+.home-error{
+    display: inline-block;
+    margin: 0.5rem 0;
+    text-indent: 0.7rem;
+    font-size: 0.95rem;
+    color: #a94442;
+}

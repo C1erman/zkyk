@@ -1,0 +1,112 @@
+.add-container{
+    width: 95%;
+    margin: 0 auto;
+    padding-top: 1rem;
+    font-size: 0.9rem;
+}
+/* .add-noti{
+    padding: 0.5rem;
+    background: #f9f7e8;
+    color: #62bfad;
+    font-size: 1rem;
+    font-weight: bolder;
+    border-radius: 0.3rem;
+    box-shadow: 0 0 3px #f9f7e8;
+} */
+.add-noti > p{
+    line-height: 2;
+}
+.add-noti-barcode{
+    font-weight: bolder;
+    font-size: 1rem;
+}
+.add-label-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.add-label{
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    font-size: 1rem;
+    font-weight: bolder;
+}
+.add-label::after{
+    display: block;
+    position: relative;
+    content: "";
+    width: 110%;
+    height: 0.7rem;
+    opacity: 0.8;
+    z-index: -1;
+    /* background: linear-gradient(#1ec7ac, #3bb7c8); */
+    background: #5c7cff;
+    opacity: 0.5;
+    top: -0.7rem;
+    left: -5%;
+}
+.add-divide{
+    width: 80%;
+    margin: 1rem auto;
+    height: 1px;
+    background-color: #cccccc;
+}
+.add-form-input{
+    margin-bottom: 1.5rem;
+}
+.add-form-input > label{
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 0.5rem;
+    font-weight: bolder;
+}
+.add-form-inputs{
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+    padding: 0.3rem 0;
+    border: 0;
+    border-bottom: 1px solid #cccccc;
+    transition: all;
+    transition: ease-in 0.3s;
+    outline: 0;
+}
+.add-form-radio > label{
+    display: block;
+}
+.add-form-input > input:focus{
+    border-color: #1a1a1a;
+    text-indent: 1rem;
+}
+.success{
+    border-color: #3c763d;
+}
+.error{
+    border-color: #a94442;
+}
+.add-form-error{
+    margin: 0.5rem 0;
+    color: #a94442;
+    text-indent: 1rem;
+}
+.add-form-btn{
+    display: block;
+    width: 85%;
+    color: white;
+    margin: 0 auto;
+    margin-top: 2.5rem;
+    font-weight: bolder;
+    border: 0;
+    line-height: 1.8;
+    padding: 0.5rem;
+    border-radius: 2rem;
+    /* background: linear-gradient(#ff7fb8, #466cfd); */
+    background: #5c7cff;
+    box-shadow: 0 0 1px #5c7cff;
+    transition: opacity ease-in 0.3s;
+    cursor: pointer;
+}
+.disabled{
+    opacity: 0.4;
+}

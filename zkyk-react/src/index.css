@@ -1,0 +1,97 @@
+/* reset css file. authored by c1er : kexiezhang@gmail.com */
+* { -webkit-tap-highlight-color: transparent; }
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td { margin: 0; padding: 0; vertical-align: baseline; }
+img { border: 0 none; vertical-align: top; }
+i, em { font-style: normal; }
+ol, ul { list-style: none; }
+input, select, button, h1, h2, h3, h4, h5, h6 { font-size: 100%; font-family: inherit; }
+button { outline: 0; }
+button::-moz-focus-inner { border: 0; }
+table { border-collapse: collapse; border-spacing: 0; }
+a { text-decoration: none; color: #666; }
+a, a:active, a:focus, a:hover, a:visited { text-decoration:none }
+a, img { -webkit-touch-callout:none }
+body { margin: 0 auto; min-width: 320px; max-width: 640px; height: 100%;font-family: -apple-system, BlinkMacSystemFont, "PingFang SC","Helvetica Neue",STHeiti,"Microsoft Yahei",Tahoma,Simsun,sans-serif; line-height: 1.5; color: #666; -webkit-text-size-adjust: 100% !important; text-size-adjust: 100% !important; }
+input[type="text"], textarea { -webkit-appearance: none; -moz-appearance: none; appearance: none; }
+/* media query */
+    /* 设计稿 375px 下实现 1rem === 50px */
+html {
+    font-size: 13.33333vw
+}
+@media screen and (max-width:320px) {
+    html {
+        font-size: 42.667px;
+        font-size: 13.33333vw
+    }
+}
+@media screen and (min-width:321px) and (max-width:360px) {
+    html {
+        font-size: 48px;
+        font-size: 13.33333vw
+    }
+}
+@media screen and (min-width:361px) and (max-width:375px) {
+    html {
+        font-size: 50px;
+        font-size: 13.33333vw;
+    }
+}
+@media screen and (min-width:376px) and (max-width:393px) {
+    html {
+        font-size: 52.4px;
+        font-size: 13.33333vw
+    }
+}
+@media screen and (min-width:394px) and (max-width:412px) {
+    html {
+        font-size:54.93px;
+        font-size:13.33333vw
+    }
+}
+@media screen and (min-width:413px) and (max-width:414px) {
+    html {
+        font-size:55.2px;
+        font-size:13.33333vw
+    }
+}
+@media screen and (min-width:415px) and (max-width:480px) {
+    html {
+        font-size:64px;
+        font-size:13.33333vw
+    }
+}
+@media screen and (min-width:481px) and (max-width:540px) {
+    html {
+        font-size:72px;
+        font-size:13.33333vw
+    }
+}
+@media screen and (min-width:541px) and (max-width:640px) {
+    html {
+        font-size:85.33px;
+        font-size:13.33333vw
+    }
+}
+@media screen and (min-width:641px) {
+    html {
+        font-size:86px;
+    }
+}
+/* app */
+html{ height: 100%; }
+body{ background-color: #f0f0f0; }
+#app{ height: 100%; background-color: #ffffff; }
+body{
+    --theme : #ff4f76;
+    --fake : #fc5c9c;
+    --background : #fcefee;
+    --fill : #ffffff;
+    --container : #c5e3f6;
+    --innerText : #fccde2;
+    --text : #1a1a1a;
+    --temTheme : #ff1f5a;
+    --temText : #ffffff;
+    --temContainer : #ffd615;
+    --temFill : #f9ff21;
+    --temOther : #1e2a78;
+}

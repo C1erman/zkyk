@@ -1,0 +1,68 @@
+@keyframes show{
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@keyframes slide-in{
+    from {
+        transform: translateY(-150px);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+.modal{
+    display: flex;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    animation-name: show;
+    animation-duration: 0.3s;
+}
+.modal-dialog{
+    display: flex;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+    background-color: #ffffff;
+    margin: 0 20px;
+    max-height: calc(100vh - 40px);
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 1rem;
+    box-shadow: 0 0 3px #cccccc;
+    animation-name: slide-in;
+    animation-duration: 0.5s;
+}
+.modal-header, .modal-footer{
+    display: flex;
+    align-items: center;
+}
+.modal-header{
+    justify-content: space-between;
+    border-bottom: 1px solid #cccccc;
+    padding: 1rem;
+}
+.modal-close{
+    padding-right: 0.5rem;
+    cursor: pointer;
+    font-weight: bolder;
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+.modal-body{
+    padding: 1rem;
+}
+.modal-footer{
+    justify-content: center;
+}
