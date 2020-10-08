@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from  'react';
 import { HashRouter as Router,  Switch, Route, Redirect} from 'react-router-dom';
+// redux
+import { Provider, useSelector } from 'react-redux';
+import store from '../../reducers';
 
 import Footer from '../Footer';
 import Home from '../Home';
 import Add from '../Add';
 
-const App = () => {
-    const [code, setCode] = useState('');
-    let SecureRoute = () => code.length ?
-        (
+const SecureRoute = () => {
+    const add = useSelector(state => state.add);
+    return (
+        add.barCode ? (
             <Switch>
                 <Route path='/' exact component={Home}></Route>
                 <Route path='/add' component={Add}></Route>
+                <Redirect to='/' />
             </Switch>
         ) : (
             <Switch>
@@ -19,13 +23,17 @@ const App = () => {
                 <Redirect to='/' />
             </Switch>
         )
+    );
+}
+
+const App = () => {
     return (
-        <>
+        <Provider store={store}>
             <Router>
                 <SecureRoute />
             </Router>
             <Footer />
-        </>
+        </Provider>
     );
 }
 

@@ -1,13 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Axios from 'axios';
+// redux
+import { useDispatch } from 'react-redux';
+import * as BIO from '../../actions';
+
 import './home.css';
 import Modal from '../Modal';
 import logo from '../../icons/logo.png';
 import { host } from '../../_config';
 
 const Home = () => {
-    // 路由
+    // redux
+    const dispatch = useDispatch();
+    // 页面跳转
     const history = useHistory();
     // 模态框初始显示状态
     const [visible, setVisible] = useState(false);
@@ -35,10 +41,18 @@ const Home = () => {
         setBarcode('');
     }
     useEffect(() => {
-        document.body.style.overflow = visible ? 'hidden' : '';
-    },[visible]);
-
+        if(visible) setError('');
+    },[visible])
     const checkCode = () => {
+        // for test
+        dispatch({
+            type : BIO.ADD_CHECK_SUCCESS,
+            data : {
+                barCode : 'sd',
+                sampleId : 'id'
+            }
+        })
+        // for test-end
         if(!barcode.length){
             setError('请输入正确的采样管编号。');
             return false;
@@ -57,17 +71,25 @@ const Home = () => {
             if(data.code === 'error') setError(data.info);
             else if(data.code === 'success'){
                 onClose();
-                localStorage.setItem('barcode', data.data?.barcode);
-                localStorage.setItem('sample_id', data.data?.sample_id);
-                setBtnText('请稍后');
+                // localStorage.setItem('barcode', data.data?.barcode);
+                // localStorage.setItem('sample_id', data.data?.sample_id);
+                setBtnText('请稍候');
+                let { barcode = '', sample_id = '' } = data.data;
+                dispatch({
+                    type : BIO.ADD_CHECK_SUCCESS,
+                    data : {
+                        barCode : barcode,
+                        sampleId : sample_id
+                    }
+                })
                 setTimeout(() => {
                     setBtnText('下一步');
                     history.push('/add');
                 }, 500)
             }      
         }).catch(error => {
-            console.log(error);
-            setError('网络请求出现问题，换个浏览器试试？');
+            console.error(error);
+            setError('网络请求出现问题，请稍后再试。');
         });
     }
     return (
@@ -85,7 +107,7 @@ const Home = () => {
             </div>
             <Modal visible={visible} title='绑定采样'
             content={<>
-                <input ref={inputRef} onChange={(e) => validate(e)} className='home-input' type='text' placeholder='请输入9位采样管编号' />
+                <input ref={inputRef} onChange={(e) => validate(e)} className='home-input' type='number' placeholder='请输入9位采样管编号' />
                 <span className='home-error'>{error}</span>
                 <div><button className='home-btn home-btn-sm home-btn-center' onClick={checkCode}>{btnText}</button></div>
             </>}

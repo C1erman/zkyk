@@ -1,0 +1,66 @@
+.add-label-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.add-label{
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    font-size: 1rem;
+    font-weight: bolder;
+}
+.add-label::after{
+    display: block;
+    position: relative;
+    content: "";
+    width: 110%;
+    height: 0.7rem;
+    opacity: 0.8;
+    z-index: -1;
+    /* background: linear-gradient(#1ec7ac, #3bb7c8); */
+    background: #5c7cff;
+    opacity: 0.5;
+    top: -0.7rem;
+    left: -5%;
+}
+.add-divide{
+    width: 80%;
+    margin: 1rem auto;
+    height: 1px;
+    background-color: #cccccc;
+}
+.input-container{
+    margin-bottom: 1.5rem;
+}
+.input-container > label{
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 0.5rem;
+    font-weight: bolder;
+}
+.input{
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+    padding: 0.3rem 0;
+    border: 0;
+    border-bottom: 1px solid #cccccc;
+    transition: all ease-in 0.3s;
+    outline: 0;
+}
+.input-container > input:focus{
+    border-color: #1a1a1a;
+    text-indent: 1rem;
+}
+.success{
+    border-color: #3c763d;
+}
+.error{
+    border-color: #a94442;
+}
+.input-error{
+    margin: 0.5rem 0;
+    color: #a94442;
+    text-indent: 1rem;
+}

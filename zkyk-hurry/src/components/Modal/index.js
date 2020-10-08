@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './modal.css';
 
 const Modal = ({
@@ -8,6 +8,9 @@ const Modal = ({
     footer,
     onClose
 }) => {
+    useEffect(() => {
+        document.body.style.overflow = visible ? 'hidden' : '';
+    }, [visible]);
     return !visible ? null : (
         <div className='modal' onClick={onClose}>
             <div className='modal-dialog' onClick={(e) => e.stopPropagation()}>

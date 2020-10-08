@@ -1,0 +1,23 @@
+.autoinput-container{
+    margin-bottom: 1.5rem;
+}
+.autoinput-container > label{
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 0.5rem;
+    font-weight: bolder;
+}
+.autoinput{
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+    padding: 0.3rem 0;
+    border: 0;
+    border-bottom: 1px solid #cccccc;
+    transition: all ease-in 0.3s;
+    outline: 0;
+}
+.autoinput-container > input:focus{
+    border-color: #1a1a1a;
+    text-indent: 1rem;
+}

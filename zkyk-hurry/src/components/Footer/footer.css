@@ -14,7 +14,6 @@
 }
 .footer-textContainer{
     position: relative;
-    z-index: 2;
     display: flex;
     overflow: hidden;
     align-items: center;

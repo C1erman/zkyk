@@ -56,11 +56,13 @@ button.home-btm:active{
     line-height: normal;
     font-size: 0.9rem;
 }
+.home-input, .home-error{
+    font-size: 0.95rem;
+}
 .home-input{
     display: block;
     width: 95%;
     margin: 0 auto;
-    font-size: 0.95rem;
     padding: 0.5rem 0;
     border: 0;
     border-bottom: 1px solid #cccccc;
@@ -69,8 +71,8 @@ button.home-btm:active{
 }
 .home-error{
     display: inline-block;
-    margin: 0.5rem 0;
-    text-indent: 0.7rem;
-    font-size: 0.95rem;
+    width: 95%;
+    margin: 0.3rem auto;
+    text-indent: 0.5rem;
     color: #a94442;
 }
