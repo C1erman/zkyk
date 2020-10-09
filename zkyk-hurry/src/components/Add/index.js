@@ -6,8 +6,9 @@ import './add.css';
 import { host } from '../../_config';
 
 import { slideUp } from '../../utils/slideUp';
-import { getNow, getPreviousDay } from '../../utils/BIODate';
-import { useSelector } from 'react-redux';
+import { getPreviousDay } from '../../utils/BIODate';
+import { useSelector, useDispatch } from 'react-redux';
+import * as BIO from '../../actions';
 
 import Input from '../Input';
 import AutoInput from '../AutoInput';
@@ -24,11 +25,11 @@ const Add = () => {
     const [submit, setSubmit] = useState('提交');
     // redux
     let sampleId = useSelector(state => state.add.sampleId);
+    const dispatch = useDispatch();
     // ref
-    const radioGenderRef = useRef();
-    const radioBloodRef = useRef();
-    const radioFoodRef = useRef();
-    const radioAntiRef = useRef();
+    const selectGenderRef = useRef();
+    const selectBloodRef = useRef();
+    const selectFoodRef = useRef();
     // state
     const [first_name, setFN] = useState();
     const [last_name, setLN] = useState();
@@ -36,28 +37,19 @@ const Add = () => {
     const [height, setH] = useState();
     const [weight, setW] = useState();
     const [birthday, setB] = useState();
+    const [antibiotics, setA] = useState('');
 
-    const labels = {
-        first_name : setFN,
-        last_name : setLN,
-        mobile : setM,
-        height : setH,
-        weight : setW,
-        birthday : setB
-    }
     const handleSubmit = () => {
         if(submit !== '提交') return false;
         else setSubmit('请稍候');
         // 下拉框是一定有值的
-        let gender = radioGenderRef.current.value,
-            blood_type = radioBloodRef.current.value,
-            meat_egetables = radioFoodRef.current.value,
-            antibiotics = radioAntiRef.current.value;
+        let gender = selectGenderRef.current.value,
+            blood_type = selectBloodRef.current.value,
+            meat_egetables = selectFoodRef.current.value;
         // 自定义 input 框
         let result = [last_name, first_name, birthday, height, weight, mobile].filter((v) => {
             return !v;
         });
-        console.log(result)
         // check empty
         if(result.length){
             setError('信息未填写完整，请继续填写。');
@@ -72,15 +64,15 @@ const Add = () => {
                 method : 'POST',
                 url : host + '/validate/bind',
                 data : {
-                    last_name : last_name,
-                    first_name : first_name,
-                    birthday : birthday,
+                    last_name,
+                    first_name,
+                    birthday,
                     gender,
                     blood_type,
-                    height : height,
-                    weight : weight,
+                    height,
+                    weight,
                     sample_id : sampleId,
-                    mobile : mobile,
+                    mobile,
                     meat_egetables,
                     antibiotics
                 },
@@ -95,6 +87,9 @@ const Add = () => {
                 }
                 else if(data.code === 'success'){
                     setSubmit('绑定成功，3秒后将跳转至首页');
+                    dispatch({
+                        type : BIO.ADD_SUCCESS
+                    })
                     setTimeout(() => {
                         history.push('/');
                     },3000)
@@ -118,7 +113,7 @@ const Add = () => {
                 <p className='add-label-container'><span className='add-label'>基本信息</span></p>
                 <div className='add-form-input'>
                     <label>性别</label>
-                    <select className='add-form-inputs' ref={radioGenderRef}>
+                    <select className='add-form-inputs' ref={selectGenderRef}>
                         <option value='M'>男</option>
                         <option value='F'>女</option>
                     </select>
@@ -128,7 +123,7 @@ const Add = () => {
                 <Input type='date' label='生日' max={getPreviousDay()} effectiveVal={(val) => setB(val)} />
                 <div className='add-form-input'>
                     <label>血型</label>
-                    <select className='add-form-inputs' ref={radioBloodRef}>
+                    <select className='add-form-inputs' ref={selectBloodRef}>
                         <option value='O'>O 型</option>
                         <option value='A'>A 型</option>
                         <option value='B'>B 型</option>
@@ -139,7 +134,7 @@ const Add = () => {
                 <p className='add-label-container'><span className='add-label'>近期状况</span></p>
                 <div className='add-form-input'>
                     <label>饮食中肉食占比</label>
-                    <select className='add-form-inputs' ref={radioFoodRef}>
+                    <select className='add-form-inputs' ref={selectFoodRef}>
                         <option value='0'>0% - 20%</option>
                         <option value='1'>20% - 40%</option>
                         <option value='2'>40% - 60%</option>
@@ -147,14 +142,12 @@ const Add = () => {
                         <option value='4'>80% - 100%</option>
                     </select>
                 </div>
-                <div className='add-form-input'>
-                    <label>一周内是否服用过抗生素</label>
-                    <select className='add-form-inputs' ref={radioAntiRef}>
-                        <option value='0'>未服用</option>
-                        <option value='1'>服用过</option>
-                    </select>
-                </div>
-                <AutoInput label='一周内服用过的抗生素' placeholder='如果不填写则代表没有服用' />
+                <AutoInput label='一周内服用过的抗生素' placeholder='如果不填写则代表没有服用' 
+                    headers={{'Content-Type' : 'application/json; charset=UTF-8'}}
+                    url={host + '/validate/antibiotics'}
+                    dataName='data'
+                    keyName='name'
+                    effectiveVal={(value) => setA(value)} />
                 <button className={submit !== '提交' ? 'add-form-btn disabled' : 'add-form-btn'} onClick={handleSubmit}>{submit}</button>
                 <p className='add-form-error'>{error}</p>
             </div>

@@ -1,5 +1,5 @@
 .home-container{
-    height: calc(100vh - 212px);
+    height: calc(100vh - 264px);
 }
 .home-textContainer{
     height: 70%;
@@ -11,9 +11,18 @@
 .home-logoContainer{
     max-width: 320px;
     overflow: hidden;
+    display: flex;
+    margin: 0 auto;
 }
 .home-logoContainer > img{
-    height: 70px;
+    width: 120px;
+    padding: 0 10px;
+}
+.home-logo-divide{
+    width: 2px;
+    height: 100%;
+    background-color: var(--black);
+    margin: 0 8px;
 }
 .home-title{
     margin-top: 1rem;
@@ -33,8 +42,8 @@
     cursor: pointer;
     display: block;
     width: 80%;
-    border: 1px solid #5c7cff;
-    color: #5c7cff;
+    border: 1px solid var(--theme);
+    color: var(--theme);
     line-height: 1.5;
     padding: 0.5rem;
     border-radius: 2rem;
@@ -46,7 +55,7 @@
 }
 button.home-btm:active{
     color: #ffffff;
-    background: #5c7cff;
+    background: var(--theme);
 }
 .home-btn-center{
     margin: 0 auto;
@@ -70,9 +79,9 @@ button.home-btm:active{
     outline: 0;
 }
 .home-error{
-    display: inline-block;
+    display: block;
     width: 95%;
-    margin: 0.3rem auto;
-    text-indent: 0.5rem;
+    margin: 0.5rem auto;
+    overflow: auto;
     color: #a94442;
 }

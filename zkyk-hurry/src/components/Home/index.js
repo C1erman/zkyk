@@ -7,7 +7,8 @@ import * as BIO from '../../actions';
 
 import './home.css';
 import Modal from '../Modal';
-import logo from '../../icons/logo.png';
+import bioLogo from '../../icons/home-logo-bio.svg';
+import zkykLogo from '../../icons/home-logo-zkyk.svg';
 import { host } from '../../_config';
 
 const Home = () => {
@@ -19,7 +20,6 @@ const Home = () => {
     const [visible, setVisible] = useState(false);
     const [error, setError] = useState('');
     const [barcode, setBarcode] = useState('');
-    const [btnText, setBtnText] = useState('下一步');
     const inputRef = useRef();
 
     const validate = (e) => {
@@ -73,7 +73,6 @@ const Home = () => {
                 onClose();
                 // localStorage.setItem('barcode', data.data?.barcode);
                 // localStorage.setItem('sample_id', data.data?.sample_id);
-                setBtnText('请稍候');
                 let { barcode = '', sample_id = '' } = data.data;
                 dispatch({
                     type : BIO.ADD_CHECK_SUCCESS,
@@ -83,7 +82,6 @@ const Home = () => {
                     }
                 })
                 setTimeout(() => {
-                    setBtnText('下一步');
                     history.push('/add');
                 }, 500)
             }      
@@ -97,7 +95,9 @@ const Home = () => {
             <div className='home-container'>
                 <div className='home-textContainer'>
                     <div className='home-logoContainer'>
-                        <img src={logo} alt='中科宜康' />
+                        <img src={bioLogo} alt='博奥汇玖' />
+                        <div className='home-logo-divide'></div>
+                        <img src={zkykLogo} alt='中科宜康' />
                     </div>
                     <div className='home-title'></div>
                 </div>
@@ -109,7 +109,7 @@ const Home = () => {
             content={<>
                 <input ref={inputRef} onChange={(e) => validate(e)} className='home-input' type='number' placeholder='请输入9位采样管编号' />
                 <span className='home-error'>{error}</span>
-                <div><button className='home-btn home-btn-sm home-btn-center' onClick={checkCode}>{btnText}</button></div>
+                <div><button className='home-btn home-btn-sm home-btn-center' onClick={checkCode}>下一步</button></div>
             </>}
             onClose={onClose} />
         </>

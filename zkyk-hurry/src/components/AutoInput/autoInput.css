@@ -21,3 +21,33 @@
     border-color: #1a1a1a;
     text-indent: 1rem;
 }
+.autoinput-options-container{
+    width: 90%;
+    margin: 0 auto;
+    padding: 0.3rem 0;
+}
+.autoinput-options-container > ul{
+    line-height: 2;
+    text-align: center;
+    max-height: 200px;
+    overflow-y: auto;
+    border-top: none;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: 3px 3px 3px #f0f0f0,
+        -3px 3px 3px #f0f0f0;
+}
+.autoinput-options-container li{
+    cursor: pointer;
+    padding: 2px 0;
+    transition: background-color;
+    transition-duration: 0.15s;
+    transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.autoinput-options-container li:last-child{
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.autoinput-options-container li:hover{
+    background-color: var(--background);
+}

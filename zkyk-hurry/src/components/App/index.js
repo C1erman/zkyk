@@ -7,6 +7,7 @@ import store from '../../reducers';
 import Footer from '../Footer';
 import Home from '../Home';
 import Add from '../Add';
+import Nav from '../Nav';
 
 const SecureRoute = () => {
     const add = useSelector(state => state.add);
@@ -29,6 +30,7 @@ const SecureRoute = () => {
 const App = () => {
     return (
         <Provider store={store}>
+            <Nav />
             <Router>
                 <SecureRoute />
             </Router>

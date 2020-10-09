@@ -27,6 +27,13 @@ const rootReducer = (state = initState, action) => {
                 add
             }
         }
+        case BIO.ADD_SUCCESS : {
+            const add = clone(initState.add);
+            return {
+                ...state,
+                add
+            }
+        }
         default : {
             return state
         }

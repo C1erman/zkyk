@@ -18,7 +18,7 @@ const initState = {
         current : ''
     },
     add : {
-        barCode : 'sdd',
+        barCode : 'ad',
         sampleId : ''
     }
 }

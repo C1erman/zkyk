@@ -24,7 +24,14 @@ const clone = (target, map = new Map()) => {
     }
     else return target;
 }
-
+// 修改键名：传入键名映射
+const modifyKey = (obj, keyMaper) => {
+    let result = {};
+    let maperArr = Object.keys(keyMaper);
+    Object.keys(obj).map(key => maperArr.includes(key) ? result[keyMaper[key]] = obj[key] : result[key] = obj[key]);
+    return result;
+}
 export {
-    clone
+    clone,
+    modifyKey
 }

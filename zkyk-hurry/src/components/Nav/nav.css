@@ -1,0 +1,17 @@
+.nav-container{
+    box-shadow: 0 2px 4px #f0f0f0;
+}
+.nav-logo-container{
+    text-align: center;
+}
+.nav-logo-container > a{
+    line-height: 60px;
+    font-weight: 500;
+}
+.nav-logo{
+    height: 30px;
+    vertical-align: middle;
+    position: relative;
+    margin-right: 10px;
+    top: -2px;
+}

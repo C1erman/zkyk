@@ -4,15 +4,6 @@
     padding-top: 1rem;
     font-size: 0.9rem;
 }
-/* .add-noti{
-    padding: 0.5rem;
-    background: #f9f7e8;
-    color: #62bfad;
-    font-size: 1rem;
-    font-weight: bolder;
-    border-radius: 0.3rem;
-    box-shadow: 0 0 3px #f9f7e8;
-} */
 .add-noti > p{
     line-height: 2;
 }
@@ -40,8 +31,7 @@
     height: 0.7rem;
     opacity: 0.8;
     z-index: -1;
-    /* background: linear-gradient(#1ec7ac, #3bb7c8); */
-    background: #5c7cff;
+    background: var(--theme);
     opacity: 0.5;
     top: -0.7rem;
     left: -5%;
@@ -101,9 +91,9 @@
     line-height: 1.8;
     padding: 0.5rem;
     border-radius: 2rem;
-    /* background: linear-gradient(#ff7fb8, #466cfd); */
-    background: #5c7cff;
-    box-shadow: 0 0 1px #5c7cff;
+    /* background: linear-gradient(#ff7fb8, #466cfd);#5c7cff; */
+    background: var(--theme);
+    box-shadow: 0 0 1px var(--theme);
     transition: opacity ease-in 0.3s;
     cursor: pointer;
 }

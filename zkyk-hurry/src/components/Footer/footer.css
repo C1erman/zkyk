@@ -18,7 +18,7 @@
     overflow: hidden;
     align-items: center;
     justify-content: space-around;
-    background-color: #5c7cff;
+    background-color: var(--theme);
     color: white;
     padding-bottom: 0.8rem;
 }
