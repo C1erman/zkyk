@@ -19,9 +19,6 @@
     padding: 0 10px;
 }
 .home-logo-divide{
-    width: 2px;
-    height: 100%;
-    background-color: var(--black);
     margin: 0 8px;
 }
 .home-title{
