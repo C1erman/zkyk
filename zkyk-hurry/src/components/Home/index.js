@@ -22,17 +22,18 @@ const Home = () => {
     const [barcode, setBarcode] = useState('');
     const inputRef = useRef();
 
-    const validate = (e) => {
-        e.preventDefault ? e.preventDefault() : undefined;
+    const barcodeValidate = (str) => {
+        let regExp = /^\d{9}$/;
+        return regExp.test(str);
+    }
+    const validate = () => {
         let barcode = inputRef.current.value;
+        setBarcode(barcode);
         if(!barcode.length) setError('');
         else{
-            let regExp = /^\d{9}$/;
-            if(!regExp.test(barcode)) setError('请输入由9位数字组成的采样管编号。')
-            else{
-                setError('');
-                setBarcode(barcode);
-            }
+            let validated = barcodeValidate(barcode);
+            let error = validated ? '' : '请输入由9位数字组成的采样管编号。';
+            setError(error);
         }
     }
     const onClose = () => {
@@ -44,16 +45,7 @@ const Home = () => {
         if(visible) setError('');
     },[visible])
     const checkCode = () => {
-        // for test
-        dispatch({
-            type : BIO.ADD_CHECK_SUCCESS,
-            data : {
-                barCode : 'sd',
-                sampleId : 'id'
-            }
-        })
-        // for test-end
-        if(!barcode.length){
+        if(!barcodeValidate(barcode)){
             setError('请输入正确的采样管编号。');
             return false;
         }
@@ -102,12 +94,12 @@ const Home = () => {
                     <div className='home-title'></div>
                 </div>
                 <div className='home-btnContainer'>
-                    <button className='home-btn' variant="primary" onClick={() => setVisible(true)}>绑定采样</button>
+                    <button className='home-btn' onClick={() => setVisible(true)}>绑定采样</button>
                 </div>
             </div>
             <Modal visible={visible} title='绑定采样'
             content={<>
-                <input ref={inputRef} onChange={(e) => validate(e)} className='home-input' type='number' placeholder='请输入9位采样管编号' />
+                <input ref={inputRef} onChange={validate} className='home-input' type='number' placeholder='请输入9位采样管编号' />
                 <span className='home-error'>{error}</span>
                 <div><button className='home-btn home-btn-sm home-btn-center' onClick={checkCode}>下一步</button></div>
             </>}

@@ -7,3 +7,4 @@ ReactDOM.render(<App />, document.querySelector('#app'));
 // babel
 window.Promise = Promise;
 window.Set = Set;
+window.Map = Map;

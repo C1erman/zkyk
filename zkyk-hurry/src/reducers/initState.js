@@ -1,7 +1,7 @@
 // 初始 state 对象
 const initState = {
     user : {
-        id : '',
+        id : '12',
         role : '',
         token : ''
     },
@@ -18,7 +18,7 @@ const initState = {
         current : ''
     },
     add : {
-        barCode : 'ad',
+        barCode : 'sd',
         sampleId : ''
     }
 }

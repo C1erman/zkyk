@@ -18,6 +18,14 @@ const nameValidate = (nameString) => {
     const nameRegexp = /^[\u4e00-\u9fa5]{1,3}$/;
     return nameRegexp.test(nameString);
 }
+const emailValidate = (emailString) => {
+    const emailRegexp = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    return emailRegexp.test(emailString);
+}
+const passValidate = (passString) => {
+    const passRegexp = /[\u4e00-\u9fa5]/;
+    return passRegexp.test(passString);
+}
 const validate = (type, value) => {
     if(!value.length) return { error : true, message : '不能为空。' };
     switch(type){
@@ -35,6 +43,14 @@ const validate = (type, value) => {
         }
         case 'name' : {
             if(!nameValidate(value)) return {error : true, message : '请输入汉字。'}
+            else return { error : false };
+        }
+        case 'email' : {
+            if(!emailValidate(value)) return {error : true, message : '邮箱地址不合规范。'}
+            else return { error : false };
+        }
+        case 'pass' : {
+            if(passValidate(value)) return {error : true, message : '不能含有中文。'}
             else return { error : false };
         }
         default : {
