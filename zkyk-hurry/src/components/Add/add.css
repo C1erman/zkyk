@@ -69,15 +69,12 @@
     border-color: #1a1a1a;
     text-indent: 1rem;
 }
-.success{
-    border-color: #3c763d;
-}
 .error{
-    border-color: #a94442;
+    border-color: var(--error);
 }
 .add-form-error{
     margin: 0.5rem 0;
-    color: #a94442;
+    color: var(--error);
     text-indent: 1rem;
 }
 .add-form-btn{

@@ -79,5 +79,5 @@ button.home-btn:active{
     width: 95%;
     margin: 0.5rem auto;
     overflow: auto;
-    color: #a94442;
+    color: var(--error);
 }
