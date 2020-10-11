@@ -57,7 +57,8 @@ const Home = () => {
             },
             headers : {
                 'Content-Type' : 'application/json; charset=UTF-8'
-            }
+            },
+            timeout : 5000
         }).then(_data => {
             const {data} = _data;
             if(data.code === 'error') setError(data.info);
