@@ -6,9 +6,9 @@ import Drawer from '../Drawer';
 import { Link, useLocation } from 'react-router-dom';
 
 const Nav = () => {
-    let [visible, setVisible] = useState(false);
+    let controller = {};
     const clickHandler = () => {
-        setVisible(!visible);
+        controller.on('toggle');
     }
     let isHome = useLocation().pathname === '/';
 
@@ -27,7 +27,7 @@ const Nav = () => {
     return (
         <>
             <NavHeader />
-            <Drawer visible={visible} entryClick={clickHandler} content={
+            <Drawer defaultVisible={true} content={
                 <div className='nav-link-container'>
                     <Link className='nav-link' to='/user/signup' onClick={clickHandler}>报告列表</Link>
                     <Link className='nav-link' to='/user/signup' onClick={clickHandler}>整体情况</Link>
@@ -36,7 +36,7 @@ const Nav = () => {
                     <Link className='nav-link' to='/user/login' onClick={clickHandler}>登录</Link>
                     <Link className='nav-link' to='/user/signup' onClick={clickHandler}>注册</Link>
                 </div>
-            } />
+            } controller={controller} />
         </>
     );
 }

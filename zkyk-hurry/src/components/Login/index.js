@@ -7,20 +7,29 @@ import { host } from '../../_config';
 import { useHistory } from 'react-router-dom';
 
 const Login = () => {
-    let [acc, setAcc] = useState('');
-    let [pass, setPass] = useState('');
-
-    let [loginError, setError] = useState('');
     let history = useHistory();
+    let inputs = {
+        username : '',
+        password : ''
+    }
+    let [loginError, setError] = useState('');
 
     const clickHandler = () => {
-        if(acc.length && pass.length){
+        console.log(inputs)
+        let validated = Object.keys(inputs).filter(v => !v.validated);
+        if(validated.length){
+            setError('信息填写不合规范，请检查。');
+            setTimeout(() => {
+                setError('');
+            },2500)
+        }
+        else{
             Axios({
                 method : 'POST',
                 url : host + '/user/login',
                 data : {
-                    username : acc,
-                    password : pass
+                    username : inputs['username'].value,
+                    password : inputs['password'].value
                 },
                 headers : {
                     'Content-Type' : 'application/json; charset=UTF-8'
@@ -40,20 +49,14 @@ const Login = () => {
             })
             .catch(error => console.log(error))
         }
-        else{
-            setError('请填写表单之后再操作。');
-            setTimeout(() => {
-                setError('');
-            },2500)
-        }
     }
     return (
         <div className='login-container'>
             <div className='login-title'>
                 <span>请登录</span>
             </div>
-            <Input type='email' label='账号' placeholder='请输入邮箱' validateType='email' effectiveVal={(val) => setAcc(val)} />
-            <Input type='password' label='密码' placeholder='请输入密码' validateType='pass' effectiveVal={(val) => setPass(val)} />
+            <Input type='email' label='账号' placeholder='请输入邮箱' validateType='email' dataName='username' form={inputs} />
+            <Input type='password' label='密码' placeholder='请输入密码' validateType='pass' dataName='password' form={inputs} />
             <Button text='登录' click={clickHandler} errorText={loginError} loading={true} loadingText='请稍候' loadingTime={2500} />
         </div>
     );

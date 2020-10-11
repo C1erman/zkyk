@@ -76,9 +76,9 @@
     box-shadow: 0 0 2px #f0f0f0;
 }
 .drawer-entry-icon{
-    width: 4px;
-    height: 4px;
-    border-radius: 10px;
+    width: 5px;
+    height: 5px;
+    border-radius: 5px;
     margin: 2px 0;
     background-color: #666;
     transition: all .3s cubic-bezier(.78,.14,.15,.86);

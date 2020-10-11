@@ -65,11 +65,14 @@ const Input = ({
     label = 'label',
     validateType,
     placeholder,
-    effectiveVal,
+    dataName,
+    enableEmpty = false,
+    form,
     ...rest
 }) => {
     let [error, setError] = useState('');
     let inputRef = useRef();
+    if(form && enableEmpty) form[dataName] = {validated : true, value : form[dataName]};
 
     return withLabel ? (
         <div className='input-container'>
@@ -77,18 +80,27 @@ const Input = ({
             <input className='input' type={type} ref={inputRef} placeholder={placeholder} onChange={() => {
                 let value = inputRef.current.value;
                 let result = validate(validateType, value);
+                console.log(result)
+                let data = {
+                    validated : !result.error,
+                    value : value
+                }
+                if(form) form[dataName] = data;
                 if(result.error) setError(result.message);
-                else {
-                    setError('');
-                    typeof effectiveVal === 'function' ? effectiveVal(value) : null;
-                };
+                else setError('');
             }} {...rest} />
             <p className='input-error'>{error.length ? error : ''}</p>
         </div>
     ) : (
         <div className='input-container'>
-            <input autoComplete='on' className='input' type={type}  ref={inputRef} placeholder={placeholder} onChange={() => {
-                let result = validate(validateType, inputRef.current.value);
+            <input className='input' type={type} ref={inputRef} placeholder={placeholder} onChange={() => {
+                let value = inputRef.current.value;
+                let result = validate(validateType, value);
+                let data = {
+                    validated : !result.error,
+                    value : value
+                }
+                if(form) form[dataName] = data;
                 if(result.error) setError(result.message);
                 else setError('');
             }} {...rest} />

@@ -1,13 +1,29 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import './drawer.css';
 
 const Drawer = ({
-    visible = false,
+    defaultVisible = false,
     content,
-    entryClick
+    controller
 }) => {
+    let [visible, setVisible] = useState(defaultVisible);
     const ref = useRef();
     const maskRef = useRef();
+
+    const handleVisible = (type) => {
+        if(type === 'open'){
+            !visible ? setVisible(true) : null;
+        }
+        else if(type === 'close'){
+            visible ? setVisible(false) : null;
+        }
+        else if(type === 'toggle'){
+            setVisible(!visible);
+        }
+    }
+    if(controller instanceof Object){
+        controller.on = handleVisible;
+    }
 
     useEffect(() => {
         document.body.style.overflow = visible ? 'hidden' : '';
@@ -18,9 +34,8 @@ const Drawer = ({
                 <div className='drawer-mask' ref={maskRef}></div>
                 <div className='drawer-content-container' ref={ref}>
                     <div className='drawer-entry' onClick={() => {
-                        typeof entryClick === 'function' ? entryClick() : undefined;
+                        handleVisible('toggle');
                     }}>
-                        <span className='drawer-entry-icon'></span>
                         <span className='drawer-entry-icon'></span>
                         <span className='drawer-entry-icon'></span>
                         <span className='drawer-entry-icon'></span>

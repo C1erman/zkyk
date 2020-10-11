@@ -30,14 +30,16 @@ const Add = () => {
     const selectGenderRef = useRef();
     const selectBloodRef = useRef();
     const selectFoodRef = useRef();
-    // state
-    const [first_name, setFN] = useState();
-    const [last_name, setLN] = useState();
-    const [mobile, setM] = useState();
-    const [height, setH] = useState();
-    const [weight, setW] = useState();
-    const [birthday, setB] = useState();
-    const [antibiotics, setA] = useState('');
+    // Input
+    let inputs = {
+        first_name : '',
+        last_name : '',
+        mobile : '',
+        height : '',
+        weight : '',
+        birthday : '',
+        antibiotics : []
+    }
 
     const handleSubmit = () => {
         if(submit !== '提交') return false;
@@ -46,13 +48,11 @@ const Add = () => {
         let gender = selectGenderRef.current.value,
             blood_type = selectBloodRef.current.value,
             meat_egetables = selectFoodRef.current.value;
-        // 自定义 input 框
-        let result = [last_name, first_name, birthday, height, weight, mobile].filter((v) => {
-            return !v;
-        });
         // check empty
-        if(result.length){
-            setError('信息未填写完整，请继续填写。');
+        console.log(inputs)
+        let validated = Object.keys(inputs).filter(v => !v.validated);
+        if(validated.length){
+            setError('输入内容不合规范，请修改后再做提交。');
             setTimeout(() => {
                 setError('');
                 setSubmit('提交');
@@ -60,21 +60,15 @@ const Add = () => {
             return false;
         }
         else{
+            let {last_name, first_name, birthday, height, weight, mobile, antibiotics} = inputs;
             Axios({
                 method : 'POST',
                 url : host + '/validate/bind',
                 data : {
-                    last_name,
-                    first_name,
-                    birthday,
-                    gender,
-                    blood_type,
-                    height,
-                    weight,
+                    last_name : last_name.value, first_name : first_name.value, birthday : birthday.value, height : height.value, 
+                    weight : weight.value, mobile : mobile.value, antibiotics : antibiotics.value,
                     sample_id : sampleId,
-                    mobile,
-                    meat_egetables,
-                    antibiotics
+                    blood_type, meat_egetables, gender
                 },
                 headers : {
                     'Content-Type' : 'application/json; charset=UTF-8'
@@ -107,9 +101,9 @@ const Add = () => {
             <div className='add-divide'></div>
             <div className='add-form'>
                 <p className='add-label-container'><span className='add-label'>联系方式</span></p>
-                <Input placeholder='请输入姓氏' label='姓' validateType='name' effectiveVal={(val) => setLN(val)} />
-                <Input placeholder='请输入名字' label='名' validateType='name' effectiveVal={(val) => setFN(val)} />
-                <Input type='tel' placeholder='请输入电话号码' label='电话号码' validateType='tel' effectiveVal={(val) => setM(val)} />
+                <Input placeholder='请输入姓氏' label='姓' validateType='name' dataName='last_name' form={inputs} />
+                <Input placeholder='请输入名字' label='名' validateType='name' dataName='first_name' form={inputs} />
+                <Input type='tel' placeholder='请输入电话号码' validateType='tel' label='电话号码' dataName='mobile' form={inputs} />
                 <p className='add-label-container'><span className='add-label'>基本信息</span></p>
                 <div className='add-form-input'>
                     <label>性别</label>
@@ -118,9 +112,9 @@ const Add = () => {
                         <option value='F'>女</option>
                     </select>
                 </div>
-                <Input type='number' placeholder='请输入身高' label='身高 / 厘米' validateType='height' effectiveVal={(val) => setH(val)} />
-                <Input type='number' placeholder='请输入体重' label='体重 / 公斤' validateType='weight' effectiveVal={(val) => setW(val)} />
-                <Input type='date' label='生日' max={getPreviousDay()} effectiveVal={(val) => setB(val)} />
+                <Input type='number' placeholder='请输入身高' label='身高 / 厘米' validateType='height' dataName='height' form={inputs} />
+                <Input type='number' placeholder='请输入体重' label='体重 / 公斤' validateType='weight' dataName='weight' form={inputs} />
+                <Input type='date' label='生日' max={getPreviousDay()} dataName='birthday' form={inputs} />
                 <div className='add-form-input'>
                     <label>血型</label>
                     <select className='add-form-inputs' ref={selectBloodRef}>
@@ -145,9 +139,8 @@ const Add = () => {
                 <AutoInput label='一周内服用过的抗生素' placeholder='如果不填写则代表没有服用' 
                     headers={{'Content-Type' : 'application/json; charset=UTF-8'}}
                     url={host + '/validate/antibiotics'}
-                    dataName='data'
                     keyName='name'
-                    effectiveVal={(value) => setA(value)} />
+                    dataName='antibiotics' form={inputs} />
                 <button className={submit !== '提交' ? 'add-form-btn disabled' : 'add-form-btn'} onClick={handleSubmit}>{submit}</button>
                 <p className='add-form-error'>{error}</p>
             </div>

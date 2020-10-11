@@ -6,11 +6,12 @@ import Axios from 'axios';
 const AutoInput = ({
     label = 'label',
     placeholder,
-    effectiveVal,
     method = 'POST',
     url,
     dataName,
-    keyName,
+    form,
+    enableEmpty = true,
+    keyName,    
     headers,
     asyncAdd = false,
     ...rest
@@ -18,6 +19,7 @@ const AutoInput = ({
     let ref = useRef();
     let [ options, setOptions ] = useState([]);
     let [ checked, setChecked ] = useState(false);
+    if(form && enableEmpty) form[dataName] = { validated : true, value : form[dataName] };
 
     const request = (data) => {
         Axios({
@@ -57,7 +59,7 @@ const AutoInput = ({
                     }
                     else setOptions([]);
                     setChecked(false);
-                    typeof effectiveVal === 'function' ? effectiveVal(value) : undefined;
+                    if(form) form[dataName] = { validated : true, value : value };
                 }, 500)
             } {...rest} />
             <div className='autoinput-options-container'>
@@ -67,7 +69,7 @@ const AutoInput = ({
                             <li key={v[keyName]} onClick={() => {
                                 ref.current.value = v[keyName];
                                 // 直接设置不会触发 onchange
-                                typeof effectiveVal === 'function' ? effectiveVal(v[keyName]) : undefined;
+                                if(form) form[dataName] = { validated : true, value : value }
                                 setOptions([]);
                                 setChecked(true);
                             }}><a className='autoinput-options'>{v[keyName].replace('-error', '')}</a></li>
