@@ -1,0 +1,46 @@
+.nav-container{
+    box-shadow: 0 2px 4px var(--shadow);
+}
+.nav-logo-container{
+    text-align: center;
+}
+.nav-logo-container > a{
+    line-height: 60px;
+    font-weight: 500;
+}
+.nav-logo{
+    height: 30px;
+    vertical-align: middle;
+    position: relative;
+    margin-right: 10px;
+    top: -2px;
+}
+.nav-link-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 70%;
+}
+.nav-link{
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    font-size: 1rem;
+    font-weight: bolder;
+    max-width: 200px;
+}
+.nav-link::after{
+    display: block;
+    position: relative;
+    content: "";
+    width: 120%;
+    height: 0.7rem;
+    opacity: 0.8;
+    z-index: -1;
+    background: var(--theme);
+    opacity: 0.5;
+    top: -0.7rem;
+    left: -10%;
+}

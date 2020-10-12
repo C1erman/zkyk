@@ -1,0 +1,60 @@
+.reportList-container{
+    min-height: calc(100vh - 284px);
+    padding-top: 2rem;
+    font-size: 0.9rem;
+}
+.reportList-title{
+    text-align: center;
+    margin-bottom: 15px;
+}
+.reportList-title > span{
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    font-size: 1rem;
+    font-weight: bolder;
+    max-width: 200px;
+}
+.reportList-title > span::after{
+    display: block;
+    position: relative;
+    content: "";
+    width: 120%;
+    height: 0.7rem;
+    opacity: 0.8;
+    z-index: -1;
+    background: var(--theme);
+    opacity: 0.5;
+    top: -0.7rem;
+    left: -10%;
+}
+.reportList-content{
+    width: 100%;
+}
+.reportList-info{
+    margin-bottom: 1rem;
+    background-color: var(--textContainer);
+    padding: 1rem;
+}
+.reportList-empty{
+    text-align: center;
+    margin: 1.5rem 0;
+    color: var(--error);
+}
+.reportList-table{
+    width: 100%;
+    overflow-x: scroll;
+    margin-top: 1.5rem;
+}
+.reportList-table-header > th{
+    line-height: 2;
+    border-bottom: 1px solid var(--border);
+}
+.reportList-table-body{
+    line-height: 2;
+    text-align: center;
+}
+.reportList-table-body > td{
+    padding: 8px;
+}

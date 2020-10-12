@@ -1,0 +1,85 @@
+.home-container{
+    height: calc(100vh - 204px);
+}
+.home-textContainer{
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.home-logoContainer{
+    max-width: 320px;
+    overflow: hidden;
+    display: flex;
+    margin: 0 auto;
+}
+.home-logoContainer > img{
+    width: 120px;
+    padding: 0 10px;
+}
+.home-logo-divide{
+    display: flex;
+    align-items: center;
+    margin: 0 8px;
+}
+.home-title{
+    margin-top: 1rem;
+    font-size: 1rem;
+    font-weight: bolder;
+}
+.home-btnContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30%;
+}
+.home-btn{
+    cursor: pointer;
+    display: block;
+    width: 80%;
+    border: 1px solid var(--theme);
+    color: var(--theme);
+    line-height: 1.5;
+    padding: 0.5rem;
+    border-radius: 2rem;
+    user-select: none;
+    font-size: 0.9rem;
+    background: transparent;
+    transition: all;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in;
+}
+button.home-btn:active{
+    color: #ffffff;
+    background: var(--theme);
+    box-shadow: 0 0 3px var(--theme);
+}
+.home-btn-center{
+    margin: 0 auto;
+}
+.home-btn-sm{
+    width: 50%;
+    line-height: normal;
+    font-size: 0.9rem;
+}
+.home-input, .home-error{
+    font-size: 0.95rem;
+}
+.home-input{
+    display: block;
+    width: 95%;
+    margin: 0 auto;
+    padding: 0.5rem 0;
+    border: 0;
+    border-bottom: 1px solid #cccccc;
+    appearance: none;
+    outline: 0;
+}
+.home-error{
+    display: block;
+    width: 95%;
+    margin: 0.5rem auto;
+    overflow: auto;
+    color: var(--error);
+}
