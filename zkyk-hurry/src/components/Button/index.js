@@ -15,7 +15,6 @@ const Button = ({
     let className = hollow ? 'hollow' : '';
     return (
         <div className='button'>
-            <p className='button-error'>{errorText}</p>
             <button className={btnLoading ? className + ' disabled' : className}
             onClick={() => {
                 typeof click === 'function' ? click() : undefined;
@@ -30,7 +29,8 @@ const Button = ({
                         }, loadingTime)
                     }
                 }
-            }}>{btnText}</button> 
+            }}>{btnText}</button>
+            <p className='button-error'>{errorText}</p>
         </div>
     );
 }
