@@ -26,8 +26,8 @@ const passValidate = (passString) => {
     const passRegexp = /[\u4e00-\u9fa5]/;
     return passRegexp.test(passString);
 }
-const validate = (type, value) => {
-    if(!value.length) return { error : true, message : '不能为空。' };
+const validate = (type, value, enableEmpty = false) => {
+    if(!value.length) return enableEmpty ? { error : false } : { error : true, message : '不能为空。' };
     switch(type){
         case 'tel' : {
             if(!telValidate(value)) return {error : true, message : '电话号码不合规范。'}
@@ -58,6 +58,11 @@ const validate = (type, value) => {
         }
     }
 }
+const customValidate = (regExp, enableEmpty = false, value, errorMsg = '格式错误') => {
+    if(!value.length) return enableEmpty ? { error : false } : { error : true, message : '不能为空。' };
+    if(regExp.test(value)) return { error : false }
+    else return { error : true , message : errorMsg};
+}
 
 const Input = ({
     type = 'text',
@@ -67,11 +72,13 @@ const Input = ({
     placeholder,
     dataName,
     enableEmpty = false,
+    errorMsg,
     form,
     ...rest
 }) => {
     let [error, setError] = useState('');
     let inputRef = useRef();
+    // 目前架构只能给一个初始值
     if(form && enableEmpty) form[dataName] = {validated : true, value : form[dataName]};
 
     return withLabel ? (
@@ -79,8 +86,9 @@ const Input = ({
             <label>{label}</label>
             <input className='input' type={type} ref={inputRef} placeholder={placeholder} onChange={() => {
                 let value = inputRef.current.value;
-                let result = validate(validateType, value);
-                console.log(result)
+                let result;
+                if(validateType instanceof RegExp) result = customValidate(validateType, enableEmpty, value, errorMsg);
+                else result = validate(validateType, value);
                 let data = {
                     validated : !result.error,
                     value : value
@@ -88,6 +96,7 @@ const Input = ({
                 if(form) form[dataName] = data;
                 if(result.error) setError(result.message);
                 else setError('');
+                console.log(form)
             }} {...rest} />
             <p className='input-error'>{error.length ? error : ''}</p>
         </div>
@@ -95,7 +104,9 @@ const Input = ({
         <div className='input-container'>
             <input className='input' type={type} ref={inputRef} placeholder={placeholder} onChange={() => {
                 let value = inputRef.current.value;
-                let result = validate(validateType, value);
+                let result;
+                if(validateType instanceof RegExp) result = customValidate(validateType, enableEmpty, value, errorMsg);
+                else result = validate(validateType, value);
                 let data = {
                     validated : !result.error,
                     value : value

@@ -19,6 +19,7 @@ const AutoInput = ({
     let ref = useRef();
     let [ options, setOptions ] = useState([]);
     let [ checked, setChecked ] = useState(false);
+    // 目前架构只能给一个初始值
     if(form && enableEmpty) form[dataName] = { validated : true, value : form[dataName] };
 
     const request = (data) => {
@@ -69,7 +70,7 @@ const AutoInput = ({
                             <li key={v[keyName]} onClick={() => {
                                 ref.current.value = v[keyName];
                                 // 直接设置不会触发 onchange
-                                if(form) form[dataName] = { validated : true, value : value }
+                                if(form) form[dataName] = { validated : true, value :  v[keyName] }
                                 setOptions([]);
                                 setChecked(true);
                             }}><a className='autoinput-options'>{v[keyName].replace('-error', '')}</a></li>

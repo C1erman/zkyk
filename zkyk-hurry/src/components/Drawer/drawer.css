@@ -33,7 +33,7 @@
     width: 0;
     height: 100%;
     background-color: #ffffff;
-    box-shadow: 0 0 2px #f0f0f0;
+    box-shadow: -5px 0 5px var(--shadow);
     top: 0;
     right: 0;
     transition: width .3s cubic-bezier(.78,.14,.15,.86);
@@ -73,7 +73,7 @@
     transition: box-shadow .3s cubic-bezier(.78,.14,.15,.86);
 }
 .drawer-open .drawer-entry{
-    box-shadow: 0 0 2px #f0f0f0;
+    box-shadow: 0 0 5px #f0f0f0;
 }
 .drawer-entry-icon{
     width: 5px;

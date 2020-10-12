@@ -49,8 +49,9 @@ const Add = () => {
             blood_type = selectBloodRef.current.value,
             meat_egetables = selectFoodRef.current.value;
         // check empty
-        console.log(inputs)
-        let validated = Object.keys(inputs).filter(v => !v.validated);
+        let validated = Object.keys(inputs).filter(v => {
+            return !inputs[v].validated;
+        });
         if(validated.length){
             setError('输入内容不合规范，请修改后再做提交。');
             setTimeout(() => {

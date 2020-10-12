@@ -9,6 +9,7 @@ import Home from '../Home';
 import Add from '../Add';
 import Nav from '../Nav';
 import Login from '../Login';
+import Signup from '../Signup';
 
 const SecureRoute = () => {
     const add = useSelector(state => state.add);
@@ -17,7 +18,7 @@ const SecureRoute = () => {
     const R_Home = (<Route path='/' exact component={Home}></Route>);
     const R_Add = (<Route path='/add' component={Add}></Route>);
     const R_Login = (<Route path='/user/login' component={Login}></Route>);
-    const R_Signup = (<Route path='/user/signup' component={() => <div>sadfsad</div>}></Route>);
+    const R_Signup = (<Route path='/user/signup' component={Signup}></Route>);
 
     const BioRoute = user.id ? (
         <Switch>
@@ -26,7 +27,7 @@ const SecureRoute = () => {
         </Switch>
     ) : (
         <Switch>
-            {R_Home}{R_Login}
+            {R_Home}{R_Login}{R_Signup}
             <Redirect to='/' />
         </Switch>
     )

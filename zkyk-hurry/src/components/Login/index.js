@@ -15,8 +15,10 @@ const Login = () => {
     let [loginError, setError] = useState('');
 
     const clickHandler = () => {
-        console.log(inputs)
-        let validated = Object.keys(inputs).filter(v => !v.validated);
+        if(loginError) return false;
+        let validated = Object.keys(inputs).filter(v => {
+            return !inputs[v].validated;
+        });
         if(validated.length){
             setError('信息填写不合规范，请检查。');
             setTimeout(() => {

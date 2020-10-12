@@ -27,7 +27,7 @@ const Nav = () => {
     return (
         <>
             <NavHeader />
-            <Drawer defaultVisible={true} content={
+            <Drawer content={
                 <div className='nav-link-container'>
                     <Link className='nav-link' to='/user/signup' onClick={clickHandler}>报告列表</Link>
                     <Link className='nav-link' to='/user/signup' onClick={clickHandler}>整体情况</Link>
