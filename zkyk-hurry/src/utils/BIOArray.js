@@ -1,9 +1,9 @@
 // 一个或多个数据去重 --> 最快
-const distinct = (one, ...rest) => {
-    let array = [];
+// 暂时不要用，出了一点问题
+const distinct = (array, ...rest) => {
     let i = -1;
     while(++ i < rest.length) array.concat(rest[i]);
-
+    console.log(array, rest)
     let o = {}, result = [];
     while(array.length){
         let tem = array.pop();

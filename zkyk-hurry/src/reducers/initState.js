@@ -3,9 +3,9 @@ const initState = {
     user : {
         id : '12',
         role : '',
-        token : ''
+        token : '-ldtQEeAYII0vajKjhRFAdBvB69MYRx0'
     },
-    sample : {
+    sampleList : {
         totalPage : 0,
         currentPage : 0,
         list : [
