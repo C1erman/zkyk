@@ -5,6 +5,7 @@ import Pager from '../Pagination';
 import Axios from 'axios';
 import { useSelector } from 'react-redux';
 import { host } from '../../_config';
+import Pagination from '../Pagination';
 
 const ReportList = () => {
     let user = useSelector(state => state.user);
@@ -55,6 +56,7 @@ const ReportList = () => {
                         </tr>)}
                     </tbody>
                 </table>
+                <Pagination />
             </div>
         </div>
     );
