@@ -6,12 +6,12 @@ import Axios from 'axios';
 import { host } from '../../_config';
 import { useHistory } from 'react-router-dom';
 
+let inputs = {
+    username : '',
+    password : ''
+}
 const Login = () => {
     let history = useHistory();
-    let inputs = {
-        username : '',
-        password : ''
-    }
     let [loginError, setError] = useState('');
 
     const clickHandler = () => {

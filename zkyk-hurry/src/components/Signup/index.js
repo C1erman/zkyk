@@ -6,13 +6,13 @@ import Button from '../Button';
 import Axios from 'axios';
 import { host } from '../../_config';
 
+let inputs = {
+    username : '',
+    email : '',
+    password : '',
+    invitation : ''
+};
 const Signup = () => {
-    let inputs = {
-        username : '',
-        email : '',
-        password : '',
-        invitation : ''
-    }
     let [error, setError] = useState('');
     const clickHandler = () => {
         if(error) return false;
@@ -48,6 +48,7 @@ const Signup = () => {
                     setTimeout(() => {
                         setError('');
                     }, 2500)
+                    console.log(inputs)
                 }
             })
             .catch(error => console.log(error))

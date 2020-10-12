@@ -89,7 +89,7 @@ const Home = () => {
                 <div className='home-textContainer'>
                     <div className='home-logoContainer'>
                         <img src={bioLogo} alt='博奥汇玖' />
-                        <div className='home-logo-divide'></div>
+                        <div className='home-logo-divide'>×</div>
                         <img src={zkykLogo} alt='中科宜康' />
                     </div>
                     <div className='home-title'></div>

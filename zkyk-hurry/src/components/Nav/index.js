@@ -29,7 +29,7 @@ const Nav = () => {
             <NavHeader />
             <Drawer content={
                 <div className='nav-link-container'>
-                    <Link className='nav-link' to='/user/signup' onClick={clickHandler}>报告列表</Link>
+                    <Link className='nav-link' to='/report/list' onClick={clickHandler}>报告列表</Link>
                     <Link className='nav-link' to='/user/signup' onClick={clickHandler}>整体情况</Link>
                     <Link className='nav-link' to='/sample/assess' onClick={clickHandler}>健康评估</Link>
                     <Link className='nav-link' to='/sample/suggestion' onClick={clickHandler}>建议</Link>

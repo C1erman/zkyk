@@ -13,6 +13,15 @@ import * as BIO from '../../actions';
 import Input from '../Input';
 import AutoInput from '../AutoInput';
 
+let inputs = {
+    first_name : '',
+    last_name : '',
+    mobile : '',
+    height : '',
+    weight : '',
+    birthday : '',
+    antibiotics : []
+}
 const Add = () => {
     // 回到顶部
     useEffect(() => {
@@ -30,16 +39,6 @@ const Add = () => {
     const selectGenderRef = useRef();
     const selectBloodRef = useRef();
     const selectFoodRef = useRef();
-    // Input
-    let inputs = {
-        first_name : '',
-        last_name : '',
-        mobile : '',
-        height : '',
-        weight : '',
-        birthday : '',
-        antibiotics : []
-    }
 
     const handleSubmit = () => {
         if(submit !== '提交') return false;

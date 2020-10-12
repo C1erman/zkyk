@@ -96,7 +96,6 @@ const Input = ({
                 if(form) form[dataName] = data;
                 if(result.error) setError(result.message);
                 else setError('');
-                console.log(form)
             }} {...rest} />
             <p className='input-error'>{error.length ? error : ''}</p>
         </div>
