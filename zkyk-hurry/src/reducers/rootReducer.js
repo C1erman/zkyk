@@ -34,6 +34,23 @@ const rootReducer = (state = initState, action) => {
                 add
             }
         }
+        // 报告列表
+        case BIO.REPORT_SELECT : {
+            const { current } = action.data;
+            const report = clone(state['report']);
+            report.current = current;
+            return {
+                ...state,
+                report
+            }
+        }
+        // 违规操作，清空状态
+        case BIO.DENY_UNAUTHORIZED : {
+            return {
+                ...state,
+                initState
+            }
+        }
         default : {
             return state
         }

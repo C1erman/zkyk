@@ -22,8 +22,12 @@ const emailValidate = (emailString) => {
     const emailRegexp = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
     return emailRegexp.test(emailString);
 }
+const zhValidate = (string) => {
+    const zhRegexp = /[\u4e00-\u9fa5]/;
+    return !zhRegexp.test(string);
+}
 const passValidate = (passString) => {
-    const passRegexp = /[\u4e00-\u9fa5]/;
+    const passRegexp = /^(?![0-9]+$)(?![a-zA-Z]+$)[a-zA-Z\d_]{6,20}/;
     return passRegexp.test(passString);
 }
 const validate = (type, value, enableEmpty = false) => {
@@ -50,7 +54,8 @@ const validate = (type, value, enableEmpty = false) => {
             else return { error : false };
         }
         case 'pass' : {
-            if(passValidate(value)) return {error : true, message : '不能含有中文。'}
+            if(!zhValidate(value)) return {error : true, message : '不能含有中文。'}
+            else if(!passValidate(value)) return {error : true, message : '密码应由大小写字母、数字组成，长度需满足6至20位。'}
             else return { error : false };
         }
         default : {
@@ -84,7 +89,7 @@ const Input = ({
     return (
         <div className='input-container'>
             {withLabel ? (<label>{label}</label>) : null}
-            <input className='input' type={type} ref={inputRef} placeholder={placeholder} onChange={() => {
+            <input className='input' type={type} ref={inputRef} alt='' placeholder={placeholder} onChange={() => {
                 let value = inputRef.current.value;
                 let result;
                 if(validateType instanceof RegExp) result = customValidate(validateType, enableEmpty, value, errorMsg);

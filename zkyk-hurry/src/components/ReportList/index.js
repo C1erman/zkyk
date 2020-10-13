@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react';
 
 import './reportList.css';
 import Axios from 'axios';
-import { useSelector } from 'react-redux';
+import * as BIO from '../../actions';
+import { useSelector, useDispatch } from 'react-redux';
 import { host } from '../../_config';
 import Pager from '../Pager';
+import { useHistory } from 'react-router-dom';
 
 const ReportList = () => {
     let user = useSelector(state => state.user);
+    const history = useHistory();
+    const dispatch = useDispatch();
     let [list, setList] = useState([]);
     let [total, setTotal] = useState(10);
 
@@ -29,10 +33,14 @@ const ReportList = () => {
                 setTotal(data.data.pagination.pageSize);
             }
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+            dispatch({
+                type : BIO.DENY_UNAUTHORIZED
+            })
+            history.push('/user/login');
+        })
     }, [])
     const getList = (currentPage) => {
-        console.log(currentPage)
         Axios({
             method : 'GET',
             url : host + '/sample/list',
@@ -51,6 +59,13 @@ const ReportList = () => {
             }
         })
         .catch(error => console.log(error))
+    }
+    const selectHandler = (current) => {
+        dispatch({
+            type : BIO.REPORT_SELECT,
+            data : { current : current }
+        })
+        history.push('/report/overview');
     }
 
     return (
@@ -76,7 +91,7 @@ const ReportList = () => {
                                 {list.map((v, i) => <tr key={i} className='reportList-table-body'>
                                     <td>{v.person_name}</td>
                                     <td>{v.sample_barcode}</td>
-                                    <td><a className='reportList-btn'>查看</a></td>
+                                    <td><a className='reportList-btn' onClick={() => selectHandler(v.report_id)}>查看</a></td>
                                 </tr>)}
                             </tbody>
                         </table>

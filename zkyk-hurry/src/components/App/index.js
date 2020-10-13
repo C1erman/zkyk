@@ -11,20 +11,23 @@ import Nav from '../Nav';
 import Login from '../Login';
 import Signup from '../Signup';
 import ReportList from '../ReportList';
+import Overview from '../Overview';
 
 const SecureRoute = () => {
     const add = useSelector(state => state.add);
     const user = useSelector(state => state.user);
+    const report = useSelector(state => state.report);
 
     const R_Home = (<Route path='/' exact component={Home}></Route>);
     const R_Add = (<Route path='/add' component={Add}></Route>);
     const R_Login = (<Route path='/user/login' component={Login}></Route>);
     const R_Signup = (<Route path='/user/signup' component={Signup}></Route>);
     const R_ReportList = (<Route path='/report/list' component={ReportList}></Route>);
+    const R_Overview = (<Route path='/report/overview' component={Overview}></Route>);
 
     const BioRoute = user.id ? (
         <Switch>
-            {R_Home}{add.barCode ? R_Add : null}{R_Login}{R_Signup}{R_ReportList}
+            {R_Home}{add.barCode ? R_Add : null}{R_Login}{R_Signup}{R_ReportList}{report.current ? R_Overview : null}
             <Redirect to='/' />
         </Switch>
     ) : (

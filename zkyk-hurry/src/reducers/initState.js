@@ -3,7 +3,7 @@ const initState = {
     user : {
         id : '21',
         role : '',
-        token : 'kREy-oSrHlWBe33XbVn_vnTBFEz9kg9k'
+        token : 'r9YftCtqjHjSWdPNazloHvM2swCJCenI'
     },
     sampleList : {
         totalPage : 0,
@@ -15,6 +15,8 @@ const initState = {
                 testee : ''
             }
         ],
+    },
+    report : {
         current : ''
     },
     add : {

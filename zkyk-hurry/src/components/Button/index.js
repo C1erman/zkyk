@@ -13,21 +13,7 @@ const Button = ({
     let [btnText, setBtnText] = useState(text);
     let [btnLoading, setLoading] = useState(false);
     let className = hollow ? 'hollow' : '';
-
-    let initText, setText;
-    useEffect(() => {
-        initText = () => {
-            setBtnText(btnText);
-            setLoading(false);
-        };
-        setText = () => {
-            setBtnText(loadingText)
-            setLoading(true);
-        }
-        return () => {
-            initText = setText = () => {};
-        }
-    },[])
+    
     return (
         <div className='button'>
             <button className={btnLoading ? className + ' disabled' : className}
@@ -36,8 +22,12 @@ const Button = ({
                 if(loading){
                     if(btnText !== text) return false;
                     else {
-                        setText();
-                        setTimeout(() => initText(), loadingTime);
+                        setBtnText(loadingText)
+                        setLoading(true);
+                        setTimeout(() => {
+                            setBtnText(btnText);
+                            setLoading(false);
+                        }, loadingTime);
                     }
                 }
             }}>{btnText}</button>

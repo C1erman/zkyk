@@ -68,7 +68,8 @@ const Add = () => {
                     last_name : last_name.value, first_name : first_name.value, birthday : birthday.value, height : height.value, 
                     weight : weight.value, mobile : mobile.value, antibiotics : antibiotics.value,
                     sample_id : sampleId,
-                    blood_type, meat_egetables, gender
+                    blood_type, meat_egetables, gender,
+                    user_id : useSelector(state => state.user.id)
                 },
                 headers : {
                     'Content-Type' : 'application/json; charset=UTF-8'
