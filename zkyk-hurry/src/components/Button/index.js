@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './button.css';
 
 const Button = ({
@@ -10,26 +10,36 @@ const Button = ({
     loadingText = '请稍候',
     loadingTime = 2500
 }) => {
-    let [btnText, setText] = useState(text);
+    let [btnText, setBtnText] = useState(text);
     let [btnLoading, setLoading] = useState(false);
     let className = hollow ? 'hollow' : '';
+
+    let initText, setText;
+    useEffect(() => {
+        initText = () => {
+            setBtnText(btnText);
+            setLoading(false);
+        };
+        setText = () => {
+            setBtnText(loadingText)
+            setLoading(true);
+        }
+        return () => {
+            initText = setText = () => {};
+        }
+    },[])
     return (
         <div className='button'>
             <button className={btnLoading ? className + ' disabled' : className}
             onClick={() => {
+                typeof click === 'function' ? click() : undefined;
                 if(loading){
                     if(btnText !== text) return false;
                     else {
-                        setText(loadingText)
-                        setLoading(true);
-                        setTimeout(() => {
-                            typeof click === 'function' ? click() : undefined;
-                            setText(btnText);
-                            setLoading(false);
-                        }, loadingTime)
+                        setText();
+                        setTimeout(() => initText(), loadingTime);
                     }
                 }
-                else typeof click === 'function' ? click() : undefined;
             }}>{btnText}</button>
             <p className='button-error'>{errorText}</p>
         </div>

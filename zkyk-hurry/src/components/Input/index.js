@@ -81,9 +81,9 @@ const Input = ({
     // 目前架构只能给一个初始值
     if(form && enableEmpty) form[dataName] = {validated : true, value : form[dataName]};
 
-    return withLabel ? (
+    return (
         <div className='input-container'>
-            <label>{label}</label>
+            {withLabel ? (<label>{label}</label>) : null}
             <input className='input' type={type} ref={inputRef} placeholder={placeholder} onChange={() => {
                 let value = inputRef.current.value;
                 let result;
@@ -99,24 +99,7 @@ const Input = ({
             }} {...rest} />
             <p className='input-error'>{error.length ? error : ''}</p>
         </div>
-    ) : (
-        <div className='input-container'>
-            <input className='input' type={type} ref={inputRef} placeholder={placeholder} onChange={() => {
-                let value = inputRef.current.value;
-                let result;
-                if(validateType instanceof RegExp) result = customValidate(validateType, enableEmpty, value, errorMsg);
-                else result = validate(validateType, value);
-                let data = {
-                    validated : !result.error,
-                    value : value
-                }
-                if(form) form[dataName] = data;
-                if(result.error) setError(result.message);
-                else setError('');
-            }} {...rest} />
-            <p className='input-error'>{error.length ? error : ''}</p>
-        </div>
-    );
+    )
 }
 
 export default Input;
