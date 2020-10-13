@@ -92,7 +92,7 @@ const Home = () => {
                         <div className='home-logo-divide'>×</div>
                         <img src={zkykLogo} alt='中科宜康' />
                     </div>
-                    <div className='home-title'></div>
+                    <div className='home-title'>— 肠道菌群健康评估报告 —</div>
                 </div>
                 <div className='home-btnContainer'>
                     <button className='home-btn' onClick={() => setVisible(true)}>绑定采样</button>

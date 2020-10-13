@@ -24,9 +24,10 @@
     margin: 0 8px;
 }
 .home-title{
-    margin-top: 1rem;
-    font-size: 1rem;
-    font-weight: bolder;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    font-weight: lighter;
+    letter-spacing: 0.3rem;
 }
 .home-btnContainer{
     display: flex;

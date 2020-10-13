@@ -1,0 +1,121 @@
+.overview-container{
+    min-height: calc(100vh - 284px);
+    padding-top: 2rem;
+    font-size: 0.9rem;
+}
+.overview-title{
+    text-align: center;
+    margin-bottom: 15px;
+}
+.overview-title > span{
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    font-size: 1rem;
+    font-weight: bolder;
+    max-width: 200px;
+}
+.overview-title > span::after{
+    display: block;
+    position: relative;
+    content: "";
+    width: 120%;
+    height: 0.7rem;
+    opacity: 0.8;
+    z-index: -1;
+    background: var(--theme);
+    opacity: 0.5;
+    top: -0.7rem;
+    left: -10%;
+}
+.overview-total{
+    margin-bottom: 1rem;
+}
+.overview-total > div{
+    width: 90%;
+    margin: 0 auto;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--border);
+    line-height: 2;
+}
+.overview-total-label{
+    display: inline-block;
+    width: 50%;
+    max-width: 50%;
+}
+.overview-total-label > span{
+    float: right;
+    font-weight: bolder;
+    margin-right: 0.7rem;
+}
+.overview-flora{
+    margin-bottom: 1rem;
+}
+.overview-flora-items{
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    box-sizing: border-box;
+    box-shadow: 0 0 7px var(--shadow);
+    border-radius: 7px;
+}
+.overview-flora-item-header{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    height: 35px;
+    margin-bottom: 0.5rem;
+    color: var(--theme);
+}
+.overview-flora-item-header > div:first-child{
+    font-size: 1.3rem;
+    font-weight: lighter;
+}
+.overview-flora-item-header > div:last-child{
+    margin-right: 1rem;
+    padding: 0.2rem 0.5rem;
+    background-color: var(--theme);
+    color: #ffffff;
+    border-radius: 1rem;
+}
+.overview-flora-item-body{
+    line-height: 1.8;
+    margin-bottom: 0.5rem;
+}
+.overview-flora-item-result{
+    border-left: 5px solid var(--theme);
+    padding-left: 0.8rem;
+    border-radius: 5px;
+    background: var(--textContainer);
+}
+
+.overview-result > table{
+    width: 100%;
+    overflow-x: scroll;
+}
+.overview-result-info{
+    width: 90%;
+    margin: 0 auto;
+    color: var(--theme);
+    font-weight: bolder;
+}
+.overview-result-table-head > th{
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem 0;
+    color: var(--black);
+}
+.overview-result-table-body{
+    text-align: center;
+}
+.overview-result-table-body > tr{
+    border-bottom: 1px solid var(--border);
+}
+.overview-result-table-body > tr > td{
+    padding: 0.5rem 0;
+    vertical-align: middle;
+}
+.overview-result-name{
+    min-width: 60px;
+}

@@ -34,6 +34,7 @@ const Add = () => {
     const [submit, setSubmit] = useState('提交');
     // redux
     let sampleId = useSelector(state => state.add.sampleId);
+    let user_id = useSelector(state => state.user.id);
     const dispatch = useDispatch();
     // ref
     const selectGenderRef = useRef();
@@ -69,7 +70,7 @@ const Add = () => {
                     weight : weight.value, mobile : mobile.value, antibiotics : antibiotics.value,
                     sample_id : sampleId,
                     blood_type, meat_egetables, gender,
-                    user_id : useSelector(state => state.user.id)
+                    user_id
                 },
                 headers : {
                     'Content-Type' : 'application/json; charset=UTF-8'
