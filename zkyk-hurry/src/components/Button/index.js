@@ -17,18 +17,19 @@ const Button = ({
         <div className='button'>
             <button className={btnLoading ? className + ' disabled' : className}
             onClick={() => {
-                typeof click === 'function' ? click() : undefined;
                 if(loading){
                     if(btnText !== text) return false;
                     else {
                         setText(loadingText)
                         setLoading(true);
                         setTimeout(() => {
+                            typeof click === 'function' ? click() : undefined;
                             setText(btnText);
                             setLoading(false);
                         }, loadingTime)
                     }
                 }
+                else typeof click === 'function' ? click() : undefined;
             }}>{btnText}</button>
             <p className='button-error'>{errorText}</p>
         </div>

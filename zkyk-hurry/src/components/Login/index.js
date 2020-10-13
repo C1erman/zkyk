@@ -5,14 +5,17 @@ import Button from '../Button';
 import Axios from 'axios';
 import { host } from '../../_config';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import * as BIO from '../../actions';
 
-let inputs = {
-    username : '',
-    password : ''
-}
 const Login = () => {
     let history = useHistory();
     let [loginError, setError] = useState('');
+    let [inputs, setInputs] = useState({
+        username : '',
+        password : ''
+    });
+    const dispatch = useDispatch();
 
     const clickHandler = () => {
         if(loginError) return false;
@@ -39,7 +42,11 @@ const Login = () => {
             }).then(_data => {
                 let { data } = _data;
                 if(data.code === 'success'){
-                    // history.push('/');
+                    dispatch({
+                        type : BIO.LOGIN_SUCCESS,
+                        data : data.data
+                    })
+                    history.push('/report/list');
                 }
                 else if(data.code === 'error'){
                     setError(data.info);
@@ -47,7 +54,6 @@ const Login = () => {
                         setError('');
                     }, 2500)
                 }
-                console.log('sd')
             })
             .catch(error => console.log(error))
         }
@@ -57,7 +63,7 @@ const Login = () => {
             <div className='login-title'>
                 <span>请登录</span>
             </div>
-            <Input type='email' label='账号' placeholder='请输入邮箱' validateType='email' dataName='username' form={inputs} />
+            <Input type='email' label='账号' placeholder='请输入邮箱或用户名' dataName='username' form={inputs} />
             <Input type='password' label='密码' placeholder='请输入密码' validateType='pass' dataName='password' form={inputs} />
             <Button text='登录' click={clickHandler} errorText={loginError} loading={true} loadingText='请稍候' loadingTime={2500} />
         </div>

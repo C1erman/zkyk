@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-
-import './page.css';
+import { throttle } from '../../utils/BIOFunc';
+import './pager.css';
 
 const Pager = ({
     total = 10,
@@ -13,15 +13,24 @@ const Pager = ({
     let [currentPage, setCurrent] = useState(current);
     
     const prevHandler = () => {
-        if()
+        if(currentPage > 1){
+            typeof prevClick === 'function' ? prevClick(currentPage - 1) : null;
+            setCurrent(currentPage - 1);
+        }
+    }
+    const nextHandler = () => {
+        if(currentPage < total){
+            typeof nextClick === 'function' ? nextClick(currentPage + 1) : null;
+            setCurrent(currentPage + 1);
+        }
     }
     return (
         <div className='pager'>
-            <button className={'pager-btn' + currentPage === 1 ? 'disabled' : ''} onClick={() => typeof nextClick === 'function' ? prevClick() : null}>{prevText}</button>
+            <a className={'pager-btn' + (currentPage === 1 ? ' pager-disabled' : '')} onClick={throttle(prevHandler, 400)}>{prevText}</a>
             <div>
-                <span className='pager-current'>{currentPage}</span>/<span className='pager-current'>{total}</span>
+                <span className='pager-current'>{currentPage}</span> / <span className='pager-total'>{total}</span>
             </div>
-            <button className={'pager-btn' + currentPage === total ? 'disabled' : ''} onClick={() => typeof nextClick === 'function' ? nextClick() : null}>{nextText}</button>
+            <a className={'pager-btn' + (currentPage === total ? ' pager-disabled' : '')} onClick={throttle(nextHandler, 400)}>{nextText}</a>
         </div>
     );
 }

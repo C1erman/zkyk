@@ -10,6 +10,9 @@ const Modal = ({
 }) => {
     useEffect(() => {
         document.body.style.overflow = visible ? 'hidden' : '';
+        return () => {
+            document.body.style.overflow = '';
+        }
     }, [visible]);
     return !visible ? null : (
         <div className='modal' onClick={onClose}>

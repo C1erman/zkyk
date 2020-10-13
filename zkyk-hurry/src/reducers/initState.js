@@ -1,9 +1,9 @@
 // 初始 state 对象
 const initState = {
     user : {
-        id : '12',
+        id : '21',
         role : '',
-        token : '-ldtQEeAYII0vajKjhRFAdBvB69MYRx0'
+        token : 'kREy-oSrHlWBe33XbVn_vnTBFEz9kg9k'
     },
     sampleList : {
         totalPage : 0,
@@ -18,7 +18,7 @@ const initState = {
         current : ''
     },
     add : {
-        barCode : 'sd',
+        barCode : '',
         sampleId : ''
     }
 }

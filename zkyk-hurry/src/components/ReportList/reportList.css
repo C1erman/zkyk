@@ -50,11 +50,22 @@
 .reportList-table-header > th{
     line-height: 2;
     border-bottom: 1px solid var(--border);
+    color: #1a1a1a;
+    padding: 0.5rem 0;
 }
 .reportList-table-body{
     line-height: 2;
     text-align: center;
+    border-bottom: 1px solid var(--border);
 }
 .reportList-table-body > td{
     padding: 8px;
+}
+.reportList-btn{
+    display: inline-block;
+    padding: 0.1rem 0.5rem;
+    border: 1px solid var(--theme);
+    color: var(--theme);
+    cursor: pointer;
+    border-radius: 3px;
 }

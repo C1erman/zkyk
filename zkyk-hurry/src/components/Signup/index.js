@@ -5,15 +5,18 @@ import Input from '../Input';
 import Button from '../Button';
 import Axios from 'axios';
 import { host } from '../../_config';
+import { useHistory } from 'react-router-dom';
 
-let inputs = {
-    username : '',
-    email : '',
-    password : '',
-    invitation : ''
-};
 const Signup = () => {
+    let history = useHistory();
     let [error, setError] = useState('');
+    let [inputs, setInputs] = useState({
+        username : '',
+        email : '',
+        password : '',
+        invitation : ''
+    });
+
     const clickHandler = () => {
         if(error) return false;
         let validated = Object.keys(inputs).filter(v => {
@@ -41,14 +44,13 @@ const Signup = () => {
             }).then(_data => {
                 let { data } = _data;
                 if(data.code === 'success'){
-                    // history.push('/');
+                    history.push('/user/login');
                 }
                 else if(data.code === 'error'){
                     setError(data.info);
                     setTimeout(() => {
                         setError('');
                     }, 2500)
-                    console.log(inputs)
                 }
             })
             .catch(error => console.log(error))

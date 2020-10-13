@@ -1,0 +1,27 @@
+.pager{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 25px 0 10px 0;
+    user-select: none;
+}
+.pager > a{
+    display: inline-block;
+    height: 22px;
+    line-height: 20px;
+    background: var(--theme);
+    border: 1px solid var(--theme);
+    color: #ffffff;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.pager > a.pager-disabled{
+    cursor: not-allowed;
+    background-color: #ffffff;
+    color: var(--theme);
+}
+.pager-current{
+    font-weight: bolder;
+    color: var(--theme);
+}
