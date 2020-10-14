@@ -57,7 +57,7 @@ module.exports = {
     ],  //插件
     devServer : {
         contentBase : './src',
-        host : 'localhost',
+        host : '192.168.1.109',
         port : 3000,  //端口
         open : true,  //是否打开浏览器
         hot : true  //开启热更新

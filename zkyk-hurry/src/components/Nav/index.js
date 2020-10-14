@@ -1,9 +1,10 @@
 import React from 'react';
 import './nav.css';
 
-import logoImg from '../../icons/nav-logo-bio.svg';
+import bioLogoImg from '../../icons/nav-logo-bio.svg';
+import zkykLogoImg from '../../icons/nav-logo-zkyk.svg';
 import Drawer from '../Drawer';
-import { Link, useLocation, NavLink } from 'react-router-dom';
+import { useLocation, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const Nav = () => {
@@ -19,8 +20,9 @@ const Nav = () => {
             <header className='nav-container'>
                 <div className='nav-logo-container'>
                     <a href='#/'>
-                        <img className='nav-logo' src={logoImg} />
-                        博奥汇玖
+                        <img className='nav-logo' src={bioLogoImg} />
+                        ×
+                        <img className='nav-logo-zkyk' src={zkykLogoImg} />
                     </a> 
                 </div>
             </header>

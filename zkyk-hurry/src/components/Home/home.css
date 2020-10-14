@@ -1,5 +1,6 @@
 .home-container{
-    height: calc(100vh - 204px);
+    height: calc(100vh - 104px);
+    font-size: 0.9rem;
 }
 .home-textContainer{
     height: 70%;
@@ -28,17 +29,17 @@
     font-size: 0.9rem;
     font-weight: lighter;
     letter-spacing: 0.3rem;
+    user-select: none;
 }
 .home-btnContainer{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 30%;
+    padding-top: 1rem;
+    margin-bottom: 1rem;
 }
 .home-btn{
     cursor: pointer;
     display: block;
-    width: 80%;
+    width: 30%;
+    margin: 0 auto;
     border: 1px solid var(--theme);
     color: var(--theme);
     line-height: 1.5;
@@ -56,31 +57,8 @@ button.home-btn:active{
     background: var(--theme);
     box-shadow: 0 0 3px var(--theme);
 }
-.home-btn-center{
-    margin: 0 auto;
-}
-.home-btn-sm{
-    width: 50%;
-    line-height: normal;
-    font-size: 0.9rem;
-}
-.home-input, .home-error{
-    font-size: 0.95rem;
-}
-.home-input{
-    display: block;
-    width: 95%;
-    margin: 0 auto;
-    padding: 0.5rem 0;
-    border: 0;
-    border-bottom: 1px solid #cccccc;
-    appearance: none;
-    outline: 0;
-}
 .home-error{
-    display: block;
-    width: 95%;
     margin: 0.5rem auto;
-    overflow: auto;
     color: var(--error);
+    text-align: center;
 }

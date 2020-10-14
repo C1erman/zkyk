@@ -13,14 +13,16 @@
     overflow: hidden;
 }
 .footer-textContainer{
+    margin-top: 0.5rem;
     position: relative;
-    display: flex;
     overflow: hidden;
-    align-items: center;
-    justify-content: space-around;
     background-color: var(--theme);
     color: white;
-    padding-bottom: 0.8rem;
+    padding-bottom: 0.5rem;
+}
+.footer-contact{
+    margin-left: 1rem;
+    line-height: 2;
 }
 .footer-text{
     display: flex;
@@ -28,15 +30,18 @@
     justify-content: space-around;
 }
 .footer-text > div{
-    margin-left: 1rem;
+    margin-left: 0.5rem;
     line-height: 2;
 }
-.footer-email{
-    white-space: nowrap;
-}
 .footer-wechat{
-    margin: 0.2rem 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 0.8rem;
     text-align: center;
+}
+.footer-wechat > div{
+    max-width: 110px;
 }
 .footer-wechatImg{
     box-sizing: border-box;
@@ -44,4 +49,8 @@
     max-width: 100%;
     border-radius: 0.8rem;
     padding: 0.5rem;
+}
+.footer-text{
+    margin-top: 1rem;
+    text-align: center;
 }

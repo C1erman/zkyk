@@ -15,6 +15,14 @@
     margin-right: 10px;
     top: -2px;
 }
+.nav-logo-zkyk{
+    height: 30px;
+    vertical-align: middle;
+    position: relative;
+    margin-right: 10px;
+    margin-left: 15px;
+    top: -2px;
+}
 .nav-link-container{
     display: flex;
     flex-direction: column;

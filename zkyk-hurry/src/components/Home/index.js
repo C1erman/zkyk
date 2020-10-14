@@ -1,87 +1,68 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Axios from 'axios';
+import { debounce } from '../../utils/BIOFunc';
 // redux
 import { useDispatch } from 'react-redux';
 import * as BIO from '../../actions';
 
 import './home.css';
-import Modal from '../Modal';
 import bioLogo from '../../icons/home-logo-bio.svg';
 import zkykLogo from '../../icons/home-logo-zkyk.svg';
 import { host } from '../../_config';
+import Input from '../Input';
 
 const Home = () => {
-    // redux
     const dispatch = useDispatch();
-    // 页面跳转
     const history = useHistory();
-    // 模态框初始显示状态
-    const [visible, setVisible] = useState(false);
-    const [error, setError] = useState('');
-    const [barcode, setBarcode] = useState('');
-    const inputRef = useRef();
+    let [error, setError] = useState('');
+    let [inputs, setInputs] = useState({
+        barCode : ''
+    })
 
-    const barcodeValidate = (str) => {
-        let regExp = /^\d{9}$/;
-        return regExp.test(str);
-    }
-    const validate = () => {
-        let barcode = inputRef.current.value;
-        setBarcode(barcode);
-        if(!barcode.length) setError('');
-        else{
-            let validated = barcodeValidate(barcode);
-            let error = validated ? '' : '请输入由9位数字组成的采样管编号。';
-            setError(error);
-        }
-    }
-    const onClose = () => {
-        setVisible(false);
-        setError('');
-        setBarcode('');
-    }
-    useEffect(() => {
-        if(visible) setError('');
-    },[visible])
     const checkCode = () => {
-        if(!barcodeValidate(barcode)){
-            setError('请输入正确的采样管编号。');
-            return false;
-        }
-        Axios({
-            method : 'POST',
-            url : host + '/validate/verify',
-            data : {
-                barcode : barcode
-            },
-            headers : {
-                'Content-Type' : 'application/json; charset=UTF-8'
-            },
-            timeout : 5000
-        }).then(_data => {
-            const {data} = _data;
-            if(data.code === 'error') setError(data.info);
-            else if(data.code === 'success'){
-                onClose();
-                // localStorage.setItem('barcode', data.data?.barcode);
-                // localStorage.setItem('sample_id', data.data?.sample_id);
-                let { barcode = '', sample_id = '' } = data.data;
-                dispatch({
-                    type : BIO.ADD_CHECK_SUCCESS,
-                    data : {
-                        barCode : barcode,
-                        sampleId : sample_id
-                    }
-                })
-                setTimeout(() => {
-                    history.push('/add');
-                }, 500)
-            }      
-        }).catch(error => {
-            console.error(error);
-            setError('网络请求出现问题，请稍后再试。');
+        // check empty
+        let validated = Object.keys(inputs).filter(v => {
+            return !inputs[v].validated;
         });
+        if(validated.length){
+            setError('请输入采样管编号');
+            setTimeout(() => setError(''), 2500);
+        }
+        else{
+            Axios({
+                method : 'POST',
+                url : host + '/validate/verify',
+                data : {
+                    barcode : inputs.barCode.value
+                },
+                headers : {
+                    'Content-Type' : 'application/json; charset=UTF-8'
+                },
+                timeout : 5000
+            }).then(_data => {
+                const {data} = _data;
+                if(data.code === 'error') setError(data.info);
+                else if(data.code === 'success'){
+                    // localStorage.setItem('barcode', data.data?.barcode);
+                    // localStorage.setItem('sample_id', data.data?.sample_id);
+                    let { barcode = '', sample_id = '' } = data.data;
+                    dispatch({
+                        type : BIO.ADD_CHECK_SUCCESS,
+                        data : {
+                            barCode : barcode,
+                            sampleId : sample_id
+                        }
+                    })
+                    setTimeout(() => {
+                        history.push('/add');
+                    }, 500)
+                }      
+            }).catch(error => {
+                console.error(error);
+                setError('网络请求出现问题，请稍后再试。');
+            });
+        }
     }
     return (
         <>
@@ -94,17 +75,12 @@ const Home = () => {
                     </div>
                     <div className='home-title'>— 肠道菌群健康评估报告 —</div>
                 </div>
+                <Input withLabel={false} placeholder='请输入采样管编号' form={inputs} dataName='barCode' validateType={/^\d{9}$/} errorMsg='请输入由9位数字组成的采样管编号' />
                 <div className='home-btnContainer'>
-                    <button className='home-btn' onClick={() => setVisible(true)}>绑定采样</button>
+                    <p className='home-error'>{error}</p>
+                    <button className='home-btn' onClick={debounce(checkCode, 300)}>绑定采样</button>
                 </div>
             </div>
-            <Modal visible={visible} title='绑定采样'
-            content={<>
-                <input ref={inputRef} onChange={validate} className='home-input' type='number' placeholder='请输入9位采样管编号' />
-                <span className='home-error'>{error}</span>
-                <div><button className='home-btn home-btn-sm home-btn-center' onClick={checkCode}>下一步</button></div>
-            </>}
-            onClose={onClose} />
         </>
     );
     
