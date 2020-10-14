@@ -3,7 +3,7 @@ import './nav.css';
 
 import logoImg from '../../icons/nav-logo-bio.svg';
 import Drawer from '../Drawer';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const Nav = () => {
@@ -28,15 +28,16 @@ const Nav = () => {
     }
     const BioLinks = user.id ? (
         <div className='nav-link-container'>
-            <Link className='nav-link' to='/report/list' onClick={clickHandler}>报告列表</Link>
-            <Link className='nav-link' to='/user/signup' onClick={clickHandler}>整体情况</Link>
-            <Link className='nav-link' to='/sample/assess' onClick={clickHandler}>健康评估</Link>
-            <Link className='nav-link' to='/sample/suggestion' onClick={clickHandler}>建议</Link>
+            <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/list' onClick={clickHandler}>报告列表</NavLink>
+            <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/overview' onClick={clickHandler}>整体情况</NavLink>
+            <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/assess' onClick={clickHandler}>健康评估</NavLink>
+            <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/suggestion' onClick={clickHandler}>建议</NavLink>
+            <NavLink className='nav-link' activeClassName='nav-link-active' to=''></NavLink>
         </div>
     ) : (
         <div className='nav-link-container'>
-            <Link className='nav-link' to='/user/login' onClick={clickHandler}>登录</Link>
-            <Link className='nav-link' to='/user/signup' onClick={clickHandler}>注册</Link>
+            <NavLink className='nav-link' activeClassName='nav-link-active' to='/user/login' onClick={clickHandler}>登录</NavLink>
+            <NavLink className='nav-link' activeClassName='nav-link-active' to='/user/signup' onClick={clickHandler}>注册</NavLink>
         </div>
     );
     return (

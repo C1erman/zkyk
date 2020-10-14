@@ -57,9 +57,14 @@ const Overview = () => {
             if(data.code === 'success')  setResult(data.data);
         }).catch(error => {});
     }, [])
-    // const judgeRange = (value, min, max) =>{
-    //     if(value)
-    // }
+    const judgeRange = (value, min, max) =>{
+        if(value < min) {
+            return { className : 'overview-result-below' }
+        }
+        else if(value > max) {
+            return { className : 'overview-result-above' }
+        }
+    }
     return (
         <div className='overview-container'>
             <div className=''></div>
@@ -103,7 +108,7 @@ const Overview = () => {
                     <tbody className='overview-result-table-body'>
                         {result.map(v => (
                             <tr key={v.name}>
-                                <td className={'overview-error'}>{v.name}</td><td>{v.value}</td><td>{v.range_up} - {v.range_down}</td>
+                                <td className={'overview-error'}>{v.name}</td><td {...judgeRange(v.value, v.range_up, v.range_down)}>{v.value}</td><td>{v.range_up} - {v.range_down}</td>
                             </tr>
                         ))}
                     </tbody>

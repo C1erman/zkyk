@@ -113,9 +113,22 @@
     border-bottom: 1px solid var(--border);
 }
 .overview-result-table-body > tr > td{
-    padding: 0.5rem 0;
+    padding: 0.4rem 0;
     vertical-align: middle;
 }
 .overview-result-name{
     min-width: 60px;
+}
+.overview-result-below, .overview-result-above{
+    color: var(--theme);
+}
+.overview-result-below::after{
+    content: '↓';
+    margin-left: 10px;
+    position: relative;
+}
+.overview-result-above::after{
+    content: '↑';
+    margin-left: 10px;
+    position: relative;
 }
