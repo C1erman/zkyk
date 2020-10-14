@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import './autoinput.css';
 import { debounce } from '../../utils/BIOFunc';
 import Axios from 'axios';
@@ -20,7 +20,9 @@ const AutoInput = ({
     let [ options, setOptions ] = useState([]);
     let [ checked, setChecked ] = useState(false);
     // 目前架构只能给一个初始值
-    if(form && enableEmpty) form[dataName] = { validated : true, value : form[dataName] };
+    useEffect(() => {
+        if(form && enableEmpty) form[dataName] = { validated : true, value : form[dataName] };
+    }, [])
 
     const request = (data) => {
         Axios({
@@ -49,7 +51,7 @@ const AutoInput = ({
             <label>{label}</label>
             <input className='autoinput' type='text' placeholder={placeholder} ref={ref}
             // blur 先于 click 发生
-            onBlur={() => { if(checked) setOptions([]) }}
+            onBlur={() => { if(checked || ref.current.value === '') setOptions([]) }}
             onChange={
                 debounce(() => {
                     let value = ref.current.value;
@@ -70,7 +72,7 @@ const AutoInput = ({
                             <li key={v[keyName]} onClick={() => {
                                 ref.current.value = v[keyName];
                                 // 直接设置不会触发 onchange
-                                if(form) form[dataName] = { validated : true, value :  v[keyName] }
+                                if(form) form[dataName] = { validated : true, value : v[keyName] }
                                 setOptions([]);
                                 setChecked(true);
                             }}><a className='autoinput-options'>{v[keyName].replace('-error', '')}</a></li>

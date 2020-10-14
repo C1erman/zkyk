@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import './input.css';
 
 // 验证规则 
@@ -84,8 +84,10 @@ const Input = ({
     let [error, setError] = useState('');
     let inputRef = useRef();
     // 目前架构只能给一个初始值
-    if(form && enableEmpty) form[dataName] = {validated : true, value : form[dataName]};
-
+    useEffect(() => {
+        if(form && enableEmpty) form[dataName] = {validated : true, value : form[dataName]};
+    }, []);
+    
     return (
         <div className='input-container'>
             {withLabel ? (<label>{label}</label>) : null}

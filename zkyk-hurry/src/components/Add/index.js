@@ -20,7 +20,7 @@ let inputs = {
     height : '',
     weight : '',
     birthday : '',
-    antibiotics : []
+    antibiotics : ''
 }
 const Add = () => {
     // 回到顶部
