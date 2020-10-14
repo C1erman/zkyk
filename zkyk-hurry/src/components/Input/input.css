@@ -16,6 +16,7 @@
     border-bottom: 1px solid #cccccc;
     transition: all ease-in 0.3s;
     outline: 0;
+    line-height: 1.5;
 }
 .input-container > input:focus{
     border-color: #1a1a1a;

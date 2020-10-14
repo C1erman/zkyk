@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import './add.css';
 import { host } from '../../_config';
@@ -13,33 +13,74 @@ import * as BIO from '../../actions';
 import Input from '../Input';
 import AutoInput from '../AutoInput';
 
-let inputs = {
-    first_name : '',
-    last_name : '',
-    mobile : '',
-    height : '',
-    weight : '',
-    birthday : '',
-    antibiotics : ''
-}
 const Add = () => {
-    // 回到顶部
-    useEffect(() => {
-        slideUp()
-    }, [])
     // 路由
     const history = useHistory();
     // 提交反馈信息
     const [error, setError] = useState('');
     const [submit, setSubmit] = useState('提交');
+    let [inputs, setInputs] = useState({
+        first_name : '',
+        last_name : '',
+        height : '',
+        weight : '',
+        birthday : '',
+        antibiotics : ''
+    })
     // redux
     let sampleId = useSelector(state => state.add.sampleId);
     let user_id = useSelector(state => state.user.id);
+    let token = useSelector(state => state.user.token);
+    let edit = useSelector(state => state.edit);
+
     const dispatch = useDispatch();
     // ref
     const selectGenderRef = useRef();
     const selectBloodRef = useRef();
     const selectFoodRef = useRef();
+
+    const location = useLocation();
+    let [defaultVal, setDefault] = useState();
+    useEffect(() => {
+        slideUp();
+        if(location.state?.current){
+            Axios({
+                method : 'GET',
+                url : host + '/sample/updateBind',
+                params : {
+                    id : location.state.current,
+                    'access-token' : token
+                },
+                headers : {
+                    'Content-Type' : 'application/json; charset=UTF-8'
+                }
+            }).then(_data => {
+                const { data } = _data;
+                if(data.code === 'success'){
+                    dispatch({
+                        type : BIO.REPORT_EDIT,
+                        data : {
+                            current : edit.current,
+                            barCode : data.data.barcode,
+                            personId : data.data.person_id,
+                            testeeId : data.data.testee_id,
+                            sampleId : data.data.sample_id
+                        }
+                    });
+                    // 下拉列表
+                    selectGenderRef.current.value = data.data.gender;
+                    selectBloodRef.current.value = data.data.blood_type;
+                    selectFoodRef.current.value = data.data.meat_egetables;
+                    // 其它
+                    let {last_name, first_name, height, weight, birthday, antibiotics} = data.data;
+                    setDefault({
+                        last_name, first_name, height, weight, birthday, antibiotics
+                    });
+                }
+            })
+            .catch(error => console.log(error))
+        }
+    }, [])
 
     const handleSubmit = () => {
         if(submit !== '提交') return false;
@@ -53,7 +94,7 @@ const Add = () => {
             return !inputs[v].validated;
         });
         if(validated.length){
-            setError('输入内容不合规范，请修改后再做提交。');
+            setError('表单内容不合规范，请检查修改后再做提交。');
             setTimeout(() => {
                 setError('');
                 setSubmit('提交');
@@ -61,17 +102,28 @@ const Add = () => {
             return false;
         }
         else{
-            let {last_name, first_name, birthday, height, weight, mobile, antibiotics} = inputs;
+            let {last_name, first_name, birthday, height, weight, antibiotics} = inputs;
+            let data = {
+                last_name : last_name.value, first_name : first_name.value, birthday : birthday.value, height : height.value, 
+                weight : weight.value, antibiotics : antibiotics.value,
+                sample_id : sampleId,
+                blood_type, meat_egetables, gender,
+                user_id,
+            }
+            let url = host + '/sample/bind';
+            if(location.state?.current){
+                data = {
+                    ...data,
+                    person_id : edit.personId,
+                    testee_id : edit.testeeId,
+                    sample_id : edit.sampleId
+                }
+                url = host + '/sample/modify';
+            }
             Axios({
                 method : 'POST',
-                url : host + '/validate/bind',
-                data : {
-                    last_name : last_name.value, first_name : first_name.value, birthday : birthday.value, height : height.value, 
-                    weight : weight.value, mobile : mobile.value, antibiotics : antibiotics.value,
-                    sample_id : sampleId,
-                    blood_type, meat_egetables, gender,
-                    user_id
-                },
+                url : url,
+                data : data,
                 headers : {
                     'Content-Type' : 'application/json; charset=UTF-8'
                 }
@@ -87,25 +139,28 @@ const Add = () => {
                         type : BIO.ADD_SUCCESS
                     })
                     setTimeout(() => {
-                        history.push('/');
+                        history.push('/report/list');
                     },3000)
                 }
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                setSubmit('提交');
+                console.log(error)
+            })
         }
     }
     return (
         <div className='add-container'>
             <div className='add-noti'>
                 <p>为了更加准确的为你提供建议，我们需要使用下述信息，请如实填写。</p>
-                <p>你本次填写的采样管编号为：<span className='add-noti-barcode'>{useSelector(state => state.add.barCode) || '暂无'}</span></p>
+                <p>你本次填写的采样管编号为：<span className='add-noti-barcode'>{useSelector(state => state.add.barCode) || edit.barCode}</span></p>
             </div>
             <div className='add-divide'></div>
             <div className='add-form'>
                 <p className='add-label-container'><span className='add-label'>联系方式</span></p>
-                <Input placeholder='请输入姓氏' label='姓' validateType='name' dataName='last_name' form={inputs} />
-                <Input placeholder='请输入名字' label='名' validateType='name' dataName='first_name' form={inputs} />
-                <Input type='tel' placeholder='请输入电话号码' validateType='tel' label='电话号码' dataName='mobile' form={inputs} />
+                <Input placeholder='请输入姓氏' label='姓' validateType='name' dataName='last_name' form={inputs} defaultValue={defaultVal} />
+                <Input placeholder='请输入名字' label='名' validateType='name' dataName='first_name' form={inputs} defaultValue={defaultVal} />
+                {/* <Input type='tel' placeholder='请输入电话号码' validateType='tel' label='电话号码' dataName='mobile' form={inputs} /> */}
                 <p className='add-label-container'><span className='add-label'>基本信息</span></p>
                 <div className='add-form-input'>
                     <label>性别</label>
@@ -114,9 +169,9 @@ const Add = () => {
                         <option value='F'>女</option>
                     </select>
                 </div>
-                <Input type='number' placeholder='请输入身高' label='身高 / 厘米' validateType='height' dataName='height' form={inputs} />
-                <Input type='number' placeholder='请输入体重' label='体重 / 公斤' validateType='weight' dataName='weight' form={inputs} />
-                <Input type='date' label='生日' max={getPreviousDay()} dataName='birthday' form={inputs} />
+                <Input type='number' placeholder='请输入身高' label='身高 / 厘米' validateType='height' dataName='height' form={inputs} defaultValue={defaultVal} />
+                <Input type='number' placeholder='请输入体重' label='体重 / 公斤' validateType='weight' dataName='weight' form={inputs} defaultValue={defaultVal} />
+                <Input type='date' label='生日' max={getPreviousDay()} dataName='birthday' form={inputs} defaultValue={defaultVal} />
                 <div className='add-form-input'>
                     <label>血型</label>
                     <select className='add-form-inputs' ref={selectBloodRef}>
@@ -142,7 +197,11 @@ const Add = () => {
                     headers={{'Content-Type' : 'application/json; charset=UTF-8'}}
                     url={host + '/validate/antibiotics'}
                     keyName='name'
-                    dataName='antibiotics' form={inputs} />
+                    dataName='antibiotics' form={inputs} defaultValue={defaultVal} />
+                {/* <div className='add-form-input add-form-radio'>
+                    <input type='checkbox' value='allow' />我允许中科宜康使用样本数据进行检测。
+                    <label></label> 
+                </div> */}
                 <button className={submit !== '提交' ? 'add-form-btn disabled' : 'add-form-btn'} onClick={handleSubmit}>{submit}</button>
                 <p className='add-form-error'>{error}</p>
             </div>

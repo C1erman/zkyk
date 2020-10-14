@@ -18,6 +18,7 @@ const SecureRoute = () => {
     const add = useSelector(state => state.add);
     const user = useSelector(state => state.user);
     const report = useSelector(state => state.report);
+    const edit = useSelector(state => state.edit);
 
     const R_Home = (<Route path='/' exact component={Home}></Route>);
     const R_Add = (<Route path='/add' component={Add}></Route>);
@@ -29,7 +30,7 @@ const SecureRoute = () => {
 
     const BioRoute = user.id ? (
         <Switch>
-            {R_Home}{add.barCode ? R_Add : null}
+            {R_Home}{(add.barCode || edit.current) ? R_Add : null}
             {R_Login}{R_Signup}{R_ReportList}
             {report.current ? R_Overview : null}{R_Assess}
             <Redirect to='/' />

@@ -79,6 +79,7 @@ const Input = ({
     enableEmpty = false,
     errorMsg,
     form,
+    defaultValue = {},
     ...rest
 }) => {
     let [error, setError] = useState('');
@@ -87,7 +88,14 @@ const Input = ({
     useEffect(() => {
         if(form && enableEmpty) form[dataName] = {validated : true, value : form[dataName]};
     }, []);
-    
+    // 赋默认值
+    useEffect(() => {
+        if(defaultValue[dataName]){
+            inputRef.current.value = defaultValue[dataName];
+            form[dataName] = { validated : true, value : defaultValue[dataName] };
+        }
+    }, [defaultValue])
+
     return (
         <div className='input-container'>
             {withLabel ? (<label>{label}</label>) : null}
@@ -103,7 +111,8 @@ const Input = ({
                 if(form) form[dataName] = data;
                 if(result.error) setError(result.message);
                 else setError('');
-            }} {...rest} />
+            }}
+            {...rest} />
             <p className='input-error'>{error.length ? error : ''}</p>
         </div>
     )

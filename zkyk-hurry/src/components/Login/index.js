@@ -5,7 +5,7 @@ import Button from '../Button';
 import Axios from 'axios';
 import { host } from '../../_config';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as BIO from '../../actions';
 
 const Login = () => {
@@ -46,7 +46,7 @@ const Login = () => {
                         type : BIO.LOGIN_SUCCESS,
                         data : data.data
                     })
-                    history.push('/report/list');
+                    history.push('/');
                 }
                 else if(data.code === 'error'){
                     setError(data.info);

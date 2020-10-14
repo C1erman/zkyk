@@ -18,10 +18,10 @@ const Button = ({
         <div className='button'>
             <button className={btnLoading ? className + ' disabled' : className}
             onClick={() => {
-                typeof click === 'function' ? click() : undefined;
                 if(loading){
                     if(btnText !== text) return false;
                     else {
+                        typeof click === 'function' ? click() : undefined;
                         setBtnText(loadingText)
                         setLoading(true);
                         setTimeout(() => {
@@ -30,6 +30,7 @@ const Button = ({
                         }, loadingTime);
                     }
                 }
+                else typeof click === 'function' ? click() : undefined;
             }}>{btnText}</button>
             <p className='button-error'>{errorText}</p>
         </div>

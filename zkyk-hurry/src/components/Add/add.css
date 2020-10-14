@@ -62,9 +62,6 @@
     transition: ease-in 0.3s;
     outline: 0;
 }
-.add-form-radio > label{
-    display: block;
-}
 .add-form-input > input:focus{
     border-color: #1a1a1a;
     text-indent: 1rem;

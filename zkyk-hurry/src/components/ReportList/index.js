@@ -6,7 +6,7 @@ import * as BIO from '../../actions';
 import { useSelector, useDispatch } from 'react-redux';
 import { host } from '../../_config';
 import Pager from '../Pager';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 const ReportList = () => {
     let user = useSelector(state => state.user);
@@ -60,6 +60,16 @@ const ReportList = () => {
         })
         .catch(error => console.log(error))
     }
+    const mapReportState = (state) => {
+        return {
+            'untreated' : '未处理',
+            'registered' : '已启用',
+            'received' : '已收样',
+            'under-experiment' : '正在实验',
+            'succeeded' : '已完成',
+            'failed' : '实验失败',
+        }[state]
+    }
     const selectHandler = (current) => {
         dispatch({
             type : BIO.REPORT_SELECT,
@@ -67,16 +77,29 @@ const ReportList = () => {
         })
         history.push('/report/overview');
     }
+    const editHandler = (current) => {
+        dispatch({
+            type : BIO.REPORT_EDIT,
+            data : { current : current }
+        })
+        history.push({
+            pathname : '/add',
+            state : {
+                current : current
+            }
+        });
+    }
 
     return (
         <div className='reportList-container'>
             <div className='reportList-title'>
-                <span>选择你要查看的报告</span>
+                <span>请选择你要查看的报告</span>
             </div>
             <div className='reportList-content'>
                 <div className='reportList-info'>
-                    报告从上到下按照时间先后了排序。同时，为了方便你了解每份报告当前所处的状态，我们在下方列出了报告状态对照表。
+                    报告从上到下按照时间先后了排序。同时，为了方便你了解每份报告当前所处的状态，我们在下方列出了检测报告的流程。
                 </div>
+                <div className='reportList-'></div>
                 {!list.length ? (<div className='reportList-empty'>
                     抱歉，暂时无可操作报告。
                 </div>) : (
@@ -84,14 +107,16 @@ const ReportList = () => {
                         <table className='reportList-table'>
                             <thead>
                                 <tr className='reportList-table-header'>
-                                    <th>受测人</th><th>样本编号</th><th>操作</th>
+                                    <th>受测人</th><th>样本编号</th><th>当前状态</th><th>操作</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {list.map((v, i) => <tr key={i} className='reportList-table-body'>
                                     <td>{v.person_name}</td>
                                     <td>{v.sample_barcode}</td>
-                                    <td><a className='reportList-btn' onClick={() => selectHandler(v.report_id)}>查看</a></td>
+                                    <td>{mapReportState(v.sample_status)}</td>
+                                    {/* <td><a className='reportList-btn' onClick={() => selectHandler(v.report_id)}>查看</a></td> */}
+                                    <td><a className='reportList-btn' onClick={() => editHandler(v.report_id)}>编辑</a></td>
                                 </tr>)}
                             </tbody>
                         </table>

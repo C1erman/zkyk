@@ -10,6 +10,7 @@ const AutoInput = ({
     url,
     dataName,
     form,
+    defaultValue = {},
     enableEmpty = true,
     keyName,    
     headers,
@@ -23,6 +24,13 @@ const AutoInput = ({
     useEffect(() => {
         if(form && enableEmpty) form[dataName] = { validated : true, value : form[dataName] };
     }, [])
+    useEffect(() => {
+        // 赋默认值
+        if(defaultValue[dataName]){
+            ref.current.value = defaultValue[dataName];
+            form[dataName] = { validated : true, value : defaultValue[dataName] };
+        }
+    }, [defaultValue])
 
     const request = (data) => {
         Axios({

@@ -16,6 +16,13 @@ const rootReducer = (state = initState, action) => {
                 user
             }
         }
+        // 用户注销
+        case BIO.LOGOUT_SUCCESS : {
+            return {
+                ...state,
+                initState
+            }
+        }
         // 绑定采样
         case BIO.ADD_CHECK_SUCCESS : {
             const add = clone(state['add']);
@@ -42,6 +49,19 @@ const rootReducer = (state = initState, action) => {
             return {
                 ...state,
                 report
+            }
+        }
+        case BIO.REPORT_EDIT : {
+            const { current, personId, testeeId, barCode, sampleId } = action.data;
+            const edit = clone(state['report']);
+            edit.current = current;
+            edit.personId = personId;
+            edit.testeeId = testeeId;
+            edit.barCode = barCode;
+            edit.sampleId = sampleId;
+            return {
+                ...state,
+                edit
             }
         }
         // 违规操作，清空状态

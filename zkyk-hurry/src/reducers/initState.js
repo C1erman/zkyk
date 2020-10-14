@@ -1,7 +1,7 @@
 // 初始 state 对象
 const initState = {
     user : {
-        id : '0',
+        id : '',
         role : '',
         token : ''
     },
@@ -17,11 +17,18 @@ const initState = {
         ],
     },
     report : {
-        current : '2'
+        current : ''
+    },
+    edit : {
+        current : '',
+        personId : '',
+        testeeId : '',
+        barCode : '',
+        sampleId : ''
     },
     add : {
-        barCode : '132',
-        sampleId : '123'
+        barCode : '',
+        sampleId : ''
     }
 }
 

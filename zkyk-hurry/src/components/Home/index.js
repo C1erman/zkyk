@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import Axios from 'axios';
 import { debounce } from '../../utils/BIOFunc';
 // redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as BIO from '../../actions';
 
 import './home.css';
@@ -11,28 +11,34 @@ import bioLogo from '../../icons/home-logo-bio.svg';
 import zkykLogo from '../../icons/home-logo-zkyk.svg';
 import { host } from '../../_config';
 import Input from '../Input';
+import Button from '../Button';
 
 const Home = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     let [error, setError] = useState('');
+    let [btnText, setBtnText] = useState('绑定采样');
     let [inputs, setInputs] = useState({
         barCode : ''
-    })
+    });
+    let user = useSelector(state => state.user);
 
     const checkCode = () => {
+        if(!user.id) {
+            history.push('/user/login');
+        }
         // check empty
         let validated = Object.keys(inputs).filter(v => {
             return !inputs[v].validated;
         });
         if(validated.length){
-            setError('请输入采样管编号');
+            setError('请输入正确的采样管编号。');
             setTimeout(() => setError(''), 2500);
         }
         else{
             Axios({
                 method : 'POST',
-                url : host + '/validate/verify',
+                url : host + '/validate/verify' + '?access-token=' + user.token,
                 data : {
                     barcode : inputs.barCode.value
                 },
@@ -42,7 +48,10 @@ const Home = () => {
                 timeout : 5000
             }).then(_data => {
                 const {data} = _data;
-                if(data.code === 'error') setError(data.info);
+                if(data.code === 'error'){
+                    setError(data.info);
+                    setTimeout(() => { setError('') }, 2500)
+                }
                 else if(data.code === 'success'){
                     // localStorage.setItem('barcode', data.data?.barcode);
                     // localStorage.setItem('sample_id', data.data?.sample_id);
@@ -56,7 +65,7 @@ const Home = () => {
                     })
                     setTimeout(() => {
                         history.push('/add');
-                    }, 500)
+                    }, 100)
                 }      
             }).catch(error => {
                 console.error(error);
@@ -75,10 +84,9 @@ const Home = () => {
                     </div>
                     <div className='home-title'>— 肠道菌群健康评估报告 —</div>
                 </div>
-                <Input withLabel={false} placeholder='请输入采样管编号' form={inputs} dataName='barCode' validateType={/^\d{9}$/} errorMsg='请输入由9位数字组成的采样管编号' />
+                <Input withLabel={false} placeholder='请输入采样管编号' form={inputs} dataName='barCode' validateType={/^\d{9}$/} errorMsg='请输入由9位数字组成的采样管编号。' />
                 <div className='home-btnContainer'>
-                    <p className='home-error'>{error}</p>
-                    <button className='home-btn' onClick={debounce(checkCode, 300)}>绑定采样</button>
+                    <Button text='绑定采样' click={debounce(checkCode, 300)} errorText={error} hollow={true} loading={true} />
                 </div>
             </div>
         </>
