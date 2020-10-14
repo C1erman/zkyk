@@ -32,7 +32,7 @@ const Nav = () => {
             <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/overview' onClick={clickHandler}>整体情况</NavLink>
             <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/assess' onClick={clickHandler}>健康评估</NavLink>
             <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/suggestion' onClick={clickHandler}>建议</NavLink>
-            <NavLink className='nav-link' activeClassName='nav-link-active' to=''></NavLink>
+            <NavLink className='nav-link' activeClassName='nav-link-active' to=''>登出</NavLink>
         </div>
     ) : (
         <div className='nav-link-container'>

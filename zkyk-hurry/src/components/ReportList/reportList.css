@@ -63,7 +63,7 @@
 }
 .reportList-btn{
     display: inline-block;
-    padding: 0.1rem 1.3rem;
+    padding: 0 0.8rem;
     border: 1px solid var(--theme);
     color: var(--theme);
     cursor: pointer;

@@ -1,0 +1,78 @@
+.assess-container{
+    min-height: calc(100vh - 284px);
+    padding-top: 2rem;
+    font-size: 0.9rem;
+}
+.assess-title{
+    text-align: center;
+    margin-bottom: 15px;
+}
+.assess-title > span{
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    font-size: 1rem;
+    font-weight: bolder;
+    max-width: 200px;
+}
+.assess-title > span::after{
+    display: block;
+    position: relative;
+    content: "";
+    width: 120%;
+    height: 0.7rem;
+    opacity: 0.8;
+    z-index: -1;
+    background: var(--theme);
+    opacity: 0.5;
+    top: -0.7rem;
+    left: -10%;
+}
+.assess-items{
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    box-sizing: border-box;
+    box-shadow: 0 0 7px var(--shadow);
+    border-radius: 7px;
+}
+.assess-item-header{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    height: 35px;
+    margin-bottom: 0.5rem;
+    color: var(--theme);
+}
+.assess-item-header > div:first-child{
+    font-size: 1.3rem;
+    font-weight: lighter;
+}
+.assess-item-header > div:last-child{
+    padding: 0.2rem 0.5rem;
+    background-color: var(--theme);
+    color: #ffffff;
+    border-radius: 1rem;
+}
+.assess-item-header > div.low-risk{
+    background-color: var(--riskNormal);
+}
+.assess-item-header > div.middle-risk{
+    background-color: var(--riskMiddle);
+}
+.assess-item-header > div.high-risk{
+    background-color: var(--riskHigh);
+}
+.assess-item-body{
+    line-height: 1.8;
+    margin-bottom: 0.5rem;
+}
+.assess-item-result{
+    border-left: 5px solid var(--theme);
+    padding: 0.3rem 0.3rem 0.3rem 0.7rem;
+    border-radius: 5px;
+    background: var(--textContainer);
+    font-weight: bolder;
+}

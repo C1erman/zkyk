@@ -26,7 +26,7 @@ const Overview = () => {
             const {data} = _data;
             if(data.code === 'success')  setUser(data.data);
         }).catch(error => {});
-        // 模块 BC
+        // 模块 B
         Axios({
             method : 'GET',
             url : host + '/sample/metrics',
@@ -67,7 +67,9 @@ const Overview = () => {
     }
     return (
         <div className='overview-container'>
-            <div className=''></div>
+            <div className='overview-total-graph'>
+
+            </div>
             <div className='overview-title'><span>整体情况</span></div>
             <div className='overview-total'>
                 <div>
@@ -87,7 +89,7 @@ const Overview = () => {
                             <div>{v.type_zh}</div><div>{v.rank_zh}</div>
                         </div>
                         <div className='overview-flora-item-body'>
-                            {v.summary}
+                            <div>{v.summary}</div>
                         </div>
                         <div className='overview-flora-item-result'>
                             {/* <div>结果评价：</div> */}

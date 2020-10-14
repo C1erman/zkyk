@@ -17,7 +17,7 @@ const initState = {
         ],
     },
     report : {
-        current : '1'
+        current : '2'
     },
     add : {
         barCode : '',
