@@ -104,13 +104,13 @@ const Overview = () => {
                 <table>
                     <thead>
                         <tr className='overview-result-table-head'>
-                            <th>名称</th><th>受检者检测数值（Lg CFU/g）</th><th>参考范围（Lg CFU/g）</th>
+                            <th>名称</th><th>受检者检测数值<br />（Lg CFU/g）</th><th>参考范围<br />（Lg CFU/g）</th>
                         </tr>
                     </thead>
                     <tbody className='overview-result-table-body'>
                         {result.map(v => (
                             <tr key={v.name}>
-                                <td className={'overview-error'}>{v.name}</td><td {...judgeRange(v.value, v.range_up, v.range_down)}>{v.value}</td><td>{v.range_up} - {v.range_down}</td>
+                                <td className='overview-result-table-name'>{v.name}</td><td {...judgeRange(v.value, v.range_up, v.range_down)}>{v.value}</td><td>{v.range_up} - {v.range_down}</td>
                             </tr>
                         ))}
                     </tbody>

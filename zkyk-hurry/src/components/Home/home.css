@@ -45,8 +45,31 @@
 .home-other{
     margin-top: 2rem;
 }
+.home-agree{
+    width: 90%;
+    margin: 0 auto;
+}
+.home-agree input[type=checkbox]{
+    margin-right: 0.5rem;
+}
+.home-agree-link{
+    cursor: pointer;
+    margin-left: 0.3rem;
+    color: var(--theme);
+    border-bottom: 1px solid var(--theme);
+}
+.home-agree-title{
+    font-weight: bolder;
+}
+.home-agree-content{
+    margin-top: 0.5rem;
+}
+.home-agree-content > p{
+    text-indent: 1rem;
+    word-break: break-all;
+}
 .home-btnContainer{
-    margin-bottom: 1rem;
+    margin-top: 1.5rem;
 }
 .home-btn{
     cursor: pointer;

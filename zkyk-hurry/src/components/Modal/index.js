@@ -1,25 +1,43 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './modal.css';
 
 const Modal = ({
-    visible = false,
+    defaultVisible = false,
     title,
     content,
     footer,
-    onClose
+    onClose,
+    controller
 }) => {
+    let [visible, setVisible] = useState(defaultVisible);
+
     useEffect(() => {
         document.body.style.overflow = visible ? 'hidden' : '';
         return () => {
             document.body.style.overflow = '';
         }
     }, [visible]);
+
+    const handleVisible = (type) => {
+        if(type === 'open'){
+            !visible ? setVisible(true) : null;
+        }
+        else if(type === 'close'){
+            visible ? setVisible(false) : null;
+        }
+        else if(type === 'toggle'){
+            setVisible(!visible);
+        }
+    }
+    if(controller instanceof Object){
+        controller.on = handleVisible;
+    }
     return !visible ? null : (
-        <div className='modal' onClick={onClose}>
+        <div className='modal' onClick={() => setVisible(false)}>
             <div className='modal-dialog' onClick={(e) => e.stopPropagation()}>
                 <div className='modal-header'>
                     <h3 className='modal-title'>{title}</h3>
-                    <span className='modal-close' onClick={onClose}>×</span>
+                    <span className='modal-close' onClick={() => setVisible(false)}>×</span>
                 </div>
                 <div className='modal-body'>
                     <div className='modal-content'>

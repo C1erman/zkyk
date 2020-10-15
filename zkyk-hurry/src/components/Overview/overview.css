@@ -105,6 +105,7 @@
     border-bottom: 1px solid var(--border);
     padding: 0.5rem 0;
     color: var(--black);
+    vertical-align: bottom;
 }
 .overview-result-table-body{
     text-align: center;
@@ -116,8 +117,8 @@
     padding: 0.4rem 0;
     vertical-align: middle;
 }
-.overview-result-name{
-    min-width: 60px;
+.overview-result-table-name{
+    min-width: 95px;
 }
 .overview-result-below, .overview-result-above{
     color: var(--theme);

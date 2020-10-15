@@ -3,7 +3,7 @@ const initState = {
     user : {
         id : '50',
         role : '',
-        token : 'QyP3IuWYb_PUB689aPVfBlhnKJt-LTia'
+        token : 'VKGO6tjrjWYzVIPrCL8gwrrFKfEx8N7Q'
     },
     sampleList : {
         totalPage : 0,

@@ -68,7 +68,7 @@
     left: -55px;
     background-color: #ffffff;
     border-radius: 50%;
-    box-shadow: 0 0 3px var(--shadow);
+    box-shadow: 0 0 8px var(--shadow);
     z-index: 0;
     cursor: pointer;
     transition: box-shadow .3s cubic-bezier(.78,.14,.15,.86);

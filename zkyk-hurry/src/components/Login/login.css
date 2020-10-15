@@ -1,6 +1,6 @@
 .login-container{
     width: 90%;
-    height: calc(100vh - 284px);
+    min-height: calc(100vh - 284px);
     margin: 0 auto;
     padding-top: 2rem;
     font-size: 0.9rem;

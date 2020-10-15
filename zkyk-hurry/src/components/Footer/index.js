@@ -2,6 +2,7 @@ import React from 'react';
 import './footer.css';
 import bioWechat from '../../icons/bio-wechat.png';
 import zkykWechat from '../../icons/zkyk-wechat.png';
+import recoreImg from '../../icons/record.png';
 
 const Footer = () => {
     let fromTime = '2017',
@@ -24,18 +25,18 @@ const Footer = () => {
                 </div>
                 <div className='footer-wechat'>
                     <div>
-                        <img className='footer-wechatImg' src={bioWechat} alt='微信号：zkykjt' />
+                        <img className='footer-wechatImg' src={bioWechat} alt='微信号：biohuge' title='微信号：biohuge' />
                         <span>关注博奥汇玖</span>
                     </div>
                     <div>
-                        <img className='footer-wechatImg' src={zkykWechat} alt='微信号：zkykjt' />
+                        <img className='footer-wechatImg' src={zkykWechat} alt='微信号：zkykjt' title='微信号：zkykjt' />
                         <span>关注中科宜康</span>
                     </div>
                 </div>
                 <div className='footer-text'>
                     <div>Copyright ©<a href='http://www.biohuge.com/' title='北京博奥汇玖生物科技有限公司'>博奥汇玖</a>{`${fromTime} - ${endTime} `}</div>
                     <div>由<a href='http://www.biohuge.com/' title='北京博奥汇玖生物科技有限公司'>博奥汇玖</a>提供技术支持</div>
-                    <div>备案 :<a href='http://beian.miit.gov.cn/' title='域名信息备案管理系统'>京ICP备15003875号-2</a></div>
+                    <div><img className='footer-record' src={recoreImg} /><a href='http://beian.miit.gov.cn/' title='域名信息备案管理系统'>京ICP备15003875号-2</a></div>
                 </div>
             </div>
             {/* <div className='footer-textContainer'>

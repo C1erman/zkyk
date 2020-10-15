@@ -16,29 +16,31 @@ const ReportList = () => {
     let [total, setTotal] = useState(10);
 
     useEffect(() => {
-        Axios({
-            method : 'GET',
-            url : host + '/sample/list',
-            params : {
-                'access-token' : user.token,
-                pageNum : 5
-            },
-            headers : {
-                'Content-Type' : 'application/json; charset=UTF-8'
-            }
-        }).then(_data => {
-            let { data } = _data;
-            if(data.code === 'success'){
-                setList(data.data.list);
-                setTotal(data.data.pagination.pageSize);
-            }
-        })
-        .catch(error => {
-            dispatch({
-                type : BIO.DENY_UNAUTHORIZED
+        if(user.token){
+            Axios({
+                method : 'GET',
+                url : host + '/sample/list',
+                params : {
+                    'access-token' : user.token,
+                    pageNum : 5
+                },
+                headers : {
+                    'Content-Type' : 'application/json; charset=UTF-8'
+                }
+            }).then(_data => {
+                let { data } = _data;
+                if(data.code === 'success'){
+                    setList(data.data.list);
+                    setTotal(data.data.pagination.pageSize);
+                }
             })
-            history.push('/user/login');
-        })
+            .catch(error => {
+                dispatch({
+                    type : BIO.DENY_UNAUTHORIZED
+                })
+                history.push('/user/login');
+            })
+        }
     }, [])
     const getList = (currentPage) => {
         Axios({
