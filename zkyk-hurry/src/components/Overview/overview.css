@@ -83,6 +83,9 @@
     line-height: 1.8;
     margin-bottom: 0.5rem;
 }
+.overview-flora-item-progress{
+    padding: 0.5rem 0;
+}
 .overview-flora-item-result{
     border-left: 5px solid var(--theme);
     padding: 0.3rem 0.3rem 0.3rem 0.7rem;
@@ -132,4 +135,16 @@
     content: '↑';
     margin-left: 10px;
     position: relative;
+}
+.overview-total-graph{
+    width: 100%;
+    max-width: 375px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+#graph{
+    width: 100%;
+    border-radius: 5px;
+    background-color: #1890ff;
+    background-image: linear-gradient(#246BFF, #2797FF);
 }

@@ -64,8 +64,6 @@ const Home = () => {
                     setTimeout(() => { setError('') }, 2500)
                 }
                 else if(data.code === 'success'){
-                    // localStorage.setItem('barcode', data.data?.barcode);
-                    // localStorage.setItem('sample_id', data.data?.sample_id);
                     let { barcode = '', sample_id = '' } = data.data;
                     dispatch({
                         type : BIO.ADD_CHECK_SUCCESS,
@@ -81,6 +79,7 @@ const Home = () => {
             }).catch(error => {
                 console.error(error);
                 setError('网络请求出现问题，请稍后再试。');
+                setTimeout(() => { setError('') }, 2500)
             });
         }
     }

@@ -19,9 +19,7 @@ const rootReducer = (state = initState, action) => {
         }
         // 用户注销
         case BIO.LOGOUT_SUCCESS : {
-            return {
-                initState
-            }
+            return clone(initState);
         }
         // 绑定采样
         case BIO.ADD_CHECK_SUCCESS : {
@@ -66,10 +64,7 @@ const rootReducer = (state = initState, action) => {
         }
         // 违规操作，清空状态
         case BIO.DENY_UNAUTHORIZED : {
-            return {
-                ...state,
-                initState
-            }
+            return clone(initState)
         }
         default : {
             return state

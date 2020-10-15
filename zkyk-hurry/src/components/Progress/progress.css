@@ -1,0 +1,23 @@
+.progress{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    height: 1.5rem;
+    margin: 0.5rem auto;
+}
+.progress-container{
+    position: relative;
+    width: 70%;
+    height: 0.5rem;
+    background-color: var(--shadow);
+    border-radius: 1rem;
+}
+.progress-container > span{
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    height: 100%;
+    border-radius: 1rem;
+}
