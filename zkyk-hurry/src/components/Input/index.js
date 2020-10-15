@@ -7,11 +7,11 @@ const telValidate = (telString) => {
     return telRegexp.test(telString);
 }
 const heightValidate = (heightString) => {
-    const heightRegexp = /^\d{2,3}(\.\d{1})*$/;
+    const heightRegexp = /^\d{2,3}(\.\d{2})*$/;
     return heightRegexp.test(heightString);
 }
 const weightValidate = (weightString) => {
-    const weightRegexp = /^\d{2,3}(\.\d{1})*$/;
+    const weightRegexp = /^\d{2,3}(\.\d{2})*$/;
     return weightRegexp.test(weightString);
 }
 const nameValidate = (nameString) => {
@@ -27,7 +27,7 @@ const zhValidate = (string) => {
     return !zhRegexp.test(string);
 }
 const passValidate = (passString) => {
-    const passRegexp = /^(?![0-9]+$)(?![a-zA-Z]+$)[a-zA-Z\d_]{6,20}/;
+    const passRegexp = /^(?![0-9]+$)(?![a-zA-Z]+$)[a-zA-Z\d_]{6,20}$/;
     return passRegexp.test(passString);
 }
 const validate = (type, value, enableEmpty = false) => {
@@ -38,11 +38,11 @@ const validate = (type, value, enableEmpty = false) => {
             else return { error : false };
         }
         case 'height' : {
-            if(!heightValidate(value)) return {error : true, message : '请输入正确的身高，最多支持小数点后一位。'}
+            if(!heightValidate(value)) return {error : true, message : '请输入正确的身高，最多支持小数点后两位。'}
             else return { error : false };
         }
         case 'weight' : {
-            if(!weightValidate(value)) return {error : true, message : '请输入正确的体重，最多支持小数点后一位。'}
+            if(!weightValidate(value)) return {error : true, message : '请输入正确的体重，最多支持小数点后两位。'}
             else return { error : false };
         }
         case 'name' : {

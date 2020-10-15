@@ -41,9 +41,9 @@ const Nav = () => {
         <div className='nav-link-container'>
             <NavLink className='nav-link' activeClassName='nav-link-active' to='/' exact onClick={clickHandler}>绑定采样</NavLink>
             <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/list' onClick={clickHandler}>报告列表</NavLink>
-            {/* <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/overview' onClick={clickHandler}>整体情况</NavLink>
+            <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/overview' onClick={clickHandler}>整体情况</NavLink>
             <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/assess' onClick={clickHandler}>健康评估</NavLink>
-            <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/suggestion' onClick={clickHandler}>建议</NavLink> */}
+            <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/suggestion' onClick={clickHandler}>建议</NavLink>
             <NavLink className='nav-link' activeClassName='' to='/' onClick={logoutHandler}>登出</NavLink>
         </div>
     ) : (

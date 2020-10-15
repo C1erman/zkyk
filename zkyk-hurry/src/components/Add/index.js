@@ -134,12 +134,12 @@ const Add = () => {
                     setSubmit('失败');
                 }
                 else if(data.code === 'success'){
-                    setSubmit('绑定成功，3秒后将跳转至首页');
-                    dispatch({
-                        type : BIO.ADD_SUCCESS
-                    })
+                    setSubmit('绑定成功，3秒后将跳转至报告列表页');
                     setTimeout(() => {
                         history.push('/report/list');
+                        dispatch({
+                            type : BIO.ADD_SUCCESS
+                        })
                     },3000)
                 }
             })

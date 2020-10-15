@@ -37,6 +37,14 @@
     background-color: var(--textContainer);
     padding: 1rem;
 }
+.reportList-status{
+    margin-top: 1rem;
+    border-left: 5px solid var(--theme);
+    padding: 0.3rem 0.3rem 0.3rem 0.7rem;
+    border-radius: 5px;
+    background: var(--textContainer);
+    font-weight: bolder;
+}
 .reportList-empty{
     text-align: center;
     margin: 1.5rem 0;

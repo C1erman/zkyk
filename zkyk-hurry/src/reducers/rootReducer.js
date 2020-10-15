@@ -11,6 +11,7 @@ const rootReducer = (state = initState, action) => {
             user.id = id;
             user.role = role;
             user.token = token;
+            localStorage.setItem('id', id);
             return {
                 ...state,
                 user
@@ -19,7 +20,6 @@ const rootReducer = (state = initState, action) => {
         // 用户注销
         case BIO.LOGOUT_SUCCESS : {
             return {
-                ...state,
                 initState
             }
         }

@@ -1,5 +1,5 @@
 .home-container{
-    height: calc(100vh - 104px);
+    min-height: calc(100vh - 104px);
     font-size: 0.9rem;
 }
 .home-textContainer{
@@ -10,10 +10,11 @@
     align-items: center;
 }
 .home-logoContainer{
+    margin: 0 auto;
+    margin-top: 2rem;
     max-width: 320px;
     overflow: hidden;
     display: flex;
-    margin: 0 auto;
 }
 .home-logoContainer > img{
     width: 120px;
@@ -31,8 +32,20 @@
     letter-spacing: 0.3rem;
     user-select: none;
 }
+.home-info{
+    margin-top: 2rem;
+    padding: 1rem;
+    line-height: 1.8;
+    background-color: var(--textContainer);
+    font-weight: lighter;
+}
+.home-info > p{
+    text-indent: 1rem;
+}
+.home-other{
+    margin-top: 2rem;
+}
 .home-btnContainer{
-    padding-top: 1rem;
     margin-bottom: 1rem;
 }
 .home-btn{

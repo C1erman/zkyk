@@ -31,7 +31,7 @@ const Drawer = ({
     return (
         <div className='drawer-container'>
             <div className={ 'drawer' + ( visible ? ' drawer-open' : '' )}>
-                <div className='drawer-mask' ref={maskRef}></div>
+                <div className='drawer-mask' ref={maskRef} onClick={() => visible ? setVisible(false) : null}></div>
                 <div className='drawer-content-container' ref={ref}>
                     <div className='drawer-entry' onClick={() => {
                         handleVisible('toggle');

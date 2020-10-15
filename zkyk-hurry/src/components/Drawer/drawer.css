@@ -27,6 +27,7 @@
 }
 .drawer-open > .drawer-mask{
     opacity : 1;
+    pointer-events: initial;
 }
 .drawer-content-container{
     position: absolute;
@@ -70,11 +71,10 @@
     box-shadow: 0 0 3px var(--shadow);
     z-index: 0;
     cursor: pointer;
-    transition: box-shadow .3s cubic-bezier(.78,.14,.15,.86), left .3s cubic-bezier(.78,.14,.15,.86);
+    transition: box-shadow .3s cubic-bezier(.78,.14,.15,.86);
 }
 .drawer-open .drawer-entry{
     box-shadow: 0 0 3px #f0f0f0;
-    left: -30px;
 }
 .drawer-entry-icon{
     width: 5px;
