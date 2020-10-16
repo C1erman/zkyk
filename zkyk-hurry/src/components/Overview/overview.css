@@ -145,6 +145,6 @@
 #graph{
     width: 100%;
     border-radius: 5px;
-    background-color: #1890ff;
-    background-image: linear-gradient(#246BFF, #2797FF);
+    background-color: var(--theme);
+    background-image: linear-gradient(var(--theme), var(--background));
 }

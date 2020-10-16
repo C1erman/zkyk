@@ -6,7 +6,7 @@ import { host } from '../../_config';
 import { useSelector } from 'react-redux';
 import Progress from '../Progress';
 
-const showGraph = () => {
+const showGraph = (label = '健康', score = 100) => {
     const {
     Shape,
     G,
@@ -68,7 +68,7 @@ const showGraph = () => {
     });
     const data = [{
     const: 'a',
-    actual: 75,
+    actual: score,
     expect: 100
     }];
     const chart = new F2.Chart({
@@ -94,7 +94,7 @@ const showGraph = () => {
     .position('const*expect')
     .shape('polar-tick')
     .size(10)
-    .color('rgba(80, 143, 255, 0.95)')
+    .color('#ffa6ba')
     .animate(false); // 背景条
     chart.interval()
     .position('const*actual')
@@ -119,7 +119,7 @@ const showGraph = () => {
             }
             }, animateCfg)).onUpdate(function(frame) {
             const textEl = document.querySelector('#text');
-            if (textEl) textEl.innerHTML = parseInt(frame * 75) + '分';
+            if (textEl) textEl.innerHTML = parseInt(frame * (score)) + '分';
             });
         }
         }
@@ -128,7 +128,7 @@ const showGraph = () => {
     position: [ '50%', '80%' ],
     html: `
         <div style="width: 120px;color: #fff;white-space: nowrap;text-align:center;">
-            <p style="font-size: 18px;margin:0;">中度失调</p>
+            <p style="font-size: 18px;margin:0;">${label}</p>
             <p id="text" style="font-size: 48px;margin:0;font-weight: bold;"></p>
         </div>`
     });
@@ -219,10 +219,10 @@ const Overview = () => {
 
     return (
         <div className='overview-container'>
+            <div className='overview-title'><span>整体情况</span></div>
             <div className='overview-total-graph'>
                 <canvas id='graph' />
             </div>
-            <div className='overview-title'><span>整体情况</span></div>
             <div className='overview-total'>
                 <div>
                     <span className='overview-total-label'>受检者<span>{user.name}</span></span>
@@ -232,6 +232,9 @@ const Overview = () => {
                     <span className='overview-total-label'>出生日期<span>{user.birthday}</span></span>
                     <span className='overview-total-label'>报告日期<span>{user.date_of_production}</span></span>
                 </div>
+            </div>
+            <div className='overview-total-abnormal'>
+                
             </div>
             <div className='overview-title'><span>菌群状态分析</span></div>
             <div className='overview-flora'>

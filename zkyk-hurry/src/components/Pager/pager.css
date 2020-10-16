@@ -9,17 +9,18 @@
     display: inline-block;
     height: 22px;
     line-height: 20px;
-    background: var(--theme);
+    background-color: #ffffff;
+    color: var(--theme);
     border: 1px solid var(--theme);
-    color: #ffffff;
     padding: 0.2rem 0.5rem;
     border-radius: 1rem;
     cursor: pointer;
+
 }
 .pager > a.pager-disabled{
     cursor: not-allowed;
-    background-color: #ffffff;
-    color: var(--theme);
+    background: var(--theme);
+    color: #ffffff;
 }
 .pager-current{
     font-weight: bolder;

@@ -34,9 +34,9 @@ const SecureRoute = () => {
         <Switch>
             {R_Home}{(add.barCode || edit.current) ? R_Add : null}
             {R_Login}{R_Signup}{R_ReportList}
-            {report.current ? R_Overview : null}
+            {/* {report.current ? R_Overview : null}
             {report.current ? R_Assess : null}
-            {report.current ? R_Assess : null}
+            {report.current ? R_Assess : null} */}
             <Redirect to='/' />
         </Switch>
     ) : (

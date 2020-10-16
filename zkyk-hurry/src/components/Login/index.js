@@ -71,7 +71,7 @@ const Login = () => {
                 <div className='login-to-signup'>没有账号？<Link to='/user/signup'>前去注册</Link></div>
                 <Button text='登录' click={clickHandler} errorText={loginError} loading={true} loadingText='请稍候' loadingTime={2500} />
             </div>
-            <Alert controller={controller} content='登陆成功，即将跳往绑定采样页。' beforeClose={() => history.push('/')} />
+            <Alert controller={controller} content='登录成功，即将跳往绑定采样页。' beforeClose={() => history.push('/')} />
         </>
         
     );

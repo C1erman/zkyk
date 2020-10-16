@@ -69,6 +69,9 @@
 .reportList-table-body > td{
     padding: 8px;
 }
+.reportList-table-body > td:nth-child(3){
+    font-weight: bolder;
+}
 .reportList-btn{
     display: inline-block;
     padding: 0 0.8rem;

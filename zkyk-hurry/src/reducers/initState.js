@@ -1,9 +1,9 @@
 // 初始 state 对象
 const initState = {
     user : {
-        id : '50',
+        id : localStorage.getItem('id') || '',
         role : '',
-        token : 'VKGO6tjrjWYzVIPrCL8gwrrFKfEx8N7Q'
+        token : localStorage.getItem('token') || ''
     },
     sampleList : {
         totalPage : 0,
@@ -17,7 +17,7 @@ const initState = {
         ],
     },
     report : {
-        current : '2'
+        current : ''
     },
     edit : {
         current : '',

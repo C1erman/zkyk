@@ -77,7 +77,7 @@ const Home = () => {
                     }, 100)
                 }      
             }).catch(error => {
-                console.error(error);
+                console.error(error.response.code);
                 setError('网络请求出现问题，请稍后再试。');
                 setTimeout(() => { setError('') }, 2500)
             });

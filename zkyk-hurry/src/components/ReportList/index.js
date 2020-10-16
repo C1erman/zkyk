@@ -34,12 +34,7 @@ const ReportList = () => {
                     setTotal(data.data.pagination.pageSize);
                 }
             })
-            .catch(error => {
-                dispatch({
-                    type : BIO.DENY_UNAUTHORIZED
-                })
-                history.push('/user/login');
-            })
+            .catch(error => console.log(error))
         }
     }, [])
     const getList = (currentPage) => {
