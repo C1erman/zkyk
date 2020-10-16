@@ -5,7 +5,7 @@ const Alert = ({
     defaultVisible = false,
     content,
     controller,
-    time = 2000,
+    time = 1500,
     beforeClose
 }) => {
     let [visible, setVisible] = useState(defaultVisible);

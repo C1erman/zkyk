@@ -14,6 +14,7 @@ import Input from '../Input';
 import Button from '../Button';
 import Alert from '../Alert';
 import Modal from '../Modal';
+import { slideUp } from '../../utils/slideUp';
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -26,6 +27,10 @@ const Home = () => {
     let modalController = {};
     let agreeRef = useRef();
     let user = useSelector(state => state.user);
+    // 回到顶部
+    useEffect(() => {
+        slideUp();
+    }, []);
 
     const checkCode = () => {
         if(!user.id) {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './login.css';
 import Input from '../Input';
 import Button from '../Button';
@@ -8,6 +8,7 @@ import { useHistory, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as BIO from '../../actions';
 import Alert from '../Alert';
+import { slideUp } from '../../utils/slideUp';
 
 const Login = () => {
     let history = useHistory();
@@ -19,6 +20,10 @@ const Login = () => {
     const dispatch = useDispatch();
     let controller = {};
 
+    // 回到顶部
+    useEffect(() => {
+        slideUp();
+    }, []);
     const clickHandler = () => {
         if(loginError) return false;
         let validated = Object.keys(inputs).filter(v => {

@@ -1,13 +1,13 @@
-.reportList-container{
-    min-height: calc(100vh - 284px);
-    padding-top: 2rem;
+.backend-container{
+    min-height: calc(100vh - 304px);
     font-size: 0.9rem;
+    padding-top: 2rem;
 }
-.reportList-title{
+.backend-title{
     text-align: center;
     margin-bottom: 15px;
 }
-.reportList-title > span{
+.backend-title > span{
     text-align: center;
     display: inline-block;
     position: relative;
@@ -16,7 +16,7 @@
     font-weight: bolder;
     max-width: 200px;
 }
-.reportList-title > span::after{
+.backend-title > span::after{
     display: block;
     position: relative;
     content: "";
@@ -29,47 +29,51 @@
     top: -0.7rem;
     left: -10%;
 }
-.reportList-content{
-    width: 100%;
-}
-.reportList-info{
-    margin-bottom: 1rem;
-    background-color: var(--textContainer);
-    padding: 1rem;
-}
-.reportList-status{
-    margin-top: 1rem;
-    border-left: 5px solid var(--theme);
-    padding: 0.3rem 0.3rem 0.3rem 0.7rem;
-    border-radius: 5px;
-    background: var(--textContainer);
-    font-weight: bolder;
-}
-.reportList-empty{
+.backend-empty{
     text-align: center;
     margin: 1.5rem 0;
     color: var(--error);
 }
-.reportList-table{
+.backend-total{
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
+    font-weight: bolder;
+    border-bottom: 1px solid var(--border);
+}
+.backend-total-bind{
+    font-size: 48px;
+    margin-right: 0.5rem;
+}
+.backend-total-unbind{
+    margin-left: 0.5rem;
+}
+.backend-list{
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 1rem;
+}
+.backend-list > table{
     width: 100%;
     overflow-x: scroll;
-    margin-top: 1.5rem;
 }
-.reportList-table-header > th{
-    line-height: 2;
+.backend-list-head th{
     border-bottom: 1px solid var(--border);
-    color: #1a1a1a;
     padding: 0.5rem 0;
+    color: var(--black);
+    vertical-align: bottom;
 }
-.reportList-table-body{
-    line-height: 2;
+.backend-list-body{
     text-align: center;
+}
+.backend-list-body > tr{
     border-bottom: 1px solid var(--border);
 }
-.reportList-table-body > td{
-    padding: 8px;
+.backend-list-body > tr > td{
+    padding: 0.4rem 0;
+    vertical-align: middle;
 }
-.reportList-table-body > td:nth-child(3){
+.backend-list-body > tr > td:nth-child(4){
     font-weight: bolder;
 }
 td.untreated{
@@ -92,12 +96,4 @@ td.failed{
 }
 td.noBarCode{
     color: #808080;
-}
-.reportList-btn{
-    display: inline-block;
-    padding: 0 0.8rem;
-    border: 1px solid var(--theme);
-    color: var(--theme);
-    cursor: pointer;
-    border-radius: 3px;
 }

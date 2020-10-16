@@ -7,15 +7,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import { host } from '../../_config';
 import Pager from '../Pager';
 import { useHistory, Link } from 'react-router-dom';
+import { slideUp } from '../../utils/slideUp';
+import Alert from '../Alert';
 
 const ReportList = () => {
     let user = useSelector(state => state.user);
+    let controller = {};
     const history = useHistory();
     const dispatch = useDispatch();
     let [list, setList] = useState([]);
     let [total, setTotal] = useState(10);
 
     useEffect(() => {
+        slideUp();
         if(user.token){
             Axios({
                 method : 'GET',
@@ -62,17 +66,30 @@ const ReportList = () => {
             'untreated' : '未处理',
             'registered' : '已启用',
             'received' : '已收样',
-            'under-experiment' : '正在实验',
+            'under_experiment' : '正在实验',
             'succeeded' : '已完成',
-            'failed' : '实验失败',
+            'failed' : '实验失败'
+        }[state]
+    }
+    const mapReportSousa = (state) => {
+        return {
+            'untreated' : '编辑',
+            'registered' : '编辑',
+            'received' : '编辑',
+            'under_experiment' : '编辑',
+            'succeeded' : '查看',
+            'failed' : '查看'
         }[state]
     }
     const selectHandler = (current) => {
-        dispatch({
-            type : BIO.REPORT_SELECT,
-            data : { current : current }
-        })
-        history.push('/report/overview');
+        if(current === 'error') controller.on('open');
+        else {
+            dispatch({
+                type : BIO.REPORT_SELECT,
+                data : { current : current }
+            })
+            history.push('/report/overview');
+        }
     }
     const editHandler = (sampleId) => {
         dispatch({
@@ -114,9 +131,8 @@ const ReportList = () => {
                                 {list.map((v, i) => <tr key={i} className='reportList-table-body'>
                                     <td>{v.person_name}</td>
                                     <td>{v.sample_barcode}</td>
-                                    <td>{mapReportState(v.sample_status)}</td>
-                                    {/* <td><a className='reportList-btn' onClick={() => selectHandler(v.report_id)}>查看</a></td> */}
-                                    <td><a className='reportList-btn' onClick={() => editHandler(v.sample_id)}>编辑</a></td>
+                                    <td className={v.sample_status}>{mapReportState(v.sample_status)}</td>
+                                    <td><a className='reportList-btn' onClick={() =>{ mapReportSousa(v.sample_status) === '查看' ? selectHandler(v.report_id || 'error') : editHandler(v.sample_id) }}>{mapReportSousa(v.sample_status)}</a></td>
                                 </tr>)}
                             </tbody>
                         </table>
@@ -124,6 +140,7 @@ const ReportList = () => {
                     </>
                 )}
             </div>
+            <Alert controller={controller} content='抱歉，报告暂时无法查看，请联系管理员' time={3000} />
         </div>
     );
 }

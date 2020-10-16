@@ -2,7 +2,7 @@
 const initState = {
     user : {
         id : localStorage.getItem('id') || '',
-        role : '',
+        role : localStorage.getItem('role') || '',
         token : localStorage.getItem('token') || ''
     },
     sampleList : {
@@ -17,7 +17,7 @@ const initState = {
         ],
     },
     report : {
-        current : ''
+        current : localStorage.getItem('current') || '2'
     },
     edit : {
         current : '',

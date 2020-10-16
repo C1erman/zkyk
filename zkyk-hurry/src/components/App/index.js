@@ -14,6 +14,7 @@ import ReportList from '../ReportList';
 import Overview from '../Overview';
 import Assess from '../Assess';
 import Suggestion from '../Suggestion';
+import Backend from '../Backend';
 
 const SecureRoute = () => {
     const add = useSelector(state => state.add);
@@ -29,14 +30,17 @@ const SecureRoute = () => {
     const R_Overview = (<Route path='/report/overview' component={Overview}></Route>);
     const R_Assess = (<Route path='/report/assess' component={Assess}></Route>);
     const R_Suggest = (<Route path='/report/suggest' component={Suggestion}></Route>);
+    const R_Backend = (<Route path='/backend' component={Backend}></Route>);
 
     const BioRoute = user.id ? (
         <Switch>
             {R_Home}{(add.barCode || edit.current) ? R_Add : null}
             {R_Login}{R_Signup}{R_ReportList}
-            {/* {report.current ? R_Overview : null}
+            {report.current ? R_Overview : null}
             {report.current ? R_Assess : null}
-            {report.current ? R_Assess : null} */}
+            {report.current ? R_Assess : null}
+            {R_Backend}
+            {user.role === 'admin_org' ? R_Backend : null}
             <Redirect to='/' />
         </Switch>
     ) : (

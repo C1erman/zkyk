@@ -9,7 +9,7 @@ const Progress = ({
 }) => {
     return (
         <div className='progress' {...rest}>
-            <span>{label}</span>
+            <span className='progress-label'>{label}</span>
             <span className='progress-container'><span style={{width : percent, backgroundColor : color}}></span></span>
         </div>
     );

@@ -22,7 +22,7 @@ function slideUpDom(dom){
         clearInterval(timer);
         timer = setInterval(() => {
             let lengthToTop = document.documentElement.scrollTop || document.body.scrollTop;
-            let speed = -(lengthToTop / 5);
+            let speed = -(lengthToTop / 3);
             onGoing = true;
             document.body.scrollTop = document.documentElement.scrollTop = lengthToTop + speed;
             if(lengthToTop <= 0) clearInterval(timer);

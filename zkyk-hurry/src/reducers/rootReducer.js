@@ -13,6 +13,7 @@ const rootReducer = (state = initState, action) => {
             user.token = token;
             // 保存登录凭证
             localStorage.setItem('id', id);
+            localStorage.setItem('role', role);
             localStorage.setItem('token', token);
             return {
                 ...state,
@@ -23,7 +24,6 @@ const rootReducer = (state = initState, action) => {
         case BIO.LOGOUT_SUCCESS : {
             // 消除登陆凭证
             localStorage.clear();
-            // console.log(initState)
             return {
                 ...state,
                 user : {
@@ -56,6 +56,8 @@ const rootReducer = (state = initState, action) => {
             const { current } = action.data;
             const report = clone(state['report']);
             report.current = current;
+            // 保存查看报告编号
+            localStorage.setItem('current', current);
             return {
                 ...state,
                 report

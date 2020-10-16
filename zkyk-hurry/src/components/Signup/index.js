@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './signup.css';
 import Input from '../Input';
@@ -6,6 +6,7 @@ import Button from '../Button';
 import Axios from 'axios';
 import { host } from '../../_config';
 import { useHistory } from 'react-router-dom';
+import { slideUp } from '../../utils/slideUp';
 
 const Signup = () => {
     let history = useHistory();
@@ -16,6 +17,9 @@ const Signup = () => {
         password : '',
         invitation : ''
     });
+    useEffect(() => {
+        slideUp();
+    }, [])
 
     const clickHandler = () => {
         if(error) return false;

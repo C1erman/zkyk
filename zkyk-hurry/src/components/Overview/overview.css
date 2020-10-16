@@ -49,6 +49,39 @@
     font-weight: bolder;
     margin-right: 0.7rem;
 }
+.overview-abnormal{
+    margin-bottom: 1rem;
+    width: 90%;
+    margin: 0 auto;
+}
+.overview-abnormal-title{
+    font-weight: bolder;
+    margin-bottom: 1rem;
+}
+.overview-abnormal-title > span{
+    color: var(--theme);
+}
+.overview-abnormal-content{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    min-height: 100px;
+    margin-bottom: 1rem;
+    padding: 0.5rem 0;
+    box-shadow: 0 0 7px var(--shadow);
+    border-radius: 7px;
+}
+.overview-abnormal-content > div:first-child{
+    margin: 0 1rem;
+    padding: 0.4rem 0;
+    background-color: var(--theme);
+    color: #ffffff;
+    border-radius: 1rem;
+    writing-mode: vertical-lr;
+}
+.overview-abnormal-content > div:last-child{
+    margin-right: 1rem;
+}
 .overview-flora{
     margin-bottom: 1rem;
 }
@@ -60,6 +93,19 @@
     box-sizing: border-box;
     box-shadow: 0 0 7px var(--shadow);
     border-radius: 7px;
+}
+.overview-abnormal-content-item{
+    line-height: 1.8;
+}
+.overview-abnormal-content-item span.item{
+    margin-right: 0.5rem;
+    font-weight: bolder;
+    color: var(--theme);
+}
+.overview-abnormal-content-item span.item-margin{
+    margin-left: 1rem;
+    font-weight: bolder;
+    color: var(--theme);
 }
 .overview-flora-item-header{
     display: flex;
@@ -128,12 +174,12 @@
 }
 .overview-result-below::after{
     content: '↓';
-    margin-left: 10px;
+    margin-left: 5px;
     position: relative;
 }
 .overview-result-above::after{
     content: '↑';
-    margin-left: 10px;
+    margin-left: 5px;
     position: relative;
 }
 .overview-total-graph{
@@ -141,10 +187,17 @@
     max-width: 375px;
     overflow: hidden;
     margin: 0 auto;
-}
-#graph{
-    width: 100%;
+    margin-bottom: 1rem;
     border-radius: 5px;
     background-color: var(--theme);
     background-image: linear-gradient(var(--theme), var(--background));
+}
+.overview-total-graph-info{
+    padding: 0 0.5rem 0.5rem;
+    text-align: center;
+    font-weight: bolder;
+    color: var(--white);
+}
+#graph{
+    width: 100%;
 }
