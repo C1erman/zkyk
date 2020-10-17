@@ -57,7 +57,7 @@ const Nav = () => {
     );
     return (
         <>
-            <NavHeader />
+            {/* <NavHeader /> */}
             <Drawer content={BioLinks} controller={controller} />
         </>
     );

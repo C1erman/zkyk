@@ -35,7 +35,7 @@
 .home-info{
     margin-top: 2rem;
     padding: 1rem;
-    line-height: 1.8;
+    line-height: 2;
     background-color: var(--textContainer);
     font-weight: lighter;
 }
@@ -59,12 +59,14 @@
     border-bottom: 1px solid var(--theme);
 }
 .home-agree-title{
+    text-indent: 1rem;
     font-weight: bolder;
 }
 .home-agree-content{
     margin-top: 0.5rem;
 }
 .home-agree-content > p{
+    margin-bottom: 0.5rem;
     text-indent: 1rem;
     word-break: break-all;
 }
