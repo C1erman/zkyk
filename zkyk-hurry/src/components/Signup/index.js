@@ -68,7 +68,7 @@ const Signup = () => {
             <Input type='text' label='用户名' placeholder='请输入用户名' dataName='username' form={inputs} />
             <Input type='email' validateType='email' label='邮箱' placeholder='请输入邮箱' dataName='email' form={inputs} />
             <Input type='password' validateType='pass' label='密码' placeholder='请输入密码' dataName='password' form={inputs} />
-            <Input type='text' label='企业邀请码' placeholder='请输入邀请码' dataName='invitation' form={inputs} />
+            <Input type='number' label='企业邀请码' placeholder='请输入邀请码' dataName='invitation' form={inputs} />
             <Button text='注册' hollow={true} loading={true} loadingText='请稍候' click={clickHandler} errorText={error} />
         </div>
     );

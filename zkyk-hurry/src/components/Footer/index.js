@@ -19,11 +19,11 @@ const Footer = () => {
                 </svg>
             </div>
             <div className='footer-textContainer'>
-                <div className='footer-contact'>
+                {/* <div className='footer-contact'>
                     <div>致电 : <a href='tel:4000191981'>400-019-1981</a></div>
                     <div className='footer-email'>邮箱 : <a href='mailto:kongdehecg@163.com'>kongdehecg@163.com</a></div>
-                </div>
-                <div className='footer-wechat'>
+                </div> */}
+                {/* <div className='footer-wechat'>
                     <div>
                         <img className='footer-wechatImg' src={bioWechat} alt='微信号：biohuge' title='微信号：biohuge' />
                         <span>关注博奥汇玖</span>
@@ -32,7 +32,7 @@ const Footer = () => {
                         <img className='footer-wechatImg' src={zkykWechat} alt='微信号：zkykjt' title='微信号：zkykjt' />
                         <span>关注中科宜康</span>
                     </div>
-                </div>
+                </div> */}
                 <div className='footer-text'>
                     <div>Copyright ©<a href='http://www.biohuge.com/' title='北京博奥汇玖生物科技有限公司'>博奥汇玖</a>{`${fromTime} - ${endTime} `}</div>
                     <div>由<a href='http://www.biohuge.com/' title='北京博奥汇玖生物科技有限公司'>博奥汇玖</a>提供技术支持</div>

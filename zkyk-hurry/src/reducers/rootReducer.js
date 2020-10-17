@@ -39,16 +39,22 @@ const rootReducer = (state = initState, action) => {
             const { barCode, sampleId } = action.data;
             add.barCode = barCode;
             add.sampleId = sampleId;
+            localStorage.setItem('barCode', barCode);
+            localStorage.setItem('sampleId', sampleId);
             return {
                 ...state,
                 add
             }
         }
         case BIO.ADD_SUCCESS : {
-            const add = clone(initState.add);
+            localStorage.removeItem('barCode');
+            localStorage.removeItem('sampleId');
             return {
                 ...state,
-                add
+                add : {
+                    barCode : '',
+                    sampleId : ''
+                }
             }
         }
         // 报告列表

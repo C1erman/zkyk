@@ -27,8 +27,8 @@ const initState = {
         sampleId : ''
     },
     add : {
-        barCode : '',
-        sampleId : ''
+        barCode : localStorage.getItem('barCode') ||'',
+        sampleId : localStorage.getItem('sampleId') ||''
     }
 }
 

@@ -108,7 +108,7 @@ const Add = () => {
                 weight : weight.value, antibiotics : antibiotics.value,
                 sample_id : sampleId,
                 blood_type, meat_egetables, gender,
-                user_id,
+                // user_id,
             }
             let url = host + '/sample/bind';
             if(location.state?.current){
@@ -132,6 +132,10 @@ const Add = () => {
                 if(data.code === 'error'){
                     setError(data.info);
                     setSubmit('失败');
+                    setTimeout(() => {
+                        setError('');
+                        setSubmit('提交');
+                    }, 3000)
                 }
                 else if(data.code === 'success'){
                     setSubmit('绑定成功，3秒后将跳转至报告列表页');

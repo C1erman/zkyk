@@ -33,10 +33,10 @@ const Home = () => {
     }, []);
 
     const checkCode = () => {
-        if(!user.id) {
-            controller.on('open');
-            return false;
-        }
+        // if(!user.id) {
+        //     controller.on('open');
+        //     return false;
+        // }
         // check agreement
         if(agreeRef.current.checked === false){
             setError('请勾选检测须知。');
@@ -54,7 +54,8 @@ const Home = () => {
         else{
             Axios({
                 method : 'POST',
-                url : host + '/validate/verify' + '?access-token=' + user.token,
+                // url : host + '/validate/verify' + '?access-token=' + user.token,
+                url : host + '/validate/verify',
                 data : {
                     barcode : inputs.barCode.value
                 },
@@ -93,9 +94,9 @@ const Home = () => {
             <div className='home-container'>
                 <div className='home-textContainer'>
                     <div className='home-logoContainer'>
-                        <img src={bioLogo} alt='博奥汇玖' />
+                        {/* <img src={bioLogo} alt='博奥汇玖' />
                         <div className='home-logo-divide'>×</div>
-                        <img src={zkykLogo} alt='中科宜康' />
+                        <img src={zkykLogo} alt='中科宜康' /> */}
                     </div>
                     <div className='home-title'>— 肠道菌群健康评估报告 —</div>
                     <div className='home-info'>

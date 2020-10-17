@@ -71,7 +71,7 @@ const Login = () => {
                 <div className='login-title'>
                     <span>请登录</span>
                 </div>
-                <Input type='email' label='账号' placeholder='请输入邮箱或用户名' dataName='username' form={inputs} />
+                <Input type='text' label='账号' placeholder='请输入邮箱或用户名' dataName='username' form={inputs} />
                 <Input type='password' label='密码' placeholder='请输入密码' validateType='pass' dataName='password' form={inputs} />
                 <div className='login-to-signup'>没有账号？<Link to='/user/signup'>前去注册</Link></div>
                 <Button text='登录' click={clickHandler} errorText={loginError} loading={true} loadingText='请稍候' loadingTime={2500} />

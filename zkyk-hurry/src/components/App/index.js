@@ -34,18 +34,18 @@ const SecureRoute = () => {
 
     const BioRoute = user.id ? (
         <Switch>
-            {R_Home}{(add.barCode || edit.current) ? R_Add : null}
+            {R_Home}
             {R_Login}{R_Signup}{R_ReportList}
             {report.current ? R_Overview : null}
             {report.current ? R_Assess : null}
             {report.current ? R_Assess : null}
-            {R_Backend}
+            {R_Backend}{(add.barCode || edit.current) ? R_Add : null}
             {user.role === 'admin_org' ? R_Backend : null}
             <Redirect to='/' />
         </Switch>
     ) : (
         <Switch>
-            {R_Home}{R_Login}{R_Signup}
+            {R_Home}{R_Login}{R_Signup}{add.barCode ? R_Add : null}
             <Redirect to='/' />
         </Switch>
     )
