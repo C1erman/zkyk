@@ -50,6 +50,9 @@ const Backend = () => {
                     <div className='backend-total'>
                         <div>采样管总使用情况（份）</div>
                         <div><span className='backend-total-bind'>{backendData.family.bind}</span>/<span className='backend-total-unbind'>{backendData.family.total}</span></div>
+                        <div className='backend-total-grow'>较上月增长 : <span className={backendData.positive ? 'backend-grow-postive' : 'backend-grow-negative'}>
+                        { (backendData.positive ? '+': '-' ) + backendData.growthRate + '%'}
+                        </span></div>
                     </div>
                     <div className='backend-list'>
                         <div className='backend-title'><span>直属机构采样报告情况</span></div>

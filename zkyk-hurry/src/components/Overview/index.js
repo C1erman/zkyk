@@ -5,6 +5,7 @@ import Axios from 'axios';
 import { host } from '../../_config';
 import { useSelector } from 'react-redux';
 import Progress from '../Progress';
+import { slideUp } from '../../utils/slideUp';
 
 const showGraph = (label = '健康', score = 100) => {
     const {
@@ -139,10 +140,12 @@ const Overview = () => {
     let [flora, setFlora] = useState([]);
     let [result, setResult] = useState([]);
     let [abnormal, setAbnormal] = useState();
+    let [age, setAge] = useState(18);
 
     let report = useSelector(state => state.report);
 
     useEffect(() => {
+        slideUp();
         // 仪表盘部分
         Axios({
             method: 'GET',
@@ -156,7 +159,10 @@ const Overview = () => {
             timeout: 5000
         }).then(_data => {
             const { data } = _data;
-            if (data.code === 'success') showGraph(data.data.name, + data.data.value);
+            if (data.code === 'success') {
+                showGraph(data.data.name, + data.data.value);
+                setAge(+ data.data.age);
+            }
         }).catch(error => setUser([]));
         // 模块 A
         Axios({
@@ -243,6 +249,7 @@ const Overview = () => {
                 <canvas id='graph' />
                 <div className='overview-total-graph-info'>0~20 » 重度失调 20~60 » 中度失调 60~80 » 轻度失调 80~100 » 健康</div>
             </div>
+            <div className='overview-age-prediction'>预测年龄：{age}</div>
             <div className='overview-total'>
                 <div>
                     <span className='overview-total-label'>受检者<span>{user.name}</span></span>

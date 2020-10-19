@@ -29,7 +29,7 @@ const SecureRoute = () => {
     const R_ReportList = (<Route path='/report/list' component={ReportList}></Route>);
     const R_Overview = (<Route path='/report/overview' component={Overview}></Route>);
     const R_Assess = (<Route path='/report/assess' component={Assess}></Route>);
-    const R_Suggest = (<Route path='/report/suggest' component={Suggestion}></Route>);
+    const R_Suggest = (<Route path='/report/suggestion' component={Suggestion}></Route>);
     const R_Backend = (<Route path='/backend' component={Backend}></Route>);
 
     const BioRoute = user.id ? (
@@ -39,8 +39,9 @@ const SecureRoute = () => {
             {report.current ? R_Overview : null}
             {report.current ? R_Assess : null}
             {report.current ? R_Assess : null}
-            {R_Backend}{(add.barCode || edit.current) ? R_Add : null}
-            {user.role === 'admin_org' ? R_Backend : null}
+            {report.current ? R_Suggest : null}
+            {(add.barCode || edit.current) ? R_Add : null}
+            {user.role === 'admin_org' || user.role === 'admin' ? R_Backend : null}
             <Redirect to='/' />
         </Switch>
     ) : (

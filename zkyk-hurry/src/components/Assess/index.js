@@ -3,6 +3,7 @@ import './assess.css';
 import Axios from 'axios';
 import { host } from '../../_config';
 import { useSelector } from 'react-redux';
+import { slideUp } from '../../utils/slideUp';
 
 const Assess = () => {
     let [assess, setAssess] = useState([]);
@@ -10,6 +11,7 @@ const Assess = () => {
 
 
     useEffect(() => {
+        slideUp();
         Axios({
             method : 'GET',
             url : host + '/sample/indicator',

@@ -42,14 +42,28 @@
     border-bottom: 1px solid var(--border);
 }
 .backend-total-bind{
-    font-size: 48px;
+    font-size: 58px;
     margin-right: 0.5rem;
 }
 .backend-total-unbind{
     margin-left: 0.5rem;
+    opacity: 0.5;
+}
+.backend-total-grow{
+    margin-bottom: 1rem;
+}
+.backend-grow-postive, .backend-grow-negative{
+    font-size: 1rem;
+    margin-left: 0.3rem;
+}
+.backend-grow-postive{
+    color: #2a8436;
+}
+.backend-grow-negative{
+    color: #c44230;
 }
 .backend-list{
-    width: 90%;
+    width: 93%;
     margin: 0 auto;
     padding-top: 1rem;
 }
@@ -65,6 +79,7 @@
 }
 .backend-list-body{
     text-align: center;
+    line-height: 1.7;
 }
 .backend-list-body > tr{
     border-bottom: 1px solid var(--border);

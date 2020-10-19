@@ -39,7 +39,8 @@
     max-height: calc(100vh - 40px);
     background-color: rgba(0, 0, 0, 0.6);
     color: #ffffff;
-    font-size: 0.95rem;
+    text-align: center;
+    font-size: 0.9rem;
     font-weight: lighter;
     flex-direction: column;
     overflow: hidden;

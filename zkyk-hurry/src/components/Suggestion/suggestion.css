@@ -3,3 +3,96 @@
     font-size: 0.9rem;
     padding-top: 2rem;
 }
+.suggestion-title{
+    text-align: center;
+    margin-bottom: 15px;
+}
+.suggestion-title > span{
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    font-size: 1rem;
+    font-weight: bolder;
+    max-width: 200px;
+}
+.suggestion-title > span::after{
+    display: block;
+    position: relative;
+    content: "";
+    width: 120%;
+    height: 0.7rem;
+    opacity: 0.8;
+    z-index: -1;
+    background: var(--theme);
+    opacity: 0.5;
+    top: -0.7rem;
+    left: -10%;
+}
+.suggestion-title-sm{
+    width: 90%;
+    margin: 0 auto 1rem;
+    padding-left: 0.5rem;
+    font-weight: bolder;
+    font-size: 0.95rem;
+    border-left: 3px solid var(--theme);
+}
+.sug-food{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: 0 auto;
+}
+.sug-food > div{
+    margin-bottom: 1rem;
+    padding: 1rem;
+    box-sizing: border-box;
+    box-shadow: 0 0 7px var(--shadow);
+    border-radius: 7px;
+}
+.sug-item-img{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+.sug-item-img > img{
+    width: 20%;
+}
+.sug-item-img > div{
+    display: inline-block;
+    align-self: center;
+    margin-left: 1rem;
+    font-weight: bolder;
+    text-align: right;
+}
+.sug-item-content{
+    font-weight: lighter;
+    padding: 0.5rem;
+    border-radius: 7px;
+    background: var(--textContainer);
+}
+.sug-biotics{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: 0 auto;
+}
+.sug-biotics > div{
+    margin-bottom: 1rem;
+    padding: 1rem;
+    box-sizing: border-box;
+    box-shadow: 0 0 7px var(--shadow);
+    border-radius: 7px;
+}
+.sug-lifeStyle{
+    display: flex;
+    flex-wrap: wrap;
+}
+.sug-lifeStyle-img{
+    width: 20%;
+    margin: 0.5rem 1rem;
+    padding: 0.5rem;
+    text-align: center;
+    box-shadow: 0 0 7px var(--shadow);
+    border-radius: 7px;
+}

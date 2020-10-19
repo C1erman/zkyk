@@ -29,6 +29,15 @@
     top: -0.7rem;
     left: -10%;
 }
+.overview-age-prediction{
+    width: 90%;
+    margin: 0 auto;
+    padding-bottom: 0.3rem;
+    font-weight: bolder;
+    font-size: 1rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}
 .overview-total{
     margin-bottom: 1rem;
 }
@@ -138,14 +147,15 @@
     background: var(--textContainer);
     font-weight: bolder;
 }
-
+.overview-result{
+    width: 93%;
+    margin: 0 auto;
+}
 .overview-result > table{
     width: 100%;
     overflow-x: scroll;
 }
 .overview-result-info{
-    width: 90%;
-    margin: 0 auto;
     color: var(--theme);
     font-weight: bolder;
 }
