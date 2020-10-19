@@ -21,8 +21,9 @@ const Signup = () => {
         slideUp();
     }, [])
 
-    const clickHandler = () => {
+    const clickHandler = (begin, end) => {
         if(error) return false;
+        else begin();
         let validated = Object.keys(inputs).filter(v => {
             return !inputs[v].validated;
         });
@@ -30,6 +31,7 @@ const Signup = () => {
             setError('信息填写不合规范，请检查。');
             setTimeout(() => {
                 setError('');
+                end();
             },2500)
         }
         else{
@@ -48,16 +50,21 @@ const Signup = () => {
             }).then(_data => {
                 let { data } = _data;
                 if(data.code === 'success'){
+                    end();
                     history.push('/user/login');
                 }
                 else if(data.code === 'error'){
                     setError(data.info);
                     setTimeout(() => {
                         setError('');
+                        end();
                     }, 2500)
                 }
             })
-            .catch(error => console.log(error))
+            .catch(error =>{
+                console.log(error);
+                end();
+            })
         }
     }
     return (
@@ -69,7 +76,7 @@ const Signup = () => {
             <Input type='email' validateType='email' label='邮箱' placeholder='请输入邮箱' dataName='email' form={inputs} />
             <Input type='password' validateType='pass' label='密码' placeholder='请输入密码' dataName='password' form={inputs} />
             <Input type='number' label='企业邀请码' placeholder='请输入邀请码' dataName='invitation' form={inputs} />
-            <Button text='注册' hollow={true} loading={true} loadingText='请稍候' click={clickHandler} errorText={error} />
+            <Button text='注册' hollow={true} loading={true} controlledByFunc={true} loadingText='请稍候' click={clickHandler} errorText={error} />
         </div>
     );
 }

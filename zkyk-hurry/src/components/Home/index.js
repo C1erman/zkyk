@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Axios from 'axios';
-import { debounce } from '../../utils/BIOFunc';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import * as BIO from '../../actions';
@@ -32,7 +31,8 @@ const Home = () => {
         slideUp();
     }, []);
 
-    const checkCode = () => {
+    const checkCode = (begin, end) => {
+        begin();
         // if(!user.id) {
         //     controller.on('open');
         //     return false;
@@ -40,7 +40,10 @@ const Home = () => {
         // check agreement
         if(agreeRef.current.checked === false){
             setError('请勾选检测须知。');
-            setTimeout(() => setError(''), 2500);
+            setTimeout(() => {
+                setError('');
+                end();
+            }, 2500);
             return false;
         }
         // check empty
@@ -49,7 +52,10 @@ const Home = () => {
         });
         if(validated.length){
             setError('请输入正确的采样管编号。');
-            setTimeout(() => setError(''), 2500);
+            setTimeout(() => {
+                setError('');
+                end();
+            }, 2500);
         }
         else{
             Axios({
@@ -67,7 +73,10 @@ const Home = () => {
                 const {data} = _data;
                 if(data.code === 'error'){
                     setError(data.info);
-                    setTimeout(() => { setError('') }, 2500)
+                    setTimeout(() => { 
+                        setError('');
+                        end();
+                    }, 2500)
                 }
                 else if(data.code === 'success'){
                     let { barcode = '', sample_id = '' } = data.data;
@@ -78,14 +87,17 @@ const Home = () => {
                             sampleId : sample_id
                         }
                     })
+                    end();
                     setTimeout(() => {
                         history.push('/add');
                     }, 100)
-                }      
+                }
             }).catch(error => {
-                console.error(error.response.code);
                 setError('网络请求出现问题，请稍后再试。');
-                setTimeout(() => { setError('') }, 2500)
+                setTimeout(() => { 
+                    setError('');
+                    end();
+                }, 2500)
             });
         }
     }
@@ -115,7 +127,7 @@ const Home = () => {
                         <a className='home-agree-link' onClick={() => modalController.on('toggle')}>检测须知</a>
                     </div> 
                     <div className='home-btnContainer'>
-                        <Button text='绑定采样' click={debounce(checkCode, 300)} errorText={error} hollow={true} loading={true} />
+                        <Button text='绑定采样' click={checkCode} errorText={error} hollow={true} loading={true} controlledByFunc={true} />
                     </div>
                 </div>
                 

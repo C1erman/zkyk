@@ -24,14 +24,16 @@ const Login = () => {
     useEffect(() => {
         slideUp();
     }, []);
-    const clickHandler = () => {
+    const clickHandler = (begin, end) => {
         if(loginError) return false;
+        else begin();
         let validated = Object.keys(inputs).filter(v => {
             return !inputs[v].validated;
         });
         if(validated.length){
             setError('信息填写不合规范，请检查。');
             setTimeout(() => {
+                end();
                 setError('');
             },2500)
         }
@@ -54,15 +56,20 @@ const Login = () => {
                         data : data.data
                     });
                     controller.on('open');
+                    end();
                 }
                 else if(data.code === 'error'){
                     setError(data.info);
                     setTimeout(() => {
                         setError('');
+                        end();
                     }, 2500)
                 }
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                end();
+                console.log(error);
+            })
         }
     }
     return (
@@ -74,7 +81,7 @@ const Login = () => {
                 <Input type='text' label='账号' placeholder='请输入邮箱或用户名' dataName='username' form={inputs} />
                 <Input type='password' label='密码' placeholder='请输入密码' validateType='pass' dataName='password' form={inputs} />
                 <div className='login-to-signup'>没有账号？<Link to='/user/signup'>前去注册</Link></div>
-                <Button text='登录' click={clickHandler} errorText={loginError} loading={true} loadingText='请稍候' loadingTime={2500} />
+                <Button text='登录' click={clickHandler} controlledByFunc={true} errorText={loginError} loading={true} loadingText='请稍候' loadingTime={2500} />
             </div>
             <Alert controller={controller} content='登录成功，即将跳往绑定采样页。' beforeClose={() => history.push('/')} />
         </>
