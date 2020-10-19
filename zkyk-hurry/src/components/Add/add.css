@@ -87,7 +87,6 @@
     border-radius: 2rem;
     /* background: linear-gradient(#ff7fb8, #466cfd);#5c7cff; */
     background: var(--theme);
-    box-shadow: 0 0 1px var(--theme);
     transition: opacity ease-in 0.3s;
     cursor: pointer;
 }

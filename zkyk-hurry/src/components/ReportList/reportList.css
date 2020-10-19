@@ -1,5 +1,5 @@
 .reportList-container{
-    min-height: calc(100vh - 234px);
+    min-height: calc(100vh - 200px);
     padding-top: 2rem;
     font-size: 0.9rem;
 }
@@ -38,7 +38,7 @@
     padding: 1rem;
 }
 .reportList-status{
-    margin-top: 1rem;
+    margin: 1rem 0;
     border-left: 5px solid var(--theme);
     padding: 0.3rem 0.3rem 0.3rem 0.7rem;
     border-radius: 5px;
@@ -76,16 +76,16 @@ td.untreated{
     color: #808080;
 }
 td.registered{
-    color: #8a6d3b;
+    color: #f5871f;
 }
 td.received{
-    color: #8a6d3b;
+    color: #718c00;
 }
 td.under_experiment{
-    color: #ca9334;
+    color: #8959a8;
 }
 td.succeeded{
-    color: #77c761;
+    color: #4ed964;
 }
 td.failed{
     color: #a4000f;

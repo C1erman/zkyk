@@ -1,5 +1,5 @@
 .backend-container{
-    min-height: calc(100vh - 254px);
+    min-height: calc(100vh - 200px);
     font-size: 0.9rem;
     padding-top: 2rem;
 }
@@ -75,25 +75,4 @@
 }
 .backend-list-body > tr > td:nth-child(4){
     font-weight: bolder;
-}
-td.untreated{
-    color: #808080;
-}
-td.registered{
-    color: #8a6d3b;
-}
-td.received{
-    color: #8a6d3b;
-}
-td.under_experiment{
-    color: #ca9334;
-}
-td.succeeded{
-    color: #77c761;
-}
-td.failed{
-    color: #a4000f;
-}
-td.noBarCode{
-    color: #808080;
 }

@@ -1,5 +1,5 @@
 .overview-container{
-    min-height: calc(100vh - 284px);
+    min-height: calc(100vh - 200px);
     padding-top: 2rem;
     font-size: 0.9rem;
 }
@@ -98,7 +98,6 @@
     line-height: 1.8;
 }
 .overview-abnormal-content-item span.item{
-    margin-right: 0.5rem;
     font-weight: bolder;
     color: var(--theme);
 }
@@ -163,7 +162,7 @@
     border-bottom: 1px solid var(--border);
 }
 .overview-result-table-body > tr > td{
-    padding: 0.4rem 0;
+    padding: 0.5rem 0;
     vertical-align: middle;
 }
 .overview-result-table-name{

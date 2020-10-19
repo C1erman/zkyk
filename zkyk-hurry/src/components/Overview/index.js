@@ -261,8 +261,8 @@ const Overview = () => {
                             <div>菌群环境</div>
                             <div className='overview-abnormal-content-item'>
                                 {abnormal.metrics.intestinal_defense ? (<div>肠道防御力<span>{abnormal.metrics.intestinal_defense}</span></div>) : null}
-                                <div>有益菌：{abnormal.metrics.beneficial.map((v, i) => <span key={i}>{v.name + '含量'}<span className='item'>{v.rank_zh}</span></span>)}</div>
-                                <div>有害菌：{abnormal.metrics.harmful.map((v, i) => <span key={i}>{v.name + '含量'}<span className='item'>{v.rank_zh}</span></span>)}</div>
+                                <div>有益菌：{abnormal.metrics.beneficial.map((v, i, arr) => <span key={i}>{v.name + '含量'}<span className='item'>{v.rank_zh}</span>{i === (arr.length - 1) ? '' : '、'}</span>)}</div>
+                                <div>有害菌：{abnormal.metrics.harmful.map((v, i, arr) => <span key={i}>{v.name + '含量'}<span className='item'>{v.rank_zh}</span>{i === (arr.length - 1) ? '' : '、'}</span>)}</div>
                             </div>
                         </div>
                         <div className='overview-abnormal-content'>

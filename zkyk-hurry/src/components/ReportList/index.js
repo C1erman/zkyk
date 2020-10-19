@@ -38,7 +38,10 @@ const ReportList = () => {
                     setTotal(data.data.pagination.pageSize);
                 }
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error);
+                history.push('/user/login');
+            })
         }
     }, [])
     const getList = (currentPage) => {
@@ -59,7 +62,10 @@ const ReportList = () => {
                 setList(data.data.list);
             }
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+            console.log(error);
+            history.push('/user/login');
+        })
     }
     const mapReportState = (state) => {
         return {
@@ -76,7 +82,7 @@ const ReportList = () => {
             'untreated' : '编辑',
             'registered' : '编辑',
             'received' : '编辑',
-            'under_experiment' : '编辑',
+            'under_experiment' : '查看',
             'succeeded' : '查看',
             'failed' : '查看'
         }[state]
@@ -107,14 +113,15 @@ const ReportList = () => {
     return (
         <div className='reportList-container'>
             <div className='reportList-title'>
-                <span>请选择你要查看的报告</span>
+                <span>选择报告以进行后续操作</span>
             </div>
             <div className='reportList-content'>
                 <div className='reportList-info'>
-                    报告从上到下按照时间先后了排序。为了保证您的权益，我们秉持流程透明的原则，列出检测流程如下：
+                    报告从上到下按照时间先后了排序。为了保证您的权益，我们秉持流程透明的原则，列出报告流程如下：
                     <div className='reportList-status'>
-                        填写知情同意书 » 收取采样工具盒 » 样品采集 » 样品回邮 » 实验处理 » 精准检测报告 » 个性化营养方案
+                        未处理 » 已启用 » 已收样 » 正在试验 » 已完成 （或） 实验失败
                     </div>
+                    注：在实验开始前，您都机会对您填写的信息进行修改；实验状态结束后方可查看报告。
                 </div>
                 
                 {!list.length ? (<div className='reportList-empty'>

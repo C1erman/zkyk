@@ -208,7 +208,7 @@ const Add = () => {
                 </div> */}
                 <button className={submit !== '提交' ? 'add-form-btn disabled' : 'add-form-btn'} onClick={handleSubmit}>{submit}</button>
                 <p className='add-form-error'>{error}</p>
-                {location.state?.current ? <button className='add-form-btn-back' onClick={() => history.push('/report/list')}>返回</button> : null}
+                {location.state?.current ? <button className={submit !== '提交' ? 'add-form-btn-back disabled' : 'add-form-btn-back'} onClick={() => history.push('/report/list')}>不做修改</button> : null}
             </div>
         </div>
     );

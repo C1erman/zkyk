@@ -76,7 +76,7 @@ const Login = () => {
         <>
             <div className='login-container'>
                 <div className='login-title'>
-                    <span>请登录</span>
+                    <span>登录</span>
                 </div>
                 <Input type='text' label='账号' placeholder='请输入邮箱或用户名' dataName='username' form={inputs} />
                 <Input type='password' label='密码' placeholder='请输入密码' validateType='pass' dataName='password' form={inputs} />
