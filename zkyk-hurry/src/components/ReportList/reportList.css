@@ -71,6 +71,7 @@
 }
 .reportList-table-body > td:nth-child(3){
     font-weight: bolder;
+    cursor: pointer;
 }
 td.untreated{
     color: #808080;
@@ -100,4 +101,25 @@ td.noBarCode{
     color: var(--theme);
     cursor: pointer;
     border-radius: 3px;
+}
+.reportList-state{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    list-style: none;
+    line-height: 1.6;
+    font-weight: lighter;
+}
+.reportList-state > li{
+    padding: 0.3rem 0;
+}
+.reportList-state > li:last-child{
+    border: none;
+}
+.reportList-state > li.active{
+    color: #5ead1c;
+    font-weight: bold;
+}
+.reportList-state span{
+    margin: 0 0.3rem;
 }

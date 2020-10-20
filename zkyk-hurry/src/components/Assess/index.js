@@ -46,10 +46,10 @@ const Assess = () => {
                         <div className='assess-item-body'>
                             <div>{v.summary}</div>
                         </div>
-                        <div className='assess-item-result'>
+                        {v.suggestion ? (<div className='assess-item-result'>
                             {/* <div>结果评价：</div> */}
                             {v.suggestion}
-                        </div>
+                        </div>) : null}
                     </div>
                 ))}
             </div> 

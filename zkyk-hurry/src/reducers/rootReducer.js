@@ -30,6 +30,9 @@ const rootReducer = (state = initState, action) => {
                     id : '',
                     role : '',
                     token : ''
+                },
+                report : {
+                    current : ''
                 }
             };
         }

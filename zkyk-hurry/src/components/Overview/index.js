@@ -140,7 +140,7 @@ const Overview = () => {
     let [flora, setFlora] = useState([]);
     let [result, setResult] = useState([]);
     let [abnormal, setAbnormal] = useState();
-    let [age, setAge] = useState(18);
+    let [graphInfo, setGraphInfo] = useState([]);
 
     let report = useSelector(state => state.report);
 
@@ -159,10 +159,18 @@ const Overview = () => {
             timeout: 5000
         }).then(_data => {
             const { data } = _data;
-            if (data.code === 'success') {
-                showGraph(data.data.name, + data.data.value);
-                setAge(+ data.data.age);
-            }
+            if (data.code === 'success') showGraph(data.data.name, + data.data.value);
+        }).catch(error => setUser([]));
+        Axios({
+            method: 'GET',
+            url: host + '/sample/contrast',
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            },
+            timeout: 5000
+        }).then(_data => {
+            const { data } = _data;
+            if (data.code === 'success') setGraphInfo(data.data);
         }).catch(error => setUser([]));
         // 模块 A
         Axios({
@@ -225,21 +233,35 @@ const Overview = () => {
             if (data.code === 'success') setResult(data.data);
         }).catch(error => setResult([]));
     }, [])
-    const judgeRange = (value, min, max) => {
-        if (value < min) {
-            return { className: 'overview-result-below' }
-        }
-        else if (value > max) {
-            return { className: 'overview-result-above' }
+    const judgeRange = (value, min, max, type) => {
+        switch(type){
+            case 'general' : {
+                if (value < min) {
+                    return { className: 'overview-result-below' }
+                }
+                else if (value > max) {
+                    return { className: 'overview-result-above' }
+                }
+            }
+            case 'harmful' : {
+                if (value > max) {
+                    return { className: 'overview-result-above' }
+                }
+            }
+            case 'beneficial' : {
+                if (value < min) {
+                    return { className: 'overview-result-below' }
+                }
+                else if (value > max) {
+                    return { className: 'overview-result-above' }
+                }
+            }
         }
     }
     const judgeProgress = (value) => {
-        if (value === '偏低') return { className: 'overview-result-below' };
-        else if (value === '偏高') return { className: 'overview-result-above' };
-    }
-    const getProgressColor = (value) => {
-        if (value === '正常') return '#97d6db'
-        else return '#ff4f76';
+        if (value === '偏低') return { className: 'overview-results overview-result-below' };
+        else if (value === '偏高') return { className: 'overview-results overview-result-above' };
+        else return { className: 'overview-results' }
     }
 
     return (
@@ -247,9 +269,17 @@ const Overview = () => {
             <div className='overview-title'><span>整体情况</span></div>
             <div className='overview-total-graph'>
                 <canvas id='graph' />
-                <div className='overview-total-graph-info'>0~20 » 重度失调 20~60 » 中度失调 60~80 » 轻度失调 80~100 » 健康</div>
+                {graphInfo.length ? (
+                    <div className='overview-total-graph-info'> 
+                    {
+                        graphInfo.map((v, i) => (
+                            <p key={i}>{v.range}<span>{v.name}</span></p>
+                        ))
+                    }
+                </div>
+                ) : null}
             </div>
-            <div className='overview-age-prediction'>预测年龄：{age}</div>
+            <div className='overview-age-prediction'>预测年龄：{ + user.age}</div>
             <div className='overview-total'>
                 <div>
                     <span className='overview-total-label'>受检者<span>{user.name}</span></span>
@@ -267,9 +297,9 @@ const Overview = () => {
                         <div className='overview-abnormal-content'>
                             <div>菌群环境</div>
                             <div className='overview-abnormal-content-item'>
-                                {abnormal.metrics.intestinal_defense ? (<div>肠道防御力<span>{abnormal.metrics.intestinal_defense}</span></div>) : null}
-                                <div>有益菌：{abnormal.metrics.beneficial.map((v, i, arr) => <span key={i}>{v.name + '含量'}<span className='item'>{v.rank_zh}</span>{i === (arr.length - 1) ? '' : '、'}</span>)}</div>
-                                <div>有害菌：{abnormal.metrics.harmful.map((v, i, arr) => <span key={i}>{v.name + '含量'}<span className='item'>{v.rank_zh}</span>{i === (arr.length - 1) ? '' : '、'}</span>)}</div>
+                                {abnormal.metrics.intestinal_defense ? (<div><span className='title'>肠道防御力</span><span>{abnormal.metrics.intestinal_defense}</span></div>) : null}
+                                {abnormal.metrics.beneficial ? (<div><span className='title'>有益菌：</span>{abnormal.metrics.beneficial}<span className='item'>偏低</span></div>) : null}
+                                {abnormal.metrics.harmful ? (<div><span className='title'>有害菌：</span>{abnormal.metrics.harmful}<span className='item'>超标</span></div>) : null}
                             </div>
                         </div>
                         <div className='overview-abnormal-content'>
@@ -286,21 +316,21 @@ const Overview = () => {
                 {flora.map((v, i) => (
                     <div key={i} className='overview-flora-items'>
                         <div className='overview-flora-item-header'>
-                            <div>{v.type_zh}</div><div>{v.rank_zh}</div>
+                            <div>{v.type_zh}</div><div className={v.rank_en}>{v.rank_zh}</div>
                         </div>
                         <div className='overview-flora-item-body'>
                             <div>{v.summary}</div>
                             {v.chart ? (
                                 <div className='overview-flora-item-progress'>
                                     {v.chart.map((v, i) => (
-                                        <Progress key={i} label={<span>{v.name + ' '}<span {...judgeProgress(v.state)}>{v.state}</span></span>} color={getProgressColor(v.state)} percent={(+ v.proportion) * 100 + '%'} />
+                                        <Progress key={i} label={<span>{v.name + ' '}<span {...judgeProgress(v.state)}>{v.state}</span></span>} percent={(+ v.proportion) * 100 + '%'} />
                                     ))}
                                 </div>
                             ) : null}
                         </div>
-                        <div className='overview-flora-item-result'>
-                            {v.suggestion}
-                        </div>
+                        {
+                            v.suggestion ? (<div className='overview-flora-item-result'>{v.suggestion}</div>) : null
+                        }
                     </div>
                 ))}
             </div>
@@ -316,7 +346,7 @@ const Overview = () => {
                     <tbody className='overview-result-table-body'>
                         {result.length ? result.map(v => (
                             <tr key={v.name}>
-                                <td className='overview-result-table-name'>{v.name}</td><td {...judgeRange(v.value, v.range_up, v.range_down)}>{v.value}</td><td>{v.range_up} - {v.range_down}</td>
+                                <td className='overview-result-table-name'>{v.name}</td><td {...judgeRange(+ v.value, + v.range_down, + v.range_up, v.type)}>{v.value}</td>{v.range_down == 0 && v.range_up == 0 ? (<td>{v.range_down}</td>) : (<td>{v.range_down} - {v.range_up}</td>)}
                             </tr>
                         )) : null}
                     </tbody>

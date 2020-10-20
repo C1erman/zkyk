@@ -4,16 +4,19 @@ import Axios from 'axios';
 import { host } from '../../_config';
 import { useSelector } from 'react-redux';
 import { slideUp } from '../../utils/slideUp';
+import Pager from '../Pager';
 
 const Backend = () => {
     let user = useSelector(state => state.user);
+    let [total, setTotal] = useState(10);
+    let [list, setList] = useState([]);
     let [backendData, setData] = useState();
 
     useEffect(() => {
         slideUp();
         Axios({
             method : 'GET',
-            url : host + '/admin/list',
+            url : host + '/admin/total',
             params : {
                 'access-token' : user.token,
                 id : user.id
@@ -23,7 +26,26 @@ const Backend = () => {
             }
         }).then(_data => {
             let { data } = _data;
-            if(data.code === 'success') setData(data.data)
+            if(data.code === 'success') setData(data.data);
+        })
+        .catch(error => console.log(error))
+        Axios({
+            method : 'GET',
+            url : host + '/admin/list',
+            params : {
+                'access-token' : user.token,
+                id : user.id,
+                pageNum : 12
+            },
+            headers : {
+                'Content-Type' : 'application/json; charset=UTF-8'
+            }
+        }).then(_data => {
+            let { data } = _data;
+            if(data.code === 'success') {
+                setList(data.data.list);
+                setTotal(data.data.pagination.pageSize);
+            }
         })
         .catch(error => console.log(error))
     }, [])
@@ -37,6 +59,28 @@ const Backend = () => {
             '实验失败' : 'failed',
             '该机构无采样管' : 'noBarCode'
         }[state]
+    }
+    const getList = (currentPage) => {
+        Axios({
+            method : 'GET',
+            url : host + '/admin/list',
+            params : {
+                'access-token' : user.token,
+                id : user.id,
+                page : currentPage,
+                pageNum : 12
+            },
+            headers : {
+                'Content-Type' : 'application/json; charset=UTF-8'
+            }
+        }).then(_data => {
+            let { data } = _data;
+            if(data.code === 'success') {
+                setList(data.data.list);
+                setTotal(data.data.pagination.pageSize);
+            }
+        })
+        .catch(error => console.log(error))
     }
     return (
         <div className='backend-container'>
@@ -64,7 +108,7 @@ const Backend = () => {
                             </thead>
                             <tbody className='backend-list-body'>
                                 {
-                                    backendData.affiliated.map((v, i) => (
+                                    list.map((v, i) => (
                                         <tr key={i}>
                                             <td>{v.name}</td>
                                             <td>{v.barcode}</td>
@@ -75,6 +119,7 @@ const Backend = () => {
                                 }
                             </tbody>
                         </table>
+                        <Pager total={total} prevClick={(currentPage) => getList(currentPage)} nextClick={(currentPage) => getList(currentPage)}  />
                     </div>
                 </>
             )}

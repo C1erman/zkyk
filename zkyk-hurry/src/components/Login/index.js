@@ -5,7 +5,7 @@ import Button from '../Button';
 import Axios from 'axios';
 import { host } from '../../_config';
 import { useHistory, Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as BIO from '../../actions';
 import Alert from '../Alert';
 import { slideUp } from '../../utils/slideUp';
@@ -17,6 +17,8 @@ const Login = () => {
         username : '',
         password : ''
     });
+    // 判断用户是否添加过报告
+    let [list, setList] = useState(false);
     const dispatch = useDispatch();
     let controller = {};
 
@@ -55,6 +57,7 @@ const Login = () => {
                         type : BIO.LOGIN_SUCCESS,
                         data : data.data
                     });
+                    setList(data.data.sample);
                     controller.on('open');
                     end();
                 }
@@ -83,7 +86,8 @@ const Login = () => {
                 <div className='login-to-signup'>没有账号？<Link to='/user/signup'>前去注册</Link></div>
                 <Button text='登录' click={clickHandler} controlledByFunc={true} errorText={loginError} loading={true} loadingText='请稍候' loadingTime={2500} />
             </div>
-            <Alert controller={controller} content='登录成功，即将跳往绑定采样页。' beforeClose={() => history.push('/')} />
+            <Alert controller={controller} content={list ? '登录成功，即将跳转至报告列表页' : '登录成功，即将跳转至绑定采样页'} 
+            beforeClose={() => { list ? history.push('/report/list') : history.push('/') }} />
         </>
         
     );

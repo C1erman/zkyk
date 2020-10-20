@@ -87,10 +87,12 @@
 .sug-lifeStyle{
     display: flex;
     flex-wrap: wrap;
+    width: 90%;
+    margin: 0 auto;
 }
 .sug-lifeStyle-img{
     width: 20%;
-    margin: 0.5rem 1rem;
+    margin: 0.5rem 0.7rem;
     padding: 0.5rem;
     text-align: center;
     box-shadow: 0 0 7px var(--shadow);

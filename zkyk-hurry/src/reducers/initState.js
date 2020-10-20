@@ -17,7 +17,7 @@ const initState = {
         ],
     },
     report : {
-        current : localStorage.getItem('current') || '2'
+        current : localStorage.getItem('current') || ''
     },
     edit : {
         current : '',
