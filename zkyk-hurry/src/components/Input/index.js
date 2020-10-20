@@ -84,6 +84,7 @@ const Input = ({
 }) => {
     let [error, setError] = useState('');
     let inputRef = useRef();
+    let emptyRegexp = /\s/;
     // 目前架构只能给一个初始值
     useEffect(() => {
         if(form && enableEmpty) form[dataName] = {validated : true, value : form[dataName]};
@@ -101,6 +102,7 @@ const Input = ({
             {withLabel ? (<label>{label}</label>) : null}
             <input className='input' type={type} ref={inputRef} alt='' placeholder={placeholder} onChange={() => {
                 let value = inputRef.current.value;
+                if(emptyRegexp.test(value)) return inputRef.current.value = value.replace(emptyRegexp, '');
                 let result;
                 if(validateType instanceof RegExp) result = customValidate(validateType, enableEmpty, value, errorMsg);
                 else result = validate(validateType, value);
