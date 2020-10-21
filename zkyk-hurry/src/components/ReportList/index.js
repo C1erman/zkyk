@@ -18,39 +18,35 @@ const ReportList = () => {
     const dispatch = useDispatch();
     let [list, setList] = useState([]);
     let [total, setTotal] = useState(10);
-    let [stateList, setStateList] = useState([
-        '未处理', '已启用', '已收样', '正在实验', '已完成'
-    ]);
+    let [status, setStatus] = useState([]);
     let [activeState, setActive] = useState(1);
 
     useEffect(() => {
         slideUp();
-        if(user.token){
-            Axios({
-                method : 'GET',
-                url : host + '/sample/list',
-                params : {
-                    'access-token' : user.token,
-                    pageNum : 5
-                },
-                headers : {
-                    'Content-Type' : 'application/json; charset=UTF-8'
-                }
-            }).then(_data => {
-                let { data } = _data;
-                if(data.code === 'success'){
-                    setList(data.data.list);
-                    setTotal(data.data.pagination.pageSize);
-                }
-            })
-            .catch(error => {
-                console.info('登录凭证过期，用户需要重新登录。');
-                dispatch({
-                    type : BIO.LOGIN_EXPIRED
-                });
-                history.push('/user/login');
-            })
-        }
+        Axios({
+            method : 'GET',
+            url : host + '/sample/list',
+            params : {
+                'access-token' : user.token,
+                pageNum : 5
+            },
+            headers : {
+                'Content-Type' : 'application/json; charset=UTF-8'
+            }
+        }).then(_data => {
+            let { data } = _data;
+            if(data.code === 'success'){
+                setList(data.data.list);
+                setTotal(data.data.pagination.pageSize);
+            }
+        })
+        .catch(error => {
+            console.info('登录凭证过期，用户需要重新登录。');
+            dispatch({
+                type : BIO.LOGIN_EXPIRED
+            });
+            history.push('/user/login');
+        })
     }, [])
     const getList = (currentPage) => {
         Axios({
@@ -78,6 +74,23 @@ const ReportList = () => {
             history.push('/user/login');
         })
     }
+    const getStatus = (sampleId) => {
+        Axios({
+            method : 'GET',
+            url : host + '/sample/status',
+            params : {
+                'access-token' : user.token,
+                id : sampleId
+            },
+            headers : {
+                'Content-Type' : 'application/json; charset=UTF-8'
+            }
+        }).then(_data => {
+            let { data } = _data;
+            if(data.code === 'success') setStatus(data.data);
+        })
+        .catch(error => {})
+    }
     const selectHandler = (current) => {
         if(current === 'error') controller.on('open');
         else {
@@ -100,18 +113,17 @@ const ReportList = () => {
             }
         });
     }
-    const matchState = (current) => {
-        return {
-            'untreated' : 0,
-            'registered' : 1,
-            'received' : 2,
-            'under_experiment' : 3,
-            'succeeded' : 4,
-            'failed' : -1
-        }[current]
+    const allStatus = {
+        'untreated' : '未使用',
+        'registered' : '已启用',
+        'received' : '已收样',
+        'experimenting' : '实验中',
+        'succeeded' : '实验完成',
+        'failed' : '实验失败',
+        'completed' : '已完成'
     }
-    const openMadal = (currentState) => {
-        setActive(matchState(currentState))
+    const openMadal = (sampleId) => {
+        getStatus(sampleId);
         modalController.on('toggle');
     }
 
@@ -138,7 +150,7 @@ const ReportList = () => {
                                 {list.map((v, i) => <tr key={i} className='reportList-table-body'>
                                     <td>{v.person_name}</td>
                                     <td>{v.sample_barcode}</td>
-                                    <td className={v.status_en} onClick={() => openMadal(v.sample_status)}>{v.status_zh}</td>
+                                    <td className={v.status_en} onClick={() => openMadal(v.sample_id)}>{v.status_zh}</td>
                                     <td><a className='reportList-btn' onClick={() =>{ v.operate === '查看' ? selectHandler(v.report_id || 'error') : editHandler(v.sample_id) }}>{v.operate}</a></td>
                                 </tr>)}
                             </tbody>
@@ -149,10 +161,10 @@ const ReportList = () => {
             </div>
             <Alert controller={controller} content='抱歉，此份报告暂时无法查看，请联系厂商' time={2500} />
             <Modal controller={modalController} title='状态详情' content={
-                <ul className='reportList-state'>
-                    {stateList.map((v, i, arr) => (<li key={i} className={ i <= activeState ? 'active' : ''}>{v}{i < (arr.length - 1) ? (<span>»</span>) : null}</li>))}
+                <ul className='reportList-status'>
+                    { status.map((v, i) => <li key={i} className={v.status_en}><span className='reportList-status-title'>{v.detail}</span><span>{v.update_date}</span></li>)}
                 </ul>
-            } />
+            } onClose={() => setStatus([])} />
         </div>
     );
 }

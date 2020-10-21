@@ -58,17 +58,6 @@ const Backend = () => {
         })
         .catch(error => console.log(error))
     }, [])
-    const mapReportState = (state) => {
-        return {
-            '未处理' : 'untreated',
-            '已启用' : 'registered',
-            '已收样' : 'received',
-            '正在实验' : 'under_experiment',
-            '已完成' : 'succeeded',
-            '实验失败' : 'failed',
-            '该机构无采样管' : 'noBarCode'
-        }[state]
-    }
     const getList = (currentPage) => {
         Axios({
             method : 'GET',
@@ -122,7 +111,7 @@ const Backend = () => {
                                             <td>{v.name}</td>
                                             <td>{v.barcode}</td>
                                             <td>{v.date_of_collection}</td>
-                                            <td className={mapReportState(v.status)}>{v.status}</td>
+                                            <td className={v.status_en}>{v.status_zh}</td>
                                         </tr>
                                     ))
                                 }

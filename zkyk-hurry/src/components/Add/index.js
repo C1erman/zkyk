@@ -138,7 +138,7 @@ const Add = () => {
                     }, 3000)
                 }
                 else if(data.code === 'success'){
-                    setSubmit('绑定成功，3秒后将跳转至报告列表页');
+                    setSubmit('绑定成功');
                     setTimeout(() => {
                         history.push('/report/list');
                         dispatch({

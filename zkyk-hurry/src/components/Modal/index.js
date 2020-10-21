@@ -33,11 +33,11 @@ const Modal = ({
         controller.on = handleVisible;
     }
     return !visible ? null : (
-        <div className='modal' onClick={() => setVisible(false)}>
+        <div className='modal' onClick={() => {setVisible(false); typeof onClose === 'function' ? onClose() : null}}>
             <div className='modal-dialog' onClick={(e) => e.stopPropagation()}>
                 <div className='modal-header'>
                     <h3 className='modal-title'>{title}</h3>
-                    <span className='modal-close' onClick={() => setVisible(false)}>×</span>
+                    <span className='modal-close' onClick={() => {setVisible(false); typeof onClose === 'function' ? onClose() : null}}>×</span>
                 </div>
                 <div className='modal-body'>
                     <div className='modal-content'>
