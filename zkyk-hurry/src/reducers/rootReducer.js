@@ -4,6 +4,24 @@ import { clone } from '../utils/BIOObject';
 
 const rootReducer = (state = initState, action) => {
     switch(action.type){
+        // 数据缓存
+        case BIO.DATA_LOAD : {
+            return {
+                ...state,
+                user : {
+                    id : localStorage.getItem('id') || '',
+                    role : localStorage.getItem('role') || '',
+                    token : localStorage.getItem('token') || ''
+                },
+                report : {
+                    current : localStorage.getItem('current') || ''
+                },
+                add : {
+                    barCode : localStorage.getItem('barCode') ||'',
+                    sampleId : localStorage.getItem('sampleId') ||''
+                }
+            }
+        }
         // 用户登录
         case BIO.LOGIN_SUCCESS : {
             const user = clone(state['user']);
@@ -24,17 +42,12 @@ const rootReducer = (state = initState, action) => {
         case BIO.LOGOUT_SUCCESS : {
             // 消除登陆凭证
             localStorage.clear();
-            return {
-                ...state,
-                user : {
-                    id : '',
-                    role : '',
-                    token : ''
-                },
-                report : {
-                    current : ''
-                }
-            };
+            return clone(initState);
+        }
+        // 用户登录状态过期
+        case BIO.LOGIN_EXPIRED : {
+            localStorage.clear();
+            return clone(initState);
         }
         // 绑定采样
         case BIO.ADD_CHECK_SUCCESS : {
@@ -52,12 +65,10 @@ const rootReducer = (state = initState, action) => {
         case BIO.ADD_SUCCESS : {
             localStorage.removeItem('barCode');
             localStorage.removeItem('sampleId');
+            const add = clone(initState['add']);
             return {
                 ...state,
-                add : {
-                    barCode : '',
-                    sampleId : ''
-                }
+                add
             }
         }
         // 报告列表
@@ -85,9 +96,16 @@ const rootReducer = (state = initState, action) => {
                 edit
             }
         }
+        // 设置全局消息
+        case BIO.GLOBAL_INFO : {
+            return {
+                ...state,
+                globalInfo : action.data
+            }
+        }
         // 违规操作，清空状态
         case BIO.DENY_UNAUTHORIZED : {
-            return clone(initState)
+            return clone(initState);
         }
         default : {
             return state

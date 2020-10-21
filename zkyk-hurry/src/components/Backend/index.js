@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import './backend.css';
 import Axios from 'axios';
 import { host } from '../../_config';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { slideUp } from '../../utils/slideUp';
 import Pager from '../Pager';
+import * as BIO from '../../actions';
 
 const Backend = () => {
+    const dispatch = useDispatch();
     let user = useSelector(state => state.user);
     let [total, setTotal] = useState(10);
     let [list, setList] = useState([]);
@@ -28,7 +30,14 @@ const Backend = () => {
             let { data } = _data;
             if(data.code === 'success') setData(data.data);
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+            // 后续改成全局消息提醒
+            console.info('登录凭证过期，用户需要重新登录。');
+            dispatch({
+                type : BIO.LOGIN_EXPIRED
+            });
+            history.push('/user/login');
+        })
         Axios({
             method : 'GET',
             url : host + '/admin/list',

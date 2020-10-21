@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import './assess.css';
 import Axios from 'axios';
 import { host } from '../../_config';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { slideUp } from '../../utils/slideUp';
+import * as BIO from '../../actions';
 
 const Assess = () => {
     let [assess, setAssess] = useState([]);
     let report = useSelector(state => state.report);
-
+    let user = useSelector(state => state.user);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         slideUp();
@@ -16,7 +18,8 @@ const Assess = () => {
             method : 'GET',
             url : host + '/sample/indicator',
             params : {
-                id : report.current
+                id : report.current,
+                'access-token' : user.token
             },
             headers : {
                 'Content-Type' : 'application/json; charset=UTF-8'
@@ -25,7 +28,14 @@ const Assess = () => {
         }).then(_data => {
             const {data} = _data;
             if(data.code === 'success')  setAssess(data.data);
-        }).catch(error => {});
+        }).catch(error => {
+            // 后续改成全局消息提醒
+            console.info('登录凭证过期，用户需要重新登录。');
+            dispatch({
+                type : BIO.LOGIN_EXPIRED
+            });
+            history.push('/user/login');
+        });
     }, []);
     const mapRisk = {
         'low-risk' : 'low-risk',

@@ -3,9 +3,11 @@ import F2 from '@antv/f2';
 import './overview.css';
 import Axios from 'axios';
 import { host } from '../../_config';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Progress from '../Progress';
 import { slideUp } from '../../utils/slideUp';
+import { useHistory } from 'react-router-dom';
+import * as BIO from '../../actions';
 
 const showGraph = (label = '健康', score = 100) => {
     const {
@@ -141,8 +143,10 @@ const Overview = () => {
     let [result, setResult] = useState([]);
     let [abnormal, setAbnormal] = useState();
     let [graphInfo, setGraphInfo] = useState([]);
-
+    let history = useHistory();
     let report = useSelector(state => state.report);
+    let userInfo = useSelector(state => state.user);
+    let dispatch = useDispatch();
 
     useEffect(() => {
         slideUp();
@@ -151,7 +155,8 @@ const Overview = () => {
             method: 'GET',
             url: host + '/charts/gauge',
             params: {
-                id: report.current
+                id: report.current,
+                'access-token' : userInfo.token
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -160,12 +165,22 @@ const Overview = () => {
         }).then(_data => {
             const { data } = _data;
             if (data.code === 'success') showGraph(data.data.name, + data.data.value);
-        }).catch(error => setUser([]));
+        }).catch(error => {
+            // 后续改成全局消息提醒
+            console.info('登录凭证过期，用户需要重新登录。');
+            dispatch({
+                type : BIO.LOGIN_EXPIRED
+            });
+            history.push('/user/login');
+        });
         Axios({
             method: 'GET',
             url: host + '/sample/contrast',
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
+            },
+            params : {
+                'access-token' : userInfo.token
             },
             timeout: 5000
         }).then(_data => {
@@ -177,7 +192,8 @@ const Overview = () => {
             method: 'GET',
             url: host + '/sample/personal',
             params: {
-                id: report.current
+                id: report.current,
+                'access-token' : userInfo.token
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -192,7 +208,8 @@ const Overview = () => {
             method: 'GET',
             url: host + '/sample/abnormal',
             params: {
-                id: report.current
+                id: report.current,
+                'access-token' : userInfo.token
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -207,7 +224,8 @@ const Overview = () => {
             method: 'GET',
             url: host + '/sample/metrics',
             params: {
-                id: report.current
+                id: report.current,
+                'access-token' : userInfo.token
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -222,7 +240,8 @@ const Overview = () => {
             method: 'GET',
             url: host + '/sample/bacteria',
             params: {
-                id: report.current
+                id: report.current,
+                'access-token' : userInfo.token
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'

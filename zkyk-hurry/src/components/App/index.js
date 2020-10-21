@@ -1,7 +1,8 @@
-import React from  'react';
+import React, { useEffect } from  'react';
 import { HashRouter as Router,  Switch, Route, Redirect } from 'react-router-dom';
 // redux
-import { Provider, useSelector } from 'react-redux';
+import * as BIO from '../../actions';
+import { Provider, useSelector, useDispatch } from 'react-redux';
 import store from '../../reducers';
 
 import Footer from '../Footer';
@@ -17,10 +18,8 @@ import Suggestion from '../Suggestion';
 import Backend from '../Backend';
 
 const SecureRoute = () => {
-    const add = useSelector(state => state.add);
-    const user = useSelector(state => state.user);
-    const report = useSelector(state => state.report);
-    const edit = useSelector(state => state.edit);
+    const state = useSelector(state => state);
+    const { add, user, report, edit } = state;
 
     const R_Home = (<Route path='/' exact component={Home}></Route>);
     const R_Add = (<Route path='/add' component={Add}></Route>);
@@ -52,10 +51,17 @@ const SecureRoute = () => {
     )
     return BioRoute;
 }
-
+const Data = () => {
+    const dispatch = useDispatch();
+    dispatch({
+        type : BIO.DATA_LOAD
+    });
+    return (<></>);
+}
 const App = () => {
     return (
         <Provider store={store}>
+            <Data />
             <Router>
                 <Nav />
                 <SecureRoute />

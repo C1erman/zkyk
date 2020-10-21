@@ -1,6 +1,9 @@
+// 数据缓存
+const DATA_LOAD = 'data-load';
 // 登录注册
 const LOGIN_SUCCESS = 'login-success';
 const LOGIN_ERROR = 'login-error';
+const LOGIN_EXPIRED = 'login-expired';
 const SIGN_SUCCESS = 'sign-success';
 const SIGN_ERROR = 'sign-error';
 const LOGOUT_SUCCESS = 'logout-success';
@@ -11,12 +14,16 @@ const ADD_ERROR = 'add-error';
 // 报告列表
 const REPORT_SELECT = 'report-select';
 const REPORT_EDIT = 'report-edit';
+// 全局消息
+const GLOBAL_INFO = 'global-info';
 // 违规操作
 const DENY_UNAUTHORIZED = 'deny-unauthorized';
 
 export {
+    DATA_LOAD,
     LOGIN_SUCCESS,
     LOGIN_ERROR,
+    LOGIN_EXPIRED,
     SIGN_SUCCESS,
     SIGN_ERROR,
     LOGOUT_SUCCESS,
@@ -25,5 +32,6 @@ export {
     ADD_ERROR,
     REPORT_SELECT,
     REPORT_EDIT,
+    GLOBAL_INFO,
     DENY_UNAUTHORIZED
 }

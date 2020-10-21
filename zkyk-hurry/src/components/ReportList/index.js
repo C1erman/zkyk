@@ -44,7 +44,10 @@ const ReportList = () => {
                 }
             })
             .catch(error => {
-                console.log(error);
+                console.info('登录凭证过期，用户需要重新登录。');
+                dispatch({
+                    type : BIO.LOGIN_EXPIRED
+                });
                 history.push('/user/login');
             })
         }
@@ -68,29 +71,12 @@ const ReportList = () => {
             }
         })
         .catch(error => {
-            console.log(error);
+            console.info('登录凭证过期，用户需要重新登录。');
+            dispatch({
+                type : BIO.LOGIN_EXPIRED
+            });
             history.push('/user/login');
         })
-    }
-    const mapReportState = (state) => {
-        return {
-            'untreated' : '未处理',
-            'registered' : '已启用',
-            'received' : '已收样',
-            'under_experiment' : '正在实验',
-            'succeeded' : '已完成',
-            'failed' : '实验失败'
-        }[state]
-    }
-    const mapReportSousa = (state) => {
-        return {
-            'untreated' : '编辑',
-            'registered' : '编辑',
-            'received' : '编辑',
-            'under_experiment' : '查看',
-            'succeeded' : '查看',
-            'failed' : '查看'
-        }[state]
     }
     const selectHandler = (current) => {
         if(current === 'error') controller.on('open');
@@ -135,9 +121,8 @@ const ReportList = () => {
                 <span>选择报告以进行后续操作</span>
             </div>
             <div className='reportList-content'>
-                <div className='reportList-info'>
-                    在实验开始前，您都有机会对您填写的信息进行修改；实验状态结束后方可查看报告。<br />
-                    点击报告状态可查看状态详情。
+                <div className='reportList-info'>在实验结束、生成报告之前，您都有机会对您填写的信息进行修改；
+                报告生成之后，您只能查看而不能修改相关信息。<br />点击报告状态可查看状态详情。
                 </div>
                 {!list.length ? (<div className='reportList-empty'>
                     抱歉，暂时无可以操作的报告。
@@ -153,8 +138,8 @@ const ReportList = () => {
                                 {list.map((v, i) => <tr key={i} className='reportList-table-body'>
                                     <td>{v.person_name}</td>
                                     <td>{v.sample_barcode}</td>
-                                    <td className={v.sample_status} onClick={() => openMadal(v.sample_status)}>{mapReportState(v.sample_status)}</td>
-                                    <td><a className='reportList-btn' onClick={() =>{ mapReportSousa(v.sample_status) === '查看' ? selectHandler(v.report_id || 'error') : editHandler(v.sample_id) }}>{mapReportSousa(v.sample_status)}</a></td>
+                                    <td className={v.status_en} onClick={() => openMadal(v.sample_status)}>{v.status_zh}</td>
+                                    <td><a className='reportList-btn' onClick={() =>{ v.operate === '查看' ? selectHandler(v.report_id || 'error') : editHandler(v.sample_id) }}>{v.operate}</a></td>
                                 </tr>)}
                             </tbody>
                         </table>
