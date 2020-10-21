@@ -60,7 +60,6 @@ const Home = () => {
         else{
             Axios({
                 method : 'POST',
-                // url : host + '/validate/verify' + '?access-token=' + user.token,
                 url : host + '/validate/verify',
                 data : {
                     barcode : inputs.barCode.value

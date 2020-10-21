@@ -27,8 +27,8 @@ const initState = {
         sampleId : ''
     },
     add : {
-        barCode : '',
-        sampleId : ''
+        barCode : '123',
+        sampleId : '2'
     },
     globalInfo : ''
 }

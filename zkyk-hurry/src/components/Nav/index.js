@@ -40,7 +40,7 @@ const Nav = () => {
     }
     const BioLinks = user.id ? (
         <div className='nav-link-container'>
-            <NavLink className='nav-link' activeClassName='nav-link-active' to='/' exact onClick={clickHandler}>绑定采样</NavLink>
+            <NavLink className='nav-link' activeClassName='nav-link-active' to='/' exact onClick={clickHandler}>送样填表</NavLink>
             <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/list' onClick={clickHandler}>报告列表</NavLink>
             {report.current ? (<NavLink className='nav-link' activeClassName='nav-link-active' to='/report/overview' onClick={clickHandler}>整体情况</NavLink>) : null}
             {report.current ? (<NavLink className='nav-link' activeClassName='nav-link-active' to='/report/assess' onClick={clickHandler}>健康评估</NavLink>) : null}
@@ -50,9 +50,9 @@ const Nav = () => {
         </div>
     ) : (
         <div className='nav-link-container'>
-            <NavLink className='nav-link' activeClassName='nav-link-active' to='/' exact onClick={clickHandler}>绑定采样</NavLink>
+            <NavLink className='nav-link' activeClassName='nav-link-active' to='/' exact onClick={clickHandler}>送样填表</NavLink>
             <NavLink className='nav-link' activeClassName='nav-link-active' to='/user/login' onClick={clickHandler}>登录</NavLink>
-            <NavLink className='nav-link' activeClassName='nav-link-active' to='/user/signup' onClick={clickHandler}>注册</NavLink>
+            {/* <NavLink className='nav-link' activeClassName='nav-link-active' to='/user/signup' onClick={clickHandler}>注册</NavLink> */}
         </div>
     );
     return (

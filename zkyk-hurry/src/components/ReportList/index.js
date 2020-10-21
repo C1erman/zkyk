@@ -87,7 +87,10 @@ const ReportList = () => {
             }
         }).then(_data => {
             let { data } = _data;
-            if(data.code === 'success') setStatus(data.data);
+            if(data.code === 'success') {
+                setStatus(data.data);
+                modalController.on('toggle');
+            }
         })
         .catch(error => {})
     }
@@ -113,18 +116,8 @@ const ReportList = () => {
             }
         });
     }
-    const allStatus = {
-        'untreated' : '未使用',
-        'registered' : '已启用',
-        'received' : '已收样',
-        'experimenting' : '实验中',
-        'succeeded' : '实验完成',
-        'failed' : '实验失败',
-        'completed' : '已完成'
-    }
     const openMadal = (sampleId) => {
         getStatus(sampleId);
-        modalController.on('toggle');
     }
 
     return (

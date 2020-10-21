@@ -22,6 +22,7 @@ const Add = () => {
     let [inputs, setInputs] = useState({
         first_name : '',
         last_name : '',
+        email : '',
         height : '',
         weight : '',
         birthday : '',
@@ -164,7 +165,7 @@ const Add = () => {
                 <p className='add-label-container'><span className='add-label'>联系方式</span></p>
                 <Input placeholder='请输入姓氏' label='姓' validateType='name' dataName='last_name' form={inputs} defaultValue={defaultVal} />
                 <Input placeholder='请输入名字' label='名' validateType='name' dataName='first_name' form={inputs} defaultValue={defaultVal} />
-                {/* <Input type='tel' placeholder='请输入电话号码' validateType='tel' label='电话号码' dataName='mobile' form={inputs} /> */}
+                <Input type='email' placeholder='请输入电子邮箱' label='邮箱' validateType='email' dataName='email' form={inputs} defaultValue={defaultVal} />
                 <p className='add-label-container'><span className='add-label'>基本信息</span></p>
                 <div className='add-form-input'>
                     <label>性别</label>
