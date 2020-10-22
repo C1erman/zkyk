@@ -17,7 +17,7 @@ const rootReducer = (state = initState, action) => {
                     current : localStorage.getItem('current') || ''
                 },
                 add : {
-                    barCode : localStorage.getItem('barCode') || '',
+                    barCode : localStorage.getItem('barCode') || '123',
                     sampleId : localStorage.getItem('sampleId') || '',
                     testeeId : localStorage.getItem('testeeId') || ''
                 }

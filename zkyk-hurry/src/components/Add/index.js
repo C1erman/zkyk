@@ -228,7 +228,7 @@ const Add = () => {
                     {first ? (<div className='add-checkCode'>
                         <span>受测试者是否首次送样？</span>
                         <Button withError={false} text='初次送样' click={handleFirst} controlledByFunc={true} />
-                        <Button hollow={true} withError={false} text='先前已送样' click={() => setFirst(false)} />
+                        <Button hollow={true} withError={false} text='不是初次送样' click={() => setFirst(false)} />
                     </div>) : (
                         <>
                             <Input type='number' label='受测人编码' placeholder='请输入受测人的编码' dataName='code' form={inputs} />
