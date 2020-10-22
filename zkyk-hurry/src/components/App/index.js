@@ -16,6 +16,9 @@ import Overview from '../Overview';
 import Assess from '../Assess';
 import Suggestion from '../Suggestion';
 import Backend from '../Backend';
+import UserInfo from '../UserInfo';
+import ResetPass from '../RestPass';
+import Edit from '../Edit';
 
 const SecureRoute = () => {
     const state = useSelector(state => state);
@@ -23,29 +26,37 @@ const SecureRoute = () => {
 
     const R_Home = (<Route path='/' exact component={Home}></Route>);
     const R_Add = (<Route path='/add' component={Add}></Route>);
+
     const R_Login = (<Route path='/user/login' component={Login}></Route>);
     const R_Signup = (<Route path='/user/signup' component={Signup}></Route>);
+    const R_UserInfo = (<Route path='/user/info' component={UserInfo}></Route>);
+    const R_ResetPass = (<Route path='/user/reset' component={ResetPass}></Route>);
+
     const R_ReportList = (<Route path='/report/list' component={ReportList}></Route>);
+    const R_Edit = (<Route path='/report/edit' component={Edit}></Route>);
     const R_Overview = (<Route path='/report/overview' component={Overview}></Route>);
     const R_Assess = (<Route path='/report/assess' component={Assess}></Route>);
     const R_Suggest = (<Route path='/report/suggestion' component={Suggestion}></Route>);
+
     const R_Backend = (<Route path='/backend' component={Backend}></Route>);
 
     const BioRoute = user.id ? (
         <Switch>
             {R_Home}
-            {R_Login}{R_Signup}{R_ReportList}
+            {R_Login}{R_Signup}{R_UserInfo}{R_ResetPass}
+            {add.barCode ? R_Add : null}{edit.current ? R_Edit : null}
+            {R_ReportList}
             {report.current ? R_Overview : null}
             {report.current ? R_Assess : null}
             {report.current ? R_Assess : null}
             {report.current ? R_Suggest : null}
-            {(add.barCode || edit.current) ? R_Add : null}
-            {user.role === 'admin_org' || user.role === 'admin' ? R_Backend : null}
+            {user.role !== 'user' ? R_Backend : null}
             <Redirect to='/' />
         </Switch>
     ) : (
         <Switch>
-            {R_Home}{R_Login}{R_Signup}{add.barCode ? R_Add : null}
+            {R_Home}
+            {R_Login}{R_Signup}{add.barCode ? R_Add : null}
             <Redirect to='/' />
         </Switch>
     )

@@ -17,8 +17,9 @@ const rootReducer = (state = initState, action) => {
                     current : localStorage.getItem('current') || ''
                 },
                 add : {
-                    barCode : localStorage.getItem('barCode') ||'',
-                    sampleId : localStorage.getItem('sampleId') ||''
+                    barCode : localStorage.getItem('barCode') || '',
+                    sampleId : localStorage.getItem('sampleId') || '',
+                    testeeId : localStorage.getItem('testeeId') || ''
                 }
             }
         }
@@ -57,6 +58,15 @@ const rootReducer = (state = initState, action) => {
             add.sampleId = sampleId;
             localStorage.setItem('barCode', barCode);
             localStorage.setItem('sampleId', sampleId);
+            return {
+                ...state,
+                add
+            }
+        }
+        case BIO.ADD_SET_TESTEE_CODE : {
+            const add = clone(state['add']);
+            add.testeeId = action.data;
+            localStorage.setItem('testeeId', action.data);
             return {
                 ...state,
                 add

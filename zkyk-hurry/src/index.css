@@ -25,7 +25,8 @@ html{ height: 100%; background-color: #f0f0f0;}
 #app{ background-color: #ffffff;}
 /* color */
 :root{
-    --theme : #ff4f76;
+    --fakeTheme : #ff4f76;
+    --theme : #de335e;
     --background : #ffa6ba;
     --fontColor : #ffe6eb;
     --textContainer : #fff6f8;

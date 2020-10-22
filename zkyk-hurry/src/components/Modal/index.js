@@ -3,6 +3,7 @@ import './modal.css';
 
 const Modal = ({
     defaultVisible = false,
+    slave = false,
     title,
     content,
     footer,
@@ -33,11 +34,11 @@ const Modal = ({
         controller.on = handleVisible;
     }
     return !visible ? null : (
-        <div className='modal' onClick={() => {setVisible(false); typeof onClose === 'function' ? onClose() : null}}>
+        <div className='modal' onClick={() => {if(!slave) setVisible(false); typeof onClose === 'function' ? onClose() : null}}>
             <div className='modal-dialog' onClick={(e) => e.stopPropagation()}>
                 <div className='modal-header'>
                     <h3 className='modal-title'>{title}</h3>
-                    <span className='modal-close' onClick={() => {setVisible(false); typeof onClose === 'function' ? onClose() : null}}>×</span>
+                    {!slave ? (<span className='modal-close' onClick={() => {setVisible(false); typeof onClose === 'function' ? onClose() : null}}>×</span>) : null}
                 </div>
                 <div className='modal-body'>
                     <div className='modal-content'>

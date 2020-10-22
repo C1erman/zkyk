@@ -6,6 +6,7 @@ const Button = ({
     text = '按钮',
     click,
     errorText = '',
+    withError = true,
     hollow = false,
     loading = false,
     loadingText = '请稍候',
@@ -48,7 +49,7 @@ const Button = ({
                 }
                 else debounce(handleClick, 500)();
             }}>{btnText}</button>
-            <p className='button-error'>{errorText}</p>
+            {withError ? (<p className='button-error'>{errorText}</p>) : null}
         </div>
     );
 }

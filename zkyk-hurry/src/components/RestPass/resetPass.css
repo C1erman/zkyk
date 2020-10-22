@@ -1,0 +1,33 @@
+.resetPass-container{
+    width: 90%;
+    min-height: calc(100vh - 200px);
+    margin: 0 auto;
+    padding-top: 2rem;
+    font-size: 0.9rem;
+}
+.resetPass-title{
+    text-align: center;
+    margin-bottom: 15px;
+}
+.resetPass-title > span{
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    font-size: 1rem;
+    font-weight: bolder;
+    max-width: 200px;
+}
+.resetPass-title > span::after{
+    display: block;
+    position: relative;
+    content: "";
+    width: 120%;
+    height: 0.7rem;
+    opacity: 0.8;
+    z-index: -1;
+    background: var(--theme);
+    opacity: 0.5;
+    top: -0.7rem;
+    left: -10%;
+}

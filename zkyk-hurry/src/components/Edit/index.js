@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import Axios from 'axios';
 import { useHistory, useLocation } from 'react-router-dom';
 
-import './add.css';
+import './edit.css';
 import { host } from '../../_config';
 
 import { slideUp } from '../../utils/slideUp';
@@ -12,12 +12,11 @@ import * as BIO from '../../actions';
 
 import Input from '../Input';
 import AutoInput from '../AutoInput';
-import Modal from '../Modal';
-import Button from '../Button';
 
-const Add = () => {
+const Edit = () => {
     // 路由
     const history = useHistory();
+    const location = useLocation();
     // 提交反馈信息
     const [error, setError] = useState('');
     const [submit, setSubmit] = useState('提交');
@@ -32,13 +31,12 @@ const Add = () => {
         code : ''
     });
     let [defaultVal, setDefault] = useState();
-    let [first, setFirst] = useState(true);
-    let [testeeCode, setCode] = useState();
-    let [codeError, setCodeErr] = useState('');
+    let [idChecked, setIdChecked] = useState(false);
     // redux
-    let sampleId = useSelector(state => state.add.sampleId);
+    let sampleId = useSelector(state => state.edit.sampleId);
     let user_id = useSelector(state => state.user.id);
     let token = useSelector(state => state.user.token);
+    let edit = useSelector(state => state.edit);
 
     const dispatch = useDispatch();
     // ref
@@ -46,49 +44,15 @@ const Add = () => {
     const selectBloodRef = useRef();
     const selectFoodRef = useRef();
     
-    let controller = {};
-    useEffect(() => slideUp(), []);
-
-    const handleFirst = (begin, end) => {
-        begin();
-        Axios({
-            method : 'GET',
-            url : host + '/sample/person',
-            headers : {
-                'Content-Type' : 'application/json; charset=UTF-8'
-            }
-        }).then(_data => {
-            const { data } = _data;
-            if(data.code === 'success'){
-                dispatch({
-                    type : BIO.ADD_SET_TESTEE_CODE,
-                    data : data.data
-                });
-                setCode(data.data);
-                end();
-                controller.on('toggle');
-            }
-            else console.log(data.info);
-        })
-        .catch(error => end());
-    }
-    const handleAlready = (begin, end) => {
-        begin();
-        if(!inputs['code'].validated){
-            setCodeErr('受测人编码不能为空。');
-            setTimeout(() => {
-                setCodeErr('');
-                end();
-            }, 2500);
-            return false;
-        }
-        else{
-            setCode(inputs.code.value);
+    useEffect(() => {
+        slideUp();
+        if(location.state?.current){
             Axios({
                 method : 'GET',
-                url : host + '/sample/person',
+                url : host + '/sample/updateBind',
                 params : {
-                    code : inputs.code.value
+                    id : location.state.current,
+                    'access-token' : token
                 },
                 headers : {
                     'Content-Type' : 'application/json; charset=UTF-8'
@@ -97,18 +61,30 @@ const Add = () => {
                 const { data } = _data;
                 if(data.code === 'success'){
                     dispatch({
-                        type : BIO.ADD_SET_TESTEE_CODE,
-                        data : data.data
+                        type : BIO.REPORT_EDIT,
+                        data : {
+                            current : edit.current,
+                            barCode : data.data.barcode,
+                            personId : data.data.person_id,
+                            testeeId : data.data.testee_id,
+                            sampleId : data.data.sample_id
+                        }
                     });
-                    setDefault(data.data);
-                    end();
-                    controller.on('toggle');
+                    // 下拉列表
+                    selectGenderRef.current.value = data.data.gender;
+                    selectBloodRef.current.value = data.data.blood_type;
+                    selectFoodRef.current.value = data.data.meat_egetables;
+                    // 其它
+                    let {last_name, first_name, height, weight, birthday, antibiotics} = data.data;
+                    setDefault({
+                        last_name, first_name, height, weight, birthday, antibiotics
+                    });
                 }
-                else console.log(data.info);
             })
-            .catch(error => end());
+            .catch(error => console.log(error))
         }
-    }
+    }, [])
+
     const handleSubmit = () => {
         if(submit !== '提交') return false;
         else setSubmit('请稍候');
@@ -129,18 +105,23 @@ const Add = () => {
             return false;
         }
         else{
-            let {last_name, first_name, birthday, height, weight, antibiotics, email} = inputs;
-            let data = {
-                last_name : last_name.value, first_name : first_name.value, birthday : birthday.value, height : height.value, 
-                weight : weight.value, antibiotics : antibiotics.value, email : email.value,
-                sample_id : sampleId,
-                blood_type, meat_egetables, gender,
-                isFirst : first, code : testeeCode
-                // user_id,
+            let {last_name, first_name, birthday, height, weight, antibiotics} = inputs;
+            let url = host + '/sample/bind';
+
+            if(location.state?.current){
+                data = {
+                    last_name : last_name.value, first_name : first_name.value, birthday : birthday.value, height : height.value, 
+                    weight : weight.value, antibiotics : antibiotics.value,
+                    sample_id : sampleId,
+                    blood_type, meat_egetables, gender,
+                    // user_id,
+                    person_id : edit.personId, testee_id : edit.testeeId, sample_id : edit.sampleId
+                }
+                url = host + '/sample/modify';
             }
             Axios({
                 method : 'POST',
-                url : host + '/sample/bind',
+                url : url,
                 data : data,
                 headers : {
                     'Content-Type' : 'application/json; charset=UTF-8'
@@ -172,21 +153,31 @@ const Add = () => {
         }
     }
     return (
-        <div className='add-container'>
-            <div className='add-noti'>
-                <p>为了更加准确、合理地为您提供建议，我们需要您如实填写下述信息。</p>
-                <p>您本次送检的采样管编号为：<span className='add-noti-barcode'>{useSelector(state => state.add.barCode)}</span></p>
+        <div className='edit-container'>
+            <div className='edit-noti'>
+                <p>您当前修改的采样管编号为：<span className='edit-noti-barcode'>{edit.barCode}</span></p>
             </div>
-            <div className='add-divide'></div>
-            <div className='add-form'>
-                <p className='add-label-container'><span className='add-label'>联系方式</span></p>
+            <div className='edit-divide'></div>
+            <div className='edit-form'>
+                <p className='edit-label-container'><span className='edit-label'>填写记录</span></p>
+                <div className='edit-code'>
+                    <label>被测试者是否首次送样</label>
+                    <div className='edit-code-container'>
+                        <label><input name='code' type='radio' onChange={() => setIdChecked(false)} />首次送样</label>
+                        <label><input name='code' type='radio' onChange={() => setIdChecked(true)} />多次送样</label>
+                    </div>
+                    {idChecked ? (
+                        <Input placeholder='请输入' label='姓' validateType='name' dataName='last_name' form={inputs} defaultValue={defaultVal} />
+                    ) : null}
+                </div>
+                <p className='edit-label-container'><span className='edit-label'>联系方式</span></p>
                 <Input placeholder='请输入姓氏' label='姓' validateType='name' dataName='last_name' form={inputs} defaultValue={defaultVal} />
                 <Input placeholder='请输入名字' label='名' validateType='name' dataName='first_name' form={inputs} defaultValue={defaultVal} />
                 <Input type='email' placeholder='请输入电子邮箱' label='邮箱' validateType='email' dataName='email' form={inputs} defaultValue={defaultVal} />
-                <p className='add-label-container'><span className='add-label'>基本信息</span></p>
-                <div className='add-form-input'>
+                <p className='edit-label-container'><span className='edit-label'>基本信息</span></p>
+                <div className='edit-form-input'>
                     <label>性别</label>
-                    <select className='add-form-inputs' ref={selectGenderRef}>
+                    <select className='edit-form-inputs' ref={selectGenderRef}>
                         <option value='M'>男</option>
                         <option value='F'>女</option>
                     </select>
@@ -194,9 +185,9 @@ const Add = () => {
                 <Input type='number' placeholder='请输入身高' label='身高 / 厘米' validateType='height' dataName='height' form={inputs} defaultValue={defaultVal} />
                 <Input type='number' placeholder='请输入体重' label='体重 / 公斤' validateType='weight' dataName='weight' form={inputs} defaultValue={defaultVal} />
                 <Input type='date' label='生日' max={getPreviousDay()} dataName='birthday' form={inputs} defaultValue={defaultVal} />
-                <div className='add-form-input'>
+                <div className='edit-form-input'>
                     <label>血型</label>
-                    <select className='add-form-inputs' ref={selectBloodRef}>
+                    <select className='edit-form-inputs' ref={selectBloodRef}>
                         <option value='O'>O 型</option>
                         <option value='A'>A 型</option>
                         <option value='B'>B 型</option>
@@ -204,10 +195,10 @@ const Add = () => {
                         <option value='OTHER'>其他型 / 不详</option>
                     </select>
                 </div>
-                <p className='add-label-container'><span className='add-label'>近期状况</span></p>
-                <div className='add-form-input'>
+                <p className='edit-label-container'><span className='edit-label'>近期状况</span></p>
+                <div className='edit-form-input'>
                     <label>饮食中肉食占比</label>
-                    <select className='add-form-inputs' ref={selectFoodRef}>
+                    <select className='edit-form-inputs' ref={selectFoodRef}>
                         <option value='0'>0% - 20%</option>
                         <option value='1'>20% - 40%</option>
                         <option value='2'>40% - 60%</option>
@@ -220,25 +211,16 @@ const Add = () => {
                     url={host + '/validate/antibiotics'}
                     keyName='name'
                     dataName='antibiotics' form={inputs} defaultValue={defaultVal} />
-                <button className={submit !== '提交' ? 'add-form-btn disabled' : 'add-form-btn'} onClick={handleSubmit}>{submit}</button>
-                <p className='add-form-error'>{error}</p>
+                {/* <div className='edit-form-input edit-form-radio'>
+                    <input type='checkbox' value='allow' />我允许中科宜康使用样本数据进行检测。
+                    <label></label> 
+                </div> */}
+                <button className={submit !== '提交' ? 'edit-form-btn disabled' : 'edit-form-btn'} onClick={handleSubmit}>{submit}</button>
+                <p className='edit-form-error'>{error}</p>
+                <button className={submit !== '提交' ? 'edit-form-btn-back disabled' : 'edit-form-btn-back'} onClick={() => history.push('/report/list')}>不做修改</button>
             </div>
-            <Modal controller={controller} slave={true} defaultVisible={true} title='受测人送样历史' content={
-                <>
-                    {first ? (<div className='add-checkCode'>
-                        <span>受测试者是否首次送样？</span>
-                        <Button withError={false} text='初次送样' click={handleFirst} controlledByFunc={true} />
-                        <Button hollow={true} withError={false} text='先前已送样' click={() => setFirst(false)} />
-                    </div>) : (
-                        <>
-                            <Input type='number' label='受测人编码' placeholder='请输入受测人的编码' dataName='code' form={inputs} />
-                            <Button text='下一步' click={handleAlready} errorText={codeError} controlledByFunc={true} />
-                        </>
-                    )}
-                </>
-            } />
         </div>
     );
 }
 
-export default Add;
+export default Edit;

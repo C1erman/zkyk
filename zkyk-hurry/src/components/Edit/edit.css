@@ -1,29 +1,29 @@
-.add-container{
+.edit-container{
     width: 95%;
     margin: 0 auto;
     padding-top: 1rem;
     font-size: 0.9rem;
 }
-.add-noti > p{
+.edit-noti > p{
     line-height: 2;
 }
-.add-noti-barcode{
+.edit-noti-barcode{
     font-weight: bolder;
     font-size: 1rem;
 }
-.add-label-container{
+.edit-label-container{
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.add-label{
+.edit-label{
     display: inline-block;
     position: relative;
     z-index: 1;
     font-size: 1rem;
     font-weight: bolder;
 }
-.add-label::after{
+.edit-label::after{
     display: block;
     position: relative;
     content: "";
@@ -36,37 +36,37 @@
     top: -0.7rem;
     left: -5%;
 }
-.add-divide{
+.edit-divide{
     width: 80%;
     margin: 1rem auto;
     height: 1px;
     background-color: #cccccc;
 }
-.add-code{
+.edit-code{
     margin-bottom: 1.5rem;
 }
-.add-code > label:first-child{
+.edit-code > label:first-child{
     display: inline-block;
     max-width: 100%;
     margin-bottom: 0.5rem;
     font-weight: bolder;
 }
-.add-code-container{
+.edit-code-container{
     display: flex;
     justify-content: space-around;
     width: 90%;
     margin: 0 auto;
 }
-.add-form-input{
+.edit-form-input{
     margin-bottom: 1.5rem;
 }
-.add-form-input > label{
+.edit-form-input > label{
     display: inline-block;
     max-width: 100%;
     margin-bottom: 0.5rem;
     font-weight: bolder;
 }
-.add-form-inputs{
+.edit-form-inputs{
     display: block;
     width: 90%;
     margin: 0 auto;
@@ -77,20 +77,20 @@
     transition: ease-in 0.3s;
     outline: 0;
 }
-.add-form-input > input:focus{
+.edit-form-input > input:focus{
     border-color: #1a1a1a;
     text-indent: 1rem;
 }
 .error{
     border-color: var(--error);
 }
-.add-form-error{
+.edit-form-error{
     text-align: center;
     margin: 0.5rem 0;
     color: var(--error);
     text-indent: 1rem;
 }
-.add-form-btn{
+.edit-form-btn{
     display: block;
     width: 85%;
     color: white;
@@ -102,14 +102,14 @@
     padding: 0.5rem;
     border-radius: 2rem;
     /* background: linear-gradient(#ff7fb8, #466cfd);#5c7cff; */
-    background: var(--fakeTheme);
+    background: var(--theme);
     transition: opacity ease-in 0.3s;
     cursor: pointer;
 }
 .disabled{
     opacity: 0.4;
 }
-.add-form-btn-back{
+.edit-form-btn-back{
     display: block;
     width: 85%;
     color: var(--black);

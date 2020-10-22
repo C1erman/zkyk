@@ -9,6 +9,7 @@ const SIGN_ERROR = 'sign-error';
 const LOGOUT_SUCCESS = 'logout-success';
 // 绑定采样
 const ADD_CHECK_SUCCESS = 'add-check-success';
+const ADD_SET_TESTEE_CODE = 'add-set-testee-code';
 const ADD_SUCCESS = 'add-success';
 const ADD_ERROR = 'add-error';
 // 报告列表
@@ -28,6 +29,7 @@ export {
     SIGN_ERROR,
     LOGOUT_SUCCESS,
     ADD_CHECK_SUCCESS,
+    ADD_SET_TESTEE_CODE,
     ADD_SUCCESS,
     ADD_ERROR,
     REPORT_SELECT,

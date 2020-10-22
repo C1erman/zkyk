@@ -12,7 +12,7 @@
     width: 80%;
     margin: 0 auto;
     color: #ffffff;
-    background-color: #ff4f76;
+    background-color: var(--fakeTheme);
     border: none;
     line-height: 1.5;
     padding: 0.5rem;
@@ -25,16 +25,16 @@
 }
 .button > button.hollow{
     background-color: #ffffff;
-    border: 1px solid #ff4f76;
-    color: #ff4f76;
+    border: 1px solid var(--fakeTheme);
+    color: var(--fakeTheme);
 }
 .button > button:active{
-    box-shadow: 0 0 3px #ff4f76;
+    box-shadow: 0 0 3px var(--fakeTheme);
 }
 .button > button.hollow:active{
     color: #ffffff;
-    background: #ff4f76;
-    box-shadow: 0 0 3px #ff4f76;
+    background: var(--fakeTheme);
+    box-shadow: 0 0 3px var(--fakeTheme);
 }
 .button > button.disabled{
     cursor: not-allowed;
@@ -42,13 +42,13 @@
 }
 .button > button.disabled:active{
     color: #ffffff;
-    background-color: #ff4f76;
+    background-color: var(--fakeTheme);
     border: none;
 }
 .button > button.hollow.disabled:active{
     background-color: #ffffff;
-    border: 1px solid #ff4f76;
-    color: #ff4f76;
+    border: 1px solid var(--fakeTheme);
+    color: var(--fakeTheme);
 }
 .button-error{
     margin: 0.5rem 0;
