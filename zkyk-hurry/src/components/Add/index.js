@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Axios from 'axios';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import './add.css';
 import { host } from '../../_config';
@@ -46,7 +46,7 @@ const Add = () => {
     let [testeeCode, setCode] = useState();
     let [codeError, setCodeErr] = useState('');
     // redux
-    let {sampleId, testeeId} = useSelector(state => state.add);
+    let {sampleId } = useSelector(state => state.add);
     const dispatch = useDispatch();
     // ref
     const selectGenderRef = useRef();
@@ -106,6 +106,7 @@ const Add = () => {
                     setDefault(data.data);
                     // 下拉框
                     selectBloodRef.current.value = data.data.blood_type;
+                    selectGenderRef.current.value = data.data.gender;
                     // 设置 readonly
                     setReadonly({
                         person_id : true,
@@ -114,6 +115,7 @@ const Add = () => {
                         birthday : true
                     });
                     selectBloodRef.current.disabled = 'disabled';
+                    selectGenderRef.current.disabled = 'disabled';
                     end();
                     controller.on('toggle');
                 }

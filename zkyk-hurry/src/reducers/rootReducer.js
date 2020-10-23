@@ -17,7 +17,7 @@ const rootReducer = (state = initState, action) => {
                     current : localStorage.getItem('current') || ''
                 },
                 add : {
-                    barCode : localStorage.getItem('barCode') || '123',
+                    barCode : localStorage.getItem('barCode') || '',
                     sampleId : localStorage.getItem('sampleId') || '',
                     testeeId : localStorage.getItem('testeeId') || ''
                 }
@@ -75,6 +75,7 @@ const rootReducer = (state = initState, action) => {
         case BIO.ADD_SUCCESS : {
             localStorage.removeItem('barCode');
             localStorage.removeItem('sampleId');
+            localStorage.removeItem('testeeId');
             const add = clone(initState['add']);
             return {
                 ...state,
