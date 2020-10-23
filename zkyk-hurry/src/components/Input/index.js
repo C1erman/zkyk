@@ -79,6 +79,7 @@ const Input = ({
     enableEmpty = false,
     errorMsg,
     form,
+    readOnly = false,
     defaultValue = {},
     ...rest
 }) => {
@@ -100,7 +101,7 @@ const Input = ({
     return (
         <div className='input-container'>
             {withLabel ? (<label>{label}</label>) : null}
-            <input className='input' type={type} ref={inputRef} alt='' placeholder={placeholder} onChange={() => {
+            <input className={'input' + (readOnly ? ' readonly' : '')} type={type} ref={inputRef} readOnly={readOnly} placeholder={placeholder} onChange={() => {
                 let value = inputRef.current.value;
                 if(emptyRegexp.test(value)) return inputRef.current.value = value.replace(emptyRegexp, '');
                 let result;

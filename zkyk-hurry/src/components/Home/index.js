@@ -27,10 +27,8 @@ const Home = () => {
     let agreeRef = useRef();
     let user = useSelector(state => state.user);
     // 回到顶部
-    useEffect(() => {
-        slideUp();
-    }, []);
-
+    useEffect(() => slideUp(), []);
+    
     const checkCode = (begin, end) => {
         begin();
         // if(!user.id) {
@@ -138,8 +136,6 @@ const Home = () => {
                     <div className='home-agree-content'>
                         <p>本检测通过分析肠道菌群的具体组成，可以了解人体阶段性的身体健康状况，同时还可以有针对性地进行饮食调整和益生菌/益生原的干预，以维持肠道菌群的微生态环境平衡，使人体保持健康状态。</p>
                         <p>本检测的流程为：收取采样工具盒 » 样品采集 » 样品回邮 » 实验处理 » 精准检测报告 » 个性化营养方案。</p>
-                        {/* <p>如果您在产品使用过程中有任何问题，请随时与我们的工作人员进行沟通：400-019-1981。</p>
-                        <p>本检测及结果中的内容仅为一般医疗和健康信息，不能代替专业的医疗建议、诊断或治疗。如果您有任何个人医疗问题或具体的医疗疑问，建议您咨询专业医生。</p> */}
                     </div>
                 </div>
             }  />

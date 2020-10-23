@@ -14,31 +14,31 @@ import Input from '../Input';
 import AutoInput from '../AutoInput';
 
 const Edit = () => {
-    // 路由
     const history = useHistory();
     const location = useLocation();
+    const dispatch = useDispatch();
+
+    let token = useSelector(state => state.user.token);
     // 提交反馈信息
     const [error, setError] = useState('');
-    const [submit, setSubmit] = useState('提交');
+    const [submit, setSubmit] = useState('修改');
     let [inputs, setInputs] = useState({
         first_name : '',
         last_name : '',
-        email : '',
         height : '',
         weight : '',
         birthday : '',
-        antibiotics : '',
-        code : ''
+        antibiotics : ''
+    });
+    let [editData, setEditData] = useState({
+        barcode : '',
+        code : '',
+        sample_id : '',
+        testee_id : '',
+        person_id : '',
+        date_of_collection : ''
     });
     let [defaultVal, setDefault] = useState();
-    let [idChecked, setIdChecked] = useState(false);
-    // redux
-    let sampleId = useSelector(state => state.edit.sampleId);
-    let user_id = useSelector(state => state.user.id);
-    let token = useSelector(state => state.user.token);
-    let edit = useSelector(state => state.edit);
-
-    const dispatch = useDispatch();
     // ref
     const selectGenderRef = useRef();
     const selectBloodRef = useRef();
@@ -60,25 +60,19 @@ const Edit = () => {
             }).then(_data => {
                 const { data } = _data;
                 if(data.code === 'success'){
-                    dispatch({
-                        type : BIO.REPORT_EDIT,
-                        data : {
-                            current : edit.current,
-                            barCode : data.data.barcode,
-                            personId : data.data.person_id,
-                            testeeId : data.data.testee_id,
-                            sampleId : data.data.sample_id
-                        }
-                    });
-                    // 下拉列表
-                    selectGenderRef.current.value = data.data.gender;
-                    selectBloodRef.current.value = data.data.blood_type;
-                    selectFoodRef.current.value = data.data.meat_egetables;
-                    // 其它
-                    let {last_name, first_name, height, weight, birthday, antibiotics} = data.data;
+                    let {last_name, first_name, height, weight, birthday, antibiotics,
+                        gender, blood_type, meat_egetables,
+                        sample_id, barcode, testee_id, code, person_id, date_of_collection} = data.data;
                     setDefault({
                         last_name, first_name, height, weight, birthday, antibiotics
                     });
+                    setEditData({
+                        sample_id, barcode, testee_id, code, person_id, date_of_collection
+                    });
+                    // 下拉列表
+                    selectGenderRef.current.value = gender;
+                    selectBloodRef.current.value = blood_type;
+                    selectFoodRef.current.value = meat_egetables;
                 }
             })
             .catch(error => console.log(error))
@@ -86,7 +80,7 @@ const Edit = () => {
     }, [])
 
     const handleSubmit = () => {
-        if(submit !== '提交') return false;
+        if(submit !== '修改') return false;
         else setSubmit('请稍候');
         // 下拉框是一定有值的
         let gender = selectGenderRef.current.value,
@@ -100,29 +94,22 @@ const Edit = () => {
             setError('表单内容不合规范，请检查修改后再做提交。');
             setTimeout(() => {
                 setError('');
-                setSubmit('提交');
+                setSubmit('修改');
             }, 2500);
             return false;
         }
         else{
             let {last_name, first_name, birthday, height, weight, antibiotics} = inputs;
-            let url = host + '/sample/bind';
-
-            if(location.state?.current){
-                data = {
-                    last_name : last_name.value, first_name : first_name.value, birthday : birthday.value, height : height.value, 
-                    weight : weight.value, antibiotics : antibiotics.value,
-                    sample_id : sampleId,
-                    blood_type, meat_egetables, gender,
-                    // user_id,
-                    person_id : edit.personId, testee_id : edit.testeeId, sample_id : edit.sampleId
-                }
-                url = host + '/sample/modify';
-            }
             Axios({
                 method : 'POST',
-                url : url,
-                data : data,
+                url : host + '/sample/modify',
+                data : {
+                    last_name : last_name.value, first_name : first_name.value, birthday : birthday.value, height : height.value, 
+                    weight : weight.value, antibiotics : antibiotics.value,
+                    blood_type, meat_egetables, gender,
+                    // user_id,
+                    person_id : editData.person_id, testee_id : editData.testee_id, sample_id : editData.sample_id, sample_id : editData.sample_id
+                },
                 headers : {
                     'Content-Type' : 'application/json; charset=UTF-8'
                 }
@@ -133,21 +120,21 @@ const Edit = () => {
                     setSubmit('失败');
                     setTimeout(() => {
                         setError('');
-                        setSubmit('提交');
+                        setSubmit('修改');
                     }, 3000)
                 }
                 else if(data.code === 'success'){
-                    setSubmit('绑定成功');
+                    setSubmit('修改成功，即将跳转');
                     setTimeout(() => {
                         history.push('/report/list');
                         dispatch({
-                            type : BIO.ADD_SUCCESS
+                            type : BIO.REPORT_EDIT_SUCCESS
                         })
                     },3000)
                 }
             })
             .catch(error => {
-                setSubmit('提交');
+                setSubmit('修改');
                 console.log(error)
             })
         }
@@ -155,25 +142,15 @@ const Edit = () => {
     return (
         <div className='edit-container'>
             <div className='edit-noti'>
-                <p>您当前修改的采样管编号为：<span className='edit-noti-barcode'>{edit.barCode}</span></p>
+                <p>您当前正在预览采样管编号为<span className='edit-noti-barcode'>{editData.barcode}</span>
+                的绑定信息，受测人编码为<span className='edit-noti-testeeCode'>{editData.code}</span>。</p>
+                <p className='edit-noti-time'>送样时间为<span>{editData.date_of_collection}</span></p>
             </div>
             <div className='edit-divide'></div>
             <div className='edit-form'>
-                <p className='edit-label-container'><span className='edit-label'>填写记录</span></p>
-                <div className='edit-code'>
-                    <label>被测试者是否首次送样</label>
-                    <div className='edit-code-container'>
-                        <label><input name='code' type='radio' onChange={() => setIdChecked(false)} />首次送样</label>
-                        <label><input name='code' type='radio' onChange={() => setIdChecked(true)} />多次送样</label>
-                    </div>
-                    {idChecked ? (
-                        <Input placeholder='请输入' label='姓' validateType='name' dataName='last_name' form={inputs} defaultValue={defaultVal} />
-                    ) : null}
-                </div>
                 <p className='edit-label-container'><span className='edit-label'>联系方式</span></p>
                 <Input placeholder='请输入姓氏' label='姓' validateType='name' dataName='last_name' form={inputs} defaultValue={defaultVal} />
                 <Input placeholder='请输入名字' label='名' validateType='name' dataName='first_name' form={inputs} defaultValue={defaultVal} />
-                <Input type='email' placeholder='请输入电子邮箱' label='邮箱' validateType='email' dataName='email' form={inputs} defaultValue={defaultVal} />
                 <p className='edit-label-container'><span className='edit-label'>基本信息</span></p>
                 <div className='edit-form-input'>
                     <label>性别</label>
@@ -211,13 +188,9 @@ const Edit = () => {
                     url={host + '/validate/antibiotics'}
                     keyName='name'
                     dataName='antibiotics' form={inputs} defaultValue={defaultVal} />
-                {/* <div className='edit-form-input edit-form-radio'>
-                    <input type='checkbox' value='allow' />我允许中科宜康使用样本数据进行检测。
-                    <label></label> 
-                </div> */}
-                <button className={submit !== '提交' ? 'edit-form-btn disabled' : 'edit-form-btn'} onClick={handleSubmit}>{submit}</button>
+                <button className={submit !== '修改' ? 'edit-form-btn disabled' : 'edit-form-btn'} onClick={handleSubmit}>{submit}</button>
                 <p className='edit-form-error'>{error}</p>
-                <button className={submit !== '提交' ? 'edit-form-btn-back disabled' : 'edit-form-btn-back'} onClick={() => history.push('/report/list')}>不做修改</button>
+                <button className={submit !== '修改' ? 'edit-form-btn-back disabled' : 'edit-form-btn-back'} onClick={() => history.push('/report/list')}>不做修改</button>
             </div>
         </div>
     );

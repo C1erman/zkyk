@@ -7,7 +7,13 @@
 .edit-noti > p{
     line-height: 2;
 }
-.edit-noti-barcode{
+.edit-noti-barcode, .edit-noti-testeeCode{
+    margin: 0 0.5rem;
+    font-weight: bolder;
+    font-size: 1rem;
+}
+.edit-noti-time > span{
+    margin: 0 0.5rem;
     font-weight: bolder;
     font-size: 1rem;
 }
@@ -101,8 +107,7 @@
     line-height: 1.8;
     padding: 0.5rem;
     border-radius: 2rem;
-    /* background: linear-gradient(#ff7fb8, #466cfd);#5c7cff; */
-    background: var(--theme);
+    background: var(--fakeTheme);
     transition: opacity ease-in 0.3s;
     cursor: pointer;
 }
@@ -112,11 +117,11 @@
 .edit-form-btn-back{
     display: block;
     width: 85%;
-    color: var(--black);
     margin: 0 auto;
     margin-top: 2.5rem;
     font-weight: bolder;
     border: 0;
+    color: inherit;
     line-height: 1.8;
     padding: 0.5rem;
     border-radius: 2rem;

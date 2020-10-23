@@ -13,13 +13,13 @@ import Modal from '../Modal';
 const ReportList = () => {
     let user = useSelector(state => state.user);
     let controller = {};
+    let controller_login = {};
     let modalController = {};
     const history = useHistory();
     const dispatch = useDispatch();
     let [list, setList] = useState([]);
-    let [total, setTotal] = useState(10);
+    let [total, setTotal] = useState(5);
     let [status, setStatus] = useState([]);
-    let [activeState, setActive] = useState(1);
 
     useEffect(() => {
         slideUp();
@@ -94,12 +94,12 @@ const ReportList = () => {
         })
         .catch(error => {})
     }
-    const selectHandler = (current) => {
-        if(current === 'error') controller.on('open');
-        else {
+    const selectHandler = (reportId) => {
+        if(reportId === 'error') controller.on('open');
+        else{
             dispatch({
                 type : BIO.REPORT_SELECT,
-                data : { current : current }
+                data : { current : reportId }
             })
             history.push('/report/overview');
         }
@@ -110,7 +110,7 @@ const ReportList = () => {
             data : { current : sampleId }
         })
         history.push({
-            pathname : '/add',
+            pathname : '/report/edit',
             state : {
                 current : sampleId
             }

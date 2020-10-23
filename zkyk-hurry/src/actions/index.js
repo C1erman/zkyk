@@ -15,6 +15,7 @@ const ADD_ERROR = 'add-error';
 // 报告列表
 const REPORT_SELECT = 'report-select';
 const REPORT_EDIT = 'report-edit';
+const REPORT_EDIT_SUCCESS = 'report-edit-success';
 // 全局消息
 const GLOBAL_INFO = 'global-info';
 // 违规操作
@@ -34,6 +35,7 @@ export {
     ADD_ERROR,
     REPORT_SELECT,
     REPORT_EDIT,
+    REPORT_EDIT_SUCCESS,
     GLOBAL_INFO,
     DENY_UNAUTHORIZED
 }

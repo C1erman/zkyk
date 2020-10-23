@@ -81,7 +81,13 @@ const UserInfo = () => {
                 setMsg('信息更新成功')
                 alertController.on('toggle');
             };
-        }).catch(error => end());
+        }).catch(error => {
+            setError('网络请求出现异常，请稍后再试。');
+            setTimeout(() => { 
+                setError('');
+                end();
+            }, 2500)
+        });
     }
     const handleOpenModal = () => {
         controller.on('toggle');

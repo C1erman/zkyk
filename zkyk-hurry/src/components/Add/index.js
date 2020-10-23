@@ -28,18 +28,25 @@ const Add = () => {
         height : '',
         weight : '',
         birthday : '',
-        antibiotics : '',
-        code : ''
+        antibiotics : ''
     });
-    let [defaultVal, setDefault] = useState();
+    let [defaultVal, setDefault] = useState({
+        person_id : '',
+        last_name : '',
+        first_name : '',
+        birthday : ''
+    });
+    let [readonly, setReadonly] = useState({
+        person_id : false,
+        last_name : false,
+        first_name : false,
+        birthday : false
+    })
     let [first, setFirst] = useState(true);
     let [testeeCode, setCode] = useState();
     let [codeError, setCodeErr] = useState('');
     // redux
-    let sampleId = useSelector(state => state.add.sampleId);
-    let user_id = useSelector(state => state.user.id);
-    let token = useSelector(state => state.user.token);
-
+    let {sampleId, testeeId} = useSelector(state => state.add);
     const dispatch = useDispatch();
     // ref
     const selectGenderRef = useRef();
@@ -96,11 +103,17 @@ const Add = () => {
             }).then(_data => {
                 const { data } = _data;
                 if(data.code === 'success'){
-                    dispatch({
-                        type : BIO.ADD_SET_TESTEE_CODE,
-                        data : data.data
-                    });
                     setDefault(data.data);
+                    // 下拉框
+                    selectBloodRef.current.value = data.data.blood_type;
+                    // 设置 readonly
+                    setReadonly({
+                        person_id : true,
+                        last_name : true,
+                        first_name : true,
+                        birthday : true
+                    });
+                    selectBloodRef.current.disabled = 'disabled';
                     end();
                     controller.on('toggle');
                 }
@@ -121,7 +134,7 @@ const Add = () => {
             return !inputs[v].validated;
         });
         if(validated.length){
-            setError('表单内容不合规范，请检查修改后再做提交。');
+            setError('表单内容有缺失或不合规范，请检查修改后再做提交。');
             setTimeout(() => {
                 setError('');
                 setSubmit('提交');
@@ -156,7 +169,7 @@ const Add = () => {
                     }, 3000)
                 }
                 else if(data.code === 'success'){
-                    setSubmit('绑定成功');
+                    setSubmit('信息绑定成功，即将跳转');
                     setTimeout(() => {
                         history.push('/report/list');
                         dispatch({
@@ -180,8 +193,8 @@ const Add = () => {
             <div className='add-divide'></div>
             <div className='add-form'>
                 <p className='add-label-container'><span className='add-label'>联系方式</span></p>
-                <Input placeholder='请输入姓氏' label='姓' validateType='name' dataName='last_name' form={inputs} defaultValue={defaultVal} />
-                <Input placeholder='请输入名字' label='名' validateType='name' dataName='first_name' form={inputs} defaultValue={defaultVal} />
+                <Input placeholder='请输入姓氏' label='姓' validateType='name' dataName='last_name' form={inputs} defaultValue={defaultVal} readOnly={readonly.last_name} />
+                <Input placeholder='请输入名字' label='名' validateType='name' dataName='first_name' form={inputs} defaultValue={defaultVal} readOnly={readonly.first_name} />
                 <Input type='email' placeholder='请输入电子邮箱' label='邮箱' validateType='email' dataName='email' form={inputs} defaultValue={defaultVal} />
                 <p className='add-label-container'><span className='add-label'>基本信息</span></p>
                 <div className='add-form-input'>
@@ -193,7 +206,7 @@ const Add = () => {
                 </div>
                 <Input type='number' placeholder='请输入身高' label='身高 / 厘米' validateType='height' dataName='height' form={inputs} defaultValue={defaultVal} />
                 <Input type='number' placeholder='请输入体重' label='体重 / 公斤' validateType='weight' dataName='weight' form={inputs} defaultValue={defaultVal} />
-                <Input type='date' label='生日' max={getPreviousDay()} dataName='birthday' form={inputs} defaultValue={defaultVal} />
+                <Input type='date' label='生日' max={getPreviousDay()} dataName='birthday' form={inputs} defaultValue={defaultVal} readOnly={readonly.birthday} />
                 <div className='add-form-input'>
                     <label>血型</label>
                     <select className='add-form-inputs' ref={selectBloodRef}>

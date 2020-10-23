@@ -78,7 +78,7 @@
     outline: 0;
 }
 .add-form-input > input:focus{
-    border-color: #1a1a1a;
+    border-color: var(--black);
     text-indent: 1rem;
 }
 .error{
@@ -108,19 +108,4 @@
 }
 .disabled{
     opacity: 0.4;
-}
-.add-form-btn-back{
-    display: block;
-    width: 85%;
-    color: var(--black);
-    margin: 0 auto;
-    margin-top: 2.5rem;
-    font-weight: bolder;
-    border: 0;
-    line-height: 1.8;
-    padding: 0.5rem;
-    border-radius: 2rem;
-    background: var(--border);
-    transition: opacity ease-in 0.3s;
-    cursor: pointer;
 }

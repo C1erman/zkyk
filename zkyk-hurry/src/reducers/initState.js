@@ -20,11 +20,7 @@ const initState = {
         current : ''
     },
     edit : {
-        current : '',
-        personId : '',
-        testeeId : '',
-        barCode : '',
-        sampleId : ''
+        current : ''
     },
     add : {
         barCode : '',

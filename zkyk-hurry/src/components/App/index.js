@@ -56,7 +56,8 @@ const SecureRoute = () => {
     ) : (
         <Switch>
             {R_Home}
-            {R_Login}{R_Signup}{add.barCode ? R_Add : null}
+            {R_Login}{R_Signup}{R_ResetPass}
+            {add.barCode ? R_Add : null}
             <Redirect to='/' />
         </Switch>
     )

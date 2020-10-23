@@ -22,6 +22,14 @@
     border-color: #1a1a1a;
     text-indent: 1rem;
 }
+.readonly{
+    background-color: var(--border);
+    opacity: 0.5;
+}
+input.readonly:focus{
+    border-color: #cccccc;
+    text-indent: 0;
+}
 .success{
     border-color: #3c763d;
 }
