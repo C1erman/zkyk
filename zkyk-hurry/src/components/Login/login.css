@@ -37,3 +37,7 @@
 .login-to-signup > a{
     color: var(--theme);
 }
+.login-validate-email{
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+}
