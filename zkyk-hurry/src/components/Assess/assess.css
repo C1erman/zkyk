@@ -35,8 +35,8 @@
     margin-bottom: 1rem;
     padding: 0.8rem;
     box-sizing: border-box;
-    box-shadow: 0 0 7px var(--shadow);
-    border-radius: 7px;
+    box-shadow: 0 0 5px var(--shadow);
+    border-radius: 5px;
 }
 .assess-item-header{
     display: flex;
@@ -70,7 +70,7 @@
     margin-bottom: 0.5rem;
 }
 .assess-item-result{
-    border-left: 5px solid var(--theme);
+    border-left: 5px solid var(--fakeTheme);
     padding: 0.3rem 0.3rem 0.3rem 0.7rem;
     border-radius: 5px;
     background: var(--textContainer);

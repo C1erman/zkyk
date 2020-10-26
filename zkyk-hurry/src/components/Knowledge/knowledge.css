@@ -1,0 +1,171 @@
+.know-container{
+    min-height: calc(100vh - 200px);
+    padding-top: 2rem;
+    font-size: 0.9rem;
+    line-height: 1.7;
+}
+.know-title{
+    text-align: center;
+    margin-bottom: 15px;
+}
+.know-title > span{
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    font-size: 1rem;
+    font-weight: bolder;
+    max-width: 200px;
+}
+.know-title > span::after{
+    display: block;
+    position: relative;
+    content: "";
+    width: 120%;
+    height: 0.7rem;
+    opacity: 0.8;
+    z-index: -1;
+    background: var(--theme);
+    opacity: 0.5;
+    top: -0.7rem;
+    left: -10%;
+}
+.know-title-sm{
+    width: 90%;
+    margin: 0 auto 1rem;
+    padding-left: 0.5rem;
+    font-weight: bolder;
+    font-size: 0.95rem;
+    border-left: 3px solid var(--theme);
+}
+.know-content{
+    margin-bottom: 0.5rem;
+    text-indent: 1rem;
+}
+.know-what, .know-which, .know-effect, .know-method, .know-balance{
+    width: 90%;
+    margin: 0 auto 1rem;
+}
+.know-which-item{
+    margin: 1rem auto;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid var(--fontColor);
+    box-shadow: 0 0 5px var(--shadow);
+}
+.know-which-item > div{
+    font-weight: bolder;
+    color: var(--theme);
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+.know-which-item > p{
+    text-indent: 1rem;
+}
+.know-effect-item{
+    margin: 1rem auto;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid var(--fontColor);
+    box-shadow: 0 0 5px var(--shadow);
+}
+.know-effect-item > div{
+    font-weight: bolder;
+    color: var(--theme);
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+.know-effect-item > p{
+    text-indent: 1rem;
+}
+.know-balance >img{
+    display: block;
+    max-width: 100%;
+    margin: 0 auto;
+    border-radius: 5px;
+}
+.know-method-item{
+    position: relative;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    padding: 1rem 0.5rem 0.5rem;
+    border: 1px solid var(--fakeTheme);
+    background: var(--textContainer);
+}
+.know-method-item::before{
+    display: inline-block;
+    position: absolute;
+    font-size: 0.75rem;
+    font-weight: bolder;
+    color: var(--white);
+    padding: 0 0.5rem;
+    top: -0.75rem;
+    left: 1rem;
+    height: 1.5rem;
+    border-radius: 1.5rem;
+    line-height: 1.5rem;
+    background: var(--fakeTheme);
+}
+.know-method-item-one::before{
+    content: '益生菌补充';
+}
+.know-method-item-two::before{
+    content: '益生元补充';
+}
+.know-method-item-three::before{
+    content: '临床研究';
+}
+.know-method-title{
+    color: var(--theme);
+    margin: 0.5rem 0;
+    font-weight: bolder;
+    text-align: center;
+}
+.know-method-intestine{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+.know-method-intestine > div{
+    margin: 0.5rem 0;
+}
+.know-method-intestine img{
+    display: block;
+    width: 30%;
+    margin: 0 auto;
+    max-width: 150px;
+}
+.know-method-intestine p{
+    width: 60%;
+    margin: 0 auto;
+    text-align: center;
+    opacity: 0.6;
+}
+.know-method-list > div > p:first-child{
+    font-weight: bolder;
+}
+.know-method-item-three > table{
+    width: 100%;
+    overflow-x: scroll;
+}
+.know-method-table-head th{
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem 0;
+    color: var(--black);
+    vertical-align: bottom;
+}
+.know-method-table-body{
+    text-align: center;
+    line-height: 1.7;
+}
+.know-method-table-body > tr{
+    border-bottom: 1px solid var(--border);
+}
+.know-method-table-body > tr:last-child{
+    border-bottom: none;
+}
+.know-method-table-body > tr > td{
+    padding: 0.4rem 0;
+    vertical-align: middle;
+}

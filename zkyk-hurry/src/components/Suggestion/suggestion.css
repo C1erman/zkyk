@@ -47,8 +47,8 @@
     margin-bottom: 1rem;
     padding: 1rem;
     box-sizing: border-box;
-    box-shadow: 0 0 7px var(--shadow);
-    border-radius: 7px;
+    box-shadow: 0 0 5px var(--shadow);
+    border-radius: 5px;
 }
 .sug-item-img{
     display: flex;
@@ -66,9 +66,10 @@
     text-align: right;
 }
 .sug-item-content{
-    font-weight: lighter;
+    text-indent: 1rem;
     padding: 0.5rem;
-    border-radius: 7px;
+    border-radius: 5px;
+    line-height: 1.7;
     background: var(--textContainer);
 }
 .sug-biotics{
@@ -81,8 +82,8 @@
     margin-bottom: 1rem;
     padding: 1rem;
     box-sizing: border-box;
-    box-shadow: 0 0 7px var(--shadow);
-    border-radius: 7px;
+    box-shadow: 0 0 5px var(--shadow);
+    border-radius: 5px;
 }
 .sug-lifeStyle{
     display: flex;
@@ -95,6 +96,6 @@
     margin: 0.5rem 0.7rem;
     padding: 0.5rem;
     text-align: center;
-    box-shadow: 0 0 7px var(--shadow);
-    border-radius: 7px;
+    box-shadow: 0 0 5px var(--shadow);
+    border-radius: 5px;
 }

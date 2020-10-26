@@ -16,7 +16,7 @@
     position: relative;
     width: 55%;
     height: 0.8rem;
-    background: linear-gradient(to right, var(--fontColor) 0%, var(--theme) 50%, var(--fontColor) 100%);
+    background: linear-gradient(to right, var(--fontColor) 0%, var(--fakeTheme) 50%, var(--fontColor) 100%);
     border-radius: 1rem;
 }
 .progress-container > span{
@@ -25,5 +25,5 @@
     left: 0;
     display: inline-block;
     height: 180%;
-    border-right: 3px solid var(--theme);
+    border-right: 3px solid var(--fakeTheme);
 }

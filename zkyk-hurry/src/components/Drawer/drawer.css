@@ -77,14 +77,14 @@
     box-shadow: 0 0 3px #f0f0f0;
 }
 .drawer-entry-icon{
-    width: 5px;
-    height: 5px;
-    border-radius: 5px;
+    width: 10px;
+    height: 2px;
     margin: 2px 0;
     background-color: #666;
     transition: all .3s cubic-bezier(.78,.14,.15,.86);
 }
 .drawer-open .drawer-entry-icon{
+    width: 5px;
     height: 2px;
     border-radius: 1px;
 }

@@ -77,6 +77,7 @@ const UserInfo = () => {
                 }, 2500)
             }
             else if(data.code === 'success'){
+                setDefaultVal(data.data);
                 end();
                 setMsg('信息更新成功')
                 alertController.on('toggle');

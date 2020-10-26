@@ -82,13 +82,13 @@
     min-height: 100px;
     margin-bottom: 1rem;
     padding: 0.5rem 0;
-    box-shadow: 0 0 7px var(--shadow);
-    border-radius: 7px;
+    box-shadow: 0 0 5px var(--shadow);
+    border-radius: 5px;
 }
 .overview-abnormal-content > div:first-child{
     margin: 0 1rem;
     padding: 0.4rem 0;
-    background-color: var(--theme);
+    background-color: var(--fakeTheme);
     color: #ffffff;
     border-radius: 1rem;
     writing-mode: vertical-lr;
@@ -105,8 +105,8 @@
     margin-bottom: 1rem;
     padding: 0.8rem;
     box-sizing: border-box;
-    box-shadow: 0 0 7px var(--shadow);
-    border-radius: 7px;
+    box-shadow: 0 0 5px var(--shadow);
+    border-radius: 5px;
 }
 .overview-abnormal-content-item{
     line-height: 1.8;
@@ -160,7 +160,7 @@
 }
 .overview-result{
     width: 93%;
-    margin: 0 auto;
+    margin: 0 auto 1rem;
 }
 .overview-result > table{
     width: 100%;

@@ -19,6 +19,7 @@ import Backend from '../Backend';
 import UserInfo from '../UserInfo';
 import ResetPass from '../RestPass';
 import Edit from '../Edit';
+import Knowledge from '../Knowledge';
 
 const SecureRoute = () => {
     const state = useSelector(state => state);
@@ -37,6 +38,7 @@ const SecureRoute = () => {
     const R_Overview = (<Route path='/report/overview' component={Overview}></Route>);
     const R_Assess = (<Route path='/report/assess' component={Assess}></Route>);
     const R_Suggest = (<Route path='/report/suggestion' component={Suggestion}></Route>);
+    const R_Knowledge = (<Route path='/report/knowledge' component={Knowledge}></Route>);
 
     const R_Backend = (<Route path='/backend' component={Backend}></Route>);
 
@@ -50,6 +52,7 @@ const SecureRoute = () => {
             {report.current ? R_Assess : null}
             {report.current ? R_Assess : null}
             {report.current ? R_Suggest : null}
+            {report.current ? R_Knowledge : null}
             {user.role !== 'user' ? R_Backend : null}
             <Redirect to='/' />
         </Switch>

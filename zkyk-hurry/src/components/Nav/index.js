@@ -41,6 +41,7 @@ const Nav = () => {
             {report.current ? (<NavLink className='nav-link' activeClassName='nav-link-active' to='/report/overview' onClick={clickHandler}>整体情况</NavLink>) : null}
             {report.current ? (<NavLink className='nav-link' activeClassName='nav-link-active' to='/report/assess' onClick={clickHandler}>健康评估</NavLink>) : null}
             {report.current ? (<NavLink className='nav-link' activeClassName='nav-link-active' to='/report/suggestion' onClick={clickHandler}>建议</NavLink>) : null}
+            <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/knowledge' onClick={clickHandler}>菌群知识科普</NavLink>
             {user.role === 'admin_org' || user.role === 'admin' ? <NavLink className='nav-link' activeClassName='nav-link-active' to='/backend' onClick={clickHandler}>后台管理</NavLink> : null}
             <NavLink className='nav-link' activeClassName='nav-link-active' to='/user/info' onClick={clickHandler}>个人中心</NavLink>
             <NavLink className='nav-link' activeClassName='' to='/' onClick={logoutHandler}>登出</NavLink>
