@@ -128,7 +128,7 @@ const UserInfo = () => {
             <div className='userInfo-title'><span>个人信息</span></div>
             <Input label='用户名' dataName='username' form={inputs} defaultValue={defaultVal}/>
             <Input label='邮箱' dataName='email' form={inputs} defaultValue={defaultVal} />
-            <Button text='保存' errorText={error} click={handleUpdate} controlledByFunc={true} hollow={true} />
+            <Button text='保存' errorText={error} click={handleUpdate} controlledByFunc={true} hollow={true} loading={true} />
             <div className='userInfo-title'><span>密码设置</span></div>
             <div className='userInfo-setting-pass'>
                 登录密码<span onClick={handleOpenModal}>修改</span>
@@ -139,7 +139,7 @@ const UserInfo = () => {
                         <div>我们将向您的邮箱<span className='email'>{defaultVal ? defaultVal.email : ''}</span>发送一封邮件，用以重置密码。</div>
                         <div>请确认邮箱地址后选择发送。</div>
                     </div>
-                    <Button text='发送' withError={false} click={handleSendEmail} controlledByFunc={true} />
+                    <Button text='发送' withError={false} click={handleSendEmail} controlledByFunc={true} loading={true} />
                 </>
             } />
             <Alert controller={alertController} content={message} />

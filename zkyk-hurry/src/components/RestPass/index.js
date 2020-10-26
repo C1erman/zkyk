@@ -80,7 +80,7 @@ const ResetPass = () => {
             <div className='resetPass-title'><span>修改密码</span></div>
             <Input type='password' label='新密码' placeholder='请输入新密码' validateType='pass' form={inputs} dataName='password' />
             <Input type='password' label='确认新密码' placeholder='请再次输入新的密码' validateType='pass' form={inputs} dataName='passwordConfirm' />
-            <Button text='修改' click={handleReset} controlledByFunc={true} errorText={error} />
+            <Button text='修改' click={handleReset} controlledByFunc={true} errorText={error} loading={true} />
             <Alert controller={controller} content='修改成功，请重新登录' beforeClose={() => {
                     history.push('/user/login');
                     dispatch({type : BIO.LOGIN_EXPIRED});
