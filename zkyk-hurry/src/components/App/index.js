@@ -52,7 +52,7 @@ const SecureRoute = () => {
             {report.current ? R_Assess : null}
             {report.current ? R_Assess : null}
             {report.current ? R_Suggest : null}
-            {report.current ? R_Knowledge : null}
+            {R_Knowledge}
             {user.role !== 'user' ? R_Backend : null}
             <Redirect to='/' />
         </Switch>

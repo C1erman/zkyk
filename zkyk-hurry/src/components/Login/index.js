@@ -111,7 +111,7 @@ const Login = () => {
             method : 'GET',
             url : host + '/user/reset/passwordReset',
             params : {
-                email : email.email
+                email : email.email.value
             },
             headers : {
                 'Content-Type' : 'application/json; charset=UTF-8'
