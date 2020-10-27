@@ -9,13 +9,15 @@
 }
 .edit-noti-barcode, .edit-noti-testeeCode{
     margin: 0 0.5rem;
-    font-weight: bolder;
     font-size: 1rem;
+    padding-bottom: 0.1rem;
+    border-bottom: 2px solid var(--black);
 }
 .edit-noti-time > span{
     margin: 0 0.5rem;
-    font-weight: bolder;
     font-size: 1rem;
+    padding-bottom: 0.1rem;
+    border-bottom: 2px solid var(--black);
 }
 .edit-label-container{
     display: flex;
@@ -76,7 +78,8 @@
     display: block;
     width: 90%;
     margin: 0 auto;
-    padding: 0.3rem 0;
+    padding: 0.3rem 0.5rem;
+    box-sizing: border-box;
     border: 0;
     border-bottom: 1px solid #cccccc;
     transition: all;

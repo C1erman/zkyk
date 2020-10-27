@@ -95,7 +95,7 @@ td.noBarCode{
     border-radius: 3px;
 }
 .reportList-status{
-    max-height: 300px;
+    max-height: 400px;
     overflow: auto;
 }
 .reportList-status span{

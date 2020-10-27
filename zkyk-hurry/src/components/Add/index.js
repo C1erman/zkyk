@@ -24,7 +24,6 @@ const Add = () => {
     let [inputs, setInputs] = useState({
         first_name : '',
         last_name : '',
-        email : '',
         height : '',
         weight : '',
         birthday : '',
@@ -55,12 +54,17 @@ const Add = () => {
     
     let controller = {};
     useEffect(() => slideUp(), []);
+    // user
+    let user = useSelector(state => state.user);
 
     const handleFirst = (begin, end) => {
         begin();
         Axios({
             method : 'GET',
             url : host + '/sample/person',
+            params : {
+                'access-token' : user.token
+            },
             headers : {
                 'Content-Type' : 'application/json; charset=UTF-8'
             }
@@ -95,7 +99,8 @@ const Add = () => {
                 method : 'GET',
                 url : host + '/sample/person',
                 params : {
-                    code : inputs.code.value
+                    code : inputs.code.value,
+                    'access-token' : user.token
                 },
                 headers : {
                     'Content-Type' : 'application/json; charset=UTF-8'
@@ -116,6 +121,8 @@ const Add = () => {
                     });
                     selectBloodRef.current.disabled = 'disabled';
                     selectGenderRef.current.disabled = 'disabled';
+                    selectBloodRef.current.classList.add('readonly');
+                    selectGenderRef.current.classList.add('readonly');
                     end();
                     controller.on('toggle');
                 }
@@ -144,10 +151,10 @@ const Add = () => {
             return false;
         }
         else{
-            let {last_name, first_name, birthday, height, weight, antibiotics, email} = inputs;
+            let {last_name, first_name, birthday, height, weight, antibiotics} = inputs;
             let data = {
                 last_name : last_name.value, first_name : first_name.value, birthday : birthday.value, height : height.value, 
-                weight : weight.value, antibiotics : antibiotics.value, email : email.value,
+                weight : weight.value, antibiotics : antibiotics.value, email : user.email,
                 sample_id : sampleId,
                 blood_type, meat_egetables, gender,
                 isFirst : first, code : testeeCode
@@ -157,6 +164,9 @@ const Add = () => {
                 method : 'POST',
                 url : host + '/sample/bind',
                 data : data,
+                params : {
+                    'access-token' : user.token
+                },
                 headers : {
                     'Content-Type' : 'application/json; charset=UTF-8'
                 }
@@ -189,16 +199,15 @@ const Add = () => {
     return (
         <div className='add-container'>
             <div className='add-noti'>
-                <p>为了更加准确、合理地为您提供建议，我们需要您如实填写下述信息。</p>
+                <p>为了更加准确、合理地为受测人提供建议，我们需要您为受测人如实填写下述信息。</p>
                 <p>您本次送检的采样管编号为：<span className='add-noti-barcode'>{useSelector(state => state.add.barCode)}</span></p>
+                <p>您的邮箱地址为：<span className='add-noti-email'>{user.email}</span></p>
             </div>
             <div className='add-divide'></div>
             <div className='add-form'>
-                <p className='add-label-container'><span className='add-label'>联系方式</span></p>
+                <p className='add-label-container'><span className='add-label'>受测人基本信息</span></p>
                 <Input placeholder='请输入姓氏' label='姓' validateType='name' dataName='last_name' form={inputs} defaultValue={defaultVal} readOnly={readonly.last_name} />
                 <Input placeholder='请输入名字' label='名' validateType='name' dataName='first_name' form={inputs} defaultValue={defaultVal} readOnly={readonly.first_name} />
-                <Input type='email' placeholder='请输入电子邮箱' label='邮箱' validateType='email' dataName='email' form={inputs} defaultValue={defaultVal} />
-                <p className='add-label-container'><span className='add-label'>基本信息</span></p>
                 <div className='add-form-input'>
                     <label>性别</label>
                     <select className='add-form-inputs' ref={selectGenderRef}>
@@ -206,9 +215,6 @@ const Add = () => {
                         <option value='F'>女</option>
                     </select>
                 </div>
-                <Input type='number' placeholder='请输入身高' label='身高 / 厘米' validateType='height' dataName='height' form={inputs} defaultValue={defaultVal} />
-                <Input type='number' placeholder='请输入体重' label='体重 / 公斤' validateType='weight' dataName='weight' form={inputs} defaultValue={defaultVal} />
-                <Input type='date' label='生日' max={getPreviousDay()} dataName='birthday' form={inputs} defaultValue={defaultVal} readOnly={readonly.birthday} />
                 <div className='add-form-input'>
                     <label>血型</label>
                     <select className='add-form-inputs' ref={selectBloodRef}>
@@ -219,7 +225,10 @@ const Add = () => {
                         <option value='OTHER'>其他型 / 不详</option>
                     </select>
                 </div>
-                <p className='add-label-container'><span className='add-label'>近期状况</span></p>
+                <Input type='date' label='生日' max={getPreviousDay()} dataName='birthday' form={inputs} defaultValue={defaultVal} readOnly={readonly.birthday} />
+                <p className='add-label-container'><span className='add-label'>受测人近期状况</span></p>
+                <Input type='number' placeholder='请输入身高' label='身高 / 厘米' validateType='height' dataName='height' form={inputs} defaultValue={defaultVal} />
+                <Input type='number' placeholder='请输入体重' label='体重 / 公斤' validateType='weight' dataName='weight' form={inputs} defaultValue={defaultVal} />
                 <div className='add-form-input'>
                     <label>饮食中肉食占比</label>
                     <select className='add-form-inputs' ref={selectFoodRef}>

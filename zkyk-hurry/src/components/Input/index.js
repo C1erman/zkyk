@@ -78,7 +78,7 @@ const Input = ({
     dataName,
     enableEmpty = false,
     errorMsg,
-    form,
+    form = {},
     readOnly = false,
     defaultValue = {},
     ...rest

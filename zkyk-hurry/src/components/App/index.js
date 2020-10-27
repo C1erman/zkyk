@@ -20,6 +20,7 @@ import UserInfo from '../UserInfo';
 import ResetPass from '../RestPass';
 import Edit from '../Edit';
 import Knowledge from '../Knowledge';
+import ResetEmail from '../ResetEmail';
 
 const SecureRoute = () => {
     const state = useSelector(state => state);
@@ -31,7 +32,8 @@ const SecureRoute = () => {
     const R_Login = (<Route path='/user/login' component={Login}></Route>);
     const R_Signup = (<Route path='/user/signup' component={Signup}></Route>);
     const R_UserInfo = (<Route path='/user/info' component={UserInfo}></Route>);
-    const R_ResetPass = (<Route path='/user/reset' component={ResetPass}></Route>);
+    const R_ResetPass = (<Route path='/user/reset/pass' component={ResetPass}></Route>);
+    const R_ResetEmail = (<Route path='/user/reset/email' component={ResetEmail}></Route>);
 
     const R_ReportList = (<Route path='/report/list' component={ReportList}></Route>);
     const R_Edit = (<Route path='/report/edit' component={Edit}></Route>);
@@ -45,7 +47,7 @@ const SecureRoute = () => {
     const BioRoute = user.id ? (
         <Switch>
             {R_Home}
-            {R_Login}{R_Signup}{R_UserInfo}{R_ResetPass}
+            {R_Login}{R_Signup}{R_UserInfo}{R_ResetPass}{R_ResetEmail}
             {add.barCode ? R_Add : null}{edit.current ? R_Edit : null}
             {R_ReportList}
             {report.current ? R_Overview : null}
@@ -59,7 +61,7 @@ const SecureRoute = () => {
     ) : (
         <Switch>
             {R_Home}
-            {R_Login}{R_Signup}{R_ResetPass}
+            {R_Login}{R_Signup}{R_ResetPass}{R_ResetEmail}
             {add.barCode ? R_Add : null}
             <Redirect to='/' />
         </Switch>

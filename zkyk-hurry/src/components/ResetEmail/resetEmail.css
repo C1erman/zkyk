@@ -1,15 +1,15 @@
-.userInfo-container{
+.resetEmail-container{
     width: 90%;
     min-height: calc(100vh - 200px);
     margin: 0 auto;
     padding-top: 2rem;
     font-size: 0.9rem;
 }
-.userInfo-title{
+.resetEmail-title{
     text-align: center;
     margin-bottom: 15px;
 }
-.userInfo-title > span{
+.resetEmail-title > span{
     text-align: center;
     display: inline-block;
     position: relative;
@@ -18,7 +18,7 @@
     font-weight: bolder;
     max-width: 200px;
 }
-.userInfo-title > span::after{
+.resetEmail-title > span::after{
     display: block;
     position: relative;
     content: "";
@@ -30,23 +30,4 @@
     opacity: 0.5;
     top: -0.7rem;
     left: -10%;
-}
-.userInfo-setting-title{
-    margin-bottom: 0.5rem;
-    font-weight: bolder;
-}
-.userInfo-setting-pass, .userInfo-setting-email{
-    padding: 0.5rem 0;
-}
-.userInfo-setting-pass > span, .userInfo-setting-email > span{
-    color: var(--theme);
-    margin-left: 1rem;
-    cursor: pointer;
-}
-.userInfo-validate-email{
-    line-height: 1.7;
-}
-.userInfo-validate-email .email{
-    font-weight: bolder;
-    margin: 0 0.3rem;
 }

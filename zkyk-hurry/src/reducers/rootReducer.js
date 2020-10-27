@@ -11,7 +11,8 @@ const rootReducer = (state = initState, action) => {
                 user : {
                     id : localStorage.getItem('id') || '',
                     role : localStorage.getItem('role') || '',
-                    token : localStorage.getItem('token') || ''
+                    token : localStorage.getItem('token') || '',
+                    email : localStorage.getItem('email') || '',
                 },
                 report : {
                     current : localStorage.getItem('current') || ''
@@ -26,14 +27,16 @@ const rootReducer = (state = initState, action) => {
         // 用户登录
         case BIO.LOGIN_SUCCESS : {
             const user = clone(state['user']);
-            const { id, role, token } = action.data;
+            const { id, role, token, email } = action.data;
             user.id = id;
             user.role = role;
             user.token = token;
+            user.email = email;
             // 保存登录凭证
             localStorage.setItem('id', id);
             localStorage.setItem('role', role);
             localStorage.setItem('token', token);
+            localStorage.setItem('email', email);
             return {
                 ...state,
                 user
@@ -105,6 +108,15 @@ const rootReducer = (state = initState, action) => {
             return {
                 ...state,
                 edit
+            }
+        }
+        // 更新个人信息
+        case BIO.USER_EDIT_EMAIL : {
+            const user = clone(state['user']);
+            user.email = action.data;
+            return {
+                ...state,
+                user
             }
         }
         // 设置全局消息

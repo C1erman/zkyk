@@ -7,6 +7,8 @@ const LOGIN_EXPIRED = 'login-expired';
 const SIGN_SUCCESS = 'sign-success';
 const SIGN_ERROR = 'sign-error';
 const LOGOUT_SUCCESS = 'logout-success';
+// 更改个人信息
+const USER_EDIT_EMAIL = 'user-edit-email';
 // 绑定采样
 const ADD_CHECK_SUCCESS = 'add-check-success';
 const ADD_SET_TESTEE_CODE = 'add-set-testee-code';
@@ -29,6 +31,7 @@ export {
     SIGN_SUCCESS,
     SIGN_ERROR,
     LOGOUT_SUCCESS,
+    USER_EDIT_EMAIL,
     ADD_CHECK_SUCCESS,
     ADD_SET_TESTEE_CODE,
     ADD_SUCCESS,

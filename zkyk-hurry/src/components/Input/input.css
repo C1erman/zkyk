@@ -11,7 +11,8 @@
     display: block;
     width: 90%;
     margin: 0 auto;
-    padding: 0.3rem 0;
+    padding: 0.3rem 0.5rem;
+    box-sizing: border-box;
     border: 0;
     border-bottom: 1px solid #cccccc;
     transition: all ease-in 0.3s;
@@ -23,7 +24,7 @@
     text-indent: 1rem;
 }
 .readonly{
-    background-color: var(--border);
+    background-color: var(--border) !important;
     opacity: 0.5;
 }
 input.readonly:focus{

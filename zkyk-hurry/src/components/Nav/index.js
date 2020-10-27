@@ -44,13 +44,12 @@ const Nav = () => {
             <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/knowledge' onClick={clickHandler}>菌群知识科普</NavLink>
             {user.role === 'admin_org' || user.role === 'admin' ? <NavLink className='nav-link' activeClassName='nav-link-active' to='/backend' onClick={clickHandler}>后台管理</NavLink> : null}
             <NavLink className='nav-link' activeClassName='nav-link-active' to='/user/info' onClick={clickHandler}>个人中心</NavLink>
-            <NavLink className='nav-link' activeClassName='' to='/' onClick={logoutHandler}>登出</NavLink>
+            <NavLink className='nav-link' activeClassName='' to='/user/login' onClick={logoutHandler}>登出</NavLink>
         </div>
     ) : (
         <div className='nav-link-container'>
-            <NavLink className='nav-link' activeClassName='nav-link-active' to='/' exact onClick={clickHandler}>送样填表</NavLink>
             <NavLink className='nav-link' activeClassName='nav-link-active' to='/user/login' onClick={clickHandler}>登录</NavLink>
-            {/* <NavLink className='nav-link' activeClassName='nav-link-active' to='/user/signup' onClick={clickHandler}>注册</NavLink> */}
+            <NavLink className='nav-link' activeClassName='nav-link-active' to='/user/signup' onClick={clickHandler}>注册</NavLink>
         </div>
     );
     return (

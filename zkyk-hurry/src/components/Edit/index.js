@@ -23,11 +23,8 @@ const Edit = () => {
     const [error, setError] = useState('');
     const [submit, setSubmit] = useState('修改');
     let [inputs, setInputs] = useState({
-        first_name : '',
-        last_name : '',
         height : '',
         weight : '',
-        birthday : '',
         antibiotics : ''
     });
     let [editData, setEditData] = useState({
@@ -73,6 +70,9 @@ const Edit = () => {
                     selectGenderRef.current.value = gender;
                     selectBloodRef.current.value = blood_type;
                     selectFoodRef.current.value = meat_egetables;
+                    // readOnly
+                    selectGenderRef.current.disabled = 'disabled';
+                    selectBloodRef.current.disabled = 'disabled';
                 }
             })
             .catch(error => console.log(error))
@@ -83,9 +83,7 @@ const Edit = () => {
         if(submit !== '修改') return false;
         else setSubmit('请稍候');
         // 下拉框是一定有值的
-        let gender = selectGenderRef.current.value,
-            blood_type = selectBloodRef.current.value,
-            meat_egetables = selectFoodRef.current.value;
+        let meat_egetables = selectFoodRef.current.value;
         // check empty
         let validated = Object.keys(inputs).filter(v => {
             return !inputs[v].validated;
@@ -99,16 +97,19 @@ const Edit = () => {
             return false;
         }
         else{
-            let {last_name, first_name, birthday, height, weight, antibiotics} = inputs;
+            let { height, weight, antibiotics} = inputs;
             Axios({
                 method : 'POST',
                 url : host + '/sample/modify',
                 data : {
-                    last_name : last_name.value, first_name : first_name.value, birthday : birthday.value, height : height.value, 
-                    weight : weight.value, antibiotics : antibiotics.value,
-                    blood_type, meat_egetables, gender,
-                    // user_id,
-                    person_id : editData.person_id, testee_id : editData.testee_id, sample_id : editData.sample_id, sample_id : editData.sample_id
+                    height : height.value, 
+                    weight : weight.value,
+                    antibiotics : antibiotics.value,
+                    meat_egetables,
+                    testee_id : editData.testee_id, sample_id : editData.sample_id, person_id : editData.person_id
+                },
+                params : {
+                    'access-token' : token
                 },
                 headers : {
                     'Content-Type' : 'application/json; charset=UTF-8'
@@ -148,23 +149,19 @@ const Edit = () => {
             </div>
             <div className='edit-divide'></div>
             <div className='edit-form'>
-                <p className='edit-label-container'><span className='edit-label'>联系方式</span></p>
-                <Input placeholder='请输入姓氏' label='姓' validateType='name' dataName='last_name' form={inputs} defaultValue={defaultVal} />
-                <Input placeholder='请输入名字' label='名' validateType='name' dataName='first_name' form={inputs} defaultValue={defaultVal} />
-                <p className='edit-label-container'><span className='edit-label'>基本信息</span></p>
+                <p className='edit-label-container'><span className='edit-label'>受测人基本信息</span></p>
+                <Input placeholder='请输入姓氏' label='姓' validateType='name' dataName='last_name' defaultValue={defaultVal} readOnly={true} />
+                <Input placeholder='请输入名字' label='名' validateType='name' dataName='first_name' defaultValue={defaultVal} readOnly={true} />
                 <div className='edit-form-input'>
                     <label>性别</label>
-                    <select className='edit-form-inputs' ref={selectGenderRef}>
+                    <select className='edit-form-inputs readonly' ref={selectGenderRef}>
                         <option value='M'>男</option>
                         <option value='F'>女</option>
                     </select>
                 </div>
-                <Input type='number' placeholder='请输入身高' label='身高 / 厘米' validateType='height' dataName='height' form={inputs} defaultValue={defaultVal} />
-                <Input type='number' placeholder='请输入体重' label='体重 / 公斤' validateType='weight' dataName='weight' form={inputs} defaultValue={defaultVal} />
-                <Input type='date' label='生日' max={getPreviousDay()} dataName='birthday' form={inputs} defaultValue={defaultVal} />
                 <div className='edit-form-input'>
                     <label>血型</label>
-                    <select className='edit-form-inputs' ref={selectBloodRef}>
+                    <select className='edit-form-inputs readonly' ref={selectBloodRef}>
                         <option value='O'>O 型</option>
                         <option value='A'>A 型</option>
                         <option value='B'>B 型</option>
@@ -172,7 +169,10 @@ const Edit = () => {
                         <option value='OTHER'>其他型 / 不详</option>
                     </select>
                 </div>
-                <p className='edit-label-container'><span className='edit-label'>近期状况</span></p>
+                <Input type='date' label='生日' max={getPreviousDay()} dataName='birthday' defaultValue={defaultVal} readOnly={true} />
+                <p className='edit-label-container'><span className='edit-label'>受测人近期状况</span></p>
+                <Input type='number' placeholder='请输入身高' label='身高 / 厘米' validateType='height' dataName='height' form={inputs} defaultValue={defaultVal} />
+                <Input type='number' placeholder='请输入体重' label='体重 / 公斤' validateType='weight' dataName='weight' form={inputs} defaultValue={defaultVal} />
                 <div className='edit-form-input'>
                     <label>饮食中肉食占比</label>
                     <select className='edit-form-inputs' ref={selectFoodRef}>

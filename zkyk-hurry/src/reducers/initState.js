@@ -3,7 +3,8 @@ const initState = {
     user : {
         id : '',
         role : '',
-        token : ''
+        token : '',
+        email : ''
     },
     sampleList : {
         totalPage : 0,

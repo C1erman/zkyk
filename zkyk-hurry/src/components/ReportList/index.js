@@ -144,7 +144,7 @@ const ReportList = () => {
                                     <td>{v.person_name}</td>
                                     <td>{v.sample_barcode}</td>
                                     <td className={v.status_en} onClick={() => openMadal(v.sample_id)}>{v.status_zh}</td>
-                                    <td><a className='reportList-btn' onClick={() =>{ v.operate === '查看' ? selectHandler(v.report_id || 'error') : editHandler(v.sample_id) }}>{v.operate}</a></td>
+                                    <td><a className={'reportList-btn' + (v.status_zh === '实验失败' ? ' disabled' : '')} onClick={() =>{ v.operate === '查看' ? selectHandler(v.report_id || 'error') : editHandler(v.sample_id) }}>{v.operate}</a></td>
                                 </tr>)}
                             </tbody>
                         </table>
