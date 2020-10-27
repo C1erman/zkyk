@@ -15,9 +15,9 @@
     padding: 0.2rem 1rem;
     border-radius: 1rem;
     cursor: pointer;
-
 }
 .pager > a.pager-disabled{
+    opacity: 0.5;
     cursor: not-allowed;
     background: var(--theme);
     color: #ffffff;
