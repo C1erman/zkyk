@@ -1,5 +1,5 @@
 .edit-container{
-    width: 95%;
+    width: 90%;
     margin: 0 auto;
     padding-top: 1rem;
     font-size: 0.9rem;
@@ -7,13 +7,7 @@
 .edit-noti > p{
     line-height: 2;
 }
-.edit-noti-barcode, .edit-noti-testeeCode{
-    margin: 0 0.5rem;
-    font-size: 1rem;
-    padding-bottom: 0.1rem;
-    border-bottom: 2px solid var(--black);
-}
-.edit-noti-time > span{
+.edit-noti-barcode, .edit-noti-testeeCode, .edit-noti-time{
     margin: 0 0.5rem;
     font-size: 1rem;
     padding-bottom: 0.1rem;
@@ -89,6 +83,23 @@
 .edit-form-input > input:focus{
     border-color: #1a1a1a;
     text-indent: 1rem;
+}
+.edit-for-testee{
+    margin-bottom: 1.5rem;
+    overflow: auto;
+}
+.edit-for-testee > span{
+    float: right;
+    color: var(--theme);
+    margin-right: 1rem;
+    font-weight: bolder;
+}
+.edit-testee-container{
+    max-height: 300px;
+    overflow-y: scroll;
+}
+.edit-testee-container > p{
+    margin: 0 1rem 0.5rem 0;
 }
 .error{
     border-color: var(--error);

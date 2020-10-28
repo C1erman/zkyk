@@ -337,24 +337,6 @@ const Overview = () => {
                     </div>
                 ) : null}
             </div>
-            <div className='overview-title'><span>具体检测结果</span></div>
-            <div className='overview-result'>
-                <div className='overview-result-info'>* 红色表示该菌含量异常，对健康有影响</div>
-                <table>
-                    <thead>
-                        <tr className='overview-result-table-head'>
-                            <th>名称</th><th>分类</th><th>受检者检测数值<br />（Lg CFU/g）</th><th>参考范围<br />（Lg CFU/g）</th>
-                        </tr>
-                    </thead>
-                    <tbody className='overview-result-table-body'>
-                        {result.length ? result.map(v => (
-                            <tr key={v.name}>
-                                <td className='overview-result-table-name'>{v.name}</td><td>{mapBacterialType(v.type)}</td><td {...judgeRange(+ v.value, + v.range_down, + v.range_up, v.type)}>{v.value}</td>{v.range_down == 0 && v.range_up == 0 ? (<td>{v.range_down}</td>) : (<td>{v.range_down} - {v.range_up}</td>)}
-                            </tr>
-                        )) : null}
-                    </tbody>
-                </table>
-            </div>
             <div className='overview-title'><span>菌群状态分析</span></div>
             <div className='overview-flora'>
                 {flora.map((v, i) => (
@@ -377,6 +359,24 @@ const Overview = () => {
                         }
                     </div>
                 ))}
+            </div>
+            <div className='overview-title'><span>具体检测结果</span></div>
+            <div className='overview-result'>
+                <div className='overview-result-info'>* 红色表示该菌含量异常，对健康有影响</div>
+                <table>
+                    <thead>
+                        <tr className='overview-result-table-head'>
+                            <th>名称</th><th>分类</th><th>受检者检测数值<br />（Lg CFU/g）</th><th>参考范围<br />（Lg CFU/g）</th>
+                        </tr>
+                    </thead>
+                    <tbody className='overview-result-table-body'>
+                        {result.length ? result.map(v => (
+                            <tr key={v.name}>
+                                <td className='overview-result-table-name'>{v.name}</td><td>{mapBacterialType(v.type)}</td><td {...judgeRange(+ v.value, + v.range_down, + v.range_up, v.type)}>{v.value}</td>{v.range_down == 0 && v.range_up == 0 ? (<td>{v.range_down}</td>) : (<td>{v.range_down} - {v.range_up}</td>)}
+                            </tr>
+                        )) : null}
+                    </tbody>
+                </table>
             </div>
         </div>
     );

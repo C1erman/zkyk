@@ -56,14 +56,14 @@ const SecureRoute = () => {
             {report.current ? R_Suggest : null}
             {R_Knowledge}
             {user.role !== 'user' ? R_Backend : null}
-            <Redirect to='/' />
+            <Redirect to='/user/login' />
         </Switch>
     ) : (
         <Switch>
             {R_Home}
             {R_Login}{R_Signup}{R_ResetPass}{R_ResetEmail}
             {add.barCode ? R_Add : null}
-            <Redirect to='/' />
+            <Redirect to='/user/login' />
         </Switch>
     )
     return BioRoute;

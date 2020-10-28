@@ -8,12 +8,17 @@ const Modal = ({
     content,
     footer,
     onClose,
-    controller
+    controller,
+    afterVisible = null
 }) => {
     let [visible, setVisible] = useState(defaultVisible);
 
     useEffect(() => {
-        document.body.style.overflow = visible ? 'hidden' : '';
+        if(visible){
+            document.body.style.overflow = 'hidden';
+            typeof afterVisible === 'function' ? afterVisible() : null;
+        }
+        else document.body.style.overflow = '';   
         return () => {
             document.body.style.overflow = '';
         }

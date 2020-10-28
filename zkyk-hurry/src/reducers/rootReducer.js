@@ -21,6 +21,9 @@ const rootReducer = (state = initState, action) => {
                     barCode : localStorage.getItem('barCode') || '',
                     sampleId : localStorage.getItem('sampleId') || '',
                     testeeId : localStorage.getItem('testeeId') || ''
+                },
+                edit : {
+                    current : localStorage.getItem('current_edit') || ''
                 }
             }
         }
@@ -98,13 +101,19 @@ const rootReducer = (state = initState, action) => {
             }
         }
         case BIO.REPORT_EDIT : {
-            const { current, personId, testeeId, barCode, sampleId } = action.data;
+            const { current } = action.data;
             const edit = clone(state['report']);
             edit.current = current;
-            edit.personId = personId;
-            edit.testeeId = testeeId;
-            edit.barCode = barCode;
-            edit.sampleId = sampleId;
+            // 保存编辑报告编号
+            localStorage.setItem('current_edit', current);
+            return {
+                ...state,
+                edit
+            }
+        }
+        case BIO.REPORT_EDIT_SUCCESS : {
+            localStorage.removeItem('current_edit');
+            const edit = clone(initState['edit']);
             return {
                 ...state,
                 edit

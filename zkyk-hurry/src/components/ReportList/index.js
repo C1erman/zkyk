@@ -10,10 +10,17 @@ import { slideUp } from '../../utils/slideUp';
 import Alert from '../Alert';
 import Modal from '../Modal';
 
+import untreatedSrc from '../../icons/status/untreated_active.svg';
+import registeredSrc from '../../icons/status/registered_active.svg';
+import receivedSrc from '../../icons/status/received_active.svg';
+import experimentingSrc from '../../icons/status/experimenting_active.svg';
+import succeededSrc from '../../icons/status/succeeded_active.svg';
+import completedSrc from '../../icons/status/completed_active.svg';
+import failedSrc from '../../icons/status/failed.svg';
+
 const ReportList = () => {
     let user = useSelector(state => state.user);
     let controller = {};
-    let controller_login = {};
     let modalController = {};
     const history = useHistory();
     const dispatch = useDispatch();
@@ -116,8 +123,16 @@ const ReportList = () => {
             }
         });
     }
-    const openMadal = (sampleId) => {
-        getStatus(sampleId);
+    const mapImageUrl = (status) => {
+        return {
+            untreated : untreatedSrc,
+            registered : registeredSrc,
+            received : receivedSrc,
+            experimenting : experimentingSrc,
+            succeeded : succeededSrc,
+            completed : completedSrc,
+            failed : failedSrc
+        }[status]
     }
 
     return (
@@ -143,7 +158,7 @@ const ReportList = () => {
                                 {list.map((v, i) => <tr key={i} className='reportList-table-body'>
                                     <td>{v.person_name}</td>
                                     <td>{v.sample_barcode}</td>
-                                    <td className={v.status_en} onClick={() => openMadal(v.sample_id)}>{v.status_zh}</td>
+                                    <td className={v.status_en} onClick={() => getStatus(v.sample_id)}>{v.status_zh}</td>
                                     <td><a className={'reportList-btn' + (v.status_zh === '实验失败' ? ' disabled' : '')} onClick={() =>{ v.operate === '查看' ? selectHandler(v.report_id || 'error') : editHandler(v.sample_id) }}>{v.operate}</a></td>
                                 </tr>)}
                             </tbody>
@@ -155,7 +170,17 @@ const ReportList = () => {
             <Alert controller={controller} content='抱歉，此份报告暂时无法查看，请联系厂商' time={2500} />
             <Modal controller={modalController} title='状态详情' content={
                 <ul className='reportList-status'>
-                    { status.map((v, i) => <li key={i} className={v.status_en}><span className='reportList-status-title'>{v.detail}</span><span>{v.update_date}</span></li>)}
+                    { status.map((v, i) => (<li key={i} className={v.status_en}>
+                        <div className='reportList-status-time'>
+                            <span>{v.year}</span>
+                            <span>{v.month}</span>
+                            <span>{v.date}</span>
+                        </div>
+                        <div className='reportList-status-icon'>
+                            <img src={mapImageUrl(v.status_en)} />
+                        </div>
+                        <div className='reportList-status-content'>{v.detail}</div>
+                    </li>))}
                 </ul>
             } onClose={() => setStatus([])} />
         </div>

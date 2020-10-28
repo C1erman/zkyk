@@ -99,7 +99,6 @@ const Login = () => {
         let validated = Object.keys(email).filter(v => {
             return !email[v].validated;
         });
-        console.log(email)
         if(validated.length){
             setEmailErr('邮箱填写不合规范，请检查。');
             setTimeout(() => {

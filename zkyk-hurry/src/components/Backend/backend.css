@@ -50,6 +50,8 @@
     opacity: 0.5;
 }
 .backend-total-grow{
+    font-weight: 0.8rem;
+    font-weight: lighter;
     margin-bottom: 1rem;
 }
 .backend-grow-postive, .backend-grow-negative{
@@ -57,10 +59,10 @@
     margin-left: 0.3rem;
 }
 .backend-grow-postive{
-    color: #2a8436;
+    color: #c44230;
 }
 .backend-grow-negative{
-    color: #c44230;
+    color: #2a8436;
 }
 .backend-list{
     width: 93%;

@@ -36,6 +36,7 @@
 }
 .login-to-signup > a{
     color: var(--theme);
+    cursor: pointer;
 }
 .login-validate-email{
     line-height: 1.7;
