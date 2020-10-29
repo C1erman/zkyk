@@ -85,7 +85,7 @@ const Add = () => {
     }
     const handleAlready = (begin, end) => {
         begin();
-        if(!inputs['code'].validated){
+        if(!inputs.code || !inputs.code.validated){
             setCodeErr('受测人编码不能为空。');
             setTimeout(() => {
                 setCodeErr('');

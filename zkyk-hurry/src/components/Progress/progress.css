@@ -7,23 +7,23 @@
     margin: 0.5rem auto;
 }
 .progress-label{
-    max-width: 43%;
+    max-width: 48%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 .progress-container{
     position: relative;
-    width: 55%;
-    height: 0.8rem;
+    width: 50%;
+    height: 0.5rem;
     background: linear-gradient(to right, var(--fontColor) 0%, var(--fakeTheme) 50%, var(--fontColor) 100%);
     border-radius: 1rem;
 }
 .progress-container > span{
     position: absolute;
-    top: -40%;
+    top: -0.3rem;
     left: 0;
     display: inline-block;
-    height: 180%;
+    height: 1.2rem;
     border-right: 3px solid var(--fakeTheme);
 }

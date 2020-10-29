@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import F2 from '@antv/f2';
+// import F2 from '@antv/f2';
+// import { Chart, registerShape } from '@antv/g2';
 import './overview.css';
 import Axios from 'axios';
 import { host } from '../../_config';
@@ -8,131 +9,291 @@ import Progress from '../Progress';
 import { slideUp } from '../../utils/slideUp';
 import { useHistory } from 'react-router-dom';
 import * as BIO from '../../actions';
+import Alert from '../Alert';
 
-const showGraph = (label = '健康', score = 100) => {
-    const {
-        Shape,
-        G,
-        Util,
-        Global
-    } = F2;
-    const Vector2 = G.Vector2;
-    Shape.registerShape('interval', 'polar-tick', {
-        draw: function draw(cfg, container) {
-            const points = this.parsePoints(cfg.points);
-            const style = Util.mix({
-                stroke: cfg.color
-            }, Global.shape.interval, cfg.style);
+// const showGraph = (label = '健康', score = 100) => {
+//     const {
+//         Shape,
+//         G,
+//         Util,
+//         Global
+//     } = F2;
+//     const Vector2 = G.Vector2;
+//     Shape.registerShape('interval', 'polar-tick', {
+//         draw: function draw(cfg, container) {
+//             const points = this.parsePoints(cfg.points);
+//             const style = Util.mix({
+//                 stroke: cfg.color
+//             }, Global.shape.interval, cfg.style);
 
-            let newPoints = points.slice(0);
-            if (this._coord.transposed) {
-                newPoints = [points[0], points[3], points[2], points[1]];
-            }
-            const center = cfg.center;
-            const x = center.x,
-                y = center.y;
+//             let newPoints = points.slice(0);
+//             if (this._coord.transposed) {
+//                 newPoints = [points[0], points[3], points[2], points[1]];
+//             }
+//             const center = cfg.center;
+//             const x = center.x,
+//                 y = center.y;
 
-            const v = [1, 0];
-            const v0 = [newPoints[0].x - x, newPoints[0].y - y];
-            const v1 = [newPoints[1].x - x, newPoints[1].y - y];
-            const v2 = [newPoints[2].x - x, newPoints[2].y - y];
+//             const v = [1, 0];
+//             const v0 = [newPoints[0].x - x, newPoints[0].y - y];
+//             const v1 = [newPoints[1].x - x, newPoints[1].y - y];
+//             const v2 = [newPoints[2].x - x, newPoints[2].y - y];
 
-            let startAngle = Vector2.angleTo(v, v1);
-            let endAngle = Vector2.angleTo(v, v2);
-            const r0 = Vector2.length(v0);
-            const r = Vector2.length(v1);
+//             let startAngle = Vector2.angleTo(v, v1);
+//             let endAngle = Vector2.angleTo(v, v2);
+//             const r0 = Vector2.length(v0);
+//             const r = Vector2.length(v1);
 
-            if (startAngle >= 1.5 * Math.PI) {
-                startAngle = startAngle - 2 * Math.PI;
-            }
+//             if (startAngle >= 1.5 * Math.PI) {
+//                 startAngle = startAngle - 2 * Math.PI;
+//             }
 
-            if (endAngle >= 1.5 * Math.PI) {
-                endAngle = endAngle - 2 * Math.PI;
-            }
+//             if (endAngle >= 1.5 * Math.PI) {
+//                 endAngle = endAngle - 2 * Math.PI;
+//             }
 
-            const lineWidth = r - r0;
-            const newRadius = r - lineWidth / 2;
+//             const lineWidth = r - r0;
+//             const newRadius = r - lineWidth / 2;
 
-            return container.addShape('Arc', {
-                className: 'interval',
-                attrs: Util.mix({
-                    x,
-                    y,
-                    startAngle,
-                    endAngle,
-                    r: newRadius,
-                    lineWidth,
-                    lineCap: 'round'
-                }, style)
+//             return container.addShape('Arc', {
+//                 className: 'interval',
+//                 attrs: Util.mix({
+//                     x,
+//                     y,
+//                     startAngle,
+//                     endAngle,
+//                     r: newRadius,
+//                     lineWidth,
+//                     lineCap: 'round'
+//                 }, style)
+//             });
+//         }
+//     });
+//     const data = [{
+//         const: 'a',
+//         actual: score,
+//         expect: 100
+//     }];
+//     const chart = new F2.Chart({
+//         id: 'graph',
+//         padding: [0, 30, 60],
+//         pixelRatio: window.devicePixelRatio
+//     });
+//     chart.source(data, {
+//         actual: {
+//             max: 100,
+//             min: 0,
+//             nice: false
+//         }
+//     });
+//     chart.coord('polar', {
+//         transposed: true,
+//         innerRadius: 0.8,
+//         startAngle: -Math.PI,
+//         endAngle: 0
+//     });
+//     chart.axis(false);
+//     chart.interval()
+//         .position('const*expect')
+//         .shape('polar-tick')
+//         .size(10)
+//         .color('#ffa6ba')
+//         .animate(false); // 背景条
+//     chart.interval()
+//         .position('const*actual')
+//         .shape('polar-tick')
+//         .size(10)
+//         .color('#fff')
+//         .animate({
+//             appear: {
+//                 duration: 1100,
+//                 easing: 'linear',
+//                 animation: function animation(shape, animateCfg) {
+//                     const startAngle = shape.attr('startAngle');
+//                     let endAngle = shape.attr('endAngle');
+//                     if (startAngle > endAngle) {
+//                         // -Math.PI/2 到 0
+//                         endAngle += Math.PI * 2;
+//                     }
+//                     shape.attr('endAngle', startAngle);
+//                     shape.animate().to(Util.mix({
+//                         attrs: {
+//                             endAngle
+//                         }
+//                     }, animateCfg)).onUpdate(function (frame) {
+//                         const textEl = document.querySelector('#text');
+//                         if (textEl) textEl.innerHTML = parseInt(frame * (score)) + '分';
+//                     });
+//                 }
+//             }
+//         });
+//     // 实际进度
+//     chart.guide().html({
+//         position: ['50%', '80%'],
+//         html: `
+//         <div style="width: 120px;color: #fff;white-space: nowrap;text-align:center;">
+//             <p style="font-size: 18px;margin:0;">${label}</p>
+//             <p id="text" style="font-size: 48px;margin:0;font-weight: bold;"></p>
+//         </div>`
+//     });
+//     chart.render();
+// }
+const showGraphNew = (label = '健康', score = 9) => {
+    // 自定义Shape 部分
+    G2.registerShape('point', 'pointer', {
+        draw(cfg, container) {
+            const group = container.addGroup({});
+            // 获取极坐标系下画布中心点
+            const center = this.parsePoint({ x: 0, y: 0 });
+            // 绘制指针
+            group.addShape('line', {
+                attrs: {
+                    x1: center.x,
+                    y1: center.y,
+                    x2: cfg.x,
+                    y2: cfg.y,
+                    stroke: cfg.color,
+                    lineWidth: 5,
+                    lineCap: 'round',
+                },
             });
-        }
+            group.addShape('circle', {
+                attrs: {
+                    x: center.x,
+                    y: center.y,
+                    r: 9.75,
+                    stroke: cfg.color,
+                    lineWidth: 4.5,
+                    fill: '#fff',
+                },
+            });
+            return group;
+        },
     });
-    const data = [{
-        const: 'a',
-        actual: score,
-        expect: 100
-    }];
-    const chart = new F2.Chart({
-        id: 'graph',
-        padding: [0, 30, 60],
-        pixelRatio: window.devicePixelRatio
+    const data = [{ value: score }];
+    const chart = new G2.Chart({
+        container: 'graph',
+        autoFit: true,
+        height: 250,
+        padding: [0, 0, 30, 0],
     });
-    chart.source(data, {
-        actual: {
-            max: 100,
-            min: 0,
-            nice: false
-        }
+    chart.data(data);
+    chart.coordinate('polar', {
+        startAngle: (-9 / 8) * Math.PI,
+        endAngle: (1 / 8) * Math.PI,
+        radius: 0.85,
     });
-    chart.coord('polar', {
-        transposed: true,
-        innerRadius: 0.8,
-        startAngle: -Math.PI,
-        endAngle: 0
+    chart.scale('value', {
+        min: 0,
+        max: 10,
+        ticks: [2, 4, 5, 6, 7, 8, 9],
     });
-    chart.axis(false);
-    chart.interval()
-        .position('const*expect')
-        .shape('polar-tick')
-        .size(10)
-        .color('#ffa6ba')
-        .animate(false); // 背景条
-    chart.interval()
-        .position('const*actual')
-        .shape('polar-tick')
-        .size(10)
-        .color('#fff')
-        .animate({
-            appear: {
-                duration: 1100,
-                easing: 'linear',
-                animation: function animation(shape, animateCfg) {
-                    const startAngle = shape.attr('startAngle');
-                    let endAngle = shape.attr('endAngle');
-                    if (startAngle > endAngle) {
-                        // -Math.PI/2 到 0
-                        endAngle += Math.PI * 2;
-                    }
-                    shape.attr('endAngle', startAngle);
-                    shape.animate().to(Util.mix({
-                        attrs: {
-                            endAngle
-                        }
-                    }, animateCfg)).onUpdate(function (frame) {
-                        const textEl = document.querySelector('#text');
-                        if (textEl) textEl.innerHTML = parseInt(frame * (score)) + '分';
-                    });
+    chart.axis('1', false);
+    chart.axis('value', {
+        line: null,
+        label: {
+            offset: -35,
+            formatter: (val) => {
+                if (val === '2') {
+                    return '重度';
+                } else if (val === '4') {
+                    return '40'
+                } else if (val === '5') {
+                    return '中度';
+                } else if (val === '7') {
+                    return '轻度';
+                } else if (val === '9') {
+                    return '健康'
+                } else if (val === '6') {
+                    return '60'
+                } else if (val === '8') {
+                    return '80'
                 }
-            }
-        });
-    // 实际进度
-    chart.guide().html({
-        position: ['50%', '80%'],
-        html: `
-        <div style="width: 120px;color: #fff;white-space: nowrap;text-align:center;">
-            <p style="font-size: 18px;margin:0;">${label}</p>
-            <p id="text" style="font-size: 48px;margin:0;font-weight: bold;"></p>
-        </div>`
+                return '';
+            },
+            style: {
+                fill: '#666',
+                fontSize: 15,
+                textAlign: 'center',
+            },
+        },
+        tickLine: null,
+        grid: null,
+    });
+    chart.legend(false);
+    chart
+        .point()
+        .position('value*1')
+        .shape('pointer')
+        .color('#ff4f76');
+    // 绘制仪表盘刻度线
+    chart.annotation().line({
+        start: [4, 0.96],
+        end: [4, 0.89],
+        style: {
+            stroke: '#ff4f76', // 线的颜色
+            lineDash: null, // 虚线的设置
+            lineWidth: 2,
+        },
+    });
+    chart.annotation().line({
+        start: [6, 0.96],
+        end: [6, 0.89],
+        style: {
+            stroke: '#ff4f76', // 线的颜色
+            lineDash: null, // 虚线的设置
+            lineWidth: 2,
+        },
+    });
+    chart.annotation().line({
+        start: [8, 0.96],
+        end: [8, 0.89],
+        style: {
+            stroke: '#ff4f76', // 线的颜色
+            lineDash: null, // 虚线的设置
+            lineWidth: 2,
+        },
+    });
+    // 绘制仪表盘背景
+    chart.annotation().arc({
+        top: false,
+        start: [0, 1],
+        end: [10, 1],
+        style: {
+            stroke: '#ffe6eb',
+            lineWidth: 13,
+            lineDash: null,
+        },
+    });
+    // 绘制指标
+    chart.annotation().arc({
+        start: [0, 1],
+        end: [data[0].value, 1],
+        style: {
+            stroke: '#ff4f76',
+            lineWidth: 13,
+            lineDash: null,
+        },
+    });
+    // 绘制指标数字
+    chart.annotation().text({
+        position: ['50%', '85%'],
+        content: label,
+        style: {
+            fontSize: 15,
+            fill: '#ff4f76',
+            textAlign: 'center',
+        },
+    });
+    chart.annotation().text({
+        position: ['50%', '90%'],
+        content: `${data[0].value * 10} 分`,
+        style: {
+            fontSize: 30,
+            fill: '#ff4f76',
+            textAlign: 'center',
+        },
+        offsetY: 15,
     });
     chart.render();
 }
@@ -147,6 +308,7 @@ const Overview = () => {
     let report = useSelector(state => state.report);
     let userInfo = useSelector(state => state.user);
     let dispatch = useDispatch();
+    let alertController = {};
 
     useEffect(() => {
         slideUp();
@@ -156,7 +318,7 @@ const Overview = () => {
             url: host + '/charts/gauge',
             params: {
                 id: report.current,
-                'access-token' : userInfo.token
+                'access-token': userInfo.token
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -164,14 +326,10 @@ const Overview = () => {
             timeout: 5000
         }).then(_data => {
             const { data } = _data;
-            if (data.code === 'success') showGraph(data.data.name, + data.data.value);
+            // if (data.code === 'success') showGraph(data.data.name, + data.data.value);
+            if(data.code === 'success') showGraphNew(data.data.name, (+ data.data.value) / 10);
         }).catch(error => {
-            // 后续改成全局消息提醒
-            console.info('登录凭证过期，用户需要重新登录。');
-            dispatch({
-                type : BIO.LOGIN_EXPIRED
-            });
-            history.push('/user/login');
+            alertController.on('toggle');
         });
         Axios({
             method: 'GET',
@@ -179,8 +337,8 @@ const Overview = () => {
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
             },
-            params : {
-                'access-token' : userInfo.token
+            params: {
+                'access-token': userInfo.token
             },
             timeout: 5000
         }).then(_data => {
@@ -193,7 +351,7 @@ const Overview = () => {
             url: host + '/sample/personal',
             params: {
                 id: report.current,
-                'access-token' : userInfo.token
+                'access-token': userInfo.token
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -209,7 +367,7 @@ const Overview = () => {
             url: host + '/sample/abnormal',
             params: {
                 id: report.current,
-                'access-token' : userInfo.token
+                'access-token': userInfo.token
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -225,7 +383,7 @@ const Overview = () => {
             url: host + '/sample/bacteria',
             params: {
                 id: report.current,
-                'access-token' : userInfo.token
+                'access-token': userInfo.token
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -241,7 +399,7 @@ const Overview = () => {
             url: host + '/sample/metrics',
             params: {
                 id: report.current,
-                'access-token' : userInfo.token
+                'access-token': userInfo.token
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -253,8 +411,8 @@ const Overview = () => {
         }).catch(error => setFlora([]));
     }, [])
     const judgeRange = (value, min, max, type) => {
-        switch(type){
-            case 'general' : {
+        switch (type) {
+            case 'general': {
                 if (value < min) {
                     return { className: 'overview-result-below' }
                 }
@@ -262,12 +420,12 @@ const Overview = () => {
                     return { className: 'overview-result-above' }
                 }
             }
-            case 'harmful' : {
+            case 'harmful': {
                 if (value > max) {
                     return { className: 'overview-result-above' }
                 }
             }
-            case 'beneficial' : {
+            case 'beneficial': {
                 if (value < min) {
                     return { className: 'overview-result-below' }
                 }
@@ -284,35 +442,25 @@ const Overview = () => {
     }
     const mapBacterialType = (type) => {
         return {
-            beneficial : '有益菌',
-            general : '中性菌',
-            harmful : '有害菌'
+            beneficial: '有益菌',
+            general: '中性菌',
+            harmful: '有害菌'
         }[type]
     }
-
     return (
         <div className='overview-container'>
             <div className='overview-title'><span>整体情况</span></div>
             <div className='overview-total-graph'>
-                <canvas id='graph' />
-                {graphInfo.length ? (
-                    <div className='overview-total-graph-info'> 
-                    {
-                        graphInfo.map((v, i) => (
-                            <p key={i}>{v.range}<span>{v.name}</span></p>
-                        ))
-                    }
-                </div>
-                ) : null}
+                <div id='graph' />
             </div>
-            <div className='overview-age-prediction'>预测年龄：{ + user.age}</div>
+            <div className='overview-age-prediction'>预测年龄：{+ user.age}</div>
             <div className='overview-total'>
                 <div>
                     <span className='overview-total-label'>受检者<span>{user.name}</span></span>
                     <span className='overview-total-label'>性别<span>{user.gender}</span></span>
                 </div>
                 <div>
-                    <span className='overview-total-label'>出生日期<span>{user.birthday}</span></span>
+                    <span className='overview-total-label'>生日<span>{user.birthday}</span></span>
                     <span className='overview-total-label'>报告日期<span>{user.date_of_production}</span></span>
                 </div>
             </div>
@@ -378,6 +526,12 @@ const Overview = () => {
                     </tbody>
                 </table>
             </div>
+            <Alert controller={alertController} content='登录凭证过期，请重新登录' beforeClose={() => {
+                dispatch({
+                    type: BIO.LOGIN_EXPIRED
+                });
+                history.push('/user/login');
+            }} />
         </div>
     );
 }

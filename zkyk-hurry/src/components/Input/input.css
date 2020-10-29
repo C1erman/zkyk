@@ -19,6 +19,21 @@
     outline: 0;
     line-height: 1.5;
 }
+.input-container > input::-webkit-input-placeholder{
+    color: #a0a0a0;
+}
+:-moz-placeholder{
+    color: #a0a0a0;
+}
+::-moz-placeholder{
+    color: #a0a0a0;
+}
+.input-container > input:-ms-input-placeholder{
+    color: #a0a0a0;
+}
+.input-container > input::-ms-input-placeholder{
+    color: #a0a0a0;
+}
 .input-container > input:focus{
     border-color: #1a1a1a;
     text-indent: 1rem;
@@ -36,6 +51,11 @@ input.readonly:focus{
 }
 .error{
     border-color: #a94442;
+}
+.input-note{
+    width: 90%;
+    margin: 0.5rem auto;
+    color: #a0a0a0;
 }
 .input-error{
     margin: 0.5rem 0;

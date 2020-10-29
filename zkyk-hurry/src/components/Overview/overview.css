@@ -22,7 +22,6 @@
     content: "";
     width: 120%;
     height: 0.7rem;
-    opacity: 0.8;
     z-index: -1;
     background: var(--theme);
     opacity: 0.5;
@@ -32,7 +31,7 @@
 .overview-age-prediction{
     width: 90%;
     margin: 0 auto;
-    padding-bottom: 0.5rem;
+    padding-bottom: 1rem;
     font-weight: bolder;
     font-size: 1rem;
     text-align: center;
@@ -87,7 +86,8 @@
 }
 .overview-abnormal-content > div:first-child{
     margin: 0 1rem;
-    padding: 0.4rem 0;
+    padding: 0.5rem 0;
+    letter-spacing: 0.1rem;
     background-color: var(--fakeTheme);
     color: #ffffff;
     border-radius: 1rem;
@@ -136,7 +136,7 @@
     font-weight: lighter;
 }
 .overview-flora-item-header > div:last-child{
-    padding: 0.2rem 0.5rem;
+    padding: 0.2rem 1rem;
     background-color: var(--theme);
     color: #ffffff;
     border-radius: 1rem;
@@ -213,8 +213,7 @@
     margin: 0 auto;
     margin-bottom: 1rem;
     border-radius: 5px;
-    background-color: var(--theme);
-    background-image: linear-gradient(var(--theme), var(--background));
+    background: var(--textContainer);
 }
 .overview-total-graph-info{
     display: flex;

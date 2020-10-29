@@ -86,11 +86,18 @@ const Login = () => {
                 }
             })
             .catch(error => {
-                setError('网络请求出现问题，请稍后再试。');
-                setTimeout(() => {
-                    setError('');
-                    end();
-                }, 2500)
+                console.log('出现了错误，下面是错误信息 [error, error.code, error.config, error.response, error.name, error.status]')
+                console.log(error)
+                console.log(error.code);
+                console.log(error.config)
+                console.log(error.response)
+                console.log(error.name);
+                console.log(error.status)
+                // setError('网络请求出现问题，请稍后再试。');
+                // setTimeout(() => {
+                //     setError('');
+                //     end();
+                // }, 2500)
             })
         }
     }
@@ -128,7 +135,7 @@ const Login = () => {
             else if(data.code === 'success') {
                 end();
                 setMsg('邮件发送成功，请前往邮箱查看');
-                controller.on('toggle');
+                passController.on('toggle');
                 alertController.on('toggle');
             }
         }).catch(error => end());
@@ -141,7 +148,6 @@ const Login = () => {
                 </div>
                 <Input type='text' label='账号' placeholder='请输入邮箱或用户名' dataName='username' form={inputs} />
                 <Input type='password' label='密码' placeholder='请输入密码' validateType='pass' dataName='password' form={inputs} />
-                {/* <div className='login-to-signup'>没有账号？<Link to='/user/signup'>前去注册</Link></div> */}
                 <div className='login-to-signup'>忘记密码？<a onClick={() => passController.on('toggle')}>点击找回</a></div>
                 <Button text='登录' click={clickHandler} controlledByFunc={true} errorText={loginError} loading={true} loadingText='请稍候' loadingTime={2500} />
             </div>

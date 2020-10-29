@@ -51,7 +51,7 @@
     font-weight: lighter;
 }
 .assess-item-header > div:last-child{
-    padding: 0.2rem 0.5rem;
+    padding: 0.2rem 1rem;
     background-color: var(--theme);
     color: #ffffff;
     border-radius: 1rem;

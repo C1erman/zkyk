@@ -11,7 +11,8 @@
     margin: 0 0.5rem;
     font-size: 1rem;
     padding-bottom: 0.1rem;
-    border-bottom: 2px solid var(--black);
+    border-bottom: 2px solid var(--background);
+    color: var(--black);
 }
 .edit-label-container{
     display: flex;
@@ -93,6 +94,7 @@
     color: var(--theme);
     margin-right: 1rem;
     font-weight: bolder;
+    cursor: pointer;
 }
 .edit-testee-container{
     max-height: 300px;

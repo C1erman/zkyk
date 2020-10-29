@@ -7,13 +7,13 @@
 .add-noti > p{
     line-height: 2;
 }
-.add-noti-barcode{
-    font-weight: bolder;
+.add-noti-barcode, .add-noti-email{
     font-size: 1rem;
+    padding-bottom: 0.1rem;
+    border-bottom: 2px solid var(--background);
+    color: var(--black);
 }
 .add-noti-email{
-    font-weight: bolder;
-    font-size: 1rem;
     white-space: nowrap;
 }
 .add-label-container{

@@ -21,6 +21,7 @@ import failedSrc from '../../icons/status/failed.svg';
 const ReportList = () => {
     let user = useSelector(state => state.user);
     let controller = {};
+    let alertController = {};
     let modalController = {};
     const history = useHistory();
     const dispatch = useDispatch();
@@ -48,11 +49,14 @@ const ReportList = () => {
             }
         })
         .catch(error => {
-            console.info('登录凭证过期，用户需要重新登录。');
-            dispatch({
-                type : BIO.LOGIN_EXPIRED
-            });
-            history.push('/user/login');
+            console.log('出现了错误，下面是错误信息 [error, error.code, error.config, error.response, error.name, error.status]')
+            console.log(error)
+            console.log(error.code);
+            console.log(error.config)
+            console.log(error.response)
+            console.log(error.name);
+            console.log(error.status)
+            // alertController.on('toggle');
         })
     }, [])
     const getList = (currentPage) => {
@@ -74,11 +78,11 @@ const ReportList = () => {
             }
         })
         .catch(error => {
-            console.info('登录凭证过期，用户需要重新登录。');
-            dispatch({
-                type : BIO.LOGIN_EXPIRED
-            });
-            history.push('/user/login');
+            if(!error?.name){
+                alertController.on('toggle');
+            }
+            console.log(error.name);
+            
         })
     }
     const getStatus = (sampleId) => {
@@ -141,8 +145,7 @@ const ReportList = () => {
                 <span>选择报告以进行后续操作</span>
             </div>
             <div className='reportList-content'>
-                <div className='reportList-info'>在实验结束、生成报告之前，您都有机会对您填写的信息进行修改；
-                报告生成之后，您只能查看而不能修改相关信息。<br />点击报告状态可查看状态详情。
+                <div className='reportList-info'>在实验结束、生成报告之前，您都有机会对您填写的信息进行修改；报告生成之后，您只能查看而不能修改相关信息。<br />点击报告的当前状态以查看状态详情。
                 </div>
                 {!list.length ? (<div className='reportList-empty'>
                     抱歉，暂时无可以操作的报告。
@@ -183,6 +186,12 @@ const ReportList = () => {
                     </li>))}
                 </ul>
             } onClose={() => setStatus([])} />
+            <Alert controller={alertController} content='登录凭证过期，请重新登录' beforeClose={() => {
+                dispatch({
+                    type : BIO.LOGIN_EXPIRED
+                });
+                history.push('/user/login');
+            }} />
         </div>
     );
 }

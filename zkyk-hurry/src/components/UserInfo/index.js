@@ -7,11 +7,13 @@ import { useSelector } from 'react-redux';
 import { host } from '../../_config';
 import Modal from '../Modal';
 import Alert from '../Alert';
+import { slideUp } from '../../utils/slideUp';
 
 const UserInfo = () => {
     const user = useSelector(state => state.user);
     let [inputs, setInputs] = useState({
-        username : ''
+        username : '',
+        tel : ''
     });
     let [editEmail, setEditEmail] = useState({
         email : '',
@@ -25,6 +27,7 @@ const UserInfo = () => {
     let alertController = {};
 
     useEffect(() => {
+        slideUp();
         Axios({
             method : 'GET',
             url : host + '/user/getPersonal',
@@ -53,7 +56,7 @@ const UserInfo = () => {
             return !inputs[v].validated;
         });
         if(validated.length){
-            setError('表单内容不合规范，请检查修改后再做提交。');
+            setError('内容不合规范，请检查修改后再做提交。');
             setTimeout(() => {
                 setError('');
                 end();
@@ -64,7 +67,8 @@ const UserInfo = () => {
             method : 'POST',
             url : host + '/user/personal',
             data : {
-                username : inputs.username.value
+                username : inputs.username.value,
+                tel : inputs.tel.value
             },
             params : {
                 'access-token' : user.token
@@ -170,7 +174,8 @@ const UserInfo = () => {
     return (
         <div className='userInfo-container'>
             <div className='userInfo-title'><span>基本信息</span></div>
-            <Input label='用户名' dataName='username' form={inputs} defaultValue={defaultVal}/>
+            <Input label='用户名' dataName='username' form={inputs} defaultValue={defaultVal} note='用户名代表了您的身份，只能设置一次'/>
+            <Input label='电话号码' type='tel' placeholder='绑定电话号码' dataName='tel' form={inputs} defaultValue={defaultVal} enableEmpty={true} validateType='tel' />
             <Button text='保存' errorText={error} click={handleUpdate} controlledByFunc={true} hollow={true} loading={true} />
             <div className='userInfo-title'><span>设置</span></div>
             <div className='userInfo-setting-pass'>

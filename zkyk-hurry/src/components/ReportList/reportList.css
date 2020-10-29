@@ -95,9 +95,8 @@ td.noBarCode{
     border-radius: 3px;
 }
 .reportList-status{
-    width: 80%;
+    margin-left: 1rem;
     max-height: 400px;
-    margin: 0 auto;
     overflow: auto;
 }
 .reportList-status > li{

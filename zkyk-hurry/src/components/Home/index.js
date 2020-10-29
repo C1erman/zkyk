@@ -31,10 +31,10 @@ const Home = () => {
     
     const checkCode = (begin, end) => {
         begin();
-        // if(!user.id) {
-        //     controller.on('open');
-        //     return false;
-        // }
+        if(!user.id) {
+            controller.on('open');
+            return false;
+        }
         // check agreement
         if(agreeRef.current.checked === false){
             setError('请勾选检测须知。');

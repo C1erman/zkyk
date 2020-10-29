@@ -81,6 +81,7 @@ const Input = ({
     form = {},
     readOnly = false,
     defaultValue = {},
+    note,
     ...rest
 }) => {
     let [error, setError] = useState('');
@@ -106,7 +107,7 @@ const Input = ({
                 if(emptyRegexp.test(value)) return inputRef.current.value = value.replace(emptyRegexp, '');
                 let result;
                 if(validateType instanceof RegExp) result = customValidate(validateType, enableEmpty, value, errorMsg);
-                else result = validate(validateType, value);
+                else result = validate(validateType, value, enableEmpty);
                 let data = {
                     validated : !result.error,
                     value : value
@@ -116,7 +117,11 @@ const Input = ({
                 else setError('');
             }}
             {...rest} />
-            <p className='input-error'>{error.length ? error : ''}</p>
+            {note && !error.length ? (
+                <p className='input-note'>{note}</p>
+            ) : null}
+            {error.length ? (<p className='input-error'>{error}</p>) : null}
+            
         </div>
     )
 }
