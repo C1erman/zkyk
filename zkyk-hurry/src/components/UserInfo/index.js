@@ -9,6 +9,7 @@ import Modal from '../Modal';
 import Alert from '../Alert';
 import { slideUp } from '../../utils/slideUp';
 import * as BIO from '../../actions';
+import { clone } from '../../utils/BIOObject';
 
 const UserInfo = () => {
     const dispatch = useDispatch();
@@ -91,6 +92,7 @@ const UserInfo = () => {
         }).then(_data => {
             const {data} = _data;
             if(data.code === 'error'){
+                setDefaultVal(clone(defaultVal));
                 setError(data.info);
                 setTimeout(() => { 
                     setError('');

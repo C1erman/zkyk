@@ -58,7 +58,7 @@ input.readonly:focus{
     color: #a0a0a0;
 }
 .input-error{
-    margin: 0.5rem 0;
+    width: 90%;
+    margin: 0.5rem auto;
     color: #a94442;
-    text-indent: 1rem;
 }

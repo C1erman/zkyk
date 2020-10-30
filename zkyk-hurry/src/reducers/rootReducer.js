@@ -123,6 +123,7 @@ const rootReducer = (state = initState, action) => {
         case BIO.USER_EDIT_EMAIL : {
             const user = clone(state['user']);
             user.email = action.data;
+            localStorage.setItem('email', action.data);
             return {
                 ...state,
                 user

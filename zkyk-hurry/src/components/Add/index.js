@@ -14,6 +14,7 @@ import Input from '../Input';
 import AutoInput from '../AutoInput';
 import Modal from '../Modal';
 import Button from '../Button';
+import Alert from '../Alert';
 
 const Add = () => {
     // 路由
@@ -134,7 +135,13 @@ const Add = () => {
                     end();
                     controller.on('toggle');
                 }
-                else console.log(data.info);
+                else{
+                    setCodeErr(data.info);
+                    setTimeout(() => {
+                        setCodeErr('');
+                        end();
+                    }, 2500);
+                };
             })
             .catch(error => {
                 end();

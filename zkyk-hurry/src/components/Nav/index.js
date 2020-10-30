@@ -1,17 +1,14 @@
 import React from 'react';
 import './nav.css';
-import bioLogoImg from '../../icons/nav-logo-bio.svg';
-import zkykLogoImg from '../../icons/nav-logo-zkyk.svg';
 import Drawer from '../Drawer';
 import * as BIO from '../../actions';
-import { useLocation, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 const Nav = () => {
     const state = useSelector(state => state);
     let { user, report } = state;
     const dispatch = useDispatch();
-    let isHome = useLocation().pathname === '/';
     let controller = {};
 
     const clickHandler = () => controller.on('toggle');
@@ -20,19 +17,6 @@ const Nav = () => {
             type : BIO.LOGOUT_SUCCESS
         });
         controller.on('toggle');
-    }
-    const NavHeader = () => {
-        return !isHome ? (
-            <header className='nav-container'>
-                <div className='nav-logo-container'>
-                    <a href='#/'>
-                        <img className='nav-logo' src={bioLogoImg} />
-                        ×
-                        <img className='nav-logo-zkyk' src={zkykLogoImg} />
-                    </a> 
-                </div>
-            </header>
-        ) : null;
     }
     const BioLinks = user.id ? (
         <div className='nav-link-container'>
@@ -54,7 +38,6 @@ const Nav = () => {
     );
     return (
         <>
-            {/* <NavHeader /> */}
             <Drawer content={BioLinks} controller={controller} />
         </>
     );

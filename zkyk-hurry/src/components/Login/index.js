@@ -86,18 +86,11 @@ const Login = () => {
                 }
             })
             .catch(error => {
-                console.log('出现了错误，下面是错误信息 [error, error.code, error.config, error.response, error.name, error.status]')
-                console.log(error)
-                console.log(error.code);
-                console.log(error.config)
-                console.log(error.response)
-                console.log(error.name);
-                console.log(error.status)
-                // setError('网络请求出现问题，请稍后再试。');
-                // setTimeout(() => {
-                //     setError('');
-                //     end();
-                // }, 2500)
+                setError('网络请求出现问题，请稍后再试。');
+                setTimeout(() => {
+                    setError('');
+                    end();
+                }, 2500)
             })
         }
     }
@@ -115,7 +108,7 @@ const Login = () => {
         }
         else Axios({
             method : 'GET',
-            url : host + '/user/reset/passwordReset',
+            url : host + '/user/reset/password/reset',
             params : {
                 email : email.email.value
             },
@@ -138,7 +131,13 @@ const Login = () => {
                 passController.on('toggle');
                 alertController.on('toggle');
             }
-        }).catch(error => end());
+        }).catch(error => {
+            setEmailErr('网络请求出现问题，请稍后再试');
+            setTimeout(() => { 
+                setEmailErr('');
+                end();
+            }, 2500)
+        });
     }
     return (
         <>

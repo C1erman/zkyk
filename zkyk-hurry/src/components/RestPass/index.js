@@ -24,7 +24,12 @@ const ResetPass = () => {
     useEffect(() => {
         let token = new URLSearchParams(location.search).get('token');
         if(!token) history.push('/');
-        else setToken(token);
+        else{
+            setToken(token);
+            dispatch({
+                type : BIO.LOGIN_EXPIRED
+            });
+        }
     }, [])
     const handleReset = (begin, end) => {
         begin();

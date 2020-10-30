@@ -306,6 +306,7 @@ const Overview = () => {
     let [graphInfo, setGraphInfo] = useState([]);
     let history = useHistory();
     let report = useSelector(state => state.report);
+    let userInfo = useSelector(state => state.user);
     let dispatch = useDispatch();
     let alertController = {};
 
