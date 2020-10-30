@@ -306,7 +306,6 @@ const Overview = () => {
     let [graphInfo, setGraphInfo] = useState([]);
     let history = useHistory();
     let report = useSelector(state => state.report);
-    let userInfo = useSelector(state => state.user);
     let dispatch = useDispatch();
     let alertController = {};
 
@@ -328,8 +327,13 @@ const Overview = () => {
             const { data } = _data;
             // if (data.code === 'success') showGraph(data.data.name, + data.data.value);
             if(data.code === 'success') showGraphNew(data.data.name, (+ data.data.value) / 10);
-        }).catch(error => {
-            alertController.on('toggle');
+        })
+        .catch(error => {
+            if(error.response?.status === 500){
+                console.log('网络请求出现问题。');
+            }else if(error.response?.status === 401){
+                alertController.on('toggle');
+            }
         });
         Axios({
             method: 'GET',

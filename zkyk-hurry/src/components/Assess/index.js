@@ -6,11 +6,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { slideUp } from '../../utils/slideUp';
 import * as BIO from '../../actions';
 import { useHistory } from 'react-router-dom';
+import Alert from '../Alert';
 
 const Assess = () => {
     let [assess, setAssess] = useState([]);
     let report = useSelector(state => state.report);
     let user = useSelector(state => state.user);
+    let alertController ={};
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -30,13 +32,13 @@ const Assess = () => {
         }).then(_data => {
             const {data} = _data;
             if(data.code === 'success')  setAssess(data.data);
-        }).catch(error => {
-            // 后续改成全局消息提醒
-            console.info('登录凭证过期，用户需要重新登录。');
-            dispatch({
-                type : BIO.LOGIN_EXPIRED
-            });
-            history.push('/user/login');
+        })
+        .catch(error => {
+            if(error.response?.status === 500){
+                console.log('网络请求出现问题。');
+            }else if(error.response?.status === 401){
+                alertController.on('toggle');
+            }
         });
     }, []);
     const mapRisk = {
@@ -59,12 +61,17 @@ const Assess = () => {
                             <div>{v.summary}</div>
                         </div>
                         {v.suggestion ? (<div className='assess-item-result'>
-                            {/* <div>结果评价：</div> */}
                             {v.suggestion}
                         </div>) : null}
                     </div>
                 ))}
-            </div> 
+            </div>
+            <Alert controller={alertController} content='登录凭证过期，请重新登录' beforeClose={() => {
+                dispatch({
+                    type : BIO.LOGIN_EXPIRED
+                });
+                history.push('/user/login');
+            }} />
         </div>
     );
 }

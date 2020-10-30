@@ -3,7 +3,6 @@ import { slideUp } from '../../utils/slideUp';
 import './knowledge.css';
 
 import balance from '../../icons/knowledge/know-balance.png';
-import arrow from '../../icons/knowledge/know-arrow.svg';
 import intestineOne from '../../icons/knowledge/know-intestine-one.svg';
 import intestineTwo from '../../icons/knowledge/know-intestine-two.svg';
 import intestineThree from '../../icons/knowledge/know-intestine-three.svg';

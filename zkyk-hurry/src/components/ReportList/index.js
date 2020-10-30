@@ -49,15 +49,12 @@ const ReportList = () => {
             }
         })
         .catch(error => {
-            console.log('出现了错误，下面是错误信息 [error, error.code, error.config, error.response, error.name, error.status]')
-            console.log(error)
-            console.log(error.code);
-            console.log(error.config)
-            console.log(error.response)
-            console.log(error.name);
-            console.log(error.status)
-            // alertController.on('toggle');
-        })
+            if(error.response?.status === 500){
+                console.log('网络请求出现问题。');
+            }else if(error.response?.status === 401){
+                alertController.on('toggle');
+            }
+        });
     }, [])
     const getList = (currentPage) => {
         Axios({
@@ -78,12 +75,12 @@ const ReportList = () => {
             }
         })
         .catch(error => {
-            if(!error?.name){
+            if(error.response?.status === 500){
+                console.log('网络请求出现问题。');
+            }else if(error.response?.status === 401){
                 alertController.on('toggle');
             }
-            console.log(error.name);
-            
-        })
+        });
     }
     const getStatus = (sampleId) => {
         Axios({
@@ -103,7 +100,13 @@ const ReportList = () => {
                 modalController.on('toggle');
             }
         })
-        .catch(error => {})
+        .catch(error => {
+            if(error.response?.status === 500){
+                console.log('网络请求出现问题。');
+            }else if(error.response?.status === 401){
+                alertController.on('toggle');
+            }
+        });
     }
     const selectHandler = (reportId) => {
         if(reportId === 'error') controller.on('open');

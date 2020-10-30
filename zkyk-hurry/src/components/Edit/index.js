@@ -63,7 +63,7 @@ const Edit = () => {
         if(sampleId){
             Axios({
                 method : 'GET',
-                url : host + '/sample/updateBind',
+                url : host + '/sample/update/bind',
                 params : {
                     id : sampleId,
                     'access-token' : token
@@ -92,7 +92,19 @@ const Edit = () => {
                     selectBloodRef.current.disabled = 'disabled';
                 }
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                if(error.response?.status === 500){
+                    console.log('网络请求出现问题。');
+                }else if(error.response?.status === 401){
+                    setMsg('登录凭证过期，请重新登录');
+                    alertController.on('toggle');
+                    setTimeout(() => {
+                        dispatch({
+                            type : BIO.LOGIN_EXPIRED
+                        })
+                    }, 1500)
+                }
+            });
         }
     }, [])
 
@@ -153,8 +165,18 @@ const Edit = () => {
             })
             .catch(error => {
                 setSubmit('修改');
-                console.log(error)
-            })
+                if(error.response?.status === 500){
+                    console.log('网络请求出现问题。');
+                }else if(error.response?.status === 401){
+                    setMsg('登录凭证过期，请重新登录');
+                    alertController.on('toggle');
+                    setTimeout(() => {
+                        dispatch({
+                            type : BIO.LOGIN_EXPIRED
+                        })
+                    }, 1500)
+                }
+            });
         }
     }
     const handleEdit = (begin, end) => {
@@ -171,7 +193,7 @@ const Edit = () => {
         }
         else Axios({
             method : 'POST',
-            url : host + '/sample/alterPerson',
+            url : host + '/sample/alter/person',
             params : {
                 'access-token' : token
             },
@@ -210,7 +232,21 @@ const Edit = () => {
                 controller.on('toggle');
                 alertController.on('toggle');
             }
-        }).catch(error => end());
+        })
+        .catch(error => {
+            end();
+            if(error.response?.status === 500){
+                console.log('网络请求出现问题。');
+            }else if(error.response?.status === 401){
+                setMsg('登录凭证过期，请重新登录');
+                alertController.on('toggle');
+                setTimeout(() => {
+                    dispatch({
+                        type : BIO.LOGIN_EXPIRED
+                    })
+                }, 1500)
+            }
+        });
     }
     return (
         <div className='edit-container'>

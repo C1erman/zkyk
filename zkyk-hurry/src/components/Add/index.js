@@ -45,7 +45,7 @@ const Add = () => {
     let [testeeCode, setCode] = useState();
     let [codeError, setCodeErr] = useState('');
     // redux
-    let {sampleId } = useSelector(state => state.add);
+    let { sampleId } = useSelector(state => state.add);
     const dispatch = useDispatch();
     // ref
     const selectGenderRef = useRef();
@@ -53,6 +53,7 @@ const Add = () => {
     const selectFoodRef = useRef();
     
     let controller = {};
+    let alertController = {};
     useEffect(() => slideUp(), []);
     // user
     let user = useSelector(state => state.user);
@@ -79,9 +80,16 @@ const Add = () => {
                 end();
                 controller.on('toggle');
             }
-            else console.log(data.info);
+            else { end(); console.log(data.info); }
         })
-        .catch(error => end());
+        .catch(error => {
+            end();
+            if(error.response?.status === 500){
+                console.log('网络请求出现问题。');
+            }else if(error.response?.status === 401){
+                alertController.on('toggle');
+            }
+        });
     }
     const handleAlready = (begin, end) => {
         begin();
@@ -128,7 +136,14 @@ const Add = () => {
                 }
                 else console.log(data.info);
             })
-            .catch(error => end());
+            .catch(error => {
+                end();
+                if(error.response?.status === 500){
+                    console.log('网络请求出现问题。');
+                }else if(error.response?.status === 401){
+                    alertController.on('toggle');
+                }
+            });
         }
     }
     const handleSubmit = () => {
@@ -158,7 +173,6 @@ const Add = () => {
                 sample_id : sampleId,
                 blood_type, meat_egetables, gender,
                 isFirst : first, code : testeeCode
-                // user_id,
             }
             Axios({
                 method : 'POST',
@@ -192,8 +206,12 @@ const Add = () => {
             })
             .catch(error => {
                 setSubmit('提交');
-                console.log(error)
-            })
+                if(error.response?.status === 500){
+                    console.log('网络请求出现问题。');
+                }else if(error.response?.status === 401){
+                    alertController.on('toggle');
+                }
+            });
         }
     }
     return (
@@ -261,6 +279,12 @@ const Add = () => {
                     )}
                 </>
             } />
+            <Alert controller={alertController} content='登录凭证过期，请重新登录' beforeClose={() => {
+                dispatch({
+                    type : BIO.LOGIN_EXPIRED
+                });
+                history.push('/user/login');
+            }} />
         </div>
     );
 }

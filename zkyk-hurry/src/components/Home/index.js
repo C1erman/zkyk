@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as BIO from '../../actions';
 
 import './home.css';
-import bioLogo from '../../icons/home-logo-bio.svg';
-import zkykLogo from '../../icons/home-logo-zkyk.svg';
 import { host } from '../../_config';
 import Input from '../Input';
 import Button from '../Button';
@@ -89,12 +87,15 @@ const Home = () => {
                         history.push('/add');
                     }, 100)
                 }
-            }).catch(error => {
-                setError('网络请求出现问题，请稍后再试。');
-                setTimeout(() => { 
-                    setError('');
-                    end();
-                }, 2500)
+            })
+            .catch(error => {
+                if(error.response?.status === 500){
+                    setError('网络请求出现问题，请稍后再试。');
+                    setTimeout(() => { 
+                        setError('');
+                        end();
+                    }, 2500)
+                }
             });
         }
     }
@@ -102,12 +103,7 @@ const Home = () => {
         <>
             <div className='home-container'>
                 <div className='home-textContainer'>
-                    <div className='home-logoContainer'>
-                        {/* <img src={bioLogo} alt='博奥汇玖' />
-                        <div className='home-logo-divide'>×</div>
-                        <img src={zkykLogo} alt='中科宜康' /> */}
-                    </div>
-                    <div className='home-title'>— 肠道菌群健康评估报告 —</div>
+                    <div className='home-title'>— 人体微生态健康评估报告 —</div>
                     <div className='home-info'>
                         <p>肠道是人体消化与吸收的主要器官，吸收了90%以上的营养物质。同时，肠道又是人体最大的免疫器官，人体70%以上的免疫细胞位于肠粘膜内。
                     肠道里的迷走神经与大脑相连，与大脑的神经系统构成 “脑肠轴”，因此肠道又被称为人体的 “第二大脑”。</p>

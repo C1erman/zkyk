@@ -3,22 +3,20 @@ import './userInfo.css';
 import Input from '../Input';
 import Button from '../Button';
 import Axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { host } from '../../_config';
 import Modal from '../Modal';
 import Alert from '../Alert';
 import { slideUp } from '../../utils/slideUp';
+import * as BIO from '../../actions';
 
 const UserInfo = () => {
+    const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     let [inputs, setInputs] = useState({
         username : '',
         tel : ''
     });
-    let [editEmail, setEditEmail] = useState({
-        email : '',
-        code : ''
-    })
     let [defaultVal, setDefaultVal] = useState();
     let [error, setError] = useState('');
     let [message, setMsg] = useState('');
@@ -30,7 +28,7 @@ const UserInfo = () => {
         slideUp();
         Axios({
             method : 'GET',
-            url : host + '/user/getPersonal',
+            url : host + '/user/personal/info',
             params : {
                 'access-token' : user.token
             },
@@ -47,7 +45,20 @@ const UserInfo = () => {
                 }, 2500)
             }
             else if(data.code === 'success') setDefaultVal(data.data);
-        }).catch(error => console.log(error));
+        })
+        .catch(error => {
+            if(error.response?.status === 500){
+                console.log('网络请求出现问题。');
+            }else if(error.response?.status === 401){
+                setMsg('登录凭证过期，请重新登录');
+                alertController.on('toggle');
+                setTimeout(() => {
+                    dispatch({
+                        type : BIO.LOGIN_EXPIRED
+                    })
+                }, 1500)
+            }
+        });
     }, [])
     const handleUpdate = (begin, end) => {
         begin();
@@ -116,7 +127,7 @@ const UserInfo = () => {
         begin();
         Axios({
             method : 'GET',
-            url : host + '/user/reset/passwordReset',
+            url : host + '/user/reset/password/reset',
             params : {
                 email : defaultVal?.email
             },
@@ -145,7 +156,7 @@ const UserInfo = () => {
         begin();
         Axios({
             method : 'GET',
-            url : host + '/user/reset/emailReset',
+            url : host + '/user/reset/email/reset',
             params : {
                 email : defaultVal?.email
             },

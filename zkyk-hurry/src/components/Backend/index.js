@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { slideUp } from '../../utils/slideUp';
 import Pager from '../Pager';
 import * as BIO from '../../actions';
+import Alert from '../Alert';
 
 const Backend = () => {
     const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const Backend = () => {
     let [total, setTotal] = useState(10);
     let [list, setList] = useState([]);
     let [backendData, setData] = useState();
+    let alertController = {};
 
     useEffect(() => {
         slideUp();
@@ -31,13 +33,12 @@ const Backend = () => {
             if(data.code === 'success') setData(data.data);
         })
         .catch(error => {
-            // 后续改成全局消息提醒
-            console.info('登录凭证过期，用户需要重新登录。');
-            dispatch({
-                type : BIO.LOGIN_EXPIRED
-            });
-            history.push('/user/login');
-        })
+            if(error.response?.status === 500){
+                console.log('网络请求出现问题。');
+            }else if(error.response?.status === 401){
+                alertController.on('toggle');
+            }
+        });
         Axios({
             method : 'GET',
             url : host + '/admin/list',
@@ -56,7 +57,13 @@ const Backend = () => {
                 setTotal(data.data.pagination.pageSize);
             }
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+            if(error.response?.status === 500){
+                console.log('网络请求出现问题。');
+            }else if(error.response?.status === 401){
+                alertController.on('toggle');
+            }
+        });
     }, [])
     const getList = (currentPage) => {
         Axios({
@@ -78,7 +85,13 @@ const Backend = () => {
                 setTotal(data.data.pagination.pageSize);
             }
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+            if(error.response?.status === 500){
+                console.log('网络请求出现问题。');
+            }else if(error.response?.status === 401){
+                alertController.on('toggle');
+            }
+        });
     }
     return (
         <div className='backend-container'>
@@ -120,6 +133,12 @@ const Backend = () => {
                         </table>
                         <Pager total={total} prevClick={(currentPage) => getList(currentPage)} nextClick={(currentPage) => getList(currentPage)}  />
                     </div>
+                    <Alert controller={alertController} content='登录凭证过期，请重新登录' beforeClose={() => {
+                        dispatch({
+                            type : BIO.LOGIN_EXPIRED
+                        });
+                        history.push('/user/login');
+                    }} />
                 </>
             )}
         </div>
