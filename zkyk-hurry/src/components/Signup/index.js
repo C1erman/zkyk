@@ -6,10 +6,16 @@ import Button from '../Button';
 import Axios from 'axios';
 import { host } from '../../_config';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { slideUp } from '../../utils/slideUp';
+import Alert from '../Alert';
+import * as BIO from '../../actions';
 
 const Signup = () => {
     let history = useHistory();
+    const dispatch = useDispatch();
+    let controller = {};
+    let [message, setMsg] = useState('');
     let [error, setError] = useState('');
     let [inputs, setInputs] = useState({
         username : '',
@@ -50,8 +56,10 @@ const Signup = () => {
             }).then(_data => {
                 let { data } = _data;
                 if(data.code === 'success'){
+                    if(data.data.validated) setMsg('注册成功，请登录');
+                    else setMsg('注册成功，请验证邮箱以激活账户');
+                    controller.on('toggle');
                     end();
-                    history.push('/user/login');
                 }
                 else if(data.code === 'error'){
                     setError(data.info);
@@ -77,6 +85,10 @@ const Signup = () => {
             <Input type='password' validateType='pass' label='密码' placeholder='请输入密码' dataName='password' form={inputs} />
             <Input type='number' label='企业邀请码' placeholder='请输入邀请码' dataName='invitation' form={inputs} />
             <Button text='注册' hollow={true} loading={true} controlledByFunc={true} loadingText='请稍候' click={clickHandler} errorText={error} />
+            <Alert controller={controller} content={message} beforeClose={() => {
+                    history.push('/user/login');
+                    dispatch({type : BIO.LOGIN_EXPIRED});
+                }} />
         </div>
     );
 }

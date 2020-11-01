@@ -92,7 +92,8 @@ const UserInfo = () => {
         }).then(_data => {
             const {data} = _data;
             if(data.code === 'error'){
-                setDefaultVal(clone(defaultVal));
+                let val = clone(defaultVal);
+                setDefaultVal(val);
                 setError(data.info);
                 setTimeout(() => { 
                     setError('');

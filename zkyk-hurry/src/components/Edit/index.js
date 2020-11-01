@@ -301,7 +301,7 @@ const Edit = () => {
                     dataName='antibiotics' form={inputs} defaultValue={defaultVal} />
                 <button className={submit !== '修改' ? 'edit-form-btn disabled' : 'edit-form-btn'} onClick={handleSubmit}>{submit}</button>
                 <p className='edit-form-error'>{error}</p>
-                <button className={submit !== '修改' ? 'edit-form-btn-back disabled' : 'edit-form-btn-back'} onClick={() => history.push('/report/list')}>不做修改</button>
+                <button className={submit !== '修改' ? 'edit-form-btn-back disabled' : 'edit-form-btn-back'} onClick={() => history.push('/report/list')}>返回</button>
                 <Modal title='受测人基本信息修改' controller={controller} content={
                     <div className='edit-testee-container'>
                         <p>修改受测人基本信息将会引起所有相关联绑定信息的修改，请谨慎修改。</p>
