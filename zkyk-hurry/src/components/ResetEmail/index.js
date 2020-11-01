@@ -78,7 +78,7 @@ const ResetEmail = () => {
             <Input type='email' label='新邮件地址' placeholder='请输入新邮件地址' validateType='email' form={inputs} dataName='email' />
             <Button text='修改' click={handleReset} controlledByFunc={true} errorText={error} loading={true} />
             <Alert controller={controller} content='修改成功' beforeClose={() => {
-                    history.push('/user/info')
+                    history.push('/user/info');
                     dispatch({
                         type : BIO.USER_EDIT_EMAIL,
                         data : inputs.email.value
