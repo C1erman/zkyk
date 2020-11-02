@@ -102,9 +102,7 @@ const AxiosConfig = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         Axios.interceptors.response.use(
-            response => {
-                return Promise.resolve(response);
-            },
+            response => response,
             error => {
                 if(error.response?.status){
                     switch(error.response.status){
@@ -120,6 +118,7 @@ const AxiosConfig = () => {
                                 type : BIO.GLOBAL_INFO,
                                 data : '网络请求出现问题，请稍后再试'
                             });
+                            break;
                         }
                         default : {
                             dispatch({
@@ -128,6 +127,12 @@ const AxiosConfig = () => {
                             })
                         }
                     }
+                }
+                else {
+                    dispatch({
+                        type : BIO.GLOBAL_INFO,
+                        data : '系统错误，请稍后再试，或联系管理员'
+                    })
                 }
             }
         )
@@ -166,7 +171,7 @@ const DataValidate = () => {
                         data: '本地信息与服务器不一致，请重新登录'
                     });
                 }
-            });
+            }).catch(error => console.log(error));
         }
     }, [])
     return (<></>);
@@ -174,10 +179,10 @@ const DataValidate = () => {
 const App = () => {
     return (
         <Provider store={store}>
+            <AxiosConfig />
             <Data />
             <Router>
                 <GlobalInfo />
-                <AxiosConfig />
                 <DataValidate />
                 <Nav />
                 <SecureRoute />

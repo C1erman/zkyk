@@ -171,6 +171,7 @@ const UserInfo = () => {
             <div className='userInfo-title'><span>基本信息</span></div>
             <Input label='用户名' dataName='username' form={inputs} defaultValue={defaultVal} note='用户名代表了您的身份，只能设置一次'/>
             <Input label='电话号码' type='tel' placeholder='绑定电话号码' dataName='tel' form={inputs} defaultValue={defaultVal} enableEmpty={true} validateType='tel' />
+            <Input label='所属机构' type='text' placeholder='用户所属机构' dataName='organization' defaultValue={defaultVal} readOnly={true} />
             <Button text='保存' errorText={error} click={handleUpdate} controlledByFunc={true} hollow={true} loading={true} />
             <div className='userInfo-title'><span>设置</span></div>
             <div className='userInfo-setting-pass'>
