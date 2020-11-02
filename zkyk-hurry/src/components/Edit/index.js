@@ -91,20 +91,7 @@ const Edit = () => {
                     selectGenderRef.current.disabled = 'disabled';
                     selectBloodRef.current.disabled = 'disabled';
                 }
-            })
-            .catch(error => {
-                if(error.response?.status === 500){
-                    console.log('网络请求出现问题。');
-                }else if(error.response?.status === 401){
-                    setMsg('登录凭证过期，请重新登录');
-                    alertController.on('toggle');
-                    setTimeout(() => {
-                        dispatch({
-                            type : BIO.LOGIN_EXPIRED
-                        })
-                    }, 1500)
-                }
-            });
+            }).catch(error => console.log(error));
         }
     }, [])
 
@@ -163,20 +150,7 @@ const Edit = () => {
                     },3000)
                 }
             })
-            .catch(error => {
-                setSubmit('修改');
-                if(error.response?.status === 500){
-                    console.log('网络请求出现问题。');
-                }else if(error.response?.status === 401){
-                    setMsg('登录凭证过期，请重新登录');
-                    alertController.on('toggle');
-                    setTimeout(() => {
-                        dispatch({
-                            type : BIO.LOGIN_EXPIRED
-                        })
-                    }, 1500)
-                }
-            });
+            .catch(error => setSubmit('修改'));
         }
     }
     const handleEdit = (begin, end) => {
@@ -233,20 +207,8 @@ const Edit = () => {
                 alertController.on('toggle');
             }
         })
-        .catch(error => {
-            end();
-            if(error.response?.status === 500){
-                console.log('网络请求出现问题。');
-            }else if(error.response?.status === 401){
-                setMsg('登录凭证过期，请重新登录');
-                alertController.on('toggle');
-                setTimeout(() => {
-                    dispatch({
-                        type : BIO.LOGIN_EXPIRED
-                    })
-                }, 1500)
-            }
-        });
+        .catch(error => end());
+        
     }
     return (
         <div className='edit-container'>

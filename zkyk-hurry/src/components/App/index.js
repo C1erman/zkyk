@@ -1,9 +1,12 @@
-import React, { useEffect } from  'react';
-import { HashRouter as Router,  Switch, Route, Redirect } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { HashRouter as Router, Switch, Route, Redirect, useHistory } from 'react-router-dom';
 // redux
 import * as BIO from '../../actions';
 import { Provider, useSelector, useDispatch } from 'react-redux';
 import store from '../../reducers';
+import Axios from 'axios';
+import md5 from 'blueimp-md5';
+import { host } from '../../_config';
 
 import Footer from '../Footer';
 import Home from '../Home';
@@ -22,6 +25,7 @@ import Edit from '../Edit';
 import Knowledge from '../Knowledge';
 import ResetEmail from '../ResetEmail';
 import Verify from '../Verify';
+import Alert from '../Alert';
 
 
 const SecureRoute = () => {
@@ -47,7 +51,7 @@ const SecureRoute = () => {
 
     const R_Backend = (<Route path='/backend' component={Backend}></Route>);
 
-    const BioRoute = user.id ? (
+    const BioRoute = user.token ? (
         <Switch>
             {R_Home}
             {R_Login}{R_Signup}{R_UserInfo}{R_ResetPass}{R_ResetEmail}{R_Verify}
@@ -59,23 +63,112 @@ const SecureRoute = () => {
             {report.current ? R_Suggest : null}
             {R_Knowledge}
             {user.role !== 'user' ? R_Backend : null}
-            <Redirect to='/user/login' />
+            <Redirect to='/' />
         </Switch>
     ) : (
-        <Switch>
-            {R_Home}
-            {R_Login}{R_Signup}{R_ResetPass}{R_ResetEmail}{R_Verify}
-            {add.barCode ? R_Add : null}
-            <Redirect to='/user/login' />
-        </Switch>
-    )
+            <Switch>
+                {R_Home}
+                {R_Login}{R_Signup}{R_ResetPass}{R_ResetEmail}{R_Verify}
+                {add.barCode ? R_Add : null}
+                <Redirect to='/user/login' />
+            </Switch>
+        )
     return BioRoute;
+}
+const GlobalInfo = () => {
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const info = useSelector(state => state.globalInfo);
+    let [alertMessage, setMsg] = useState(info);
+    let controller = {};
+    useEffect(() => {
+        if (info) {
+            setMsg(info);
+            controller.on('toggle');
+        }
+    }, [info]);
+
+    return (<Alert controller={controller} content={alertMessage} time={2500} beforeClose={() => {
+        const toLoginRegExp = /登录/;
+        if (toLoginRegExp.test(alertMessage)) {
+            dispatch({
+                type: BIO.LOGIN_EXPIRED
+            });
+            history.push('/user/login');
+        }
+    }} />);
+}
+const AxiosConfig = () => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        Axios.interceptors.response.use(
+            response => {
+                return Promise.resolve(response);
+            },
+            error => {
+                if(error.response?.status){
+                    switch(error.response.status){
+                        case 401 : {
+                            dispatch({
+                                type: BIO.GLOBAL_INFO,
+                                data: '本地信息与服务器不一致，请重新登录'
+                            });
+                            break;
+                        }
+                        case 500 : {
+                            dispatch({
+                                type : BIO.GLOBAL_INFO,
+                                data : '网络请求出现问题，请稍后再试'
+                            });
+                        }
+                        default : {
+                            dispatch({
+                                type : BIO.GLOBAL_INFO,
+                                data : '系统错误，请联系管理员'
+                            })
+                        }
+                    }
+                }
+            }
+        )
+    }, []);
+    return (<></>)
 }
 const Data = () => {
     const dispatch = useDispatch();
     dispatch({
-        type : BIO.DATA_LOAD
-    });
+        type: BIO.DATA_LOAD
+    })
+    return (<></>);
+}
+const DataValidate = () => {
+    const dispatch = useDispatch();
+    let user = useSelector(state => state.user);
+    useEffect(() => {
+        if (user.token) {
+            let hash = md5(user.role + user.email);
+            Axios({
+                method: 'GET',
+                url: host + '/user/verify/info',
+                params: {
+                    'access-token': user.token,
+                    hash
+                },
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8'
+                }
+            })
+            .then(_data => {
+                let { data } = _data;
+                if (data.code === 'error') {
+                    dispatch({
+                        type: BIO.GLOBAL_INFO,
+                        data: '本地信息与服务器不一致，请重新登录'
+                    });
+                }
+            });
+        }
+    }, [])
     return (<></>);
 }
 const App = () => {
@@ -83,6 +176,9 @@ const App = () => {
         <Provider store={store}>
             <Data />
             <Router>
+                <GlobalInfo />
+                <AxiosConfig />
+                <DataValidate />
                 <Nav />
                 <SecureRoute />
             </Router>

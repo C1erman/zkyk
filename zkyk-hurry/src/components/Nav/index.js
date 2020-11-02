@@ -18,7 +18,7 @@ const Nav = () => {
         });
         controller.on('toggle');
     }
-    const BioLinks = user.id ? (
+    const BioLinks = user.token ? (
         <div className='nav-link-container'>
             <NavLink className='nav-link' activeClassName='nav-link-active' to='/' exact onClick={clickHandler}>送样填表</NavLink>
             <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/list' onClick={clickHandler}>报告列表</NavLink>

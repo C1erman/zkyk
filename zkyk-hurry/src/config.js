@@ -1,3 +1,3 @@
 window.BIO = {
-    host : "http://devapi.biohuge.cn"
+    host : "http://192.168.1.108:3000"
 };

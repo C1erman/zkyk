@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { slideUp } from '../../utils/slideUp';
 import Pager from '../Pager';
 import * as BIO from '../../actions';
-import Alert from '../Alert';
 
 const Backend = () => {
     const dispatch = useDispatch();
@@ -14,7 +13,6 @@ const Backend = () => {
     let [total, setTotal] = useState(10);
     let [list, setList] = useState([]);
     let [backendData, setData] = useState();
-    let alertController = {};
 
     useEffect(() => {
         slideUp();
@@ -22,8 +20,7 @@ const Backend = () => {
             method : 'GET',
             url : host + '/admin/total',
             params : {
-                'access-token' : user.token,
-                id : user.id
+                'access-token' : user.token
             },
             headers : {
                 'Content-Type' : 'application/json; charset=UTF-8'
@@ -31,20 +28,12 @@ const Backend = () => {
         }).then(_data => {
             let { data } = _data;
             if(data.code === 'success') setData(data.data);
-        })
-        .catch(error => {
-            if(error.response?.status === 500){
-                console.log('网络请求出现问题。');
-            }else if(error.response?.status === 401){
-                alertController.on('toggle');
-            }
-        });
+        }).catch(error => console.log(error));
         Axios({
             method : 'GET',
             url : host + '/admin/list',
             params : {
                 'access-token' : user.token,
-                id : user.id,
                 pageNum : 12
             },
             headers : {
@@ -57,13 +46,7 @@ const Backend = () => {
                 setTotal(data.data.pagination.pageSize);
             }
         })
-        .catch(error => {
-            if(error.response?.status === 500){
-                console.log('网络请求出现问题。');
-            }else if(error.response?.status === 401){
-                alertController.on('toggle');
-            }
-        });
+        .catch(error => console.log(error));
     }, [])
     const getList = (currentPage) => {
         Axios({
@@ -71,7 +54,6 @@ const Backend = () => {
             url : host + '/admin/list',
             params : {
                 'access-token' : user.token,
-                id : user.id,
                 page : currentPage,
                 pageNum : 12
             },
@@ -85,13 +67,7 @@ const Backend = () => {
                 setTotal(data.data.pagination.pageSize);
             }
         })
-        .catch(error => {
-            if(error.response?.status === 500){
-                console.log('网络请求出现问题。');
-            }else if(error.response?.status === 401){
-                alertController.on('toggle');
-            }
-        });
+        .catch(error => console.log(error));
     }
     return (
         <div className='backend-container'>
@@ -133,12 +109,6 @@ const Backend = () => {
                         </table>
                         <Pager total={total} prevClick={(currentPage) => getList(currentPage)} nextClick={(currentPage) => getList(currentPage)}  />
                     </div>
-                    <Alert controller={alertController} content='登录凭证过期，请重新登录' beforeClose={() => {
-                        dispatch({
-                            type : BIO.LOGIN_EXPIRED
-                        });
-                        history.push('/user/login');
-                    }} />
                 </>
             )}
         </div>

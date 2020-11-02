@@ -14,7 +14,6 @@ import Input from '../Input';
 import AutoInput from '../AutoInput';
 import Modal from '../Modal';
 import Button from '../Button';
-import Alert from '../Alert';
 
 const Add = () => {
     // 路由
@@ -23,59 +22,58 @@ const Add = () => {
     const [error, setError] = useState('');
     const [submit, setSubmit] = useState('提交');
     let [inputs, setInputs] = useState({
-        first_name : '',
-        last_name : '',
-        height : '',
-        weight : '',
-        birthday : '',
-        antibiotics : ''
+        first_name: '',
+        last_name: '',
+        height: '',
+        weight: '',
+        birthday: '',
+        antibiotics: ''
     });
     let [defaultVal, setDefault] = useState({
-        person_id : '',
-        last_name : '',
-        first_name : '',
-        birthday : ''
+        person_id: '',
+        last_name: '',
+        first_name: '',
+        birthday: ''
     });
     let [readonly, setReadonly] = useState({
-        person_id : false,
-        last_name : false,
-        first_name : false,
-        birthday : false
+        person_id: false,
+        last_name: false,
+        first_name: false,
+        birthday: false
     })
     let [first, setFirst] = useState(true);
     let [testeeCode, setCode] = useState();
     let [codeError, setCodeErr] = useState('');
     // redux
     let { sampleId } = useSelector(state => state.add);
+    let user = useSelector(state => state.user);
     const dispatch = useDispatch();
     // ref
     const selectGenderRef = useRef();
     const selectBloodRef = useRef();
     const selectFoodRef = useRef();
-    
+
     let controller = {};
-    let alertController = {};
+
     useEffect(() => slideUp(), []);
-    // user
-    let user = useSelector(state => state.user);
 
     const handleFirst = (begin, end) => {
         begin();
         Axios({
-            method : 'GET',
-            url : host + '/sample/person',
-            params : {
-                'access-token' : user.token
+            method: 'GET',
+            url: host + '/sample/person',
+            params: {
+                'access-token': user.token
             },
-            headers : {
-                'Content-Type' : 'application/json; charset=UTF-8'
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
             }
         }).then(_data => {
             const { data } = _data;
-            if(data.code === 'success'){
+            if (data.code === 'success') {
                 dispatch({
-                    type : BIO.ADD_SET_TESTEE_CODE,
-                    data : data.data
+                    type: BIO.ADD_SET_TESTEE_CODE,
+                    data: data.data
                 });
                 setCode(data.data);
                 end();
@@ -83,18 +81,11 @@ const Add = () => {
             }
             else { end(); console.log(data.info); }
         })
-        .catch(error => {
-            end();
-            if(error.response?.status === 500){
-                console.log('网络请求出现问题。');
-            }else if(error.response?.status === 401){
-                alertController.on('toggle');
-            }
-        });
+        .catch(error => end());
     }
     const handleAlready = (begin, end) => {
         begin();
-        if(!inputs.code || !inputs.code.validated){
+        if (!inputs.code || !inputs.code.validated) {
             setCodeErr('受测人编码不能为空。');
             setTimeout(() => {
                 setCodeErr('');
@@ -102,31 +93,31 @@ const Add = () => {
             }, 2500);
             return false;
         }
-        else{
+        else {
             setCode(inputs.code.value);
             Axios({
-                method : 'GET',
-                url : host + '/sample/person',
-                params : {
-                    code : inputs.code.value,
-                    'access-token' : user.token
+                method: 'GET',
+                url: host + '/sample/person',
+                params: {
+                    code: inputs.code.value,
+                    'access-token': user.token
                 },
-                headers : {
-                    'Content-Type' : 'application/json; charset=UTF-8'
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8'
                 }
             }).then(_data => {
                 const { data } = _data;
-                if(data.code === 'success'){
+                if (data.code === 'success') {
                     setDefault(data.data);
                     // 下拉框
                     selectBloodRef.current.value = data.data.blood_type;
                     selectGenderRef.current.value = data.data.gender;
                     // 设置 readonly
                     setReadonly({
-                        person_id : true,
-                        last_name : true,
-                        first_name : true,
-                        birthday : true
+                        person_id: true,
+                        last_name: true,
+                        first_name: true,
+                        birthday: true
                     });
                     selectBloodRef.current.disabled = 'disabled';
                     selectGenderRef.current.disabled = 'disabled';
@@ -135,26 +126,18 @@ const Add = () => {
                     end();
                     controller.on('toggle');
                 }
-                else{
+                else {
                     setCodeErr(data.info);
                     setTimeout(() => {
                         setCodeErr('');
                         end();
                     }, 2500);
                 };
-            })
-            .catch(error => {
-                end();
-                if(error.response?.status === 500){
-                    console.log('网络请求出现问题。');
-                }else if(error.response?.status === 401){
-                    alertController.on('toggle');
-                }
-            });
+            }).catch(error => end());
         }
     }
     const handleSubmit = () => {
-        if(submit !== '提交') return false;
+        if (submit !== '提交') return false;
         else setSubmit('请稍候');
         // 下拉框是一定有值的
         let gender = selectGenderRef.current.value,
@@ -164,7 +147,7 @@ const Add = () => {
         let validated = Object.keys(inputs).filter(v => {
             return !inputs[v].validated;
         });
-        if(validated.length){
+        if (validated.length) {
             setError('表单内容有缺失或不合规范，请检查修改后再做提交。');
             setTimeout(() => {
                 setError('');
@@ -172,28 +155,28 @@ const Add = () => {
             }, 2500);
             return false;
         }
-        else{
-            let {last_name, first_name, birthday, height, weight, antibiotics} = inputs;
+        else {
+            let { last_name, first_name, birthday, height, weight, antibiotics } = inputs;
             let data = {
-                last_name : last_name.value, first_name : first_name.value, birthday : birthday.value, height : height.value, 
-                weight : weight.value, antibiotics : antibiotics.value, email : user.email,
-                sample_id : sampleId,
+                last_name: last_name.value, first_name: first_name.value, birthday: birthday.value, height: height.value,
+                weight: weight.value, antibiotics: antibiotics.value, email: user.email,
+                sample_id: sampleId,
                 blood_type, meat_egetables, gender,
-                isFirst : first, code : testeeCode
+                isFirst: first, code: testeeCode
             }
             Axios({
-                method : 'POST',
-                url : host + '/sample/bind',
-                data : data,
-                params : {
-                    'access-token' : user.token
+                method: 'POST',
+                url: host + '/sample/bind',
+                data: data,
+                params: {
+                    'access-token': user.token
                 },
-                headers : {
-                    'Content-Type' : 'application/json; charset=UTF-8'
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8'
                 }
             }).then(_data => {
                 const { data } = _data;
-                if(data.code === 'error'){
+                if (data.code === 'error') {
                     setError(data.info);
                     setSubmit('失败');
                     setTimeout(() => {
@@ -201,24 +184,16 @@ const Add = () => {
                         setSubmit('提交');
                     }, 3000)
                 }
-                else if(data.code === 'success'){
+                else if (data.code === 'success') {
                     setSubmit('信息绑定成功，即将跳转');
                     setTimeout(() => {
                         history.push('/report/list');
                         dispatch({
-                            type : BIO.ADD_SUCCESS
+                            type: BIO.ADD_SUCCESS
                         })
-                    },3000)
+                    }, 3000)
                 }
-            })
-            .catch(error => {
-                setSubmit('提交');
-                if(error.response?.status === 500){
-                    console.log('网络请求出现问题。');
-                }else if(error.response?.status === 401){
-                    alertController.on('toggle');
-                }
-            });
+            }).catch(error => setSubmit('提交'));
         }
     }
     return (
@@ -286,12 +261,6 @@ const Add = () => {
                     )}
                 </>
             } />
-            <Alert controller={alertController} content='登录凭证过期，请重新登录' beforeClose={() => {
-                dispatch({
-                    type : BIO.LOGIN_EXPIRED
-                });
-                history.push('/user/login');
-            }} />
         </div>
     );
 }

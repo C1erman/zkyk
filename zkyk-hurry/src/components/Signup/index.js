@@ -69,10 +69,7 @@ const Signup = () => {
                     }, 2500)
                 }
             })
-            .catch(error =>{
-                console.log(error);
-                end();
-            })
+            .catch(error => end());
         }
     }
     return (

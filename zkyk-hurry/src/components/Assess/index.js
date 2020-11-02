@@ -6,13 +6,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { slideUp } from '../../utils/slideUp';
 import * as BIO from '../../actions';
 import { useHistory } from 'react-router-dom';
-import Alert from '../Alert';
 
 const Assess = () => {
     let [assess, setAssess] = useState([]);
     let report = useSelector(state => state.report);
     let user = useSelector(state => state.user);
-    let alertController ={};
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -33,13 +31,7 @@ const Assess = () => {
             const {data} = _data;
             if(data.code === 'success')  setAssess(data.data);
         })
-        .catch(error => {
-            if(error.response?.status === 500){
-                console.log('网络请求出现问题。');
-            }else if(error.response?.status === 401){
-                alertController.on('toggle');
-            }
-        });
+        .catch(error => console.log(error));
     }, []);
     const mapRisk = {
         'low-risk' : 'low-risk',
@@ -66,12 +58,6 @@ const Assess = () => {
                     </div>
                 ))}
             </div>
-            <Alert controller={alertController} content='登录凭证过期，请重新登录' beforeClose={() => {
-                dispatch({
-                    type : BIO.LOGIN_EXPIRED
-                });
-                history.push('/user/login');
-            }} />
         </div>
     );
 }

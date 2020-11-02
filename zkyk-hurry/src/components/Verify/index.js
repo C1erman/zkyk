@@ -26,7 +26,7 @@ const Verify = () => {
             });
         }
     }, []);
-    const handleReset = (begin, end) => {
+    const handleValidate = (begin, end) => {
         begin();
         Axios({
             method : 'POST',
@@ -51,13 +51,13 @@ const Verify = () => {
                 controller.on('toggle');
                 end();
             };
-        }).catch(error => end());
+        }).catch(error => end())
     }
     return (
         <div className='verify-container'>
             <div className='verify-title'><span>验证邮箱</span></div>
             <p className='verify-content'>请点击下方按钮以激活您的邮箱与账户。</p>
-            <Button text='确认' click={handleReset} controlledByFunc={true} errorText={error} loading={true} />
+            <Button text='确认' click={handleValidate} controlledByFunc={true} errorText={error} loading={true} />
             <Alert controller={controller} content='邮箱验证成功，请登录' beforeClose={() => {
                     history.push('/user/login');
                     dispatch({type : BIO.LOGIN_EXPIRED});

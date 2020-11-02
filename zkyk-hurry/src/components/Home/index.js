@@ -29,7 +29,7 @@ const Home = () => {
     
     const checkCode = (begin, end) => {
         begin();
-        if(!user.id) {
+        if(!user.token) {
             controller.on('open');
             return false;
         }
@@ -87,16 +87,7 @@ const Home = () => {
                         history.push('/add');
                     }, 100)
                 }
-            })
-            .catch(error => {
-                if(error.response?.status === 500){
-                    setError('网络请求出现问题，请稍后再试。');
-                    setTimeout(() => { 
-                        setError('');
-                        end();
-                    }, 2500)
-                }
-            });
+            }).catch(error => console.log(error));
         }
     }
     return (

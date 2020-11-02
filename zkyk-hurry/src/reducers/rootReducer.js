@@ -9,34 +9,31 @@ const rootReducer = (state = initState, action) => {
             return {
                 ...state,
                 user : {
-                    id : localStorage.getItem('id') || '',
                     role : localStorage.getItem('role') || '',
                     token : localStorage.getItem('token') || '',
-                    email : localStorage.getItem('email') || '',
+                    email : localStorage.getItem('email') || ''
                 },
                 report : {
-                    current : localStorage.getItem('current') || ''
+                    current : localStorage.getItem('VIEW_current') || ''
                 },
                 add : {
-                    barCode : localStorage.getItem('barCode') || '',
-                    sampleId : localStorage.getItem('sampleId') || '',
-                    testeeId : localStorage.getItem('testeeId') || ''
+                    barCode : localStorage.getItem('ADD_barCode') || '',
+                    sampleId : localStorage.getItem('ADD_sampleId') || '',
+                    testeeId : localStorage.getItem('ADD_testeeId') || ''
                 },
                 edit : {
-                    current : localStorage.getItem('current_edit') || ''
+                    current : localStorage.getItem('EDIT_current') || ''
                 }
             }
         }
         // 用户登录
         case BIO.LOGIN_SUCCESS : {
             const user = clone(state['user']);
-            const { id, role, token, email } = action.data;
-            user.id = id;
+            const { role, token, email } = action.data;
             user.role = role;
             user.token = token;
             user.email = email;
             // 保存登录凭证
-            localStorage.setItem('id', id);
             localStorage.setItem('role', role);
             localStorage.setItem('token', token);
             localStorage.setItem('email', email);
@@ -62,8 +59,8 @@ const rootReducer = (state = initState, action) => {
             const { barCode, sampleId } = action.data;
             add.barCode = barCode;
             add.sampleId = sampleId;
-            localStorage.setItem('barCode', barCode);
-            localStorage.setItem('sampleId', sampleId);
+            localStorage.setItem('ADD_barCode', barCode);
+            localStorage.setItem('ADD_sampleId', sampleId);
             return {
                 ...state,
                 add
@@ -72,16 +69,16 @@ const rootReducer = (state = initState, action) => {
         case BIO.ADD_SET_TESTEE_CODE : {
             const add = clone(state['add']);
             add.testeeId = action.data;
-            localStorage.setItem('testeeId', action.data);
+            localStorage.setItem('ADD_testeeId', action.data);
             return {
                 ...state,
                 add
             }
         }
         case BIO.ADD_SUCCESS : {
-            localStorage.removeItem('barCode');
-            localStorage.removeItem('sampleId');
-            localStorage.removeItem('testeeId');
+            localStorage.removeItem('ADD_barCode');
+            localStorage.removeItem('ADD_sampleId');
+            localStorage.removeItem('ADD_testeeId');
             const add = clone(initState['add']);
             return {
                 ...state,
@@ -94,7 +91,7 @@ const rootReducer = (state = initState, action) => {
             const report = clone(state['report']);
             report.current = current;
             // 保存查看报告编号
-            localStorage.setItem('current', current);
+            localStorage.setItem('VIEW_current', current);
             return {
                 ...state,
                 report
@@ -105,14 +102,14 @@ const rootReducer = (state = initState, action) => {
             const edit = clone(state['report']);
             edit.current = current;
             // 保存编辑报告编号
-            localStorage.setItem('current_edit', current);
+            localStorage.setItem('EDIT_current', current);
             return {
                 ...state,
                 edit
             }
         }
         case BIO.REPORT_EDIT_SUCCESS : {
-            localStorage.removeItem('current_edit');
+            localStorage.removeItem('EDIT_current');
             const edit = clone(initState['edit']);
             return {
                 ...state,

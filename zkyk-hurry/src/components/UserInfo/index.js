@@ -46,20 +46,7 @@ const UserInfo = () => {
                 }, 2500)
             }
             else if(data.code === 'success') setDefaultVal(data.data);
-        })
-        .catch(error => {
-            if(error.response?.status === 500){
-                console.log('网络请求出现问题。');
-            }else if(error.response?.status === 401){
-                setMsg('登录凭证过期，请重新登录');
-                alertController.on('toggle');
-                setTimeout(() => {
-                    dispatch({
-                        type : BIO.LOGIN_EXPIRED
-                    })
-                }, 1500)
-            }
-        });
+        }).catch(error => console.log(error));
     }, [])
     const handleUpdate = (begin, end) => {
         begin();
@@ -106,13 +93,7 @@ const UserInfo = () => {
                 setMsg('信息更新成功')
                 alertController.on('toggle');
             };
-        }).catch(error => {
-            setError('网络请求出现异常，请稍后再试。');
-            setTimeout(() => { 
-                setError('');
-                end();
-            }, 2500)
-        });
+        }).catch(error => console.log(error));
     }
     const handleOpenModal = (type) => {
         switch(type){

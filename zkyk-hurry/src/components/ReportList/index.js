@@ -21,7 +21,6 @@ import failedSrc from '../../icons/status/failed.svg';
 const ReportList = () => {
     let user = useSelector(state => state.user);
     let controller = {};
-    let alertController = {};
     let modalController = {};
     const history = useHistory();
     const dispatch = useDispatch();
@@ -47,14 +46,7 @@ const ReportList = () => {
                 setList(data.data.list);
                 setTotal(data.data.pagination.pageSize);
             }
-        })
-        .catch(error => {
-            if(error.response?.status === 500){
-                console.log('网络请求出现问题。');
-            }else if(error.response?.status === 401){
-                alertController.on('toggle');
-            }
-        });
+        }).catch(error => console.log(error));
     }, [])
     const getList = (currentPage) => {
         Axios({
@@ -73,14 +65,7 @@ const ReportList = () => {
             if(data.code === 'success'){
                 setList(data.data.list);
             }
-        })
-        .catch(error => {
-            if(error.response?.status === 500){
-                console.log('网络请求出现问题。');
-            }else if(error.response?.status === 401){
-                alertController.on('toggle');
-            }
-        });
+        }).catch(error => console.log(error));
     }
     const getStatus = (sampleId) => {
         Axios({
@@ -99,14 +84,7 @@ const ReportList = () => {
                 setStatus(data.data);
                 modalController.on('toggle');
             }
-        })
-        .catch(error => {
-            if(error.response?.status === 500){
-                console.log('网络请求出现问题。');
-            }else if(error.response?.status === 401){
-                alertController.on('toggle');
-            }
-        });
+        }).catch(error => console.log(error));
     }
     const selectHandler = (reportId) => {
         if(reportId === 'error') controller.on('open');
@@ -189,12 +167,6 @@ const ReportList = () => {
                     </li>))}
                 </ul>
             } onClose={() => setStatus([])} />
-            <Alert controller={alertController} content='登录凭证过期，请重新登录' beforeClose={() => {
-                dispatch({
-                    type : BIO.LOGIN_EXPIRED
-                });
-                history.push('/user/login');
-            }} />
         </div>
     );
 }

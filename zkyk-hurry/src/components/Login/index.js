@@ -91,7 +91,7 @@ const Login = () => {
                     setError('');
                     end();
                 }, 2500)
-            })
+            });
         }
     }
     const handleSendEmail = (begin, end) => {
