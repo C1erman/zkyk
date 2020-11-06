@@ -99,7 +99,7 @@ const rootReducer = (state = initState, action) => {
         }
         case BIO.REPORT_EDIT : {
             const { current } = action.data;
-            const edit = clone(state['report']);
+            const edit = clone(state['edit']);
             edit.current = current;
             // 保存编辑报告编号
             localStorage.setItem('EDIT_current', current);

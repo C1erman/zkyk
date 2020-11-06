@@ -27,6 +27,7 @@ const initState = {
         sampleId : '',
         testeeId : ''
     },
+    download : [],
     globalInfo : ''
 }
 

@@ -1,0 +1,120 @@
+* { -webkit-tap-highlight-color: transparent; }
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td { margin: 0; padding: 0; vertical-align: baseline; }
+html{ font-size: 20px; font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", STHeiti, "Microsoft Yahei", Tahoma, Simsun, sans-serif; }
+/* other style */
+.pages{
+    width: 90%;
+    min-height: 100vh;
+    margin: 0 auto;
+    page-break-before: always;
+}
+.page-title{
+    text-align: left;
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+}
+.page-title > span{
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    font-size: 1rem;
+    font-weight: bolder;
+    max-width: 200px;
+    color: #ff4f76;
+}
+.page-title > span::before{
+    display: block;
+    position: absolute;
+    color: #ffa6ba;
+    font-size: 3.5rem;
+    opacity: 0.5;
+    top: -3rem;
+    z-index: -1;
+}
+.page-title > span::after{
+    display: block;
+    position: relative;
+    content: "";
+    width: 100%;
+    height: 0.5rem;
+    z-index: -1;
+    background: #ffa6ba;
+    opacity: 0.5;
+    padding: 0 1rem;
+    top: -0.5rem;
+    left: -1rem;
+    border-radius: 0.5rem;
+}
+
+#page-one{
+    overflow: hidden;
+}
+.one-title{
+    width: 11rem;
+    font-size: 2rem;
+    font-weight: lighter;
+    letter-spacing: 0.2rem;
+    margin: 3rem 0 1rem 1rem;
+}
+.one-line{
+    position: absolute;
+    margin: 0.5rem 0 0 1rem;
+    width: 2px;
+    height: 5rem;
+    background-color: #ffa6ba;
+}
+.one-img{
+    position: relative;
+    width: 100%;
+    right: -1rem;
+}
+.three-title > span::before{
+    content: 'A';
+}
+.overview-total{
+    margin-bottom: 1rem;
+    font-size: 0.75rem;
+}
+.overview-total > div{
+    width: 90%;
+    margin: 0 auto;
+    border-top: 1px solid #dfe2e5;
+    border-bottom: 1px solid #dfe2e5;
+    line-height: 2;
+}
+.overview-total > div:last-child{
+    border-top: none;
+}
+.overview-total-label{
+    display: inline-block;
+    width: 50%;
+    max-width: 50%;
+    padding-left: 0.3rem;
+    padding-bottom: 0.3rem;
+    box-sizing: border-box;
+}
+.overview-total-label:first-child{
+    border-right: 1px solid #dfe2e5;
+}
+.overview-total-label > span{
+    float: right;
+    font-weight: bolder;
+    margin-right: 3rem;
+}
+
+.four-title > span::before{
+    content: 'B';
+}
+.five-title > span::before{
+    content: 'C';
+}
+.six-title > span::before{
+    content: 'D';
+}
+.seven-title > span::before{
+    content: 'E';
+}
+.eight-title > span::before{
+    content: 'F';
+}
