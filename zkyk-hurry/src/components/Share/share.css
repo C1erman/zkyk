@@ -1,0 +1,68 @@
+.share-container{
+    width: 90%;
+    min-height: calc(100vh - 200px);
+    margin: 0 auto;
+    padding-top: 2rem;
+    font-size: 0.9rem;
+}
+.share-back{
+    position: fixed;
+    width: 100%;
+    top: 70%;
+    z-index: 9;
+    right: 0;
+}
+.share-back-icon{
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    box-shadow: 0 0 8px var(--shadow);
+    cursor: pointer;
+    right: 5px;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+.share-code-container{
+    border-radius: 0.3rem;
+    border: 1px solid var(--border);
+    min-height: 15rem;
+    margin-bottom: 1rem;
+}
+.share-code-title{
+    height: 2.5rem;
+    padding-left: 1rem;
+    line-height: 2.5rem;
+    font-weight: bolder;
+    border-bottom: 1px solid var(--border);
+}
+.share-code-info{
+    padding: 0 1rem;
+    margin: 0.5rem auto 1rem;
+}
+.share-code-info > a{
+    margin-left: 0.2rem;
+    padding-bottom: 0.2rem;
+    border-bottom: 1px solid var(--black);
+    word-break: break-all;
+    cursor: pointer;
+}
+.share-code-img{
+    width: 10rem;
+    height: 10rem;
+    margin: 1rem auto;
+}
+.share-code-img > img{
+    width: 100%;
+    margin: 0 auto;
+}
+.share-divide{
+    width: 80%;
+    height: 1px;
+    margin: 1rem auto;
+    background-color: var(--border);
+}
+.share-code-list{
+    opacity: 0.5;
+}

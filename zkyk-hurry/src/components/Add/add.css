@@ -9,9 +9,8 @@
 }
 .add-noti-barcode, .add-noti-email{
     font-size: 1rem;
-    padding-bottom: 0.1rem;
-    border-bottom: 2px solid var(--background);
-    color: var(--black);
+    padding-bottom: 0.2rem;
+    border-bottom: 1px solid var(--black);
 }
 .add-noti-email{
     white-space: nowrap;

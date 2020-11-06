@@ -11,7 +11,8 @@ const rootReducer = (state = initState, action) => {
                 user : {
                     role : localStorage.getItem('role') || '',
                     token : localStorage.getItem('token') || '',
-                    email : localStorage.getItem('email') || ''
+                    email : localStorage.getItem('email') || '',
+                    permission : localStorage.getItem('permission') || ''
                 },
                 report : {
                     current : localStorage.getItem('VIEW_current') || ''
@@ -23,18 +24,23 @@ const rootReducer = (state = initState, action) => {
                 },
                 edit : {
                     current : localStorage.getItem('EDIT_current') || ''
+                },
+                share : {
+                    add : sessionStorage.getItem('SHARE_add') || ''
                 }
             }
         }
         // 用户登录
         case BIO.LOGIN_SUCCESS : {
             const user = clone(state['user']);
-            const { role, token, email } = action.data;
+            const { role, permission, token, email } = action.data;
             user.role = role;
+            user.permission = permission;
             user.token = token;
             user.email = email;
             // 保存登录凭证
             localStorage.setItem('role', role);
+            localStorage.setItem('permission', permission);
             localStorage.setItem('token', token);
             localStorage.setItem('email', email);
             return {
@@ -44,7 +50,6 @@ const rootReducer = (state = initState, action) => {
         }
         // 用户注销
         case BIO.LOGOUT_SUCCESS : {
-            // 消除登陆凭证
             localStorage.clear();
             return clone(initState);
         }
@@ -79,6 +84,7 @@ const rootReducer = (state = initState, action) => {
             localStorage.removeItem('ADD_barCode');
             localStorage.removeItem('ADD_sampleId');
             localStorage.removeItem('ADD_testeeId');
+            sessionStorage.removeItem('SHARE_add');
             const add = clone(initState['add']);
             return {
                 ...state,
@@ -126,11 +132,27 @@ const rootReducer = (state = initState, action) => {
                 user
             }
         }
+        // 分享
+        case BIO.SHARE_REPORT_ADD : {
+            const share = clone(state['share']);
+            share.add = action.data;
+            sessionStorage.setItem('SHARE_add', action.data);
+            return {
+                ...state,
+                share
+            }
+        }
         // 设置全局消息
         case BIO.GLOBAL_INFO : {
             return {
                 ...state,
                 globalInfo : action.data
+            }
+        }
+        case BIO.GLOBAL_INFO_CLEAN : {
+            return {
+                ...state,
+                globalInfo : ''
             }
         }
         // 违规操作，清空状态

@@ -24,12 +24,13 @@ const Home = () => {
     let modalController = {};
     let agreeRef = useRef();
     let user = useSelector(state => state.user);
+    let share = useSelector(state => state.share)
     // 回到顶部
     useEffect(() => slideUp(), []);
     
     const checkCode = (begin, end) => {
         begin();
-        if(!user.token) {
+        if(!user.token && !share.add) {
             controller.on('open');
             return false;
         }

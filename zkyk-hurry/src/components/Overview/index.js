@@ -320,7 +320,7 @@ const Overview = () => {
             <div className='overview-total-graph'>
                 <div id='graph' />
             </div>
-            { user.age ? (<div className='overview-age-prediction'>预测年龄：{+ user.age}</div>) : null }
+            { user.age && (+ user.age) ? (<div className='overview-age-prediction'>预测年龄：{+ user.age}</div>) : null }
             <div className='overview-total'>
                 <div>
                     <span className='overview-total-label'>受检者<span>{user.name}</span></span>

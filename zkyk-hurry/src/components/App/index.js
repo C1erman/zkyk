@@ -25,12 +25,14 @@ import Edit from '../Edit';
 import Knowledge from '../Knowledge';
 import ResetEmail from '../ResetEmail';
 import Verify from '../Verify';
+import Share from '../Share';
+import Guide from '../Guide';
 import Alert from '../Alert';
 
 
 const SecureRoute = () => {
     const state = useSelector(state => state);
-    const { add, user, report, edit } = state;
+    const { add, user, report, edit, share } = state;
 
     const R_Home = (<Route path='/' exact component={Home}></Route>);
     const R_Add = (<Route path='/add' component={Add}></Route>);
@@ -38,6 +40,7 @@ const SecureRoute = () => {
     const R_Login = (<Route path='/user/login' component={Login}></Route>);
     const R_Signup = (<Route path='/user/signup' component={Signup}></Route>);
     const R_UserInfo = (<Route path='/user/info' component={UserInfo}></Route>);
+    const R_Share = (<Route path='/share' component={Share}></Route>);
     const R_ResetPass = (<Route path='/user/reset/pass' component={ResetPass}></Route>);
     const R_ResetEmail = (<Route path='/user/reset/email' component={ResetEmail}></Route>);
     const R_Verify = (<Route path='/user/verify' component={Verify}></Route>);
@@ -51,25 +54,29 @@ const SecureRoute = () => {
 
     const R_Backend = (<Route path='/backend' component={Backend}></Route>);
 
+    const R_Guide = (<Route path='/guide/:to/:key' component={Guide}></Route>);
+
     const BioRoute = user.token ? (
         <Switch>
             {R_Home}
-            {R_Login}{R_Signup}{R_UserInfo}{R_ResetPass}{R_ResetEmail}{R_Verify}
-            {add.barCode ? R_Add : null}{edit.current ? R_Edit : null}
+            {R_Login}{R_Signup}{R_UserInfo}{R_ResetPass}{R_ResetEmail}{R_Verify}{R_Share}
+            {add.barCode || share.add ? R_Add : null}{edit.current ? R_Edit : null}
             {R_ReportList}
             {report.current ? R_Overview : null}
             {report.current ? R_Assess : null}
             {report.current ? R_Assess : null}
             {report.current ? R_Suggest : null}
             {R_Knowledge}
-            {user.role !== 'user' ? R_Backend : null}
+            {user.permission ? R_Backend : null}
+            {R_Guide}
             <Redirect to='/' />
         </Switch>
     ) : (
             <Switch>
                 {R_Home}
                 {R_Login}{R_Signup}{R_ResetPass}{R_ResetEmail}{R_Verify}
-                {add.barCode ? R_Add : null}
+                {add.barCode || share.add ? R_Add : null}
+                {R_Guide}
                 <Redirect to='/user/login' />
             </Switch>
         )
@@ -90,17 +97,21 @@ const GlobalInfo = () => {
 
     return (<Alert controller={controller} content={alertMessage} time={2500} beforeClose={() => {
         const toLoginRegExp = /登录/;
-        if (toLoginRegExp.test(alertMessage)) {
+        if(toLoginRegExp.test(alertMessage)) {
             dispatch({
                 type: BIO.LOGIN_EXPIRED
             });
             history.push('/user/login');
         }
+        dispatch({
+            type : BIO.GLOBAL_INFO_CLEAN
+        });
     }} />);
 }
 const AxiosConfig = () => {
     const dispatch = useDispatch();
     useEffect(() => {
+        Axios.defaults.timeout = 5000;
         Axios.interceptors.response.use(
             response => response,
             error => {
@@ -109,11 +120,12 @@ const AxiosConfig = () => {
                         case 401 : {
                             dispatch({
                                 type: BIO.GLOBAL_INFO,
-                                data: '本地信息与服务器不一致，请重新登录'
+                                data: '本地信息与服务器不一致或登录凭证过期，请重新登录'
                             });
                             break;
                         }
                         case 500 : {
+                            console.log('sdsd!')
                             dispatch({
                                 type : BIO.GLOBAL_INFO,
                                 data : '网络请求出现问题，请稍后再试'

@@ -43,14 +43,20 @@
 .overview-total > div{
     width: 90%;
     margin: 0 auto;
+    border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     line-height: 2;
+}
+.overview-total > div:last-child{
+    border-top: none;
+}
+.overview-total > div > span:last-child{
+    padding-left: 0.3rem;
 }
 .overview-total-label{
     display: inline-block;
     width: 50%;
     max-width: 50%;
-    padding-left: 0.3rem;
     padding-bottom: 0.3rem;
     box-sizing: border-box;
 }
@@ -60,7 +66,7 @@
 .overview-total-label > span{
     float: right;
     font-weight: bolder;
-    margin-right: 0.3rem;
+    padding-right: 0.3rem;
 }
 .overview-abnormal{
     margin-bottom: 1rem;

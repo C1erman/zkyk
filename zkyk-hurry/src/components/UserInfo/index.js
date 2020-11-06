@@ -10,8 +10,10 @@ import Alert from '../Alert';
 import { slideUp } from '../../utils/slideUp';
 import { clone } from '../../utils/BIOObject';
 import QrCodeSrc from '../../icons/qrcode.svg';
+import { useHistory } from 'react-router-dom';
 
 const UserInfo = () => {
+    const history = useHistory();
     const user = useSelector(state => state.user);
     let [inputs, setInputs] = useState({
         username : '',
@@ -20,10 +22,9 @@ const UserInfo = () => {
     let [defaultVal, setDefaultVal] = useState();
     let [error, setError] = useState('');
     let [message, setMsg] = useState('');
-    let [qrCode, setQrCode] = useState();
+    let [share, setShare] = useState(false);
     let controller = {};
     let emailController = {};
-    let codeController = {};
     let alertController = {};
 
     useEffect(() => {
@@ -49,14 +50,12 @@ const UserInfo = () => {
             else if(data.code === 'success') setDefaultVal(data.data);
         }).catch(error => console.log(error));
         Axios({
-            method : 'POST',
-            url : host + '/ds/bind',
-            data : {
-                url : '/user/info',
-                size : 250
-            },
+            method : 'GET',
+            url : host + '/user/permission',
             params : {
-                'access-token' : user.token
+                'access-token' : user.token,
+                controller : 'ds',
+                action : 'bind'
             },
             headers : {
                 'Content-Type' : 'application/json; charset=UTF-8'
@@ -64,10 +63,8 @@ const UserInfo = () => {
             timeout : 5000
         }).then(_data => {
             const {data} = _data;
-            if(data.code === 'error'){
-                console.log(data.info);
-            }
-            else if(data.code === 'success') setQrCode(data.data);
+            if(data.code === 'success') setShare(true);
+            else setShare(false);
         }).catch(error => console.log(error));
     }, [])
     const handleUpdate = (begin, end) => {
@@ -116,22 +113,6 @@ const UserInfo = () => {
                 alertController.on('toggle');
             };
         }).catch(error => console.log(error));
-    }
-    const handleOpenModal = (type) => {
-        switch(type){
-            case 'pass' : {
-                controller.on('toggle');
-                break;
-            }
-            case 'email' : {
-                emailController.on('toggle');
-                break;
-            }
-            case 'qrcode' : {
-                codeController.on('toggle');
-                break;
-            }
-        }
     }
     const handleSendEmail = (begin, end) => {
         begin();
@@ -194,9 +175,9 @@ const UserInfo = () => {
 
     return (
         <div className='userInfo-container'>
-            <div className='userInfo-qrcode'>
-                <img className='userInfo-qrcode-icon' src={QrCodeSrc} onClick={() => handleOpenModal('qrcode')} />
-            </div>
+            {share ? (<div className='userInfo-qrcode'>
+                <img className='userInfo-qrcode-icon' src={QrCodeSrc} onClick={() => history.push('/share')} />
+            </div>) : null}
             <div className='userInfo-title'><span>基本信息</span></div>
             <Input label='用户名' dataName='username' form={inputs} defaultValue={defaultVal} note='用户名代表了您的身份，只能设置一次'/>
             <Input label='电话号码' type='tel' placeholder='绑定电话号码' dataName='tel' form={inputs} defaultValue={defaultVal} enableEmpty={true} validateType='tel' />
@@ -204,10 +185,10 @@ const UserInfo = () => {
             <Button text='保存' errorText={error} click={handleUpdate} controlledByFunc={true} hollow={true} loading={true} />
             <div className='userInfo-title'><span>设置</span></div>
             <div className='userInfo-setting-pass'>
-                登录密码<span onClick={() => handleOpenModal('pass')}>修改</span>
+                登录密码<span onClick={() => controller.on('toggle')}>修改</span>
             </div>
             <div className='userInfo-setting-email'>
-                邮箱地址<span onClick={() => handleOpenModal('email')}>修改</span>
+                邮箱地址<span onClick={() => emailController.on('toggle')}>修改</span>
             </div>
             <Modal title='验证邮箱' controller={controller} content={
                 <>
@@ -223,12 +204,6 @@ const UserInfo = () => {
                         <div>我们将向您的邮箱<span className='email'>{defaultVal ? defaultVal.email : ''}</span>发送一封邮件用以修改邮箱地址。请确认邮箱地址后选择发送。</div>
                     </div>
                     <Button text='修改' withError={false} click={handleEditEmail} controlledByFunc={true} loading={true} />
-                </>
-            } />
-            <Modal title='分享二维码' controller={codeController} content={
-                <>
-                    <p>扫描下方二维码进行分享，或复制分享链接：<a className='userInfo-qrcode-link'>{}</a></p>
-                    <img src={host + '/ds/q/' + qrCode?.code} alt='个人二维码' />
                 </>
             } />
             <Alert controller={alertController} content={message} />

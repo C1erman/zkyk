@@ -3,7 +3,8 @@ const initState = {
     user : {
         role : '',
         token : '',
-        email : ''
+        email : '',
+        permission : ''
     },
     sampleList : {
         totalPage : 0,
@@ -27,7 +28,9 @@ const initState = {
         sampleId : '',
         testeeId : ''
     },
-    download : [],
+    share : {
+        add : ''
+    },
     globalInfo : ''
 }
 

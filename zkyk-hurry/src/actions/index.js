@@ -21,8 +21,11 @@ const REPORT_EDIT_SUCCESS = 'report-edit-success';
 // 报告下载
 const REPORT_DOWNLOAD = 'report-download';
 const REPORT_DOWNLOAD_SUCCESS = 'report-download-success';
+// 分享
+const SHARE_REPORT_ADD = 'share-report-add';
 // 全局消息
 const GLOBAL_INFO = 'global-info';
+const GLOBAL_INFO_CLEAN = 'global-info-clean';
 // 违规操作
 const DENY_UNAUTHORIZED = 'deny-unauthorized';
 
@@ -44,6 +47,8 @@ export {
     REPORT_EDIT_SUCCESS,
     REPORT_DOWNLOAD,
     REPORT_DOWNLOAD_SUCCESS,
+    SHARE_REPORT_ADD,
     GLOBAL_INFO,
+    GLOBAL_INFO_CLEAN,
     DENY_UNAUTHORIZED
 }

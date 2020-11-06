@@ -46,6 +46,7 @@ const Add = () => {
     let [codeError, setCodeErr] = useState('');
     // redux
     let { sampleId } = useSelector(state => state.add);
+    let { add } = useSelector(state => state.share);
     let user = useSelector(state => state.user);
     const dispatch = useDispatch();
     // ref
@@ -100,7 +101,8 @@ const Add = () => {
                 url: host + '/sample/person',
                 params: {
                     code: inputs.code.value,
-                    'access-token': user.token
+                    'access-token': user.token,
+                    'access-code': add
                 },
                 headers: {
                     'Content-Type': 'application/json; charset=UTF-8'
@@ -169,7 +171,8 @@ const Add = () => {
                 url: host + '/sample/bind',
                 data: data,
                 params: {
-                    'access-token': user.token
+                    'access-token': user.token,
+                    'access-code': add
                 },
                 headers: {
                     'Content-Type': 'application/json; charset=UTF-8'
@@ -187,7 +190,7 @@ const Add = () => {
                 else if (data.code === 'success') {
                     setSubmit('信息绑定成功，即将跳转');
                     setTimeout(() => {
-                        history.push('/report/list');
+                        add ? history.push('/') : history.push('/report/list');
                         dispatch({
                             type: BIO.ADD_SUCCESS
                         })
@@ -201,7 +204,7 @@ const Add = () => {
             <div className='add-noti'>
                 <p>为了更加准确、合理地为受测人提供建议，我们需要您为受测人如实填写下述信息。</p>
                 <p>您本次送检的采样管编号为：<span className='add-noti-barcode'>{useSelector(state => state.add.barCode)}</span></p>
-                <p>您的邮箱地址为：<span className='add-noti-email'>{user.email}</span></p>
+                { user.email ? (<p>您的邮箱地址为：<span className='add-noti-email'>{user.email}</span></p>) : null}
             </div>
             <div className='add-divide'></div>
             <div className='add-form'>

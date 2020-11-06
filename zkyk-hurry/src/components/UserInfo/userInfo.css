@@ -21,7 +21,7 @@
     box-shadow: 0 0 8px var(--shadow);
     cursor: pointer;
     right: 5px;
-    padding: 0.5rem;
+    padding: 0.8rem;
     box-sizing: border-box;
 }
 .userInfo-title{
