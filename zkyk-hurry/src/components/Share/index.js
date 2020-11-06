@@ -11,40 +11,43 @@ const Share = () => {
     const history = useHistory();
     const user = useSelector(state => state.user);
     let [qrCode, setQrCode] = useState({
-        code : ''
+        code: ''
     });
     let [content, setContent] = useState({
-        title : '向受测者分享',
-        info : '受测人扫描下方二维码进行挂名信息填写，或复制分享链接进行访问：',
-        url : ''
+        title: '向受测者分享',
+        info: '受测人扫描下方二维码进行挂名信息填写，或复制分享链接进行访问：',
+        url: ''
     })
     useEffect(() => {
+        if(!window.location.origin){
+            window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+        }
         slideUp();
         Axios({
-            method : 'POST',
-            url : host + '/ds/bind',
-            data : {
-                url : window.location.host + '/#/guide/add/',
-                size : 200
+            method: 'POST',
+            url: host + '/ds/bind',
+            data: {
+                url: window.location.origin + '/#/guide/add/',
+                size: 200
             },
-            params : {
-                'access-token' : user.token
+            params: {
+                'access-token': user.token
             },
-            headers : {
-                'Content-Type' : 'application/json; charset=UTF-8'
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
             },
-            timeout : 5000
+            timeout: 5000
         }).then(_data => {
-            const {data} = _data;
-            if(data.code === 'error'){
+            const { data } = _data;
+            if (data.code === 'error') {
                 console.log(data.info);
             }
-            else if(data.code === 'success') {
+            else if (data.code === 'success') {
                 setQrCode(data.data);
                 setContent({
-                    title : '向受测者分享',
-                    info : '受测人扫描下方二维码进行挂名信息填写，或复制分享链接进行访问：',
-                    url : data.data.url
+                    title: '向受测者分享',
+                    info: '受测人扫描下方二维码进行挂名信息填写，或复制分享链接进行访问：',
+                    url: data.data.url
                 })
             }
         }).catch(error => console.log(error));
@@ -63,7 +66,7 @@ const Share = () => {
                 <div className='share-code-title'>{content.title}</div>
                 <div className='share-code-info'>{content.info}<a target='_blank' href={content.url}>{content.url}</a></div>
                 <div className='share-code-img'>
-                    <img src={ host + '/ds/q/' + qrCode.code } alt='二维码获取中，请稍候' />
+                    <img src={host + '/ds/q/' + qrCode.code} alt='二维码获取中，请稍候' />
                 </div>
             </div>
             <div className='share-more'>更多</div>
