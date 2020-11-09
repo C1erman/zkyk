@@ -1,0 +1,596 @@
+body{color: #666666;line-height: 1.8;}
+.progress{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 75%;
+    height: 1.5rem;
+    margin: 0.5rem auto;
+}
+.progress-label{
+    max-width: 48%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.progress-container{
+    position: relative;
+    width: 50%;
+    height: 0.8rem;
+    background: linear-gradient(to right, #ffe6eb 0%, #ff4f76 50%, #ffe6eb 100%);
+    border-radius: 1rem;
+}
+.progress-container > span{
+    position: absolute;
+    top: -0.2rem;
+    left: 0;
+    display: inline-block;
+    height: 1.2rem;
+    border-right: 3px solid #ff4f76;
+}
+
+
+.pages{
+    width: 90%;
+    min-height: 100vh;
+    margin: 0 auto;
+    page-break-before: always;
+    overflow: hidden;
+
+    border-bottom: 1px solid black;
+}
+.page-title{
+    text-align: left;
+    padding: 5rem 0 1rem 2rem;
+}
+.page-title > span{
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    font-size: 3rem;
+    font-weight: bold;
+    max-width: 400px;
+    color: #ff4f76;
+}
+.page-title > span::before{
+    display: block;
+    position: absolute;
+    color: #ffa6ba;
+    font-size: 8rem;
+    opacity: 0.5;
+    top: -6.8rem;
+    z-index: -1;
+}
+.page-title > span::after{
+    display: block;
+    position: relative;
+    content: "";
+    width: 100%;
+    height: 1rem;
+    z-index: -1;
+    background: #ffa6ba;
+    opacity: 0.5;
+    padding: 0 1rem;
+    top: -1.8rem;
+    left: -1rem;
+    border-radius: 0.5rem;
+    border: none;
+}
+.one-title{
+    width: 70%;
+    font-size: 6rem;
+    font-weight: lighter;
+    line-height: initial;
+    letter-spacing: 0.2rem;
+    padding: 3rem 0 1rem 1rem;
+}
+.one-line{
+    position: absolute;
+    margin: 0.5rem 0 0 1rem;
+    width: 2px;
+    height: 10rem;
+    background-color: #ffa6ba;
+}
+.one-img{
+    position: relative;
+    width: 600px;
+    float: right;
+    right: -1rem;
+}
+.three-title > span::before{
+    content: 'A';
+}
+
+.overview-age-prediction{
+    width: 90%;
+    margin: 0 auto;
+    padding-bottom: 1rem;
+    font-weight: bolder;
+    font-size: 1rem;
+    text-align: center;
+    border-bottom: 1px solid #dfe2e5;
+}
+.overview-total{
+    margin-bottom: 1rem;
+}
+.overview-total > div{
+    width: 90%;
+    margin: 0 auto;
+    border-top: 1px solid #dfe2e5;
+    border-bottom: 1px solid #dfe2e5;
+    line-height: 2.3;
+}
+.overview-total > div:last-child{
+    border-top: none;
+}
+.overview-total > div > span:last-child{
+    padding-left: 3rem;
+}
+.overview-total-label{
+    display: inline-block;
+    padding-left: 3rem;
+    width: 50%;
+    max-width: 50%;
+    padding-bottom: 0.3rem;
+    box-sizing: border-box;
+}
+.overview-total-label:first-child{
+    border-right: 1px solid #dfe2e5;
+}
+.overview-total-label > span{
+    float: right;
+    font-weight: bolder;
+    padding-right: 3rem;
+}
+.overview-abnormal{
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    width: 90%;
+    margin: 0 auto;
+}
+.overview-abnormal-title{
+    font-weight: bolder;
+    margin: 1.5rem;
+}
+.overview-abnormal-title > span{
+    color: #ff4f76;
+}
+.overview-abnormal-content{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    min-height: 100px;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem 0;
+    background: #fff6f8;
+    border-radius: 5px;
+}
+.overview-abnormal-content > div:first-child{
+    margin: 0 1rem;
+    padding: 0.5rem 0;
+    letter-spacing: 0.1rem;
+    background-color: #ff4f76;
+    color: #ffffff;
+    border-radius: 1rem;
+    writing-mode: vertical-lr;
+}
+.overview-abnormal-content > div:last-child{
+    margin-right: 1rem;
+}
+
+
+.four-title > span::before{
+    content: 'B';
+}
+.overview-flora{
+    margin-bottom: 1rem;
+}
+.overview-flora-items{
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 3rem;
+    padding: 0.8rem;
+    box-sizing: border-box;
+}
+.overview-abnormal-content-item{
+    line-height: 1.8;
+}
+.overview-abnormal-content-item span.title{
+    font-weight: bold;
+}
+.overview-abnormal-content-item span.item{
+    font-weight: bold;
+    color: #ff4f76;
+}
+.overview-abnormal-content-item span.item-margin{
+    margin-left: 1rem;
+    font-weight: bold;
+    color: #ff4f76;
+}
+.overview-flora-item-header{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    height: 35px;
+    margin-bottom: 0.5rem;
+    color: #ff4f76;
+}
+.overview-flora-item-header > div:first-child{
+    font-size: 1.6rem;
+}
+.overview-flora-item-header > div:last-child{
+    display: inline-block;
+
+    font-size: 1.6rem;
+    padding: 0.1rem 1.2rem;
+    background-color: #ff4f76;
+    color: #ffffff;
+    border-radius: 2rem;
+}
+.overview-flora-item-header > div:last-child.normal{
+    background-color: #77c761;
+}
+.overview-flora-item-body{
+    margin: 1.5rem 0;
+    line-height: 1.8;
+    font-size: 0.95rem;
+}
+.overview-flora-item-progress{
+    padding: 0.5rem 0;
+}
+.overview-flora-item-result{
+    border-left: 5px solid #ff4f76;
+    padding: 2rem 1rem 2rem 1rem;
+    border-radius: 5px;
+    background: #fff6f8;
+    font-weight: bold;
+}
+
+.five-title > span::before{
+    content: 'C';
+}
+.assess-items{
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    box-sizing: border-box;
+}
+.assess-item-header{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    height: 35px;
+    margin-bottom: 0.5rem;
+    color: #ff4f76;
+}
+.assess-item-header > div:first-child{
+    font-size: 1.6rem;
+}
+.assess-item-header > div:last-child{
+    font-size: 1.6rem;
+    padding: 0.1rem 1.2rem;
+    background-color: #ff4f76;
+    color: #ffffff;
+    border-radius: 2rem;
+}
+.assess-item-header > div.low-risk{
+    background-color: #77c761;
+}
+.assess-item-header > div.middle-risk{
+    background-color: #ffb85b;
+}
+.assess-item-header > div.high-risk{
+    background-color: #ff4f76;
+}
+.assess-item-body{
+    margin: 1.5rem 0;
+    line-height: 1.8;
+    font-size: 0.95rem;
+}
+.assess-item-result{
+    border-left: 5px solid #ff4f76;
+    padding: 2rem 1rem 2rem 1rem;
+    border-radius: 5px;
+    background: #fff6f8;
+    font-weight: bold;
+}
+
+.six-title > span::before{
+    content: 'D';
+}
+
+.suggestion-title-sm{
+    width: 90%;
+    margin: 0 auto 1rem;
+    padding-left: 0.8rem;
+    font-weight: bold;
+    font-size: 1.25rem;
+    color: #ff4f76;
+    border-left: 3px solid #ff4f76;
+}
+.sug-food{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: 0 auto;
+}
+.sug-food > div{
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+.sug-item-img{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+.sug-item-img > img{
+    width: 20%;
+}
+.sug-item-img > div{
+    display: inline-block;
+    align-self: center;
+    margin-left: 1rem;
+    font-weight: bold;
+    text-align: right;
+}
+.sug-item-content{
+    text-indent: 1rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+.sug-biotics{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: 0 auto;
+}
+.sug-biotics > div{
+    margin-bottom: 1rem;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+.sug-lifeStyle{
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+    margin: 0 auto;
+}
+.sug-lifeStyle-img{
+    width: 12%;
+    margin: 0.5rem 2rem;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+.seven-title > span::before{
+    content: 'E';
+}
+
+.overview-result{
+    width: 90%;
+    margin: 0 auto;
+}
+.overview-result > table{
+    width: 100%;
+    overflow-x: scroll;
+    border-collapse: collapse;
+}
+.overview-result-info{
+    color: #ff4f76;
+    font-weight: bold;
+}
+.overview-result-table-head > th{
+    border-bottom: 1px solid #1a1a1a;
+    padding: 0.5rem 0;
+    color: #1a1a1a;
+    vertical-align: bottom;
+}
+.overview-result-table-body{
+    text-align: center;
+}
+.overview-result-table-body > tr{
+    border-bottom: 1px solid #dfe2e5;
+}
+.overview-result-table-body > tr > td{
+    padding: 1rem 0;
+    vertical-align: middle;
+}
+.overview-result-table-name{
+    min-width: 95px;
+}
+.overview-results{
+    color: #77c761;
+    font-weight: bold;
+}
+.overview-result-below, .overview-result-above{
+    color: #ff4f76;
+}
+.overview-result-below::after{
+    content: '↓';
+    margin-left: 5px;
+    position: relative;
+}
+.overview-result-above::after{
+    content: '↑';
+    margin-left: 5px;
+    position: relative;
+}
+.overview-total-graph{
+    width: 100%;
+    max-width: 375px;
+    overflow: hidden;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    background: #fff6f8;
+}
+.overview-total-graph-info{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 0 0.5rem 0.5rem;
+    text-align: center;
+    font-weight: bold;
+    color: #ffffff;
+}
+.overview-total-graph-info > p{
+    width: 35%;
+    text-align: left;
+}
+.overview-total-graph-info > p > span{
+    float: right;
+}
+
+.eight-title > span::before{
+    content: 'F';
+}
+
+.know-title-sm{
+    width: 90%;
+    margin: 0 auto 1rem;
+    padding-left: 0.8rem;
+    font-weight: bold;
+    font-size: 1.25rem;
+    border-left: 3px solid #ff4f76;
+    color: #ff4f76;
+}
+.know-what-content{
+    padding: 1rem;
+    font-size: 0.95rem;
+}
+.know-content{
+    margin-bottom: 0.5rem;
+    text-indent: 1rem;
+}
+.know-what, .know-which, .know-effect, .know-method, .know-balance{
+    font-size: 0.95rem;
+    width: 90%;
+    margin: 0 auto 1rem;
+}
+.know-which-item{
+    margin: 1rem auto;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ffe6eb;
+}
+.know-which-item > div{
+    font-weight: bold;
+    color: #ff4f76;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+.know-which-item > p{
+    text-indent: 1rem;
+}
+.know-effect-item{
+    margin: 1rem auto;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ffe6eb;
+}
+.know-effect-item > div{
+    font-weight: bold;
+    color: #ff4f76;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+.know-effect-item > p{
+    text-indent: 1rem;
+}
+.know-balance >img{
+    display: block;
+    max-width: 100%;
+    margin: 0 auto;
+    border-radius: 5px;
+}
+.know-method-item{
+    position: relative;
+    border-radius: 5px;
+    margin-bottom: 1.5rem;
+    padding: 1rem 0.5rem 0.5rem;
+    border: 1px solid #ff4f76;
+    background: #fff6f8;
+}
+.know-method-item::before{
+    display: inline-block;
+    position: absolute;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #ffffff;
+    padding: 0 0.5rem;
+    top: -0.75rem;
+    left: 1rem;
+    height: 1.5rem;
+    border-radius: 1.5rem;
+    line-height: 1.5rem;
+    background: #ff4f76;
+}
+.know-method-item-one::before{
+    content: '益生菌补充';
+}
+.know-method-item-two::before{
+    content: '益生元补充';
+}
+.know-method-item-three::before{
+    content: '临床研究';
+}
+.know-method-title{
+    color: #ff4f76;
+    margin: 0.5rem 0;
+    font-weight: bold;
+    text-align: center;
+}
+.know-method-intestine{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+.know-method-intestine > div{
+    margin: 0.5rem 0;
+}
+.know-method-intestine img{
+    display: block;
+    width: 30%;
+    margin: 0 auto;
+    max-width: 150px;
+}
+.know-method-intestine p{
+    width: 60%;
+    margin: 0 auto;
+    text-align: center;
+    opacity: 0.6;
+}
+.know-method-list > div > p:first-child{
+    font-weight: bold;
+}
+.know-method-item-three > table{
+    width: 100%;
+    overflow-x: scroll;
+    border-collapse: collapse;
+}
+.know-method-table-head th{
+    border-bottom: 1px solid #dfe2e5;
+    padding: 0.5rem 0;
+    color: #1a1a1a;
+    vertical-align: bottom;
+}
+.know-method-table-body{
+    text-align: center;
+    line-height: 1.7;
+}
+.know-method-table-body > tr{
+    border-bottom: 1px solid #dfe2e5;
+}
+.know-method-table-body > tr:last-child{
+    border-bottom: none;
+}
+.know-method-table-body > tr > td{
+    padding: 0.6rem 0;
+    vertical-align: middle;
+}

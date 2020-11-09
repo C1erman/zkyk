@@ -28,6 +28,7 @@ import Verify from '../Verify';
 import Share from '../Share';
 import Guide from '../Guide';
 import Alert from '../Alert';
+import PDF from '../PDF';
 
 
 const SecureRoute = () => {
@@ -53,6 +54,7 @@ const SecureRoute = () => {
     const R_Knowledge = (<Route path='/report/knowledge' component={Knowledge}></Route>);
 
     const R_Backend = (<Route path='/backend' component={Backend}></Route>);
+    const R_Pdf = (<Route path='/pdf' component={PDF}></Route>);
 
     const R_Guide = (<Route path='/guide/:to/:key' component={Guide}></Route>);
 
@@ -68,6 +70,7 @@ const SecureRoute = () => {
             {report.current ? R_Suggest : null}
             {R_Knowledge}
             {user.permission ? R_Backend : null}
+            {R_Pdf}
             {R_Guide}
             <Redirect to='/' />
         </Switch>
@@ -77,7 +80,7 @@ const SecureRoute = () => {
                 {R_Login}{R_Signup}{R_ResetPass}{R_ResetEmail}{R_Verify}
                 {add.barCode || share.add ? R_Add : null}
                 {R_Guide}
-                <Redirect to='/user/login' />
+                <Redirect to='/' />
             </Switch>
         )
     return BioRoute;
@@ -160,9 +163,10 @@ const Data = () => {
 }
 const DataValidate = () => {
     const dispatch = useDispatch();
-    let user = useSelector(state => state.user);
+    const state = useSelector(state => state);
+    let { user, share } = state;
     useEffect(() => {
-        if (user.token) {
+        if (user.token && !share.add) {
             let hash = md5(user.role + user.email);
             Axios({
                 method: 'GET',

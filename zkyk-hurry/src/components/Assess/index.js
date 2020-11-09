@@ -2,17 +2,13 @@ import React, { useEffect, useState } from 'react';
 import './assess.css';
 import Axios from 'axios';
 import { host } from '../../_config';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { slideUp } from '../../utils/slideUp';
-import * as BIO from '../../actions';
-import { useHistory } from 'react-router-dom';
 
 const Assess = () => {
     let [assess, setAssess] = useState([]);
     let report = useSelector(state => state.report);
     let user = useSelector(state => state.user);
-    const dispatch = useDispatch();
-    const history = useHistory();
 
     useEffect(() => {
         slideUp();

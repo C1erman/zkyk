@@ -31,6 +31,7 @@ const initState = {
     share : {
         add : ''
     },
+    pdf : '',
     globalInfo : ''
 }
 

@@ -64,7 +64,8 @@ const Add = () => {
             method: 'GET',
             url: host + '/sample/person',
             params: {
-                'access-token': user.token
+                'access-token': user.token,
+                'access-code': add
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'

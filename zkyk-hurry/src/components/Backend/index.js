@@ -6,8 +6,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { slideUp } from '../../utils/slideUp';
 import Pager from '../Pager';
 import * as BIO from '../../actions';
+import { useHistory } from 'react-router-dom';
 
 const Backend = () => {
+    const history = useHistory();
     const dispatch = useDispatch();
     let user = useSelector(state => state.user);
     let [total, setTotal] = useState(10);
@@ -69,6 +71,19 @@ const Backend = () => {
         })
         .catch(error => console.log(error));
     }
+    const handleDownload = (sampleId) => {
+        dispatch({
+            type : BIO.REPORT_DOWNLOAD,
+            data : sampleId
+        });
+        history.push({
+            pathname : '/pdf',
+            state : {
+                sampleId : sampleId
+            }
+        });
+    }
+
     return (
         <div className='backend-container'>
             { !backendData ? (
@@ -91,7 +106,7 @@ const Backend = () => {
                         <table>
                             <thead className='backend-list-head'>
                                 <tr>
-                                    <th>公司名称</th><th>报告编号</th><th>更新于</th><th>报告状态</th>
+                                    <th>公司名称</th><th>报告编号</th><th>报告状态</th><th>操作</th>
                                 </tr>
                             </thead>
                             <tbody className='backend-list-body'>
@@ -100,8 +115,9 @@ const Backend = () => {
                                         <tr key={i}>
                                             <td>{v.name}</td>
                                             <td>{v.barcode}</td>
-                                            <td>{v.date}<br />{v.time}</td>
+                                            {/* <td>{v.date}<br />{v.time}</td> */}
                                             <td className={v.status_en}>{v.status_zh}</td>
+                                            <td>{v.status_en === 'completed' ? (<a className='backend-list-btn' onClick={() => handleDownload(v.report_id)}>下载</a>) : '-'}</td>
                                         </tr>
                                     ))
                                 }

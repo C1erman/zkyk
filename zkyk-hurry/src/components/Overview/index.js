@@ -174,10 +174,8 @@ const Overview = () => {
     let [result, setResult] = useState([]);
     let [abnormal, setAbnormal] = useState();
     let [graphInfo, setGraphInfo] = useState([]);
-    let history = useHistory();
     let report = useSelector(state => state.report);
     let userInfo = useSelector(state => state.user);
-    let dispatch = useDispatch();
 
     useEffect(() => {
         slideUp();

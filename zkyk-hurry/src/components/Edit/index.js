@@ -3,6 +3,7 @@ import Axios from 'axios';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import './edit.css';
+import BackSrc from '../../icons/back.svg';
 import { host } from '../../_config';
 
 import { slideUp } from '../../utils/slideUp';
@@ -212,6 +213,9 @@ const Edit = () => {
     }
     return (
         <div className='edit-container'>
+            <div className='edit-back'>
+                <img className='edit-back-icon' src={BackSrc} onClick={() => history.goBack()} />
+            </div>
             <div className='edit-noti'>
                 <p>您当前正在预览采样管编号为<span className='edit-noti-barcode'>{editData.barcode}</span>
                 的绑定信息，受测人编码为<span className='edit-noti-testeeCode'>{editData.code}</span>
@@ -256,14 +260,13 @@ const Edit = () => {
                         <option value='4'>80% - 100%</option>
                     </select>
                 </div>
-                <AutoInput label='一周内服用过的抗生素' placeholder='如果不填写则代表没有服用' 
+                <AutoInput label='一周内服用过的抗生素' placeholder='如果不填写则代表没有服用'
                     headers={{'Content-Type' : 'application/json; charset=UTF-8'}}
                     url={host + '/validate/antibiotics'}
                     keyName='name'
                     dataName='antibiotics' form={inputs} defaultValue={defaultVal} />
                 <button className={submit !== '修改' ? 'edit-form-btn disabled' : 'edit-form-btn'} onClick={handleSubmit}>{submit}</button>
                 <p className='edit-form-error'>{error}</p>
-                <button className={submit !== '修改' ? 'edit-form-btn-back disabled' : 'edit-form-btn-back'} onClick={() => history.push('/report/list')}>返回</button>
                 <Modal title='受测人基本信息修改' controller={controller} content={
                     <div className='edit-testee-container'>
                         <p>修改受测人基本信息将会引起所有相关联绑定信息的修改，请谨慎修改。</p>

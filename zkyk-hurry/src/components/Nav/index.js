@@ -7,8 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const Nav = () => {
     const state = useSelector(state => state);
-    const share = useSelector(state => state.share);
-    let { user, report } = state;
+    let { user, report, share } = state;
     const dispatch = useDispatch();
     let controller = {};
 
@@ -40,7 +39,7 @@ const Nav = () => {
     return (
         <>
             {
-                share.add ? null : (<Drawer content={BioLinks} controller={controller} />)
+                share.add && ! user.token ? null : (<Drawer content={BioLinks} controller={controller} />)
             }
         </>
     );

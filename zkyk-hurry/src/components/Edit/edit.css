@@ -4,6 +4,25 @@
     padding-top: 1rem;
     font-size: 0.9rem;
 }
+.edit-back{
+    position: fixed;
+    width: 100%;
+    top: 70%;
+    z-index: 9;
+    right: 0;
+}
+.edit-back-icon{
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    box-shadow: 0 0 8px var(--shadow);
+    cursor: pointer;
+    right: 5px;
+    padding: 1rem;
+    box-sizing: border-box;
+}
 .edit-noti > p{
     line-height: 2;
 }
@@ -96,7 +115,7 @@
     cursor: pointer;
 }
 .edit-testee-container{
-    max-height: 300px;
+    max-height: 350px;
     overflow-y: scroll;
 }
 .edit-testee-container > p{
@@ -128,19 +147,4 @@
 }
 .disabled{
     opacity: 0.4;
-}
-.edit-form-btn-back{
-    display: block;
-    width: 85%;
-    margin: 0 auto;
-    margin-top: 2.5rem;
-    font-weight: bolder;
-    border: 0;
-    color: inherit;
-    line-height: 1.8;
-    padding: 0.5rem;
-    border-radius: 2rem;
-    background: var(--border);
-    transition: opacity ease-in 0.3s;
-    cursor: pointer;
 }

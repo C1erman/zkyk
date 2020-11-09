@@ -27,7 +27,8 @@ const rootReducer = (state = initState, action) => {
                 },
                 share : {
                     add : sessionStorage.getItem('SHARE_add') || ''
-                }
+                },
+                pdf : sessionStorage.getItem('PDF_id') || ''
             }
         }
         // 用户登录
@@ -140,6 +141,21 @@ const rootReducer = (state = initState, action) => {
             return {
                 ...state,
                 share
+            }
+        }
+        // 报告下载
+        case BIO.REPORT_DOWNLOAD : {
+            sessionStorage.setItem('PDF_id', action.data);
+            return {
+                ...state,
+                pdf : action.data
+            }
+        }
+        case BIO.REPORT_DOWNLOAD_SUCCESS : {
+            sessionStorage.removeItem('PDF_id');
+            return {
+                ...state,
+                pdf : ''
             }
         }
         // 设置全局消息

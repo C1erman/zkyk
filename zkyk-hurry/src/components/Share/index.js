@@ -15,8 +15,9 @@ const Share = () => {
     });
     let [content, setContent] = useState({
         title: '向受测者分享',
-        info: '受测人扫描下方二维码进行挂名信息填写，或复制分享链接进行访问：',
-        url: ''
+        info: '受测人扫描下方二维码进行挂名信息绑定，或邀请受测人使用链接进行访问：',
+        url: '',
+        time : ''
     })
     useEffect(() => {
         if(!window.location.origin){
@@ -46,8 +47,9 @@ const Share = () => {
                 setQrCode(data.data);
                 setContent({
                     title: '向受测者分享',
-                    info: '受测人扫描下方二维码进行挂名信息填写，或复制分享链接进行访问：',
-                    url: data.data.url
+                    info: '受测人扫描下方二维码进行挂名信息绑定，或邀请受测人使用链接进行访问：',
+                    url: data.data.url,
+                    time : data.data.expire_at
                 })
             }
         }).catch(error => console.log(error));
@@ -64,9 +66,9 @@ const Share = () => {
             </div>
             <div className='share-code-container'>
                 <div className='share-code-title'>{content.title}</div>
-                <div className='share-code-info'>{content.info}<a target='_blank' href={content.url}>{content.url}</a></div>
+                <div className='share-code-info'>{content.info}<a target='_blank'>{content.url}</a>{content.time ? (<span className='share-code-info-time'>，过期时间为：{content.time}</span>) : null}</div>
                 <div className='share-code-img'>
-                    <img src={host + '/ds/q/' + qrCode.code} alt='二维码获取中，请稍候' />
+                    {qrCode.code ? (<img src={host + '/ds/q/' + qrCode.code} />) : (<span>二维码获取中，请稍候</span>)}
                 </div>
             </div>
             <div className='share-more'>更多</div>
