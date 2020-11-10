@@ -16,6 +16,7 @@ const ADD_SUCCESS = 'add-success';
 const ADD_ERROR = 'add-error';
 // 报告列表
 const REPORT_SELECT = 'report-select';
+const REPORT_READ_OVER = 'report-read-over';
 const REPORT_EDIT = 'report-edit';
 const REPORT_EDIT_SUCCESS = 'report-edit-success';
 // 报告下载
@@ -43,6 +44,7 @@ export {
     ADD_SUCCESS,
     ADD_ERROR,
     REPORT_SELECT,
+    REPORT_READ_OVER,
     REPORT_EDIT,
     REPORT_EDIT_SUCCESS,
     REPORT_DOWNLOAD,

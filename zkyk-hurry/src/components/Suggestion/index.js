@@ -17,6 +17,7 @@ import { slideUp } from '../../utils/slideUp';
 const Suggestion = () => {
     useEffect(() => {
         slideUp();
+        document.title = '改善建议';
     },[]);
     return (
         <div className='suggestion-container'>

@@ -56,7 +56,10 @@ const Add = () => {
 
     let controller = {};
 
-    useEffect(() => slideUp(), []);
+    useEffect(() => {
+        slideUp();
+        document.title = '信息填写';
+    }, []);
 
     const handleFirst = (begin, end) => {
         begin();

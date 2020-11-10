@@ -25,6 +25,7 @@ const Signup = () => {
     });
     useEffect(() => {
         slideUp();
+        document.title = '注册';
     }, [])
 
     const clickHandler = (begin, end) => {

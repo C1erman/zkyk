@@ -17,6 +17,8 @@ const Verify = () => {
     let [token, setToken] = useState(user.token);
     let controller = {};
     useEffect(() => {
+        document.title = '验证邮箱';
+
         let token = new URLSearchParams(location.search).get('token');
         if(!token) history.push('/');
         else{

@@ -28,7 +28,7 @@ import Verify from '../Verify';
 import Share from '../Share';
 import Guide from '../Guide';
 import Alert from '../Alert';
-import PDF from '../PDF';
+// import PDF from '../PDF';
 
 
 const SecureRoute = () => {
@@ -54,7 +54,7 @@ const SecureRoute = () => {
     const R_Knowledge = (<Route path='/report/knowledge' component={Knowledge}></Route>);
 
     const R_Backend = (<Route path='/backend' component={Backend}></Route>);
-    const R_Pdf = (<Route path='/pdf' component={PDF}></Route>);
+    // const R_Pdf = (<Route path='/pdf' component={PDF}></Route>);
 
     const R_Guide = (<Route path='/guide/:to/:key' component={Guide}></Route>);
 
@@ -70,7 +70,7 @@ const SecureRoute = () => {
             {report.current ? R_Suggest : null}
             {R_Knowledge}
             {user.permission ? R_Backend : null}
-            {R_Pdf}
+
             {R_Guide}
             <Redirect to='/' />
         </Switch>

@@ -179,6 +179,7 @@ const Overview = () => {
 
     useEffect(() => {
         slideUp();
+        document.title = '整体情况';
         // 仪表盘部分
         Axios({
             method: 'GET',
@@ -194,7 +195,7 @@ const Overview = () => {
         }).then(_data => {
             const { data } = _data;
             // if (data.code === 'success') showGraph(data.data.name, + data.data.value);
-            if(data.code === 'success') showGraphNew(data.data.name, (+ data.data.value) / 10);
+            if(data.code === 'success') showGraphNew(data.data.name, (+ data.data.value));
         }).catch(error => console.log(error));
         Axios({
             method: 'GET',
@@ -302,7 +303,7 @@ const Overview = () => {
     }
     const judgeProgress = (value) => {
         if (value === '偏低') return { className: 'overview-results overview-result-below' };
-        else if (value === '偏高') return { className: 'overview-results overview-result-above' };
+        else if (value === '超标') return { className: 'overview-results overview-result-above' };
         else return { className: 'overview-results' }
     }
     const mapBacterialType = (type) => {
@@ -312,13 +313,22 @@ const Overview = () => {
             harmful: '有害菌'
         }[type]
     }
+    const mapRisk = {
+        'low-risk' : 'low-risk',
+        'middle-risk' : 'middle-risk',
+        'high-risk' : 'high-risk',
+        'weaker' : 'high-risk',
+        'normal' : 'low-risk',
+        'abnormal_low' : 'middle-risk',
+        'abnormal_high' : 'high-risk'
+    }
     return (
         <div className='overview-container'>
             <div className='overview-title'><span>整体情况</span></div>
             <div className='overview-total-graph'>
                 <div id='graph' />
             </div>
-            { user.age && (+ user.age) ? (<div className='overview-age-prediction'>预测年龄：{+ user.age}</div>) : null }
+            { user.age && (+ user.age) ? (<div className='overview-age-prediction'>预测年龄：{(+ user.age).toFixed(1)} 岁</div>) : null }
             <div className='overview-total'>
                 <div>
                     <span className='overview-total-label'>受检者<span>{user.name}</span></span>
@@ -333,20 +343,28 @@ const Overview = () => {
                 <div className='overview-abnormal-title'>根据您目前的肠道菌群情况，提示您<span>以下指标异常</span>，需要引起重视，可结合改善建议进行调理。</div>
                 {abnormal ? (
                     <div>
-                        <div className='overview-abnormal-content'>
-                            <div>菌群环境</div>
-                            <div className='overview-abnormal-content-item'>
-                                {abnormal.metrics.intestinal_defense ? (<div><span className='title'>肠道防御力</span><span>{abnormal.metrics.intestinal_defense}</span></div>) : null}
-                                {abnormal.metrics.beneficial ? (<div><span className='title'>有益菌：</span>{abnormal.metrics.beneficial}<span className='item'>偏低</span></div>) : null}
-                                {abnormal.metrics.harmful ? (<div><span className='title'>有害菌：</span>{abnormal.metrics.harmful}<span className='item'>超标</span></div>) : null}
+                        {abnormal.metrics ? (
+                            <div className='overview-abnormal-content'>
+                                <div>菌群环境</div>
+                                <div className='overview-abnormal-content-item'>
+                                    {abnormal.metrics.intestinal_defense ? (<div><span className='title'>肠道防御力</span><span>{abnormal.metrics.intestinal_defense}</span></div>) : null}
+                                    {abnormal.metrics.beneficial ? (<div><span className='title'>有益菌：</span>{abnormal.metrics.beneficial}<span className='item'>偏低</span></div>) : null}
+                                    {abnormal.metrics.general ? (<div><span className='title'>中性菌：</span>{abnormal.metrics.general.lower ? (<>{abnormal.metrics.general.lower}<span className='item'>偏低</span></>) : null }
+                                    {abnormal.metrics.general.higher ? (<>{abnormal.metrics.general.higher}<span className='item'>超标</span></>) : null}</div>) : null}
+                                    {abnormal.metrics.harmful ? (<div><span className='title'>有害菌：</span>{abnormal.metrics.harmful}<span className='item'>超标</span></div>) : null}
+                                </div>
                             </div>
-                        </div>
-                        <div className='overview-abnormal-content'>
-                            <div>健康指标</div>
-                            <div className='overview-abnormal-content-item'>{abnormal.indicator.map((v, i) => (
-                                <div key={i}>{v.type_zh}<span className='item-margin'>{v.rank_zh}</span></div>
-                            ))}</div>
-                        </div>
+                        ) : null}
+                        {
+                            abnormal.indicator ? (
+                                <div className='overview-abnormal-content'>
+                                    <div>健康指标</div>
+                                    <div className='overview-abnormal-content-item'>{abnormal.indicator.map((v, i) => (
+                                        <div key={i}>{v.type_zh}<span className='item-margin'>{v.rank_zh}</span></div>
+                                    ))}</div>
+                            </div>
+                            ) : null
+                        }
                     </div>
                 ) : null}
             </div>
@@ -355,14 +373,14 @@ const Overview = () => {
                 {flora.map((v, i) => (
                     <div key={i} className='overview-flora-items'>
                         <div className='overview-flora-item-header'>
-                            <div>{v.type_zh}</div><div className={v.rank_en}>{v.rank_zh}</div>
+                            <div>{v.type_zh}</div><div className={mapRisk[v.conclusion]}>{v.rank_zh}</div>
                         </div>
                         <div className='overview-flora-item-body'>
                             <div>{v.summary}</div>
                             {v.chart ? (
                                 <div className='overview-flora-item-progress'>
                                     {v.chart.map((v, i) => (
-                                        <Progress key={i} label={<span>{v.name + ' '}<span {...judgeProgress(v.state)}>{v.state}</span></span>} percent={(+ v.proportion) * 100 + '%'} />
+                                        <Progress key={i} label={<span>{v.name + ' '}<span {...judgeProgress(v.state)}>{v.state}</span></span>} total={(+ v.median) + '%'} percent={(+ v.proportion) + '%'} />
                                     ))}
                                 </div>
                             ) : null}

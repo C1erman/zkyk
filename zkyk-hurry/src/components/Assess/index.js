@@ -12,6 +12,7 @@ const Assess = () => {
 
     useEffect(() => {
         slideUp();
+        document.title = '健康评估';
         Axios({
             method : 'GET',
             url : host + '/sample/indicator',
@@ -34,7 +35,9 @@ const Assess = () => {
         'middle-risk' : 'middle-risk',
         'high-risk' : 'high-risk',
         'weaker' : 'high-risk',
-        'normal' : 'low-risk'
+        'normal' : 'low-risk',
+        'abnormal_low' : 'middle-risk',
+        'abnormal_high' : 'high-risk'
     }
     return (
         <div className='assess-container'>
@@ -43,7 +46,7 @@ const Assess = () => {
                 {assess.map((v, i) => (
                     <div key={i} className='assess-items'>
                         <div className='assess-item-header'>
-                            <div>{v.type_zh}</div><div className={mapRisk[v.rank_en]}>{v.rank_zh}</div>
+                            <div>{v.type_zh}</div><div className={mapRisk[v.conclusion]}>{v.rank_zh}</div>
                         </div>
                         <div className='assess-item-body'>
                             <div>{v.summary}</div>

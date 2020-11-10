@@ -29,6 +29,7 @@ const UserInfo = () => {
 
     useEffect(() => {
         slideUp();
+        document.title = '个人中心';
         Axios({
             method : 'GET',
             url : host + '/user/personal/info',

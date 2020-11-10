@@ -24,6 +24,7 @@ const Share = () => {
             window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
         }
         slideUp();
+        document.title = '分享';
         Axios({
             method: 'POST',
             url: host + '/ds/bind',

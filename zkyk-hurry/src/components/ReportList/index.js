@@ -30,6 +30,7 @@ const ReportList = () => {
 
     useEffect(() => {
         slideUp();
+        document.title = '报告列表';
         Axios({
             method : 'GET',
             url : host + '/sample/list',

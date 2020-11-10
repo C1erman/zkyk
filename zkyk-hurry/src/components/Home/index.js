@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as BIO from '../../actions';
 
 import './home.css';
-import { host } from '../../_config';
+import { host, AppTitle } from '../../_config';
 import Input from '../Input';
 import Button from '../Button';
 import Alert from '../Alert';
@@ -26,7 +26,10 @@ const Home = () => {
     let user = useSelector(state => state.user);
     let share = useSelector(state => state.share)
     // 回到顶部
-    useEffect(() => slideUp(), []);
+    useEffect(() => {
+        slideUp();
+        document.title = AppTitle;
+    }, []);
     
     const checkCode = (begin, end) => {
         begin();

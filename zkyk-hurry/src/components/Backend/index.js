@@ -18,6 +18,7 @@ const Backend = () => {
 
     useEffect(() => {
         slideUp();
+        document.title = '后台管理';
         Axios({
             method : 'GET',
             url : host + '/admin/total',
@@ -106,7 +107,7 @@ const Backend = () => {
                         <table>
                             <thead className='backend-list-head'>
                                 <tr>
-                                    <th>公司名称</th><th>报告编号</th><th>报告状态</th><th>操作</th>
+                                    <th>公司名称</th><th>报告编号</th><th>更新于</th><th>报告状态</th>
                                 </tr>
                             </thead>
                             <tbody className='backend-list-body'>
@@ -115,9 +116,9 @@ const Backend = () => {
                                         <tr key={i}>
                                             <td>{v.name}</td>
                                             <td>{v.barcode}</td>
-                                            {/* <td>{v.date}<br />{v.time}</td> */}
+                                            <td>{v.date}<br />{v.time}</td>
                                             <td className={v.status_en}>{v.status_zh}</td>
-                                            <td>{v.status_en === 'completed' ? (<a className='backend-list-btn' onClick={() => handleDownload(v.report_id)}>下载</a>) : '-'}</td>
+                                            {/* <td>{v.status_en === 'completed' ? (<a className='backend-list-btn' onClick={() => handleDownload(v.report_id)}>下载</a>) : '-'}</td> */}
                                         </tr>
                                     ))
                                 }

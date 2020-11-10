@@ -22,6 +22,8 @@ const ResetPass = () => {
     let [token, setToken] = useState(user.token);
     let controller = {};
     useEffect(() => {
+        document.title = '设置密码';
+
         let token = new URLSearchParams(location.search).get('token');
         if(!token) history.push('/');
         else{

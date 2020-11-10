@@ -19,11 +19,10 @@
     background: linear-gradient(to right, var(--fontColor) 0%, var(--fakeTheme) 50%, var(--fontColor) 100%);
     border-radius: 1rem;
 }
-.progress-container > span{
+.progress-container > div{
     position: absolute;
-    top: -0.3rem;
-    left: 0;
-    display: inline-block;
-    height: 1.2rem;
-    border-right: 3px solid var(--fakeTheme);
+    height: 230%;
+    width: 2px;
+    top: -65%;
+    background: var(--fakeTheme);
 }

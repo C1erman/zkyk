@@ -60,6 +60,7 @@ const Edit = () => {
     
     useEffect(() => {
         slideUp();
+        document.title = '信息编辑';
         let sampleId = location.state?.current || current;
         if(sampleId){
             Axios({

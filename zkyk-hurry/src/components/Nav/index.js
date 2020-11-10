@@ -12,6 +12,11 @@ const Nav = () => {
     let controller = {};
 
     const clickHandler = () => controller.on('toggle');
+    const handleReportList = () => {
+        dispatch({
+            type : BIO.REPORT_READ_OVER
+        })
+    }
     const logoutHandler = () => {
         dispatch({
             type : BIO.LOGOUT_SUCCESS
@@ -20,15 +25,25 @@ const Nav = () => {
     }
     const BioLinks = user.token ? (
         <div className='nav-link-container'>
-            <NavLink className='nav-link' activeClassName='nav-link-active' to='/' exact onClick={clickHandler}>送样填表</NavLink>
-            <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/list' onClick={clickHandler}>报告列表</NavLink>
-            {report.current ? (<NavLink className='nav-link' activeClassName='nav-link-active' to='/report/overview' onClick={clickHandler}>整体情况</NavLink>) : null}
-            {report.current ? (<NavLink className='nav-link' activeClassName='nav-link-active' to='/report/assess' onClick={clickHandler}>健康评估</NavLink>) : null}
-            {report.current ? (<NavLink className='nav-link' activeClassName='nav-link-active' to='/report/suggestion' onClick={clickHandler}>建议</NavLink>) : null}
-            <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/knowledge' onClick={clickHandler}>菌群知识科普</NavLink>
-            {user.permission ? <NavLink className='nav-link' activeClassName='nav-link-active' to='/backend' onClick={clickHandler}>后台管理</NavLink> : null}
-            <NavLink className='nav-link' activeClassName='nav-link-active' to='/user/info' onClick={clickHandler}>个人中心</NavLink>
-            <NavLink className='nav-link' activeClassName='' to='/user/login' onClick={logoutHandler}>登出</NavLink>
+            {
+                report.current ? (
+                    <>
+                        <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/list' onClick={handleReportList}>返回报告列表</NavLink>
+                        <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/overview' onClick={clickHandler}>整体情况</NavLink>
+                        <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/assess' onClick={clickHandler}>健康评估</NavLink>
+                        <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/suggestion' onClick={clickHandler}>建议</NavLink>
+                        <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/knowledge' onClick={clickHandler}>菌群知识科普</NavLink>
+                    </>
+                    ) : (
+                    <>
+                        <NavLink className='nav-link' activeClassName='nav-link-active' to='/' exact onClick={clickHandler}>送样填表</NavLink>
+                        <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/list' onClick={clickHandler}>报告列表</NavLink>
+                        {user.permission ? <NavLink className='nav-link' activeClassName='nav-link-active' to='/backend' onClick={clickHandler}>后台管理</NavLink> : null}
+                        <NavLink className='nav-link' activeClassName='nav-link-active' to='/user/info' onClick={clickHandler}>个人中心</NavLink>
+                        <NavLink className='nav-link' activeClassName='' to='/user/login' onClick={logoutHandler}>登出</NavLink>
+                    </>
+                    )
+            }
         </div>
     ) : (
         <div className='nav-link-container'>

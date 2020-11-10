@@ -104,6 +104,14 @@ const rootReducer = (state = initState, action) => {
                 report
             }
         }
+        case BIO.REPORT_READ_OVER : {
+            const report = clone(initState['report']);
+            localStorage.removeItem('VIEW_current');
+            return {
+                ...state,
+                report
+            }
+        }
         case BIO.REPORT_EDIT : {
             const { current } = action.data;
             const edit = clone(state['edit']);

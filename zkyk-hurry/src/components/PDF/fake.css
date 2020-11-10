@@ -1,32 +1,37 @@
 body{color: #666666;line-height: 1.8;}
 .progress{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 75%;
+    position: relative;
+    width: 95%;
     height: 1.5rem;
     margin: 0.5rem auto;
+    overflow: hidden;
 }
 .progress-label{
+    float: left;
     max-width: 48%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 .progress-container{
-    position: relative;
+    position: absolute;
     width: 50%;
-    height: 0.8rem;
+    height: 0.5rem;
+    right: 0;
+    top: 50%;
+    margin-top: -0.25rem;
+    background: -webkit-gradient(linear, left top, right top, from(#ffe6eb), color-stop(50%, #ff4f76), to(#ffe6eb));
+    background: -webkit-linear-gradient(left, #ffe6eb 0%, #ff4f76 50%, #ffe6eb 100%);
+    background: -o-linear-gradient(left, #ffe6eb 0%, #ff4f76 50%, #ffe6eb 100%);
     background: linear-gradient(to right, #ffe6eb 0%, #ff4f76 50%, #ffe6eb 100%);
     border-radius: 1rem;
 }
-.progress-container > span{
+.progress-container > div{
     position: absolute;
-    top: -0.2rem;
-    left: 0;
-    display: inline-block;
-    height: 1.2rem;
-    border-right: 3px solid #ff4f76;
+    height: 230%;
+    width: 2px;
+    top: -65%;
+    background: #ff4f76;
 }
 
 
@@ -36,6 +41,7 @@ body{color: #666666;line-height: 1.8;}
     margin: 0 auto;
     page-break-before: always;
     overflow: hidden;
+    page-break-inside: avoid;
 
     border-bottom: 1px solid black;
 }
@@ -94,7 +100,8 @@ body{color: #666666;line-height: 1.8;}
 }
 .one-img{
     position: relative;
-    width: 600px;
+    width: 800px;
+    height: 1000px;
     float: right;
     right: -1rem;
 }
@@ -209,24 +216,25 @@ body{color: #666666;line-height: 1.8;}
     color: #ff4f76;
 }
 .overview-flora-item-header{
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
     height: 35px;
     margin-bottom: 0.5rem;
     color: #ff4f76;
 }
 .overview-flora-item-header > div:first-child{
+    float: left;
     font-size: 1.6rem;
 }
 .overview-flora-item-header > div:last-child{
-    display: inline-block;
-
+    float: right;
     font-size: 1.6rem;
-    padding: 0.1rem 1.2rem;
+    padding: 0rem 1.2rem;
     background-color: #ff4f76;
     color: #ffffff;
     border-radius: 2rem;
+    height: 100%;
+    line-height: 35px;
 }
 .overview-flora-item-header > div:last-child.normal{
     background-color: #77c761;
@@ -258,22 +266,24 @@ body{color: #666666;line-height: 1.8;}
     box-sizing: border-box;
 }
 .assess-item-header{
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
+    position: relative;
     height: 35px;
     margin-bottom: 0.5rem;
     color: #ff4f76;
 }
 .assess-item-header > div:first-child{
+    float: left;
     font-size: 1.6rem;
 }
 .assess-item-header > div:last-child{
+    float: right;
     font-size: 1.6rem;
-    padding: 0.1rem 1.2rem;
+    padding: 0rem 1.2rem;
     background-color: #ff4f76;
     color: #ffffff;
     border-radius: 2rem;
+    height: 100%;
+    line-height: 35px;
 }
 .assess-item-header > div.low-risk{
     background-color: #77c761;
@@ -366,6 +376,11 @@ body{color: #666666;line-height: 1.8;}
     padding: 0.5rem;
     text-align: center;
 }
+.sug-lifeStyle-img > img{
+    width: 102px;
+    height: 102px;
+}
+
 
 .seven-title > span::before{
     content: 'E';
@@ -471,6 +486,7 @@ body{color: #666666;line-height: 1.8;}
     font-size: 0.95rem;
     width: 90%;
     margin: 0 auto 1rem;
+    page-break-inside: avoid;
 }
 .know-which-item{
     margin: 1rem auto;
@@ -511,10 +527,13 @@ body{color: #666666;line-height: 1.8;}
 .know-method-item{
     position: relative;
     border-radius: 5px;
+    margin-top: 5rem;
     margin-bottom: 1.5rem;
     padding: 1rem 0.5rem 0.5rem;
     border: 1px solid #ff4f76;
     background: #fff6f8;
+
+    page-break-inside: avoid;
 }
 .know-method-item::before{
     display: inline-block;

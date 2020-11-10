@@ -1,86 +1,14 @@
-.pages{
+.pdf-holder{
     width: 90%;
-    min-height: 100vh;
+    min-height: calc(100vh - 200px);
     margin: 0 auto;
-    page-break-before: always;
-    overflow: hidden;
-
-    border-bottom: 1px solid var(--black);
+    padding-top: 2rem;
+    font-size: 0.9rem;
 }
-.page-title{
-    text-align: left;
-    margin: 3rem 0 1rem 2rem;
-    margin-left: 2rem;
-}
-.page-title > span{
+.pdf-holder-info{
     text-align: center;
-    display: inline-block;
-    position: relative;
-    z-index: 1;
-    font-size: 1rem;
-    font-weight: bolder;
-    max-width: 200px;
-    color: #ff4f76;
+    margin-top: 5rem;
 }
-.page-title > span::before{
-    display: block;
-    position: absolute;
-    color: #ffa6ba;
-    font-size: 3.5rem;
-    opacity: 0.5;
-    top: -3rem;
-    z-index: -1;
-}
-.page-title > span::after{
-    display: block;
-    position: relative;
-    content: "";
-    width: 100%;
-    height: 0.5rem;
-    z-index: -1;
-    background: #ffa6ba;
-    opacity: 0.5;
-    padding: 0 1rem;
-    top: -0.5rem;
-    left: -1rem;
-    border-radius: 0.5rem;
-    border: none;
-}
-.one-title{
-    width: 15rem;
-    font-size: 2.8rem;
-    font-weight: lighter;
-    letter-spacing: 0.2rem;
-    margin: 3rem 0 1rem 1rem;
-}
-.one-line{
-    position: absolute;
-    margin: 0.5rem 0 0 1rem;
-    width: 2px;
-    height: 10rem;
-    background-color: #ffa6ba;
-}
-.one-img{
-    position: relative;
-    width: 95%;
-    float: right;
-    right: -1rem;
-}
-.three-title > span::before{
-    content: 'A';
-}
-.four-title > span::before{
-    content: 'B';
-}
-.five-title > span::before{
-    content: 'C';
-}
-.six-title > span::before{
-    content: 'D';
-}
-.seven-title > span::before{
-    content: 'E';
-}
-.eight-title > span::before{
-    content: 'F';
+.pdf{
+    display: none;
 }

@@ -21,6 +21,8 @@ const ResetEmail = () => {
     let [token, setToken] = useState(user.token);
     let controller = {};
     useEffect(() => {
+        document.title = '设置邮箱';
+        
         let token = new URLSearchParams(location.search).get('token');
         if(!token) history.push('/');
         else setToken(token);

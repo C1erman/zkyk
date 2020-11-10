@@ -10,6 +10,7 @@ import intestineThree from '../../icons/knowledge/know-intestine-three.svg';
 const Knowledge = () => {
     useEffect(() => {
         slideUp();
+        document.title = '知识科普';
     },[]);
     return (
         <div className='know-container'>

@@ -14,7 +14,10 @@ import Modal from '../Modal';
 const Login = () => {
     let history = useHistory();
     const dispatch = useDispatch();
-    useEffect(() => slideUp(), []);
+    useEffect(() => {
+        slideUp();
+        document.title = '登录';
+    }, []);
 
     let [tempToken, setTempToken] = useState('');
     let [loginError, setError] = useState('');

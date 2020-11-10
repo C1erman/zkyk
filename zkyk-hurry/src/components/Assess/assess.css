@@ -44,11 +44,11 @@
     justify-content: space-between;
     height: 35px;
     margin-bottom: 0.5rem;
-    color: var(--theme);
+    color: var(--fakeTheme);
 }
 .assess-item-header > div:first-child{
     font-size: 1.3rem;
-    font-weight: lighter;
+    font-weight: bolder;
 }
 .assess-item-header > div:last-child{
     padding: 0.2rem 1rem;
@@ -71,7 +71,7 @@
 }
 .assess-item-result{
     border-left: 5px solid var(--fakeTheme);
-    padding: 0.3rem 0.3rem 0.3rem 0.7rem;
+    padding: 0.7rem;
     border-radius: 5px;
     background: var(--textContainer);
     font-weight: bolder;
