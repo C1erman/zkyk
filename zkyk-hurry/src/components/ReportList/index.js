@@ -148,7 +148,7 @@ const ReportList = () => {
                             <tbody>
                                 {list.map((v, i) => <tr key={i} className='reportList-table-body'>
                                     <td>{v.person_name}</td>
-                                    <td>{v.sample_barcode}</td>
+                                    <td>{v.sample_barcode + (v.version ? ' V' + v.version : '')}</td>
                                     <td className={v.status_en} onClick={() => getStatus(v.sample_id)}>{v.status_zh}</td>
                                     <td><a className={'reportList-btn' + (v.status_zh === '实验失败' ? ' disabled' : '')} onClick={() =>{ v.operate === '查看' ? selectHandler(v.report_id || 'error') : editHandler(v.sample_id) }}>{v.operate}</a></td>
                                 </tr>)}

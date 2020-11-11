@@ -162,6 +162,9 @@ const Add = () => {
         }
     }
     const handleSubmit = () => {
+        if (submit !== '提交') return false;
+        else setSubmit('请稍候');
+
         let gender = selectGenderRef.current.value,
             blood_type = selectBloodRef.current.value,
             meat_egetables = selectFoodRef.current.value;

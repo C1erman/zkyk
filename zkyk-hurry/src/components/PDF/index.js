@@ -21,9 +21,11 @@ import intestineOne from '../../icons/knowledge/know-intestine-one.svg';
 import intestineTwo from '../../icons/knowledge/know-intestine-two.svg';
 import intestineThree from '../../icons/knowledge/know-intestine-three.svg';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 const PDF = () => {
     const dispatch = useDispatch();
+    let history = useHistory();
     const state = useSelector(state => state);
     let { user, pdf } = state;
 
@@ -136,6 +138,9 @@ const PDF = () => {
                         data: {
                             css: `
                             body{color: #666666;line-height: 1.8;}
+.pageBreakBefore{
+    page-break-before: always;
+}
 .progress{
     position: relative;
     width: 95%;
@@ -362,14 +367,20 @@ const PDF = () => {
     float: right;
     font-size: 1.6rem;
     padding: 0rem 1.2rem;
-    background-color: #ff4f76;
+    background-color: #77c761;
     color: #ffffff;
     border-radius: 2rem;
     height: 100%;
     line-height: 35px;
 }
-.overview-flora-item-header > div:last-child.normal{
+.overview-flora-item-header > div.low-risk{
     background-color: #77c761;
+}
+.overview-flora-item-header > div.middle-risk{
+    background-color: #ffb85b;
+}
+.overview-flora-item-header > div.high-risk{
+    background-color: #ff4f76;
 }
 .overview-flora-item-body{
     margin: 1.5rem 0;
@@ -453,6 +464,7 @@ const PDF = () => {
     font-size: 1.25rem;
     color: #ff4f76;
     border-left: 3px solid #ff4f76;
+    
 }
 .sug-food{
     display: flex;
@@ -466,19 +478,20 @@ const PDF = () => {
     box-sizing: border-box;
 }
 .sug-item-img{
-    display: flex;
-    justify-content: space-between;
+    overflow: hidden;
     margin-bottom: 1rem;
 }
 .sug-item-img > img{
-    width: 20%;
+    width: 160px;
+    height: 80px;
 }
 .sug-item-img > div{
-    display: inline-block;
+    
     align-self: center;
     margin-left: 1rem;
     font-weight: bold;
     text-align: right;
+    float: right;
 }
 .sug-item-content{
     text-indent: 1rem;
@@ -499,23 +512,18 @@ const PDF = () => {
     box-sizing: border-box;
 }
 .sug-lifeStyle{
-    display: flex;
-    flex-wrap: wrap;
-    width: 90%;
-    margin: 0 auto;
+
 }
 .sug-lifeStyle-img{
-    width: 12%;
+    display: inline-block;
     margin: 0.5rem 2rem;
     padding: 0.5rem;
     text-align: center;
 }
 .sug-lifeStyle-img > img{
-    width: 102px;
-    height: 102px;
+    width: 164px;
+    height: 82px;
 }
-
-
 .seven-title > span::before{
     content: 'E';
 }
@@ -594,11 +602,9 @@ const PDF = () => {
 .overview-total-graph-info > p > span{
     float: right;
 }
-
 .eight-title > span::before{
     content: 'F';
 }
-
 .know-title-sm{
     width: 90%;
     margin: 0 auto 1rem;
@@ -670,6 +676,7 @@ const PDF = () => {
     border: 1px solid #ff4f76;
     background: #fff6f8;
 
+    top: 2rem;
     page-break-inside: avoid;
 }
 .know-method-item::before{
@@ -702,19 +709,17 @@ const PDF = () => {
     text-align: center;
 }
 .know-method-intestine{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
+
 }
 .know-method-intestine > div{
     margin: 0.5rem 0;
 }
 .know-method-intestine img{
     display: block;
-    width: 30%;
+    padding: 2rem 0;
+    width: 300px;
+    height: 150px;
     margin: 0 auto;
-    max-width: 150px;
 }
 .know-method-intestine p{
     width: 60%;
@@ -762,6 +767,9 @@ const PDF = () => {
                         const { data } = _data;
                         if (data.code === 'success') {
                             window.open(data.data)
+                            setTimeout(() => {
+                                history.goBack();
+                            }, 2500)
                         }
                     }).catch(error => console.log(error));
                 }))
@@ -774,11 +782,13 @@ const PDF = () => {
         else return { className: 'overview-results' }
     }
     const mapRisk = {
-        'low-risk': 'low-risk',
-        'middle-risk': 'middle-risk',
-        'high-risk': 'high-risk',
-        'weaker': 'high-risk',
-        'normal': 'low-risk'
+        'low-risk' : 'low-risk',
+        'middle-risk' : 'middle-risk',
+        'high-risk' : 'high-risk',
+        'weaker' : 'high-risk',
+        'normal' : 'low-risk',
+        'abnormal_low' : 'middle-risk',
+        'abnormal_high' : 'high-risk'
     }
     const judgeRange = (value, min, max, type) => {
         switch (type) {
@@ -819,12 +829,6 @@ const PDF = () => {
                 <div className='pdf-holder-info'>正在处理您的下载请求，请稍候...</div>
             </div>
             <div className='pdf'>
-                <div className='page-one pages'>
-                    <div className="one-title">人体微生态监测报告</div>
-                    <div className="one-line" />
-                    <img className="one-img" src={PageOneLogoSrc} />
-                </div>
-                <div className='page-two pages'></div>
                 <div className='page-three pages'>
                     <div className="page-title three-title"><span>整体情况</span></div>
                     <div className='overview-total-graph'>
@@ -943,7 +947,7 @@ const PDF = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='suggestion-title-sm'>
+                    <div className='suggestion-title-sm pageBreakBefore'>
                         微生物制剂的补充
                     </div>
                     <div className='sug-biotics'>
@@ -968,11 +972,11 @@ const PDF = () => {
                         生活方式
                     </div>
                     <div className='sug-lifeStyle'>
-                        <div className='sug-lifeStyle-img'><img src={no_smoking} />戒烟</div>
-                        <div className='sug-lifeStyle-img'><img src={no_beer} />避免过度饮酒</div>
-                        <div className='sug-lifeStyle-img'><img src={no_antibiotics} />避免滥用抗生素</div>
-                        <div className='sug-lifeStyle-img'><img src={do_exercise} />适当运动</div>
-                        <div className='sug-lifeStyle-img'><img src={do_sleep} />保持充足睡眠</div>
+                        <div className='sug-lifeStyle-img'><img src={no_smoking} /><div>戒烟</div></div>
+                        <div className='sug-lifeStyle-img'><img src={no_beer} /><div>避免过度饮酒</div></div>
+                        <div className='sug-lifeStyle-img'><img src={no_antibiotics} /><div>避免滥用抗生素</div></div>
+                        <div className='sug-lifeStyle-img'><img src={do_exercise} /><div>适当运动</div></div>
+                        <div className='sug-lifeStyle-img'><img src={do_sleep} /><div>保持充足睡眠</div></div>
                     </div>
                 </div>
                 <div className='page-seven pages'>

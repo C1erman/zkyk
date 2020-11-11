@@ -21,7 +21,7 @@ const rootReducer = (state = initState, action) => {
                     current : localStorage.getItem('VIEW_current') || ''
                 },
                 add : {
-                    barCode : localStorage.getItem('ADD_barCode') || '1',
+                    barCode : localStorage.getItem('ADD_barCode') || '',
                     sampleId : localStorage.getItem('ADD_sampleId') || '',
                     testeeId : localStorage.getItem('ADD_testeeId') || ''
                 },
