@@ -19,11 +19,13 @@ const REPORT_SELECT = 'report-select';
 const REPORT_READ_OVER = 'report-read-over';
 const REPORT_EDIT = 'report-edit';
 const REPORT_EDIT_SUCCESS = 'report-edit-success';
+const REPORT_LIST_CURRENT_PAGE = 'report-list-current-page';
 // 报告下载
 const REPORT_DOWNLOAD = 'report-download';
 const REPORT_DOWNLOAD_SUCCESS = 'report-download-success';
 // 分享
 const SHARE_REPORT_ADD = 'share-report-add';
+const SHARE_SIGN_UP = 'share-sign-up';
 // 全局消息
 const GLOBAL_INFO = 'global-info';
 const GLOBAL_INFO_CLEAN = 'global-info-clean';
@@ -47,9 +49,11 @@ export {
     REPORT_READ_OVER,
     REPORT_EDIT,
     REPORT_EDIT_SUCCESS,
+    REPORT_LIST_CURRENT_PAGE,
     REPORT_DOWNLOAD,
     REPORT_DOWNLOAD_SUCCESS,
     SHARE_REPORT_ADD,
+    SHARE_SIGN_UP,
     GLOBAL_INFO,
     GLOBAL_INFO_CLEAN,
     DENY_UNAUTHORIZED

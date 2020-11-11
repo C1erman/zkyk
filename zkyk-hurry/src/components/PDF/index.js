@@ -87,21 +87,21 @@ const PDF = () => {
     }
     const getModuleC = (id, token) => {
         return Axios({
-            method : 'GET',
-            url : host + '/sample/indicator',
-            params : {
-                id : id,
-                'access-token' : token
+            method: 'GET',
+            url: host + '/sample/indicator',
+            params: {
+                id: id,
+                'access-token': token
             },
-            headers : {
-                'Content-Type' : 'application/json; charset=UTF-8'
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
             },
-            timeout : 5000
+            timeout: 5000
         }).then(_data => {
-            const {data} = _data;
-            if(data.code === 'success') setAssess(data.data);
+            const { data } = _data;
+            if (data.code === 'success') setAssess(data.data);
         })
-        .catch(error => console.log(error));
+            .catch(error => console.log(error));
     }
     const getModuleE = (id, token) => {
         return Axios({
@@ -124,647 +124,647 @@ const PDF = () => {
         let sampleId = location.state?.sampleId || pdf;
         let token = user.token;
         let id = sampleId;
-        if(sampleId){
+        if (sampleId) {
             Axios.all([getModalA(id, token), getModalAP(id, token), getModuleB(id, token), getModuleC(id, token), getModuleE(id, token)])
-            .then(Axios.spread(() => {
-                Axios({
-                    method: 'POST',
-                    url: host + '/admin/pdf',
-                    params: {
-                        'access-token': token
-                    },
-                    data: {
-                        css : `
-                        body{color: #666666;line-height: 1.8;}
-                        .progress{
-                            position: relative;
-                            width: 95%;
-                            height: 1.5rem;
-                            margin: 0.5rem auto;
-                            overflow: hidden;
-                        }
-                        .progress-label{
-                            float: left;
-                            max-width: 48%;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            white-space: nowrap;
-                        }
-                        .progress-container{
-                            position: absolute;
-                            width: 50%;
-                            height: 0.5rem;
-                            right: 0;
-                            top: 50%;
-                            margin-top: -0.25rem;
-                            background: -webkit-gradient(linear, left top, right top, from(#ffe6eb), color-stop(50%, #ff4f76), to(#ffe6eb));
-                            background: -webkit-linear-gradient(left, #ffe6eb 0%, #ff4f76 50%, #ffe6eb 100%);
-                            background: -o-linear-gradient(left, #ffe6eb 0%, #ff4f76 50%, #ffe6eb 100%);
-                            background: linear-gradient(to right, #ffe6eb 0%, #ff4f76 50%, #ffe6eb 100%);
-                            border-radius: 1rem;
-                        }
-                        .progress-container > div{
-                            position: absolute;
-                            height: 230%;
-                            width: 2px;
-                            top: -65%;
-                            background: #ff4f76;
-                        }
-                        
-                        
-                        .pages{
-                            width: 90%;
-                            min-height: 100vh;
-                            margin: 0 auto;
-                            page-break-before: always;
-                            overflow: hidden;
-                            page-break-inside: avoid;
-                        
-                            border-bottom: 1px solid black;
-                        }
-                        .page-title{
-                            text-align: left;
-                            padding: 5rem 0 1rem 2rem;
-                        }
-                        .page-title > span{
-                            text-align: center;
-                            display: inline-block;
-                            position: relative;
-                            z-index: 1;
-                            font-size: 3rem;
-                            font-weight: bold;
-                            max-width: 400px;
-                            color: #ff4f76;
-                        }
-                        .page-title > span::before{
-                            display: block;
-                            position: absolute;
-                            color: #ffa6ba;
-                            font-size: 8rem;
-                            opacity: 0.5;
-                            top: -6.8rem;
-                            z-index: -1;
-                        }
-                        .page-title > span::after{
-                            display: block;
-                            position: relative;
-                            content: "";
-                            width: 100%;
-                            height: 1rem;
-                            z-index: -1;
-                            background: #ffa6ba;
-                            opacity: 0.5;
-                            padding: 0 1rem;
-                            top: -1.8rem;
-                            left: -1rem;
-                            border-radius: 0.5rem;
-                            border: none;
-                        }
-                        .one-title{
-                            width: 70%;
-                            font-size: 6rem;
-                            font-weight: lighter;
-                            line-height: initial;
-                            letter-spacing: 0.2rem;
-                            padding: 3rem 0 1rem 1rem;
-                        }
-                        .one-line{
-                            position: absolute;
-                            margin: 0.5rem 0 0 1rem;
-                            width: 2px;
-                            height: 10rem;
-                            background-color: #ffa6ba;
-                        }
-                        .one-img{
-                            position: relative;
-                            width: 800px;
-                            height: 1000px;
-                            float: right;
-                            right: -1rem;
-                        }
-                        .three-title > span::before{
-                            content: 'A';
-                        }
-                        
-                        .overview-age-prediction{
-                            width: 90%;
-                            margin: 0 auto;
-                            padding-bottom: 1rem;
-                            font-weight: bolder;
-                            font-size: 1rem;
-                            text-align: center;
-                            border-bottom: 1px solid #dfe2e5;
-                        }
-                        .overview-total{
-                            margin-bottom: 1rem;
-                        }
-                        .overview-total > div{
-                            width: 90%;
-                            margin: 0 auto;
-                            border-top: 1px solid #dfe2e5;
-                            border-bottom: 1px solid #dfe2e5;
-                            line-height: 2.3;
-                        }
-                        .overview-total > div:last-child{
-                            border-top: none;
-                        }
-                        .overview-total > div > span:last-child{
-                            padding-left: 3rem;
-                        }
-                        .overview-total-label{
-                            display: inline-block;
-                            padding-left: 3rem;
-                            width: 50%;
-                            max-width: 50%;
-                            padding-bottom: 0.3rem;
-                            box-sizing: border-box;
-                        }
-                        .overview-total-label:first-child{
-                            border-right: 1px solid #dfe2e5;
-                        }
-                        .overview-total-label > span{
-                            float: right;
-                            font-weight: bolder;
-                            padding-right: 3rem;
-                        }
-                        .overview-abnormal{
-                            font-size: 0.95rem;
-                            margin-bottom: 1rem;
-                            width: 90%;
-                            margin: 0 auto;
-                        }
-                        .overview-abnormal-title{
-                            font-weight: bolder;
-                            margin: 1.5rem;
-                        }
-                        .overview-abnormal-title > span{
-                            color: #ff4f76;
-                        }
-                        .overview-abnormal-content{
-                            display: flex;
-                            justify-content: left;
-                            align-items: center;
-                            min-height: 100px;
-                            margin-bottom: 1.5rem;
-                            padding: 0.5rem 0;
-                            background: #fff6f8;
-                            border-radius: 5px;
-                        }
-                        .overview-abnormal-content > div:first-child{
-                            margin: 0 1rem;
-                            padding: 0.5rem 0;
-                            letter-spacing: 0.1rem;
-                            background-color: #ff4f76;
-                            color: #ffffff;
-                            border-radius: 1rem;
-                            writing-mode: vertical-lr;
-                        }
-                        .overview-abnormal-content > div:last-child{
-                            margin-right: 1rem;
-                        }
-                        
-                        
-                        .four-title > span::before{
-                            content: 'B';
-                        }
-                        .overview-flora{
-                            margin-bottom: 1rem;
-                        }
-                        .overview-flora-items{
-                            width: 90%;
-                            margin: 0 auto;
-                            margin-bottom: 3rem;
-                            padding: 0.8rem;
-                            box-sizing: border-box;
-                        }
-                        .overview-abnormal-content-item{
-                            line-height: 1.8;
-                        }
-                        .overview-abnormal-content-item span.title{
-                            font-weight: bold;
-                        }
-                        .overview-abnormal-content-item span.item{
-                            font-weight: bold;
-                            color: #ff4f76;
-                        }
-                        .overview-abnormal-content-item span.item-margin{
-                            margin-left: 1rem;
-                            font-weight: bold;
-                            color: #ff4f76;
-                        }
-                        .overview-flora-item-header{
-                            position: relative;
-                            overflow: hidden;
-                            height: 35px;
-                            margin-bottom: 0.5rem;
-                            color: #ff4f76;
-                        }
-                        .overview-flora-item-header > div:first-child{
-                            float: left;
-                            font-size: 1.6rem;
-                        }
-                        .overview-flora-item-header > div:last-child{
-                            float: right;
-                            font-size: 1.6rem;
-                            padding: 0rem 1.2rem;
-                            background-color: #ff4f76;
-                            color: #ffffff;
-                            border-radius: 2rem;
-                            height: 100%;
-                            line-height: 35px;
-                        }
-                        .overview-flora-item-header > div:last-child.normal{
-                            background-color: #77c761;
-                        }
-                        .overview-flora-item-body{
-                            margin: 1.5rem 0;
-                            line-height: 1.8;
-                            font-size: 0.95rem;
-                        }
-                        .overview-flora-item-progress{
-                            padding: 0.5rem 0;
-                        }
-                        .overview-flora-item-result{
-                            border-left: 5px solid #ff4f76;
-                            padding: 2rem 1rem 2rem 1rem;
-                            border-radius: 5px;
-                            background: #fff6f8;
-                            font-weight: bold;
-                        }
-                        
-                        .five-title > span::before{
-                            content: 'C';
-                        }
-                        .assess-items{
-                            width: 90%;
-                            margin: 0 auto;
-                            margin-bottom: 1rem;
-                            padding: 0.8rem;
-                            box-sizing: border-box;
-                        }
-                        .assess-item-header{
-                            position: relative;
-                            height: 35px;
-                            margin-bottom: 0.5rem;
-                            color: #ff4f76;
-                        }
-                        .assess-item-header > div:first-child{
-                            float: left;
-                            font-size: 1.6rem;
-                        }
-                        .assess-item-header > div:last-child{
-                            float: right;
-                            font-size: 1.6rem;
-                            padding: 0rem 1.2rem;
-                            background-color: #ff4f76;
-                            color: #ffffff;
-                            border-radius: 2rem;
-                            height: 100%;
-                            line-height: 35px;
-                        }
-                        .assess-item-header > div.low-risk{
-                            background-color: #77c761;
-                        }
-                        .assess-item-header > div.middle-risk{
-                            background-color: #ffb85b;
-                        }
-                        .assess-item-header > div.high-risk{
-                            background-color: #ff4f76;
-                        }
-                        .assess-item-body{
-                            margin: 1.5rem 0;
-                            line-height: 1.8;
-                            font-size: 0.95rem;
-                        }
-                        .assess-item-result{
-                            border-left: 5px solid #ff4f76;
-                            padding: 2rem 1rem 2rem 1rem;
-                            border-radius: 5px;
-                            background: #fff6f8;
-                            font-weight: bold;
-                        }
-                        
-                        .six-title > span::before{
-                            content: 'D';
-                        }
-                        
-                        .suggestion-title-sm{
-                            width: 90%;
-                            margin: 0 auto 1rem;
-                            padding-left: 0.8rem;
-                            font-weight: bold;
-                            font-size: 1.25rem;
-                            color: #ff4f76;
-                            border-left: 3px solid #ff4f76;
-                        }
-                        .sug-food{
-                            display: flex;
-                            flex-direction: column;
-                            width: 90%;
-                            margin: 0 auto;
-                        }
-                        .sug-food > div{
-                            margin-bottom: 1.5rem;
-                            padding: 1rem;
-                            box-sizing: border-box;
-                        }
-                        .sug-item-img{
-                            display: flex;
-                            justify-content: space-between;
-                            margin-bottom: 1rem;
-                        }
-                        .sug-item-img > img{
-                            width: 20%;
-                        }
-                        .sug-item-img > div{
-                            display: inline-block;
-                            align-self: center;
-                            margin-left: 1rem;
-                            font-weight: bold;
-                            text-align: right;
-                        }
-                        .sug-item-content{
-                            text-indent: 1rem;
-                            padding: 0.5rem;
-                            border-radius: 5px;
-                            line-height: 1.7;
-                            font-size: 0.95rem;
-                        }
-                        .sug-biotics{
-                            display: flex;
-                            flex-direction: column;
-                            width: 90%;
-                            margin: 0 auto;
-                        }
-                        .sug-biotics > div{
-                            margin-bottom: 1rem;
-                            padding: 1rem;
-                            box-sizing: border-box;
-                        }
-                        .sug-lifeStyle{
-                            display: flex;
-                            flex-wrap: wrap;
-                            width: 90%;
-                            margin: 0 auto;
-                        }
-                        .sug-lifeStyle-img{
-                            width: 12%;
-                            margin: 0.5rem 2rem;
-                            padding: 0.5rem;
-                            text-align: center;
-                        }
-                        .sug-lifeStyle-img > img{
-                            width: 102px;
-                            height: 102px;
-                        }
-                        
-                        
-                        .seven-title > span::before{
-                            content: 'E';
-                        }
-                        
-                        .overview-result{
-                            width: 90%;
-                            margin: 0 auto;
-                        }
-                        .overview-result > table{
-                            width: 100%;
-                            overflow-x: scroll;
-                            border-collapse: collapse;
-                        }
-                        .overview-result-info{
-                            color: #ff4f76;
-                            font-weight: bold;
-                        }
-                        .overview-result-table-head > th{
-                            border-bottom: 1px solid #1a1a1a;
-                            padding: 0.5rem 0;
-                            color: #1a1a1a;
-                            vertical-align: bottom;
-                        }
-                        .overview-result-table-body{
-                            text-align: center;
-                        }
-                        .overview-result-table-body > tr{
-                            border-bottom: 1px solid #dfe2e5;
-                        }
-                        .overview-result-table-body > tr > td{
-                            padding: 1rem 0;
-                            vertical-align: middle;
-                        }
-                        .overview-result-table-name{
-                            min-width: 95px;
-                        }
-                        .overview-results{
-                            color: #77c761;
-                            font-weight: bold;
-                        }
-                        .overview-result-below, .overview-result-above{
-                            color: #ff4f76;
-                        }
-                        .overview-result-below::after{
-                            content: '↓';
-                            margin-left: 5px;
-                            position: relative;
-                        }
-                        .overview-result-above::after{
-                            content: '↑';
-                            margin-left: 5px;
-                            position: relative;
-                        }
-                        .overview-total-graph{
-                            width: 100%;
-                            max-width: 375px;
-                            overflow: hidden;
-                            margin: 0 auto;
-                            margin-bottom: 1rem;
-                            border-radius: 5px;
-                            background: #fff6f8;
-                        }
-                        .overview-total-graph-info{
-                            display: flex;
-                            flex-wrap: wrap;
-                            justify-content: space-around;
-                            padding: 0 0.5rem 0.5rem;
-                            text-align: center;
-                            font-weight: bold;
-                            color: #ffffff;
-                        }
-                        .overview-total-graph-info > p{
-                            width: 35%;
-                            text-align: left;
-                        }
-                        .overview-total-graph-info > p > span{
-                            float: right;
-                        }
-                        
-                        .eight-title > span::before{
-                            content: 'F';
-                        }
-                        
-                        .know-title-sm{
-                            width: 90%;
-                            margin: 0 auto 1rem;
-                            padding-left: 0.8rem;
-                            font-weight: bold;
-                            font-size: 1.25rem;
-                            border-left: 3px solid #ff4f76;
-                            color: #ff4f76;
-                        }
-                        .know-what-content{
-                            padding: 1rem;
-                            font-size: 0.95rem;
-                        }
-                        .know-content{
-                            margin-bottom: 0.5rem;
-                            text-indent: 1rem;
-                        }
-                        .know-what, .know-which, .know-effect, .know-method, .know-balance{
-                            font-size: 0.95rem;
-                            width: 90%;
-                            margin: 0 auto 1rem;
-                            page-break-inside: avoid;
-                        }
-                        .know-which-item{
-                            margin: 1rem auto;
-                            padding: 0.5rem;
-                            border-radius: 5px;
-                            border: 1px solid #ffe6eb;
-                        }
-                        .know-which-item > div{
-                            font-weight: bold;
-                            color: #ff4f76;
-                            margin-bottom: 0.5rem;
-                            text-align: center;
-                        }
-                        .know-which-item > p{
-                            text-indent: 1rem;
-                        }
-                        .know-effect-item{
-                            margin: 1rem auto;
-                            padding: 0.5rem;
-                            border-radius: 5px;
-                            border: 1px solid #ffe6eb;
-                        }
-                        .know-effect-item > div{
-                            font-weight: bold;
-                            color: #ff4f76;
-                            margin-bottom: 0.5rem;
-                            text-align: center;
-                        }
-                        .know-effect-item > p{
-                            text-indent: 1rem;
-                        }
-                        .know-balance >img{
-                            display: block;
-                            max-width: 100%;
-                            margin: 0 auto;
-                            border-radius: 5px;
-                        }
-                        .know-method-item{
-                            position: relative;
-                            border-radius: 5px;
-                            margin-top: 5rem;
-                            margin-bottom: 1.5rem;
-                            padding: 1rem 0.5rem 0.5rem;
-                            border: 1px solid #ff4f76;
-                            background: #fff6f8;
-                        
-                            page-break-inside: avoid;
-                        }
-                        .know-method-item::before{
-                            display: inline-block;
-                            position: absolute;
-                            font-size: 0.75rem;
-                            font-weight: bold;
-                            color: #ffffff;
-                            padding: 0 0.5rem;
-                            top: -0.75rem;
-                            left: 1rem;
-                            height: 1.5rem;
-                            border-radius: 1.5rem;
-                            line-height: 1.5rem;
-                            background: #ff4f76;
-                        }
-                        .know-method-item-one::before{
-                            content: '益生菌补充';
-                        }
-                        .know-method-item-two::before{
-                            content: '益生元补充';
-                        }
-                        .know-method-item-three::before{
-                            content: '临床研究';
-                        }
-                        .know-method-title{
-                            color: #ff4f76;
-                            margin: 0.5rem 0;
-                            font-weight: bold;
-                            text-align: center;
-                        }
-                        .know-method-intestine{
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: center;
-                            align-content: center;
-                        }
-                        .know-method-intestine > div{
-                            margin: 0.5rem 0;
-                        }
-                        .know-method-intestine img{
-                            display: block;
-                            width: 30%;
-                            margin: 0 auto;
-                            max-width: 150px;
-                        }
-                        .know-method-intestine p{
-                            width: 60%;
-                            margin: 0 auto;
-                            text-align: center;
-                            opacity: 0.6;
-                        }
-                        .know-method-list > div > p:first-child{
-                            font-weight: bold;
-                        }
-                        .know-method-item-three > table{
-                            width: 100%;
-                            overflow-x: scroll;
-                            border-collapse: collapse;
-                        }
-                        .know-method-table-head th{
-                            border-bottom: 1px solid #dfe2e5;
-                            padding: 0.5rem 0;
-                            color: #1a1a1a;
-                            vertical-align: bottom;
-                        }
-                        .know-method-table-body{
-                            text-align: center;
-                            line-height: 1.7;
-                        }
-                        .know-method-table-body > tr{
-                            border-bottom: 1px solid #dfe2e5;
-                        }
-                        .know-method-table-body > tr:last-child{
-                            border-bottom: none;
-                        }
-                        .know-method-table-body > tr > td{
-                            padding: 0.6rem 0;
-                            vertical-align: middle;
-                        }
+                .then(Axios.spread(() => {
+                    Axios({
+                        method: 'POST',
+                        url: host + '/admin/pdf',
+                        params: {
+                            'access-token': token
+                        },
+                        data: {
+                            css: `
+                            body{color: #666666;line-height: 1.8;}
+.progress{
+    position: relative;
+    width: 95%;
+    height: 1.5rem;
+    margin: 0.5rem auto;
+    overflow: hidden;
+}
+.progress-label{
+    float: left;
+    max-width: 48%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.progress-container{
+    position: absolute;
+    width: 50%;
+    height: 0.5rem;
+    right: 0;
+    top: 50%;
+    margin-top: -0.25rem;
+    background: -webkit-gradient(linear, left top, right top, from(#ffe6eb), color-stop(50%, #ff4f76), to(#ffe6eb));
+    background: -webkit-linear-gradient(left, #ffe6eb 0%, #ff4f76 50%, #ffe6eb 100%);
+    background: -o-linear-gradient(left, #ffe6eb 0%, #ff4f76 50%, #ffe6eb 100%);
+    background: linear-gradient(to right, #ffe6eb 0%, #ff4f76 50%, #ffe6eb 100%);
+    border-radius: 1rem;
+}
+.progress-container > div{
+    position: absolute;
+    height: 230%;
+    width: 2px;
+    top: -65%;
+    background: #ff4f76;
+}
+
+
+.pages{
+    width: 90%;
+    min-height: 100vh;
+    margin: 0 auto;
+    page-break-before: always;
+    overflow: hidden;
+    page-break-inside: avoid;
+}
+.page-title{
+    text-align: left;
+    padding: 5rem 0 1rem 2rem;
+}
+.page-title > span{
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    font-size: 3rem;
+    font-weight: bold;
+    max-width: 400px;
+    color: #ff4f76;
+}
+.page-title > span::before{
+    display: block;
+    position: absolute;
+    color: #ffa6ba;
+    font-size: 8rem;
+    opacity: 0.5;
+    top: -6.8rem;
+    z-index: -1;
+}
+.page-title > span::after{
+    display: block;
+    position: relative;
+    content: "";
+    width: 100%;
+    height: 1rem;
+    z-index: -1;
+    background: #ffa6ba;
+    opacity: 0.5;
+    padding: 0 1rem;
+    top: -1.8rem;
+    left: -1rem;
+    border-radius: 0.5rem;
+    border: none;
+}
+.one-title{
+    width: 70%;
+    font-size: 6rem;
+    font-weight: lighter;
+    line-height: initial;
+    letter-spacing: 0.2rem;
+    padding: 3rem 0 1rem 1rem;
+}
+.one-line{
+    position: absolute;
+    margin: 0.5rem 0 0 1rem;
+    width: 2px;
+    height: 10rem;
+    background-color: #ffa6ba;
+}
+.one-img{
+    position: relative;
+    width: 1600px;
+    height: 800px;
+    left: -22rem;
+}
+.three-title > span::before{
+    content: 'A';
+}
+
+.overview-age-prediction{
+    width: 90%;
+    margin: 0 auto;
+    padding-bottom: 1rem;
+    font-weight: bolder;
+    font-size: 1rem;
+    text-align: center;
+    border-bottom: 1px solid #dfe2e5;
+}
+.overview-total{
+    margin-bottom: 1rem;
+}
+.overview-total > div{
+    width: 90%;
+    margin: 0 auto;
+    border-top: 1px solid #dfe2e5;
+    border-bottom: 1px solid #dfe2e5;
+    line-height: 2.3;
+}
+.overview-total > div:last-child{
+    border-top: none;
+}
+.overview-total > div > span:last-child{
+    padding-left: 3rem;
+}
+.overview-total-label{
+    display: inline-block;
+    padding-left: 3rem;
+    width: 50%;
+    max-width: 50%;
+    padding-bottom: 0.3rem;
+    box-sizing: border-box;
+}
+.overview-total-label:first-child{
+    border-right: 1px solid #dfe2e5;
+}
+.overview-total-label > span{
+    float: right;
+    font-weight: bolder;
+    padding-right: 3rem;
+}
+.overview-abnormal{
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    width: 90%;
+    margin: 0 auto;
+}
+.overview-abnormal-title{
+    font-weight: bolder;
+    margin: 1.5rem;
+}
+.overview-abnormal-title > span{
+    color: #ff4f76;
+}
+.overview-abnormal-content{
+    min-height: 100px;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem 0;
+    background: #fff6f8;
+    border-radius: 5px;
+}
+.overview-abnormal-content > div:first-child{
+    display: inline-block;
+    margin: 1rem 0 0 2rem;
+    padding: 0.1rem 0.2rem;
+    letter-spacing: 0.1rem;
+    background-color: #ff4f76;
+    color: #ffffff;
+    border-radius: 1rem;
+}
+.overview-abnormal-content > div:last-child{
+    margin: 1rem 1rem 0 2rem;
+}
+
+
+.four-title > span::before{
+    content: 'B';
+}
+.overview-flora{
+    margin-bottom: 1rem;
+}
+.overview-flora-items{
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 3rem;
+    padding: 0.8rem;
+    box-sizing: border-box;
+}
+.overview-abnormal-content-item{
+    line-height: 1.8;
+}
+.overview-abnormal-content-item span.title{
+    font-weight: bold;
+}
+.overview-abnormal-content-item span.item{
+    font-weight: bold;
+    color: #ff4f76;
+}
+.overview-abnormal-content-item span.item-margin{
+    margin-left: 1rem;
+    font-weight: bold;
+    color: #ff4f76;
+}
+.overview-flora-item-header{
+    position: relative;
+    overflow: hidden;
+    height: 35px;
+    margin-bottom: 0.5rem;
+    color: #ff4f76;
+}
+.overview-flora-item-header > div:first-child{
+    float: left;
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+.overview-flora-item-header > div:last-child{
+    float: right;
+    font-size: 1.6rem;
+    padding: 0rem 1.2rem;
+    background-color: #ff4f76;
+    color: #ffffff;
+    border-radius: 2rem;
+    height: 100%;
+    line-height: 35px;
+}
+.overview-flora-item-header > div:last-child.normal{
+    background-color: #77c761;
+}
+.overview-flora-item-body{
+    margin: 1.5rem 0;
+    line-height: 1.8;
+    font-size: 0.95rem;
+}
+.overview-flora-item-progress{
+    padding: 0.5rem 0;
+}
+.overview-flora-item-result{
+    border-left: 5px solid #ff4f76;
+    padding: 2rem 1rem 2rem 1rem;
+    border-radius: 5px;
+    background: #fff6f8;
+    font-weight: bold;
+}
+
+.five-title > span::before{
+    content: 'C';
+}
+.assess-items{
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    box-sizing: border-box;
+    page-break-inside: avoid;
+}
+.assess-item-header{
+    position: relative;
+    height: 35px;
+    margin-bottom: 0.5rem;
+    color: #ff4f76;
+}
+.assess-item-header > div:first-child{
+    float: left;
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+.assess-item-header > div:last-child{
+    float: right;
+    font-size: 1.6rem;
+    padding: 0rem 1.2rem;
+    background-color: #ff4f76;
+    color: #ffffff;
+    border-radius: 2rem;
+    height: 100%;
+    line-height: 35px;
+}
+.assess-item-header > div.low-risk{
+    background-color: #77c761;
+}
+.assess-item-header > div.middle-risk{
+    background-color: #ffb85b;
+}
+.assess-item-header > div.high-risk{
+    background-color: #ff4f76;
+}
+.assess-item-body{
+    margin: 1.5rem 0;
+    line-height: 1.8;
+    font-size: 0.95rem;
+}
+.assess-item-result{
+    border-left: 5px solid #ff4f76;
+    padding: 2rem 1rem 2rem 1rem;
+    border-radius: 5px;
+    background: #fff6f8;
+    font-weight: bold;
+}
+
+.six-title > span::before{
+    content: 'D';
+}
+
+.suggestion-title-sm{
+    width: 90%;
+    margin: 0 auto 1rem;
+    padding-left: 0.8rem;
+    font-weight: bold;
+    font-size: 1.25rem;
+    color: #ff4f76;
+    border-left: 3px solid #ff4f76;
+}
+.sug-food{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: 0 auto;
+}
+.sug-food > div{
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+.sug-item-img{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+.sug-item-img > img{
+    width: 20%;
+}
+.sug-item-img > div{
+    display: inline-block;
+    align-self: center;
+    margin-left: 1rem;
+    font-weight: bold;
+    text-align: right;
+}
+.sug-item-content{
+    text-indent: 1rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+.sug-biotics{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: 0 auto;
+}
+.sug-biotics > div{
+    margin-bottom: 1rem;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+.sug-lifeStyle{
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+    margin: 0 auto;
+}
+.sug-lifeStyle-img{
+    width: 12%;
+    margin: 0.5rem 2rem;
+    padding: 0.5rem;
+    text-align: center;
+}
+.sug-lifeStyle-img > img{
+    width: 102px;
+    height: 102px;
+}
+
+
+.seven-title > span::before{
+    content: 'E';
+}
+
+.overview-result{
+    width: 90%;
+    margin: 0 auto;
+}
+.overview-result > table{
+    width: 100%;
+    overflow-x: scroll;
+    border-collapse: collapse;
+}
+.overview-result-info{
+    color: #ff4f76;
+    font-weight: bold;
+}
+.overview-result-table-head > th{
+    border-bottom: 1px solid #1a1a1a;
+    padding: 0.5rem 0;
+    color: #1a1a1a;
+    vertical-align: bottom;
+}
+.overview-result-table-body{
+    text-align: center;
+}
+.overview-result-table-body > tr{
+    border-bottom: 1px solid #dfe2e5;
+}
+.overview-result-table-body > tr > td{
+    padding: 1rem 0;
+    vertical-align: middle;
+}
+.overview-result-table-name{
+    min-width: 95px;
+}
+.overview-results{
+    color: #77c761;
+    font-weight: bold;
+}
+.overview-result-below, .overview-result-above{
+    color: #ff4f76;
+}
+.overview-result-below::after{
+    content: '↓';
+    margin-left: 5px;
+    position: relative;
+}
+.overview-result-above::after{
+    content: '↑';
+    margin-left: 5px;
+    position: relative;
+}
+.overview-total-graph{
+    width: 100%;
+    max-width: 375px;
+    overflow: hidden;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    background: #fff6f8;
+}
+.overview-total-graph-info{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 0 0.5rem 0.5rem;
+    text-align: center;
+    font-weight: bold;
+    color: #ffffff;
+}
+.overview-total-graph-info > p{
+    width: 35%;
+    text-align: left;
+}
+.overview-total-graph-info > p > span{
+    float: right;
+}
+
+.eight-title > span::before{
+    content: 'F';
+}
+
+.know-title-sm{
+    width: 90%;
+    margin: 0 auto 1rem;
+    padding-left: 0.8rem;
+    font-weight: bold;
+    font-size: 1.25rem;
+    border-left: 3px solid #ff4f76;
+    color: #ff4f76;
+}
+.know-what-content{
+    padding: 1rem;
+    font-size: 0.95rem;
+}
+.know-content{
+    margin-bottom: 0.5rem;
+    text-indent: 1rem;
+}
+.know-what, .know-which, .know-effect, .know-method, .know-balance{
+    font-size: 0.95rem;
+    width: 90%;
+    margin: 0 auto 1rem;
+    page-break-inside: avoid;
+}
+.know-which-item{
+    margin: 1rem auto;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ffe6eb;
+}
+.know-which-item > div{
+    font-weight: bold;
+    color: #ff4f76;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+.know-which-item > p{
+    text-indent: 1rem;
+}
+.know-effect-item{
+    margin: 1rem auto;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ffe6eb;
+}
+.know-effect-item > div{
+    font-weight: bold;
+    color: #ff4f76;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+.know-effect-item > p{
+    text-indent: 1rem;
+}
+.know-balance >img{
+    display: block;
+    max-width: 100%;
+    margin: 0 auto;
+    border-radius: 5px;
+}
+.know-method{
+    padding-bottom: 2rem;
+}
+.know-method-item{
+    position: relative;
+    border-radius: 5px;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem 0.5rem 0.5rem;
+    border: 1px solid #ff4f76;
+    background: #fff6f8;
+
+    page-break-inside: avoid;
+}
+.know-method-item::before{
+    display: inline-block;
+    position: absolute;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #ffffff;
+    padding: 0 0.5rem;
+    top: -0.75rem;
+    left: 1rem;
+    height: 1.5rem;
+    border-radius: 1.5rem;
+    line-height: 1.5rem;
+    background: #ff4f76;
+}
+.know-method-item-one::before{
+    content: '益生菌补充';
+}
+.know-method-item-two::before{
+    content: '益生元补充';
+}
+.know-method-item-three::before{
+    content: '临床研究';
+}
+.know-method-title{
+    color: #ff4f76;
+    margin: 0.5rem 0;
+    font-weight: bold;
+    text-align: center;
+}
+.know-method-intestine{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+.know-method-intestine > div{
+    margin: 0.5rem 0;
+}
+.know-method-intestine img{
+    display: block;
+    width: 30%;
+    margin: 0 auto;
+    max-width: 150px;
+}
+.know-method-intestine p{
+    width: 60%;
+    margin: 0 auto;
+    text-align: center;
+    opacity: 0.6;
+}
+.know-method-list > div > p:first-child{
+    font-weight: bold;
+}
+.know-method-item-three > table{
+    width: 100%;
+    overflow-x: scroll;
+    border-collapse: collapse;
+}
+.know-method-table-head th{
+    border-bottom: 1px solid #dfe2e5;
+    padding: 0.5rem 0;
+    color: #1a1a1a;
+    vertical-align: bottom;
+}
+.know-method-table-body{
+    text-align: center;
+    line-height: 1.7;
+}
+.know-method-table-body > tr{
+    border-bottom: 1px solid #dfe2e5;
+}
+.know-method-table-body > tr:last-child{
+    border-bottom: none;
+}
+.know-method-table-body > tr > td{
+    padding: 0.6rem 0;
+    vertical-align: middle;
+}
                         `,
-                        html : document.querySelector('.pdf').innerHTML,
-                        id : id
-                    },
-                    headers: {
-                        'Content-Type': 'application/json; charset=UTF-8'
-                    },
-                    timeout: 5000
-                }).then(_data => {
-                    const { data } = _data;
-                    if (data.code === 'success'){
-                        window.open(data.data)
-                    }
-                }).catch(error => console.log(error));
-            }))
+                            html: document.querySelector('.pdf').innerHTML,
+                            id: id
+                        },
+                        headers: {
+                            'Content-Type': 'application/json; charset=UTF-8'
+                        },
+                        timeout: 5000
+                    }).then(_data => {
+                        const { data } = _data;
+                        if (data.code === 'success') {
+                            window.open(data.data)
+                        }
+                    }).catch(error => console.log(error));
+                }))
         }
     }, [])
 
@@ -774,11 +774,11 @@ const PDF = () => {
         else return { className: 'overview-results' }
     }
     const mapRisk = {
-        'low-risk' : 'low-risk',
-        'middle-risk' : 'middle-risk',
-        'high-risk' : 'high-risk',
-        'weaker' : 'high-risk',
-        'normal' : 'low-risk'
+        'low-risk': 'low-risk',
+        'middle-risk': 'middle-risk',
+        'high-risk': 'high-risk',
+        'weaker': 'high-risk',
+        'normal': 'low-risk'
     }
     const judgeRange = (value, min, max, type) => {
         switch (type) {
@@ -827,7 +827,10 @@ const PDF = () => {
                 <div className='page-two pages'></div>
                 <div className='page-three pages'>
                     <div className="page-title three-title"><span>整体情况</span></div>
-                    { useR.age && (+ useR.age) ? (<div className='overview-age-prediction'>预测年龄：{+ useR.age}</div>) : null }
+                    <div className='overview-total-graph'>
+                        <div id='graph' />
+                    </div>
+                    {useR.age && (+ useR.age) ? (<div className='overview-age-prediction'>预测年龄：{(+ useR.age).toFixed(1)} 岁</div>) : null}
                     <div className='overview-total'>
                         <div>
                             <span className='overview-total-label'>受检者<span>{useR.name}</span></span>
@@ -842,20 +845,28 @@ const PDF = () => {
                         <div className='overview-abnormal-title'>根据您目前的肠道菌群情况，提示您<span>以下指标异常</span>，需要引起重视，可结合改善建议进行调理。</div>
                         {abnormal ? (
                             <div>
-                                <div className='overview-abnormal-content'>
-                                    <div>菌群环境</div>
-                                    <div className='overview-abnormal-content-item'>
-                                        {abnormal.metrics.intestinal_defense ? (<div><span className='title'>肠道防御力</span><span>{abnormal.metrics.intestinal_defense}</span></div>) : null}
-                                        {abnormal.metrics.beneficial ? (<div><span className='title'>有益菌：</span>{abnormal.metrics.beneficial}<span className='item'>偏低</span></div>) : null}
-                                        {abnormal.metrics.harmful ? (<div><span className='title'>有害菌：</span>{abnormal.metrics.harmful}<span className='item'>超标</span></div>) : null}
+                                {abnormal.metrics ? (
+                                    <div className='overview-abnormal-content'>
+                                        <div>菌群环境</div>
+                                        <div className='overview-abnormal-content-item'>
+                                            {abnormal.metrics.intestinal_defense ? (<div><span className='title'>肠道防御力</span><span>{abnormal.metrics.intestinal_defense}</span></div>) : null}
+                                            {abnormal.metrics.beneficial ? (<div><span className='title'>有益菌：</span>{abnormal.metrics.beneficial}<span className='item'>偏低</span></div>) : null}
+                                            {abnormal.metrics.general ? (<div><span className='title'>中性菌：</span>{abnormal.metrics.general.lower ? (<>{abnormal.metrics.general.lower}<span className='item'>偏低</span></>) : null}
+                                                {abnormal.metrics.general.higher ? (<>{abnormal.metrics.general.higher}<span className='item'>超标</span></>) : null}</div>) : null}
+                                            {abnormal.metrics.harmful ? (<div><span className='title'>有害菌：</span>{abnormal.metrics.harmful}<span className='item'>超标</span></div>) : null}
+                                        </div>
                                     </div>
-                                </div>
-                                <div className='overview-abnormal-content'>
-                                    <div>健康指标</div>
-                                    <div className='overview-abnormal-content-item'>{abnormal.indicator.map((v, i) => (
-                                        <div key={i}>{v.type_zh}<span className='item-margin'>{v.rank_zh}</span></div>
-                                    ))}</div>
-                                </div>
+                                ) : null}
+                                {
+                                    abnormal.indicator ? (
+                                        <div className='overview-abnormal-content'>
+                                            <div>健康指标</div>
+                                            <div className='overview-abnormal-content-item'>{abnormal.indicator.map((v, i) => (
+                                                <div key={i}>{v.type_zh}<span className='item-margin'>{v.rank_zh}</span></div>
+                                            ))}</div>
+                                        </div>
+                                    ) : null
+                                }
                             </div>
                         ) : null}
                     </div>
@@ -863,27 +874,27 @@ const PDF = () => {
                 <div className='page-four pages'>
                     <div className="page-title four-title"><span>菌群状态分析</span></div>
                     <div className='overview-flora'>
-                    {flora.map((v, i) => (
-                        <div key={i} className='overview-flora-items'>
-                            <div className='overview-flora-item-header'>
-                                <div>{v.type_zh}</div><div className={v.rank_en}>{v.rank_zh}</div>
+                        {flora.map((v, i) => (
+                            <div key={i} className='overview-flora-items'>
+                                <div className='overview-flora-item-header'>
+                                    <div>{v.type_zh}</div><div className={mapRisk[v.conclusion]}>{v.rank_zh}</div>
+                                </div>
+                                <div className='overview-flora-item-body'>
+                                    <div>{v.summary}</div>
+                                    {v.chart ? (
+                                        <div className='overview-flora-item-progress'>
+                                            {v.chart.map((v, i) => (
+                                                <Progress key={i} label={<span>{v.name + ' '}<span {...judgeProgress(v.state)}>{v.state}</span></span>} total={(+ v.median) + '%'} percent={(+ v.proportion) + '%'} />
+                                            ))}
+                                        </div>
+                                    ) : null}
+                                </div>
+                                {
+                                    v.suggestion ? (<div className='overview-flora-item-result'>{v.suggestion}</div>) : null
+                                }
                             </div>
-                            <div className='overview-flora-item-body'>
-                                <div>{v.summary}</div>
-                                {v.chart ? (
-                                    <div className='overview-flora-item-progress'>
-                                        {v.chart.map((v, i) => (
-                                            <Progress key={i} label={<span>{v.name + ' '}<span {...judgeProgress(v.state)}>{v.state}</span></span>} percent={(+ v.proportion) * 100 + '%'} />
-                                        ))}
-                                    </div>
-                                ) : null}
-                            </div>
-                            {
-                                v.suggestion ? (<div className='overview-flora-item-result'>{v.suggestion}</div>) : null
-                            }
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
                 </div>
                 <div className='page-five pages'>
                     <div className="page-title five-title"><span>健康指标评估</span></div>
@@ -891,7 +902,7 @@ const PDF = () => {
                         {assess.map((v, i) => (
                             <div key={i} className='assess-items'>
                                 <div className='assess-item-header'>
-                                    <div>{v.type_zh}</div><div className={mapRisk[v.rank_en]}>{v.rank_zh}</div>
+                                    <div>{v.type_zh}</div><div className={mapRisk[v.conclusion]}>{v.rank_zh}</div>
                                 </div>
                                 <div className='assess-item-body'>
                                     <div>{v.summary}</div>
@@ -927,8 +938,8 @@ const PDF = () => {
                         <div>
                             <div className='sug-item-img'><img src={weight} /><div>控制体重饮食</div></div>
                             <div className='sug-item-content'>建立健康饮食习惯，三餐规律、控制进食速度、不熬夜、避免暴饮暴食、减少在外就餐。
-                                控制能量摄入，对于BMI大于28的肥胖人群，建议能量摄入每天减少300~500 kcal，
-                                严格控制食用油和脂肪的摄入，适量控制精白米面和肉类，保证蔬菜水果和牛奶的摄入充足。
+                            控制能量摄入，对于BMI大于28的肥胖人群，建议能量摄入每天减少300~500 kcal，
+                            严格控制食用油和脂肪的摄入，适量控制精白米面和肉类，保证蔬菜水果和牛奶的摄入充足。
                             </div>
                         </div>
                     </div>
@@ -936,12 +947,12 @@ const PDF = () => {
                         微生物制剂的补充
                     </div>
                     <div className='sug-biotics'>
-                    <div>
-                        <div className='sug-item-img'><img src={probiotics} /><div>益生菌补充</div></div>
+                        <div>
+                            <div className='sug-item-img'><img src={probiotics} /><div>益生菌补充</div></div>
                             <div className='sug-item-content'>
-                            可通过直接补充含乳酸杆菌、双歧杆菌的益生菌制剂来提升双歧杆菌、阿克曼氏菌等有益菌的含量，竞争性抑制有害菌生长，
-                            以降低有害菌的含量，调节肠道菌群平衡，促进身体健康。
-                            <p>建议优先选择多菌株配方的微生态制剂，具有临床研究证据的菌株优先选择。</p>
+                                可通过直接补充含乳酸杆菌、双歧杆菌的益生菌制剂来提升双歧杆菌、阿克曼氏菌等有益菌的含量，竞争性抑制有害菌生长，
+                                以降低有害菌的含量，调节肠道菌群平衡，促进身体健康。
+                                <p>建议优先选择多菌株配方的微生态制剂，具有临床研究证据的菌株优先选择。</p>
                             </div>
                         </div>
                         <div>
@@ -967,25 +978,25 @@ const PDF = () => {
                 <div className='page-seven pages'>
                     <div className="page-title seven-title"><span>具体检测结果</span></div>
                     <div className='overview-result'>
-                    <div className='overview-result-info'>* 红色表示该菌含量异常，对健康有影响</div>
-                    <table>
-                        <thead>
-                            <tr className='overview-result-table-head'>
-                                <th>名称</th><th>分类</th><th>受检者检测数值<br />（Lg CFU/g）</th><th>参考范围<br />（Lg CFU/g）</th>
-                            </tr>
-                        </thead>
-                        <tbody className='overview-result-table-body'>
-                            {result.length ? result.map(v => (
-                                <tr key={v.name}>
-                                    <td className='overview-result-table-name'>{v.name}</td><td>{mapBacterialType(v.type)}</td><td {...judgeRange(+ v.value, + v.range_down, + v.range_up, v.type)}>{v.value}</td>{v.range_down == 0 && v.range_up == 0 ? (<td>{v.range_down}</td>) : (<td>{v.range_down} - {v.range_up}</td>)}
+                        <div className='overview-result-info'>* 红色表示该菌含量异常，对健康有影响</div>
+                        <table>
+                            <thead>
+                                <tr className='overview-result-table-head'>
+                                    <th>名称</th><th>分类</th><th>受检者检测数值<br />（Lg CFU/g）</th><th>参考范围<br />（Lg CFU/g）</th>
                                 </tr>
-                            )) : null}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody className='overview-result-table-body'>
+                                {result.length ? result.map(v => (
+                                    <tr key={v.name}>
+                                        <td className='overview-result-table-name'>{v.name}</td><td>{mapBacterialType(v.type)}</td><td {...judgeRange(+ v.value, + v.range_down, + v.range_up, v.type)}>{v.value}</td>{v.range_down == 0 && v.range_up == 0 ? (<td>{v.range_down}</td>) : (<td>{v.range_down} - {v.range_up}</td>)}
+                                    </tr>
+                                )) : null}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div className='page-eleven pages'>
-                    <div className="page-title seven-title"><span>肠道菌群知识科普</span></div>
+                    <div className="page-title eight-title"><span>肠道菌群知识科普</span></div>
                     <div className='know-title-sm'>01. 肠道菌群是什么</div>
                     <div className='know-what'>
                         <div className='know-what-content'>肠道不仅是我们人体最大的消化器官，也是人体最大的免疫器官，人体约99%的营养素和90%的毒素要在肠道中吸收和排出。

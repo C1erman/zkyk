@@ -3,19 +3,11 @@ const initState = {
     user : {
         role : '',
         token : '',
-        email : '',
         permission : ''
     },
     sampleList : {
-        totalPage : 0,
-        currentPage : 0,
-        list : [
-            {
-                barCode : '',
-                status : '',
-                testee : ''
-            }
-        ],
+        totalPage : 1,
+        currentPage : 1,
     },
     report : {
         current : ''
@@ -29,7 +21,8 @@ const initState = {
         testeeId : ''
     },
     share : {
-        add : ''
+        add : '',
+        signup : ''
     },
     pdf : '',
     globalInfo : ''

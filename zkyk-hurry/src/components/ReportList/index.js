@@ -20,6 +20,7 @@ import failedSrc from '../../icons/status/failed.svg';
 
 const ReportList = () => {
     let user = useSelector(state => state.user);
+    let sampleList = useSelector(state => state.sampleList);
     let controller = {};
     let modalController = {};
     const history = useHistory();
@@ -36,6 +37,7 @@ const ReportList = () => {
             url : host + '/sample/list',
             params : {
                 'access-token' : user.token,
+                page : + sampleList.currentPage,
                 pageNum : 5
             },
             headers : {
@@ -50,6 +52,10 @@ const ReportList = () => {
         }).catch(error => console.log(error));
     }, [])
     const getList = (currentPage) => {
+        dispatch({
+            type : BIO.REPORT_LIST_CURRENT_PAGE,
+            data : currentPage
+        });
         Axios({
             method : 'GET',
             url : host + '/sample/list',
@@ -148,7 +154,7 @@ const ReportList = () => {
                                 </tr>)}
                             </tbody>
                         </table>
-                        <Pager total={total} prevClick={(currentPage) => getList(currentPage)} nextClick={(currentPage) => getList(currentPage)}  />
+                        <Pager current={ + sampleList.currentPage} total={total} prevClick={(currentPage) => getList(currentPage)} nextClick={(currentPage) => getList(currentPage)}  />
                     </>
                 )}
             </div>

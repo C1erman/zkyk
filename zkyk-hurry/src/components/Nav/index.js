@@ -28,7 +28,7 @@ const Nav = () => {
             {
                 report.current ? (
                     <>
-                        <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/list' onClick={handleReportList}>返回报告列表</NavLink>
+                        <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/list' onClick={handleReportList}>返回至报告列表</NavLink>
                         <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/overview' onClick={clickHandler}>整体情况</NavLink>
                         <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/assess' onClick={clickHandler}>健康评估</NavLink>
                         <NavLink className='nav-link' activeClassName='nav-link-active' to='/report/suggestion' onClick={clickHandler}>建议</NavLink>

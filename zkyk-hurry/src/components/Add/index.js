@@ -14,6 +14,7 @@ import Input from '../Input';
 import AutoInput from '../AutoInput';
 import Modal from '../Modal';
 import Button from '../Button';
+import { clone } from '../../utils/BIOObject';
 
 const Add = () => {
     // 路由
@@ -44,6 +45,7 @@ const Add = () => {
     let [first, setFirst] = useState(true);
     let [testeeCode, setCode] = useState();
     let [codeError, setCodeErr] = useState('');
+    let [contact, setContact] = useState();
     // redux
     let { sampleId } = useSelector(state => state.add);
     let { add } = useSelector(state => state.share);
@@ -55,10 +57,27 @@ const Add = () => {
     const selectFoodRef = useRef();
 
     let controller = {};
+    let modalResultController = {};
 
     useEffect(() => {
         slideUp();
         document.title = '信息填写';
+        Axios({
+            method: 'GET',
+            url: host + '/user/operator/info',
+            params: {
+                'access-token': user.token,
+                'access-code': add
+            },
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        }).then(_data => {
+            const { data } = _data;
+            if (data.code === 'success') setContact(data.data);
+            else { console.log(data.info); }
+        })
+        .catch(error => console.log(data.info));
     }, []);
 
     const handleFirst = (begin, end) => {
@@ -143,12 +162,51 @@ const Add = () => {
         }
     }
     const handleSubmit = () => {
-        if (submit !== '提交') return false;
-        else setSubmit('请稍候');
-        // 下拉框是一定有值的
         let gender = selectGenderRef.current.value,
             blood_type = selectBloodRef.current.value,
             meat_egetables = selectFoodRef.current.value;
+        let { last_name, first_name, birthday, height, weight, antibiotics } = inputs;
+        let data = {
+            last_name: last_name.value, first_name: first_name.value, birthday: birthday.value, height: height.value,
+            weight: weight.value, antibiotics: antibiotics.value,
+            sample_id: sampleId,
+            blood_type, meat_egetables, gender,
+            isFirst: first, code: testeeCode
+        }
+        Axios({
+            method: 'POST',
+            url: host + '/sample/bind',
+            data: data,
+            params: {
+                'access-token': user.token,
+                'access-code': add
+            },
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        }).then(_data => {
+            const { data } = _data;
+            if (data.code === 'error') {
+                setError(data.info);
+                setSubmit('错误');
+                setTimeout(() => {
+                    setError('');
+                    setSubmit('提交');
+                }, 2500)
+            }
+            else if (data.code === 'success') {
+                setSubmit('提交成功，即将跳转');
+                setTimeout(() => {
+                    add ? history.push('/') : history.push('/report/list');
+                    dispatch({
+                        type: BIO.ADD_SUCCESS
+                    })
+                }, 3000)
+            }
+        }).catch(error => setSubmit('提交'));
+    }
+    const handleClick = (begin, end) => {
+        begin();
         // check empty
         let validated = Object.keys(inputs).filter(v => {
             return !inputs[v].validated;
@@ -157,58 +215,36 @@ const Add = () => {
             setError('表单内容有缺失或不合规范，请检查修改后再做提交。');
             setTimeout(() => {
                 setError('');
-                setSubmit('提交');
+                end();
             }, 2500);
             return false;
         }
-        else {
-            let { last_name, first_name, birthday, height, weight, antibiotics } = inputs;
-            let data = {
-                last_name: last_name.value, first_name: first_name.value, birthday: birthday.value, height: height.value,
-                weight: weight.value, antibiotics: antibiotics.value, email: user.email,
-                sample_id: sampleId,
-                blood_type, meat_egetables, gender,
-                isFirst: first, code: testeeCode
-            }
-            Axios({
-                method: 'POST',
-                url: host + '/sample/bind',
-                data: data,
-                params: {
-                    'access-token': user.token,
-                    'access-code': add
-                },
-                headers: {
-                    'Content-Type': 'application/json; charset=UTF-8'
-                }
-            }).then(_data => {
-                const { data } = _data;
-                if (data.code === 'error') {
-                    setError(data.info);
-                    setSubmit('失败');
-                    setTimeout(() => {
-                        setError('');
-                        setSubmit('提交');
-                    }, 3000)
-                }
-                else if (data.code === 'success') {
-                    setSubmit('信息绑定成功，即将跳转');
-                    setTimeout(() => {
-                        add ? history.push('/') : history.push('/report/list');
-                        dispatch({
-                            type: BIO.ADD_SUCCESS
-                        })
-                    }, 3000)
-                }
-            }).catch(error => setSubmit('提交'));
-        }
+        else{
+            setInputs(clone(inputs));
+            modalResultController.on('toggle');
+            end();
+        } 
+    }
+    const mapResultInfo = {
+        'M' : '男',
+        'F' : '女',
+        'O' : 'O',
+        'A' : 'A',
+        'B' : 'B',
+        'AB' : 'AB',
+        'OTHER' : '其他',
+        '0' : '0% - 20%',
+        '1' : '20% - 40%',
+        '2' : '40% - 60%',
+        '3' : '60% - 80%',
+        '4' : '80% - 100%'
     }
     return (
         <div className='add-container'>
             <div className='add-noti'>
-                <p>为了更加准确、合理地为受测人提供建议，我们需要您为受测人如实填写下述信息。</p>
+                <p>为了更加准确、合理地为受测人提供建议，请受测人如实填写下述信息。</p>
                 <p>您本次送检的采样管编号为：<span className='add-noti-barcode'>{useSelector(state => state.add.barCode)}</span></p>
-                { user.email ? (<p>您的邮箱地址为：<span className='add-noti-email'>{user.email}</span></p>) : null}
+                { contact ? (<p>业务员名称：<span className='add-noti-username'>{contact?.username}</span>，联系方式为：<span className='add-noti-email'>{contact?.contact}</span></p>) : null}
             </div>
             <div className='add-divide'></div>
             <div className='add-form'>
@@ -251,8 +287,7 @@ const Add = () => {
                     url={host + '/validate/antibiotics'}
                     keyName='name'
                     dataName='antibiotics' form={inputs} defaultValue={defaultVal} />
-                <button className={submit !== '提交' ? 'add-form-btn disabled' : 'add-form-btn'} onClick={handleSubmit}>{submit}</button>
-                <p className='add-form-error'>{error}</p>
+                <Button text='下一步' click={handleClick} loading={true} contract={true} errorText={error} controlledByFunc={true} />
             </div>
             <Modal controller={controller} slave={true} defaultVisible={true} title='受测人送样历史' content={
                 <>
@@ -268,6 +303,20 @@ const Add = () => {
                     )}
                 </>
             } />
+            <Modal controller={modalResultController} title='信息确认' content={
+                inputs.last_name.value ? (<>
+                    <div className='add-info-check'>
+                        <p className='add-info-name'><span>{inputs.last_name.value + inputs.first_name.value}</span><span>{mapResultInfo[selectGenderRef?.current?.value]}</span></p>
+                        <p>生日：{inputs.birthday.value}</p>
+                        <p>血型：{mapResultInfo[selectBloodRef?.current?.value]}型</p>
+                        <p className='add-info-other'><span>身高：{inputs.height.value}厘米</span><span>体重：{inputs.weight.value}公斤</span></p>
+                        <p>饮食中肉食占比：{mapResultInfo[selectFoodRef?.current?.value]}</p>
+                        {inputs.antibiotics.value ? (<p>一周内服用过的抗生素：{inputs.antibiotics.value}</p>) : null}
+                    </div>
+                    <button className={submit !== '提交' ? 'add-form-btn disabled' : 'add-form-btn'} onClick={handleSubmit}>{submit}</button>
+                    <p className='add-form-error'>{error}</p>
+                </>) : null
+            } onClose={() => setSubmit('提交')} />
         </div>
     );
 }

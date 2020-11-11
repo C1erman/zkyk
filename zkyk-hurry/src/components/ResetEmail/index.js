@@ -3,16 +3,14 @@ import './resetEmail.css';
 import Input from '../Input';
 import Button from '../Button';
 import { useLocation, useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Alert from '../Alert';
 import Axios from 'axios';
 import { host } from '../../_config';
-import * as BIO from '../../actions';
 
 const ResetEmail = () => {
     const location = useLocation();
     const history = useHistory();
-    const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     let [inputs, setInputs] = useState({
         email : ''
@@ -79,13 +77,7 @@ const ResetEmail = () => {
             <div className='resetEmail-title'><span>修改邮箱地址</span></div>
             <Input type='email' label='新邮件地址' placeholder='请输入新邮件地址' validateType='email' form={inputs} dataName='email' />
             <Button text='修改' click={handleReset} controlledByFunc={true} errorText={error} loading={true} />
-            <Alert controller={controller} content='修改成功' beforeClose={() => {
-                    history.push('/user/info');
-                    dispatch({
-                        type : BIO.USER_EDIT_EMAIL,
-                        data : inputs.email.value
-                    });
-                }} />
+            <Alert controller={controller} content='修改成功' beforeClose={() => history.push('/user/info')} />
         </div>
     );
 }

@@ -11,14 +11,17 @@ const rootReducer = (state = initState, action) => {
                 user : {
                     role : localStorage.getItem('role') || '',
                     token : localStorage.getItem('token') || '',
-                    email : localStorage.getItem('email') || '',
                     permission : localStorage.getItem('permission') || ''
+                },
+                sampleList : {
+                    totalPage : 1,
+                    currentPage : sessionStorage.getItem('SAMPLELIST_current_page') || 1,
                 },
                 report : {
                     current : localStorage.getItem('VIEW_current') || ''
                 },
                 add : {
-                    barCode : localStorage.getItem('ADD_barCode') || '',
+                    barCode : localStorage.getItem('ADD_barCode') || '1',
                     sampleId : localStorage.getItem('ADD_sampleId') || '',
                     testeeId : localStorage.getItem('ADD_testeeId') || ''
                 },
@@ -26,7 +29,8 @@ const rootReducer = (state = initState, action) => {
                     current : localStorage.getItem('EDIT_current') || ''
                 },
                 share : {
-                    add : sessionStorage.getItem('SHARE_add') || ''
+                    add : sessionStorage.getItem('SHARE_add') || '',
+                    signup : sessionStorage.getItem('SHARE_signup') || ''
                 },
                 pdf : sessionStorage.getItem('PDF_id') || ''
             }
@@ -34,29 +38,33 @@ const rootReducer = (state = initState, action) => {
         // 用户登录
         case BIO.LOGIN_SUCCESS : {
             const user = clone(state['user']);
-            const { role, permission, token, email } = action.data;
+            const { role, permission, token } = action.data;
             user.role = role;
             user.permission = permission;
             user.token = token;
-            user.email = email;
             // 保存登录凭证
             localStorage.setItem('role', role);
             localStorage.setItem('permission', permission);
             localStorage.setItem('token', token);
-            localStorage.setItem('email', email);
             return {
                 ...state,
                 user
             }
         }
+        // 用户注册
+        case BIO.SIGN_SUCCESS : {
+            sessionStorage.removeItem('SHARE_signup');
+        }
         // 用户注销
         case BIO.LOGOUT_SUCCESS : {
             localStorage.clear();
+            sessionStorage.clear();
             return clone(initState);
         }
         // 用户登录状态过期
         case BIO.LOGIN_EXPIRED : {
             localStorage.clear();
+            sessionStorage.clear();
             return clone(initState);
         }
         // 绑定采样
@@ -104,6 +112,15 @@ const rootReducer = (state = initState, action) => {
                 report
             }
         }
+        case BIO.REPORT_LIST_CURRENT_PAGE : {
+            const sampleList = clone(state['sampleList']);
+            sampleList.currentPage = action.data;
+            sessionStorage.setItem('SAMPLELIST_current_page', action.data);
+            return {
+                ...state,
+                sampleList
+            }
+        }
         case BIO.REPORT_READ_OVER : {
             const report = clone(initState['report']);
             localStorage.removeItem('VIEW_current');
@@ -132,20 +149,20 @@ const rootReducer = (state = initState, action) => {
             }
         }
         // 更新个人信息
-        case BIO.USER_EDIT_EMAIL : {
-            const user = clone(state['user']);
-            user.email = action.data;
-            localStorage.setItem('email', action.data);
-            return {
-                ...state,
-                user
-            }
-        }
         // 分享
         case BIO.SHARE_REPORT_ADD : {
             const share = clone(state['share']);
             share.add = action.data;
             sessionStorage.setItem('SHARE_add', action.data);
+            return {
+                ...state,
+                share
+            }
+        }
+        case BIO.SHARE_SIGN_UP : {
+            const share = clone(state['share']);
+            share.signup = action.data;
+            sessionStorage.setItem('SHARE_signup', action.data);
             return {
                 ...state,
                 share

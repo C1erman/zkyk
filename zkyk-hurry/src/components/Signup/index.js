@@ -6,7 +6,7 @@ import Button from '../Button';
 import Axios from 'axios';
 import { host } from '../../_config';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { slideUp } from '../../utils/slideUp';
 import Alert from '../Alert';
 import * as BIO from '../../actions';
@@ -20,9 +20,9 @@ const Signup = () => {
     let [inputs, setInputs] = useState({
         username : '',
         email : '',
-        password : '',
-        invitation : ''
+        password : ''
     });
+    let share = useSelector(state => state.share);
     useEffect(() => {
         slideUp();
         document.title = '注册';
@@ -49,7 +49,8 @@ const Signup = () => {
                     username : inputs['username'].value,
                     password : inputs['password'].value,
                     email : inputs['email'].value,
-                    invitation : inputs['invitation'].value
+                    invitation : inputs?.invitation?.value,
+                    'access-code' : share.signup
                 },
                 headers : {
                     'Content-Type' : 'application/json; charset=UTF-8'
@@ -81,7 +82,7 @@ const Signup = () => {
             <Input type='text' label='用户名' placeholder='请输入用户名' dataName='username' form={inputs} />
             <Input type='email' validateType='email' label='邮箱' placeholder='请输入邮箱' dataName='email' form={inputs} />
             <Input type='password' validateType='pass' label='密码' placeholder='请输入密码' dataName='password' form={inputs} />
-            <Input type='number' label='企业邀请码' placeholder='请输入邀请码' dataName='invitation' form={inputs} />
+            {share.signup ? null : (<Input type='number' label='企业邀请码' placeholder='请输入邀请码' dataName='invitation' form={inputs} />)}
             <Button text='注册' hollow={true} loading={true} controlledByFunc={true} loadingText='请稍候' click={clickHandler} errorText={error} />
             <Alert controller={controller} content={message} beforeClose={() => {
                     history.push('/user/login');

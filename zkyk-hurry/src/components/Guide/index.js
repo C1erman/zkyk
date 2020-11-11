@@ -39,6 +39,21 @@ const Guide = () => {
                         history.push('/');
                         break;
                     }
+                    case 'signup' : {
+                        console.log('sd')
+                        dispatch({
+                            type : BIO.SHARE_SIGN_UP,
+                            data : data.data.access_code
+                        });
+                        history.push('/user/signup');
+                        // history.push({
+                        //     pathname : '/user/signup',
+                        //     state : {
+                                
+                        //     }
+                        // });
+                        break;
+                    }
                 }
             }
         }).catch(error => console.log(error));

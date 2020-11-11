@@ -7,7 +7,7 @@
 .add-noti > p{
     line-height: 2;
 }
-.add-noti-barcode, .add-noti-email{
+.add-noti-barcode, .add-noti-email, .add-noti-username{
     font-size: 1rem;
     padding-bottom: 0.2rem;
     border-bottom: 1px solid var(--black);
@@ -100,7 +100,7 @@
     width: 85%;
     color: white;
     margin: 0 auto;
-    margin-top: 2.5rem;
+    margin-top: 2rem;
     font-weight: bolder;
     border: 0;
     line-height: 1.8;
@@ -113,4 +113,14 @@
 }
 .disabled{
     opacity: 0.4;
+}
+.add-info-check{
+    line-height: 1.8;
+    text-align: center;
+}
+.add-info-name > span:last-child{
+    margin-left: 1rem;
+}
+.add-info-other > span:last-child{
+    margin-left: 1rem;
 }

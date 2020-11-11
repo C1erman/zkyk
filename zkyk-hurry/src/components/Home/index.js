@@ -12,6 +12,7 @@ import Button from '../Button';
 import Alert from '../Alert';
 import Modal from '../Modal';
 import { slideUp } from '../../utils/slideUp';
+import QrCodeSrc from '../../icons/qrcode.svg';
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -20,6 +21,7 @@ const Home = () => {
     let [inputs, setInputs] = useState({
         barCode : ''
     });
+    let [codePermission, setCodePermission] = useState(false);
     let controller = {};
     let modalController = {};
     let agreeRef = useRef();
@@ -29,6 +31,25 @@ const Home = () => {
     useEffect(() => {
         slideUp();
         document.title = AppTitle;
+        if(user.token){
+            Axios({
+                method : 'GET',
+                url : host + '/user/permission',
+                params : {
+                    'access-token' : user.token,
+                    controller : 'ds',
+                    action : 'bind'
+                },
+                headers : {
+                    'Content-Type' : 'application/json; charset=UTF-8'
+                },
+                timeout : 5000
+            }).then(_data => {
+                const {data} = _data;
+                if(data.code === 'success') setCodePermission(true);
+                else setCodePermission(false);
+            }).catch(error => console.log(error));
+        }
     }, []);
     
     const checkCode = (begin, end) => {
@@ -97,6 +118,9 @@ const Home = () => {
     return (
         <>
             <div className='home-container'>
+                {codePermission ? (<div className='home-qrcode'>
+                    <img className='home-qrcode-icon' src={QrCodeSrc} onClick={() => history.push('/share')} />
+                </div>) : null}
                 <div className='home-textContainer'>
                     <div className='home-title'>— 人体微生态监测报告 —</div>
                     <div className='home-info'>
@@ -126,7 +150,7 @@ const Home = () => {
                     <p className='home-agree-title'>请您仔细阅读下述信息后勾选此栏目，以代表您同意并自愿参加此项检测：</p>
                     <div className='home-agree-content'>
                         <p>本检测通过分析肠道菌群的具体组成，可以了解人体阶段性的身体健康状况，同时还可以有针对性地进行饮食调整和益生菌/益生原的干预，以维持肠道菌群的微生态环境平衡，使人体保持健康状态。</p>
-                        <p>本检测的流程为：收取采样工具盒 » 样品采集 » 样品回邮 » 实验处理 » 精准检测报告 » 个性化营养方案。</p>
+                        <p>本检测的流程为：收取采样盒 » 样品采集 » 样品回邮 » 实验处理 » 检测报告 » 个性化营养方案。</p>
                     </div>
                 </div>
             }  />

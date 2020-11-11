@@ -38,6 +38,7 @@
     font-size: 1rem;
     font-weight: bolder;
     max-width: 200px;
+    outline: none;
 }
 .nav-link::after{
     display: block;
