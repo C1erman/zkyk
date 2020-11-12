@@ -28,6 +28,10 @@ const rootReducer = (state = initState, action) => {
                 edit : {
                     current : localStorage.getItem('EDIT_current') || ''
                 },
+                backendList : {
+                    totalPage : 1,
+                    currentPage : sessionStorage.getItem('BACKENDLIST_current_page') || 1,
+                },
                 share : {
                     add : sessionStorage.getItem('SHARE_add') || '',
                     signup : sessionStorage.getItem('SHARE_signup') || ''
@@ -149,6 +153,18 @@ const rootReducer = (state = initState, action) => {
             }
         }
         // 更新个人信息
+        // 后台管理
+        case BIO.BACKEND_LIST_CURRENT_PAGE : {
+            const backendList = clone(state['backendList']);
+            let { currentPage, totalPage } = action.data;
+            backendList.currentPage = currentPage;
+            backendList.totalPage = totalPage;
+            sessionStorage.setItem('BACKENDLIST_current_page', currentPage);
+            return {
+                ...state,
+                backendList
+            }
+        }
         // 分享
         case BIO.SHARE_REPORT_ADD : {
             const share = clone(state['share']);

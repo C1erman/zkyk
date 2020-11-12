@@ -52,7 +52,7 @@ const Suggestion = () => {
                 </div>
             </div>
             <div className='suggestion-title-sm'>
-                微生物制剂的补充
+                微生态制剂的补充
             </div>
             <div className='sug-biotics'>
             <div>

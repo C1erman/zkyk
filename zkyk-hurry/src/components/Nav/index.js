@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './nav.css';
 import Drawer from '../Drawer';
 import * as BIO from '../../actions';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 const Nav = () => {
+    const history = useHistory();
     const state = useSelector(state => state);
     let { user, report, share } = state;
     const dispatch = useDispatch();
@@ -23,6 +24,21 @@ const Nav = () => {
         });
         controller.on('toggle');
     }
+    const secureRoute = (location) => {
+        switch(location){
+            case '/report/list' : {
+                dispatch({
+                    type : BIO.REPORT_READ_OVER
+                })
+                break;
+            }
+        }
+    }
+    useEffect(() => {
+        history.listen((location) => {
+            secureRoute(location.pathname);
+        })
+    }, [])
     const BioLinks = user.token ? (
         <div className='nav-link-container'>
             {

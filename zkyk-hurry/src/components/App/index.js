@@ -60,8 +60,8 @@ const SecureRoute = () => {
 
     const BioRoute = user.token ? (
         <Switch>
-            {R_Home}
-            {R_Login}{R_Signup}{R_UserInfo}{R_ResetPass}{R_ResetEmail}{R_Verify}{R_Share}
+            {R_Home}{R_Login}
+            {R_UserInfo}{R_ResetPass}{R_ResetEmail}{R_Verify}{R_Share}
             {add.barCode || share.add ? R_Add : null}{edit.current ? R_Edit : null}
             {R_ReportList}
             {report.current ? R_Overview : null}
@@ -70,7 +70,7 @@ const SecureRoute = () => {
             {report.current ? R_Suggest : null}
             {R_Knowledge}
             {user.permission ? R_Backend : null}
-            {R_Pdf}
+            {user.permission ? R_Pdf : null}
             {R_Guide}
             <Redirect to='/' />
         </Switch>
@@ -128,7 +128,6 @@ const AxiosConfig = () => {
                             break;
                         }
                         case 500 : {
-                            console.log('sdsd!')
                             dispatch({
                                 type : BIO.GLOBAL_INFO,
                                 data : '网络请求出现问题，请稍后再试'
@@ -167,7 +166,7 @@ const DataValidate = () => {
     let { user, share } = state;
     useEffect(() => {
         if (user.token && !share.add) {
-            let hash = md5(user.role);
+            let hash = md5(user.role + user.permission);
             Axios({
                 method: 'GET',
                 url: host + '/user/verify/info',

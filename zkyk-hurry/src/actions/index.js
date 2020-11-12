@@ -26,6 +26,8 @@ const REPORT_DOWNLOAD_SUCCESS = 'report-download-success';
 // 分享
 const SHARE_REPORT_ADD = 'share-report-add';
 const SHARE_SIGN_UP = 'share-sign-up';
+// 后台管理
+const BACKEND_LIST_CURRENT_PAGE = 'backend-list-current-page';
 // 全局消息
 const GLOBAL_INFO = 'global-info';
 const GLOBAL_INFO_CLEAN = 'global-info-clean';
@@ -54,6 +56,7 @@ export {
     REPORT_DOWNLOAD_SUCCESS,
     SHARE_REPORT_ADD,
     SHARE_SIGN_UP,
+    BACKEND_LIST_CURRENT_PAGE,
     GLOBAL_INFO,
     GLOBAL_INFO_CLEAN,
     DENY_UNAUTHORIZED

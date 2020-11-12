@@ -22,6 +22,8 @@ import intestineTwo from '../../icons/knowledge/know-intestine-two.svg';
 import intestineThree from '../../icons/knowledge/know-intestine-three.svg';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import Alert from '../Alert';
+import Button from '../Button';
 
 const PDF = () => {
     const dispatch = useDispatch();
@@ -35,6 +37,9 @@ const PDF = () => {
     let [assess, setAssess] = useState([]);
     let [result, setResult] = useState([]);
 
+    let [loading, setLoading] = useState(true);
+    let alertController = {};
+    let [alertMessage, setAlertMsg] = useState('');
 
     const getModalA = (id, token) => {
         return Axios({
@@ -136,640 +141,33 @@ const PDF = () => {
                             'access-token': token
                         },
                         data: {
-                            css: `
-                            body{color: #666666;line-height: 1.8;}
-.pageBreakBefore{
-    page-break-before: always;
-}
-.progress{
-    position: relative;
-    width: 95%;
-    height: 1.5rem;
-    margin: 0.5rem auto;
-    overflow: hidden;
-}
-.progress-label{
-    float: left;
-    max-width: 48%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-.progress-container{
-    position: absolute;
-    width: 50%;
-    height: 0.5rem;
-    right: 0;
-    top: 50%;
-    margin-top: -0.25rem;
-    background: -webkit-gradient(linear, left top, right top, from(#ffe6eb), color-stop(50%, #ff4f76), to(#ffe6eb));
-    background: -webkit-linear-gradient(left, #ffe6eb 0%, #ff4f76 50%, #ffe6eb 100%);
-    background: -o-linear-gradient(left, #ffe6eb 0%, #ff4f76 50%, #ffe6eb 100%);
-    background: linear-gradient(to right, #ffe6eb 0%, #ff4f76 50%, #ffe6eb 100%);
-    border-radius: 1rem;
-}
-.progress-container > div{
-    position: absolute;
-    height: 230%;
-    width: 2px;
-    top: -65%;
-    background: #ff4f76;
-}
-
-
-.pages{
-    width: 90%;
-    min-height: 100vh;
-    margin: 0 auto;
-    page-break-before: always;
-    overflow: hidden;
-    page-break-inside: avoid;
-}
-.page-title{
-    text-align: left;
-    padding: 5rem 0 1rem 2rem;
-}
-.page-title > span{
-    text-align: center;
-    display: inline-block;
-    position: relative;
-    z-index: 1;
-    font-size: 3rem;
-    font-weight: bold;
-    max-width: 400px;
-    color: #ff4f76;
-}
-.page-title > span::before{
-    display: block;
-    position: absolute;
-    color: #ffa6ba;
-    font-size: 8rem;
-    opacity: 0.5;
-    top: -6.8rem;
-    z-index: -1;
-}
-.page-title > span::after{
-    display: block;
-    position: relative;
-    content: "";
-    width: 100%;
-    height: 1rem;
-    z-index: -1;
-    background: #ffa6ba;
-    opacity: 0.5;
-    padding: 0 1rem;
-    top: -1.8rem;
-    left: -1rem;
-    border-radius: 0.5rem;
-    border: none;
-}
-.one-title{
-    width: 70%;
-    font-size: 6rem;
-    font-weight: lighter;
-    line-height: initial;
-    letter-spacing: 0.2rem;
-    padding: 3rem 0 1rem 1rem;
-}
-.one-line{
-    position: absolute;
-    margin: 0.5rem 0 0 1rem;
-    width: 2px;
-    height: 10rem;
-    background-color: #ffa6ba;
-}
-.one-img{
-    position: relative;
-    width: 1600px;
-    height: 800px;
-    left: -22rem;
-}
-.three-title > span::before{
-    content: 'A';
-}
-
-.overview-age-prediction{
-    width: 90%;
-    margin: 0 auto;
-    padding-bottom: 1rem;
-    font-weight: bolder;
-    font-size: 1rem;
-    text-align: center;
-    border-bottom: 1px solid #dfe2e5;
-}
-.overview-total{
-    margin-bottom: 1rem;
-}
-.overview-total > div{
-    width: 90%;
-    margin: 0 auto;
-    border-top: 1px solid #dfe2e5;
-    border-bottom: 1px solid #dfe2e5;
-    line-height: 2.3;
-}
-.overview-total > div:last-child{
-    border-top: none;
-}
-.overview-total > div > span:last-child{
-    padding-left: 3rem;
-}
-.overview-total-label{
-    display: inline-block;
-    padding-left: 3rem;
-    width: 50%;
-    max-width: 50%;
-    padding-bottom: 0.3rem;
-    box-sizing: border-box;
-}
-.overview-total-label:first-child{
-    border-right: 1px solid #dfe2e5;
-}
-.overview-total-label > span{
-    float: right;
-    font-weight: bolder;
-    padding-right: 3rem;
-}
-.overview-abnormal{
-    font-size: 0.95rem;
-    margin-bottom: 1rem;
-    width: 90%;
-    margin: 0 auto;
-}
-.overview-abnormal-title{
-    font-weight: bolder;
-    margin: 1.5rem;
-}
-.overview-abnormal-title > span{
-    color: #ff4f76;
-}
-.overview-abnormal-content{
-    min-height: 100px;
-    margin-bottom: 1.5rem;
-    padding: 0.5rem 0;
-    background: #fff6f8;
-    border-radius: 5px;
-}
-.overview-abnormal-content > div:first-child{
-    display: inline-block;
-    margin: 1rem 0 0 2rem;
-    padding: 0.1rem 0.2rem;
-    letter-spacing: 0.1rem;
-    background-color: #ff4f76;
-    color: #ffffff;
-    border-radius: 1rem;
-}
-.overview-abnormal-content > div:last-child{
-    margin: 1rem 1rem 0 2rem;
-}
-
-
-.four-title > span::before{
-    content: 'B';
-}
-.overview-flora{
-    margin-bottom: 1rem;
-}
-.overview-flora-items{
-    width: 90%;
-    margin: 0 auto;
-    margin-bottom: 3rem;
-    padding: 0.8rem;
-    box-sizing: border-box;
-}
-.overview-abnormal-content-item{
-    line-height: 1.8;
-}
-.overview-abnormal-content-item span.title{
-    font-weight: bold;
-}
-.overview-abnormal-content-item span.item{
-    font-weight: bold;
-    color: #ff4f76;
-}
-.overview-abnormal-content-item span.item-margin{
-    margin-left: 1rem;
-    font-weight: bold;
-    color: #ff4f76;
-}
-.overview-flora-item-header{
-    position: relative;
-    overflow: hidden;
-    height: 35px;
-    margin-bottom: 0.5rem;
-    color: #ff4f76;
-}
-.overview-flora-item-header > div:first-child{
-    float: left;
-    font-size: 1.6rem;
-    font-weight: bold;
-}
-.overview-flora-item-header > div:last-child{
-    float: right;
-    font-size: 1.6rem;
-    padding: 0rem 1.2rem;
-    background-color: #77c761;
-    color: #ffffff;
-    border-radius: 2rem;
-    height: 100%;
-    line-height: 35px;
-}
-.overview-flora-item-header > div.low-risk{
-    background-color: #77c761;
-}
-.overview-flora-item-header > div.middle-risk{
-    background-color: #ffb85b;
-}
-.overview-flora-item-header > div.high-risk{
-    background-color: #ff4f76;
-}
-.overview-flora-item-body{
-    margin: 1.5rem 0;
-    line-height: 1.8;
-    font-size: 0.95rem;
-}
-.overview-flora-item-progress{
-    padding: 0.5rem 0;
-}
-.overview-flora-item-result{
-    border-left: 5px solid #ff4f76;
-    padding: 2rem 1rem 2rem 1rem;
-    border-radius: 5px;
-    background: #fff6f8;
-    font-weight: bold;
-}
-
-.five-title > span::before{
-    content: 'C';
-}
-.assess-items{
-    width: 90%;
-    margin: 0 auto;
-    margin-bottom: 1rem;
-    padding: 0.8rem;
-    box-sizing: border-box;
-    page-break-inside: avoid;
-}
-.assess-item-header{
-    position: relative;
-    height: 35px;
-    margin-bottom: 0.5rem;
-    color: #ff4f76;
-}
-.assess-item-header > div:first-child{
-    float: left;
-    font-size: 1.6rem;
-    font-weight: bold;
-}
-.assess-item-header > div:last-child{
-    float: right;
-    font-size: 1.6rem;
-    padding: 0rem 1.2rem;
-    background-color: #ff4f76;
-    color: #ffffff;
-    border-radius: 2rem;
-    height: 100%;
-    line-height: 35px;
-}
-.assess-item-header > div.low-risk{
-    background-color: #77c761;
-}
-.assess-item-header > div.middle-risk{
-    background-color: #ffb85b;
-}
-.assess-item-header > div.high-risk{
-    background-color: #ff4f76;
-}
-.assess-item-body{
-    margin: 1.5rem 0;
-    line-height: 1.8;
-    font-size: 0.95rem;
-}
-.assess-item-result{
-    border-left: 5px solid #ff4f76;
-    padding: 2rem 1rem 2rem 1rem;
-    border-radius: 5px;
-    background: #fff6f8;
-    font-weight: bold;
-}
-
-.six-title > span::before{
-    content: 'D';
-}
-
-.suggestion-title-sm{
-    width: 90%;
-    margin: 0 auto 1rem;
-    padding-left: 0.8rem;
-    font-weight: bold;
-    font-size: 1.25rem;
-    color: #ff4f76;
-    border-left: 3px solid #ff4f76;
-    
-}
-.sug-food{
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-    margin: 0 auto;
-}
-.sug-food > div{
-    margin-bottom: 1.5rem;
-    padding: 1rem;
-    box-sizing: border-box;
-}
-.sug-item-img{
-    overflow: hidden;
-    margin-bottom: 1rem;
-}
-.sug-item-img > img{
-    width: 160px;
-    height: 80px;
-}
-.sug-item-img > div{
-    
-    align-self: center;
-    margin-left: 1rem;
-    font-weight: bold;
-    text-align: right;
-    float: right;
-}
-.sug-item-content{
-    text-indent: 1rem;
-    padding: 0.5rem;
-    border-radius: 5px;
-    line-height: 1.7;
-    font-size: 0.95rem;
-}
-.sug-biotics{
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-    margin: 0 auto;
-}
-.sug-biotics > div{
-    margin-bottom: 1rem;
-    padding: 1rem;
-    box-sizing: border-box;
-}
-.sug-lifeStyle{
-
-}
-.sug-lifeStyle-img{
-    display: inline-block;
-    margin: 0.5rem 2rem;
-    padding: 0.5rem;
-    text-align: center;
-}
-.sug-lifeStyle-img > img{
-    width: 164px;
-    height: 82px;
-}
-.seven-title > span::before{
-    content: 'E';
-}
-
-.overview-result{
-    width: 90%;
-    margin: 0 auto;
-}
-.overview-result > table{
-    width: 100%;
-    overflow-x: scroll;
-    border-collapse: collapse;
-}
-.overview-result-info{
-    color: #ff4f76;
-    font-weight: bold;
-}
-.overview-result-table-head > th{
-    border-bottom: 1px solid #1a1a1a;
-    padding: 0.5rem 0;
-    color: #1a1a1a;
-    vertical-align: bottom;
-}
-.overview-result-table-body{
-    text-align: center;
-}
-.overview-result-table-body > tr{
-    border-bottom: 1px solid #dfe2e5;
-}
-.overview-result-table-body > tr > td{
-    padding: 1rem 0;
-    vertical-align: middle;
-}
-.overview-result-table-name{
-    min-width: 95px;
-}
-.overview-results{
-    color: #77c761;
-    font-weight: bold;
-}
-.overview-result-below, .overview-result-above{
-    color: #ff4f76;
-}
-.overview-result-below::after{
-    content: '↓';
-    margin-left: 5px;
-    position: relative;
-}
-.overview-result-above::after{
-    content: '↑';
-    margin-left: 5px;
-    position: relative;
-}
-.overview-total-graph{
-    width: 100%;
-    max-width: 375px;
-    overflow: hidden;
-    margin: 0 auto;
-    margin-bottom: 1rem;
-    border-radius: 5px;
-    background: #fff6f8;
-}
-.overview-total-graph-info{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 0 0.5rem 0.5rem;
-    text-align: center;
-    font-weight: bold;
-    color: #ffffff;
-}
-.overview-total-graph-info > p{
-    width: 35%;
-    text-align: left;
-}
-.overview-total-graph-info > p > span{
-    float: right;
-}
-.eight-title > span::before{
-    content: 'F';
-}
-.know-title-sm{
-    width: 90%;
-    margin: 0 auto 1rem;
-    padding-left: 0.8rem;
-    font-weight: bold;
-    font-size: 1.25rem;
-    border-left: 3px solid #ff4f76;
-    color: #ff4f76;
-}
-.know-what-content{
-    padding: 1rem;
-    font-size: 0.95rem;
-}
-.know-content{
-    margin-bottom: 0.5rem;
-    text-indent: 1rem;
-}
-.know-what, .know-which, .know-effect, .know-method, .know-balance{
-    font-size: 0.95rem;
-    width: 90%;
-    margin: 0 auto 1rem;
-    page-break-inside: avoid;
-}
-.know-which-item{
-    margin: 1rem auto;
-    padding: 0.5rem;
-    border-radius: 5px;
-    border: 1px solid #ffe6eb;
-}
-.know-which-item > div{
-    font-weight: bold;
-    color: #ff4f76;
-    margin-bottom: 0.5rem;
-    text-align: center;
-}
-.know-which-item > p{
-    text-indent: 1rem;
-}
-.know-effect-item{
-    margin: 1rem auto;
-    padding: 0.5rem;
-    border-radius: 5px;
-    border: 1px solid #ffe6eb;
-}
-.know-effect-item > div{
-    font-weight: bold;
-    color: #ff4f76;
-    margin-bottom: 0.5rem;
-    text-align: center;
-}
-.know-effect-item > p{
-    text-indent: 1rem;
-}
-.know-balance >img{
-    display: block;
-    max-width: 100%;
-    margin: 0 auto;
-    border-radius: 5px;
-}
-.know-method{
-    padding-bottom: 2rem;
-}
-.know-method-item{
-    position: relative;
-    border-radius: 5px;
-    margin-top: 1rem;
-    margin-bottom: 1.5rem;
-    padding: 1rem 0.5rem 0.5rem;
-    border: 1px solid #ff4f76;
-    background: #fff6f8;
-
-    top: 2rem;
-    page-break-inside: avoid;
-}
-.know-method-item::before{
-    display: inline-block;
-    position: absolute;
-    font-size: 0.75rem;
-    font-weight: bold;
-    color: #ffffff;
-    padding: 0 0.5rem;
-    top: -0.75rem;
-    left: 1rem;
-    height: 1.5rem;
-    border-radius: 1.5rem;
-    line-height: 1.5rem;
-    background: #ff4f76;
-}
-.know-method-item-one::before{
-    content: '益生菌补充';
-}
-.know-method-item-two::before{
-    content: '益生元补充';
-}
-.know-method-item-three::before{
-    content: '临床研究';
-}
-.know-method-title{
-    color: #ff4f76;
-    margin: 0.5rem 0;
-    font-weight: bold;
-    text-align: center;
-}
-.know-method-intestine{
-
-}
-.know-method-intestine > div{
-    margin: 0.5rem 0;
-}
-.know-method-intestine img{
-    display: block;
-    padding: 2rem 0;
-    width: 300px;
-    height: 150px;
-    margin: 0 auto;
-}
-.know-method-intestine p{
-    width: 60%;
-    margin: 0 auto;
-    text-align: center;
-    opacity: 0.6;
-}
-.know-method-list > div > p:first-child{
-    font-weight: bold;
-}
-.know-method-item-three > table{
-    width: 100%;
-    overflow-x: scroll;
-    border-collapse: collapse;
-}
-.know-method-table-head th{
-    border-bottom: 1px solid #dfe2e5;
-    padding: 0.5rem 0;
-    color: #1a1a1a;
-    vertical-align: bottom;
-}
-.know-method-table-body{
-    text-align: center;
-    line-height: 1.7;
-}
-.know-method-table-body > tr{
-    border-bottom: 1px solid #dfe2e5;
-}
-.know-method-table-body > tr:last-child{
-    border-bottom: none;
-}
-.know-method-table-body > tr > td{
-    padding: 0.6rem 0;
-    vertical-align: middle;
-}
-                        `,
                             html: document.querySelector('.pdf').innerHTML,
                             id: id
                         },
                         headers: {
                             'Content-Type': 'application/json; charset=UTF-8'
                         },
+                        responseType: 'blob',
                         timeout: 5000
                     }).then(_data => {
+                        let filename = decodeURI(_data.headers['filename']);
                         const { data } = _data;
-                        if (data.code === 'success') {
-                            window.open(data.data)
-                            setTimeout(() => {
-                                history.goBack();
-                            }, 2500)
+                        if(data){
+                            let file = new File([data], '报告', {
+                                type : 'application/pdf'
+                            });
+                            let a = document.createElement('a'),
+                                url = URL.createObjectURL(file);
+                            a.href = url;
+                            a.download = filename + '.pdf';
+                            a.click();
+                            URL.revokeObjectURL(url);
+                            setLoading(false);
+                        }
+                        else {
+                            console.log('sd')
+                            setAlertMsg('下载失败，请稍后再试');
+                            alertController.on('toggle');
                         }
                     }).catch(error => console.log(error));
                 }))
@@ -826,14 +224,20 @@ const PDF = () => {
     return (
         <>
             <div className='pdf-holder'>
-                <div className='pdf-holder-info'>正在处理您的下载请求，请稍候...</div>
+                { loading ? (
+                    <div className='pdf-holder-info'>正在处理您的下载请求，请稍候...</div>
+                ) : (
+                    <div className='pdf-holder-success'>
+                        <p>成功！请接收 PDF 文件并选择下载。</p>
+                        <p>如果您在微信内置浏览器中查看本网页，请选择其它浏览器。如果浏览器没有响应，请刷新本页面。</p>
+                        <Button text='返回' hollow={true} click={() => history.goBack()} withError={false} />
+                    </div>
+                )}
             </div>
+            <Alert controller={alertController} content={alertMessage} />
             <div className='pdf'>
                 <div className='page-three pages'>
                     <div className="page-title three-title"><span>整体情况</span></div>
-                    <div className='overview-total-graph'>
-                        <div id='graph' />
-                    </div>
                     {useR.age && (+ useR.age) ? (<div className='overview-age-prediction'>预测年龄：{(+ useR.age).toFixed(1)} 岁</div>) : null}
                     <div className='overview-total'>
                         <div>
@@ -948,7 +352,7 @@ const PDF = () => {
                         </div>
                     </div>
                     <div className='suggestion-title-sm pageBreakBefore'>
-                        微生物制剂的补充
+                        微生态制剂的补充
                     </div>
                     <div className='sug-biotics'>
                         <div>
@@ -1060,7 +464,7 @@ const PDF = () => {
                     </div>
                     <div className='know-title-sm'>04. 肠道菌群失衡</div>
                     <div className='know-balance'>
-                        <img src='../img/knowledge/know-balance.png' />
+                        <img _src='img/knowledge/know-balance.png' />
                     </div>
                     <div className='know-title-sm'>05. 肠道菌群改善方法</div>
                     <div className='know-method'>

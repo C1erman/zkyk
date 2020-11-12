@@ -76,7 +76,7 @@ const Login = () => {
                             data : data.data
                         });
                         setList(data.data.sample);
-                        controller.on('open');
+                        controller.on('toggle');
                     }
                     end();
                 }

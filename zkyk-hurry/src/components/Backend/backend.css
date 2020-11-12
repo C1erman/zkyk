@@ -69,6 +69,14 @@
     margin: 0 auto;
     padding-top: 1rem;
 }
+.backend-list-search{
+    text-align: center;
+    font-size: 0.92rem;
+    margin-bottom: 1rem;
+}
+.backend-list-search > span{
+    margin-left: 1rem;
+}
 .backend-list > table{
     width: 100%;
     overflow-x: scroll;
@@ -100,4 +108,29 @@
     color: var(--theme);
     cursor: pointer;
     border-radius: 3px;
+}
+.backend-form-input{
+    margin-bottom: 1.5rem;
+}
+.backend-form-input > label{
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 0.5rem;
+    font-weight: bolder;
+}
+.backend-form-inputs{
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+    padding: 0.3rem 0.5rem;
+    box-sizing: border-box;
+    border: 0;
+    border-bottom: 1px solid #cccccc;
+    transition: all;
+    transition: ease-in 0.3s;
+    outline: 0;
+}
+.backend-form-input > input:focus{
+    border-color: var(--black);
+    text-indent: 1rem;
 }

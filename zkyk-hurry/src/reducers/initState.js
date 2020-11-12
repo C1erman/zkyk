@@ -20,6 +20,10 @@ const initState = {
         sampleId : '',
         testeeId : ''
     },
+    backendList : {
+        totalPage : 1,
+        currentPage : 1,
+    },
     share : {
         add : '',
         signup : ''

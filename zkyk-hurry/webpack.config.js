@@ -47,7 +47,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             //指明用哪个HTML作为挂载模板
             template : './src/index.html',
-            favicon : './src/icons/favicon.ico',
+            // favicon : './src/icons/favicon.ico',
             hash : true
         }),
         //将拆分后的CSS放置在dist/css/style.css

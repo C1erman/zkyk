@@ -9,6 +9,14 @@
     text-align: center;
     margin-top: 5rem;
 }
+.pdf-holder-success{
+    margin-top: 5rem;
+}
+.pdf-holder-success > p:first-child{
+    text-align: center;
+    font-weight: bolder;
+    margin-bottom: 1rem;
+}
 .pdf{
     display: none;
 }
