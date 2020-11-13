@@ -41,6 +41,182 @@ const PDF = () => {
     let alertController = {};
     let [alertMessage, setAlertMsg] = useState('');
 
+    const showGraphNew = (label = '健康', score = 9) => {
+        // 自定义Shape 部分
+        G2.registerShape('point', 'pointer', {
+            draw(cfg, container) {
+                const group = container.addGroup({});
+                // 获取极坐标系下画布中心点
+                const center = this.parsePoint({ x: 0, y: 0 });
+                // 绘制指针
+                group.addShape('line', {
+                    attrs: {
+                        x1: center.x,
+                        y1: center.y,
+                        x2: cfg.x,
+                        y2: cfg.y,
+                        stroke: cfg.color,
+                        lineWidth: 5,
+                        lineCap: 'round',
+                    },
+                });
+                group.addShape('circle', {
+                    attrs: {
+                        x: center.x,
+                        y: center.y,
+                        r: 9.75,
+                        stroke: cfg.color,
+                        lineWidth: 4.5,
+                        fill: '#fff',
+                    },
+                });
+                return group;
+            },
+        });
+        const data = [{ value: score }];
+        const chart = new G2.Chart({
+            container: 'graph',
+            autoFit: true,
+            height: 250,
+            padding: [0, 0, 30, 0],
+        });
+        chart.data(data);
+        chart.coordinate('polar', {
+            startAngle: (-9 / 8) * Math.PI,
+            endAngle: (1 / 8) * Math.PI,
+            radius: 0.85,
+        });
+        chart.scale('value', {
+            min: 0,
+            max: 10,
+            ticks: [2, 4, 5, 6, 7, 8, 9],
+        });
+        chart.axis('1', false);
+        chart.axis('value', {
+            line: null,
+            label: {
+                offset: -35,
+                formatter: (val) => {
+                    if (val === '2') {
+                        return '重度';
+                    } else if (val === '4') {
+                        return '40'
+                    } else if (val === '5') {
+                        return '中度';
+                    } else if (val === '7') {
+                        return '轻度';
+                    } else if (val === '9') {
+                        return '健康'
+                    } else if (val === '6') {
+                        return '60'
+                    } else if (val === '8') {
+                        return '80'
+                    }
+                    return '';
+                },
+                style: {
+                    fill: '#666',
+                    fontSize: 15,
+                    textAlign: 'center',
+                },
+            },
+            tickLine: null,
+            grid: null,
+        });
+        chart.legend(false);
+        chart
+            .point()
+            .position('value*1')
+            .shape('pointer')
+            .color('#ff4f76');
+        // 绘制仪表盘刻度线
+        chart.annotation().line({
+            start: [4, 0.96],
+            end: [4, 0.89],
+            style: {
+                stroke: '#ff4f76', // 线的颜色
+                lineDash: null, // 虚线的设置
+                lineWidth: 2,
+            },
+        });
+        chart.annotation().line({
+            start: [6, 0.96],
+            end: [6, 0.89],
+            style: {
+                stroke: '#ff4f76', // 线的颜色
+                lineDash: null, // 虚线的设置
+                lineWidth: 2,
+            },
+        });
+        chart.annotation().line({
+            start: [8, 0.96],
+            end: [8, 0.89],
+            style: {
+                stroke: '#ff4f76', // 线的颜色
+                lineDash: null, // 虚线的设置
+                lineWidth: 2,
+            },
+        });
+        // 绘制仪表盘背景
+        chart.annotation().arc({
+            top: false,
+            start: [0, 1],
+            end: [10, 1],
+            style: {
+                stroke: '#ffe6eb',
+                lineWidth: 13,
+                lineDash: null,
+            },
+        });
+        // 绘制指标
+        chart.annotation().arc({
+            start: [0, 1],
+            end: [data[0].value, 1],
+            style: {
+                stroke: '#ff4f76',
+                lineWidth: 13,
+                lineDash: null,
+            },
+        });
+        // 绘制指标数字
+        chart.annotation().text({
+            position: ['50%', '85%'],
+            content: label,
+            style: {
+                fontSize: 15,
+                fill: '#ff4f76',
+                textAlign: 'center',
+            },
+        });
+        chart.annotation().text({
+            position: ['50%', '90%'],
+            content: `${data[0].value * 10} 分`,
+            style: {
+                fontSize: 30,
+                fill: '#ff4f76',
+                textAlign: 'center',
+            },
+            offsetY: 15,
+        });
+        chart.render();
+    }    
+    const getGraph = (id, token) => {
+        return Axios({
+            method: 'GET',
+            url: host + '/charts/gauge',
+            params: {
+                id: id,
+                'access-token': token
+            },
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            },
+            timeout: 5000
+        }).then(_data => {
+            const { data } = _data;
+            if(data.code === 'success') showGraphNew(data.data.name, (+ data.data.value));
+        }).catch(error => console.log(error));
+    }
     const getModalA = (id, token) => {
         return Axios({
             method: 'GET',
@@ -165,7 +341,7 @@ const PDF = () => {
                             setLoading(false);
                         }
                         else {
-                            
+
                             setAlertMsg('下载失败，请稍后再试');
                             alertController.on('toggle');
                         }
@@ -237,6 +413,9 @@ const PDF = () => {
             <Alert controller={alertController} content={alertMessage} />
             <div className='pdf'>
                 <div className='page-three pages'>
+                    {/* <div className='overview-total-graph'>
+                        <div id='graph' />
+                    </div> */}
                     <div className="page-title three-title"><h1>整体情况</h1></div>
                     {useR.age && (+ useR.age) ? (<div className='overview-age-prediction'>预测年龄：{(+ useR.age).toFixed(1)} 岁</div>) : null}
                     <div className='overview-total'>

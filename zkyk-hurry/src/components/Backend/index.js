@@ -168,10 +168,34 @@ const Backend = () => {
                     barCode : inputs.barCode.value,
                     status : selectStatusRef.current.value
                 })
+                
                 slideToDom(document.querySelector('.backend-list'));
                 modalController.on('toggle');
                 setAlertMsg('查询成功');
                 alertController.on('toggle');
+            }
+        }).catch(error => console.log(error))
+    }
+    const handleKeepSearch = () => {
+        Axios({
+            method : 'GET',
+            url : host + '/admin/list',
+            params : {
+                'access-token' : user.token,
+                pageNum : 12,
+                barCode : search.barCode,
+                status : search.status
+            },
+            headers : {
+                'Content-Type' : 'application/json; charset=UTF-8'
+            }
+        }).then(_data => {
+            let { data } = _data;
+            if(data.code === 'success') {
+                setList(data.data.list);
+                setCurrentPage(1);
+                setTotal(data.data.pagination.pageSize);          
+                slideToDom(document.querySelector('.backend-list'));
             }
         }).catch(error => console.log(error))
     }
@@ -214,7 +238,7 @@ const Backend = () => {
                 setAlertMsg('更新成功');
                 alertController.on('toggle');
                 editModalController.on('toggle');
-                getInitialList();
+                handleKeepSearch();
             }
             else{
                 setAlertMsg('更新失败');
