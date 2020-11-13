@@ -76,6 +76,7 @@
 }
 .backend-list-search > span{
     margin-left: 1rem;
+    font-weight: bolder;
 }
 .backend-list > table{
     width: 100%;
@@ -133,4 +134,37 @@
 .backend-form-input > input:focus{
     border-color: var(--black);
     text-indent: 1rem;
+}
+span.untreated{
+    color: #cccccc;
+}
+span.registered{
+    color: #f5871f;
+}
+span.received{
+    color: #718c00;
+}
+span.experimenting{
+    color: #8959a8;
+}
+span.succeeded{
+    color: #5ead1c;
+}
+span.failed{
+    color: #a4000f;
+}
+span.noBarCode{
+    color: #808080;
+}
+.backend-edit-status > p:first-child{
+    margin-bottom: 1rem;
+    line-height: 1.8;
+}
+.backend-edit-status > p > span{
+    margin: 0 0.5rem;
+    padding-bottom: 0.2rem;
+    border-bottom: 1px solid var(--black);
+}
+.backend-edit-status > p > span:last-child{
+    font-weight: bolder;
 }

@@ -30,10 +30,8 @@ function slideUpDom(dom){
     })
 }
 
-function slideToDom(dom, config){
-    if(config.onGoing) return;
+function slideToDom(dom){
     let timer = setInterval(() => {
-        config.onGoing = true;
         //均相对于其 offsetParent
         let position = dom.offsetTop;
         let lengthToTop = document.documentElement.scrollTop || document.body.scrollTop;
@@ -41,11 +39,11 @@ function slideToDom(dom, config){
         let fullHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
 
         let speed = (position - lengthToTop) / 5;
+
         document.body.scrollTop = document.documentElement.scrollTop = lengthToTop + speed;
-        if(Math.abs(lengthToTop - position) <= 5 || fullHeight === lengthToTop + screenHeight) {
-            clearInterval(timer);
-            config.onGoing = false;
-        }
+        lengthToTop = document.documentElement.scrollTop || document.body.scrollTop;
+        // 边界判断条件可能有失偏颇
+        if(Math.abs(lengthToTop - position) <= 5 || fullHeight - lengthToTop - screenHeight <= 5) clearInterval(timer);
     },30)
 }
 

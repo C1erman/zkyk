@@ -3,7 +3,7 @@ import './backend.css';
 import Axios from 'axios';
 import { host } from '../../_config';
 import { useSelector, useDispatch } from 'react-redux';
-import { slideUp } from '../../utils/slideUp';
+import { slideUp, slideToDom } from '../../utils/slideUp';
 import Pager from '../Pager';
 import * as BIO from '../../actions';
 import { useHistory } from 'react-router-dom';
@@ -17,7 +17,8 @@ const Backend = () => {
     const dispatch = useDispatch();
     let user = useSelector(state => state.user);
     let backendList = useSelector(state => state.backendList);
-    let [total, setTotal] = useState(10);
+    let [currentPage, setCurrentPage] = useState(1);
+    let [total, setTotal] = useState(1);
     let [list, setList] = useState([]);
     let [backendData, setData] = useState();
 
@@ -32,9 +33,33 @@ const Backend = () => {
     });
 
     let modalController = {};
+    let editModalController ={};
+    let [queryResult, setQueryResult] = useState();
+    let selectEditStatusRef = useRef();
     let [alertMessage, setAlertMsg] = useState('');
     let alertController = {};
 
+    const getInitialList = () => {
+        Axios({
+            method : 'GET',
+            url : host + '/admin/list',
+            params : {
+                'access-token' : user.token,
+                pageNum : 12
+            },
+            headers : {
+                'Content-Type' : 'application/json; charset=UTF-8'
+            }
+        }).then(_data => {
+            let { data } = _data;
+            if(data.code === 'success') {
+                setList(data.data.list);
+                setTotal(data.data.pagination.pageSize);
+                setCurrentPage(1);
+            }
+        })
+        .catch(error => console.log(error));
+    }
     useEffect(() => {
         slideUp();
         document.title = '后台管理';
@@ -51,24 +76,7 @@ const Backend = () => {
             let { data } = _data;
             if(data.code === 'success') setData(data.data);
         }).catch(error => console.log(error));
-        Axios({
-            method : 'GET',
-            url : host + '/admin/list',
-            params : {
-                'access-token' : user.token,
-                pageNum : 12
-            },
-            headers : {
-                'Content-Type' : 'application/json; charset=UTF-8'
-            }
-        }).then(_data => {
-            let { data } = _data;
-            if(data.code === 'success') {
-                setList(data.data.list);
-                setTotal(data.data.pagination.pageSize);
-            }
-        })
-        .catch(error => console.log(error));
+        getInitialList();
         Axios({
             method : 'GET',
             url : host + '/user/permission',
@@ -110,6 +118,8 @@ const Backend = () => {
             if(data.code === 'success') {
                 setList(data.data.list);
                 setTotal(data.data.pagination.pageSize);
+                setCurrentPage(currentPage);
+                slideToDom(document.querySelector('.backend-list'));
             }
         })
         .catch(error => console.log(error));
@@ -136,39 +146,81 @@ const Backend = () => {
         });
     }
     const handleSearch = () => {
-        console.log(inputs.barCode, selectStatusRef.current.value)
-        if(true){
-            Axios({
-                method : 'GET',
-                url : host + '/admin/list',
-                params : {
-                    'access-token' : user.token,
-                    pageNum : 12,
+        Axios({
+            method : 'GET',
+            url : host + '/admin/list',
+            params : {
+                'access-token' : user.token,
+                pageNum : 12,
+                barCode : inputs.barCode.value,
+                status : selectStatusRef.current.value
+            },
+            headers : {
+                'Content-Type' : 'application/json; charset=UTF-8'
+            }
+        }).then(_data => {
+            let { data } = _data;
+            if(data.code === 'success') {
+                setList(data.data.list);
+                setCurrentPage(1);
+                setTotal(data.data.pagination.pageSize);
+                setSearch({
                     barCode : inputs.barCode.value,
                     status : selectStatusRef.current.value
-                },
-                headers : {
-                    'Content-Type' : 'application/json; charset=UTF-8'
-                }
-            }).then(_data => {
-                let { data } = _data;
-                if(data.code === 'success') {
-                    setList(data.data.list);
-                    setTotal(data.data.pagination.pageSize);
-                    setSearch({
-                        barCode : inputs.barCode.value,
-                        status : selectStatusRef.current.value
-                    })
-                    modalController.on('toggle');
-                    setAlertMsg('查询成功，请查看表格');
-                    alertController.on('toggle');
-                }
-            })
-        }
-        else{
-            setAlertMsg('请选择查询条件');
-            alertController.on('toggle');
-        }
+                })
+                slideToDom(document.querySelector('.backend-list'));
+                modalController.on('toggle');
+                setAlertMsg('查询成功');
+                alertController.on('toggle');
+            }
+        }).catch(error => console.log(error))
+    }
+    const handleQueryStatus = (barCode) => {
+        editModalController.on('toggle');
+        Axios({
+            method : 'POST',
+            url : host + '/admin/query/status',
+            params : {
+                'access-token' : user.token,
+                barcode : barCode
+            },
+            headers : {
+                'Content-Type' : 'application/json; charset=UTF-8'
+            }
+        }).then(_data => {
+            let { data } = _data;
+            if(data.code === 'success') {
+                setQueryResult(data.data);
+            }
+        }).catch(error => console.log(error))
+    }
+    const handleEditStatus = (barCode) => {
+        Axios({
+            method : 'POST',
+            url : host + '/admin/modify/status',
+            params : {
+                'access-token' : user.token,
+            },
+            data : {
+                barcode : barCode,
+                status : selectEditStatusRef.current.value
+            },
+            headers : {
+                'Content-Type' : 'application/json; charset=UTF-8'
+            }
+        }).then(_data => {
+            let { data } = _data;
+            if(data.code === 'success') {
+                setAlertMsg('更新成功');
+                alertController.on('toggle');
+                editModalController.on('toggle');
+                getInitialList();
+            }
+            else{
+                setAlertMsg('更新失败');
+                alertController.on('toggle');
+            }
+        }).catch(error => console.log(error))
     }
 
     return (
@@ -191,30 +243,30 @@ const Backend = () => {
                     <div className='backend-list'>
                         <div className='backend-title'><span>直属机构采样报告情况</span></div>
                         {search.barCode || search.status ? (<p className='backend-list-search'>
-                            查询条件为{search.barCode ? (<span>采样管编号：{search.barCode}</span>) : null}
-                            {search.status ? (<span>报告状态：{mapStatus[search.status]}</span>) : null}
+                            查询条件为{search.barCode ? (<span>{search.barCode}</span>) : null}
+                            {search.status ? (<span className={search.status}>{mapStatus[search.status]}</span>) : null}
                         </p>) : null}
                         <table>
                             <thead className='backend-list-head'>
                                 <tr>
-                                    <th>公司名称</th><th>报告编号</th><th>报告状态</th><th>操作</th>
+                                    <th>公司名称</th><th>试管编号</th><th>报告状态</th><th>操作</th>
                                 </tr>
                             </thead>
-                            <tbody className='backend-list-body'>
-                                {
-                                    list.map((v, i) => (
-                                        <tr key={i}>
-                                            <td>{v.name}</td>
-                                            <td>{v.barcode}</td>
-                                            {/* <td>{v.date}<br />{v.time}</td> */}
-                                            <td className={v.status_en}>{v.status_zh}</td>
-                                            <td>{v.status_en === 'completed' ? (<a className='backend-list-btn' onClick={() => handleDownload(v.report_id)}>下载</a>) : '-'}</td>
-                                        </tr>
+                            <tbody className='backend-list-body'>{ 
+                                list.map((v, i) => (
+                                    <tr key={i}>
+                                        <td>{v.name}</td>
+                                        <td>{v.barcode}</td>
+                                        <td className={v.status_en}>{v.status_zh}</td>
+                                        <td>{v.status_en === 'completed' ? (<a className='backend-list-btn' onClick={() => handleDownload(v.report_id)}>下载</a>) 
+                                        : editStatusPermission ? (<a className='backend-list-btn' onClick={() => handleQueryStatus(v.barcode)}>更新状态</a>) : '-'}</td>
+                                    </tr>
                                     ))
                                 }
                             </tbody>
                         </table>
-                        <Pager total={total} prevClick={(currentPage) => getList(currentPage)} nextClick={(currentPage) => getList(currentPage)}  />
+                        { list.length ? null : (<div className='backend-empty'>抱歉，暂无数据。</div>) }
+                        <Pager total={total} current={currentPage} prevClick={(currentPage) => getList(currentPage)} nextClick={(currentPage) => getList(currentPage)}  />
                         <Button text='报告查询' hollow={true} click={() => modalController.on('toggle')} />
                         <Modal title='查询' controller={modalController} content={
                             <>
@@ -235,15 +287,30 @@ const Backend = () => {
                                 <Button text='查询' withError={false} click={handleSearch} />
                             </>
                         } />
+                        <Modal title='更新试管状态' controller={editModalController} content={
+                            queryResult ? (
+                                <div className='backend-edit-status'>
+                                    <p>正在准备更新试管编号为<span>{queryResult.barCode}</span>的试管，当前状态为<span className={queryResult.current}>{mapStatus[queryResult.current]}</span></p>
+                                    {
+                                        queryResult.operational ? (<>
+                                        <div className='backend-form-input'>
+                                            <label>报告状态</label>
+                                            <select className='backend-form-inputs' ref={selectEditStatusRef}>
+                                                {
+                                                    queryResult.operational ? queryResult.operational.map((v, i) => (
+                                                        <option key={i} value={v}>{mapStatus[v]}</option>
+                                                    )) : null
+                                                }
+                                            </select>
+                                        </div>
+                                        <Button text='更新' hollow={true} click={() => handleEditStatus(queryResult.barCode)} />
+                                        </>) : (<div className='backend-empty'>当前采样管无法更新状态。</div>)
+                                    }
+                                </div>
+                            ) : (<div className='backend-empty'>当前采样管无法更新状态。</div>)
+                        } />
                         <Alert controller={alertController} content={alertMessage} />
                     </div>
-                    {
-                        editStatusPermission ? (
-                            <div className='backend-edit-status'>
-                                <Input label='报告编号' placeholder='请输入要更改状态的报告编号' form />
-                            </div>
-                        ) : null
-                    }
                 </>
             )}
         </div>

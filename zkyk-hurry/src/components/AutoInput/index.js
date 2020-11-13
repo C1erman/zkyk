@@ -21,8 +21,12 @@ const AutoInput = ({
     let [ options, setOptions ] = useState([]);
     let [ checked, setChecked ] = useState(false);
     // 目前架构只能给一个初始值
+    // 被重复挂载时会引起 BUG，使用 delete 进行清除
     useEffect(() => {
         if(form && enableEmpty) form[dataName] = { validated : true, value : form[dataName] };
+        return () => {
+            if(form && enableEmpty) delete form[dataName];
+        }
     }, [])
     useEffect(() => {
         // 赋默认值

@@ -165,7 +165,7 @@ const PDF = () => {
                             setLoading(false);
                         }
                         else {
-                            console.log('sd')
+                            
                             setAlertMsg('下载失败，请稍后再试');
                             alertController.on('toggle');
                         }
@@ -237,7 +237,7 @@ const PDF = () => {
             <Alert controller={alertController} content={alertMessage} />
             <div className='pdf'>
                 <div className='page-three pages'>
-                    <div className="page-title three-title"><span>整体情况</span></div>
+                    <div className="page-title three-title"><h1>整体情况</h1></div>
                     {useR.age && (+ useR.age) ? (<div className='overview-age-prediction'>预测年龄：{(+ useR.age).toFixed(1)} 岁</div>) : null}
                     <div className='overview-total'>
                         <div>
@@ -280,7 +280,7 @@ const PDF = () => {
                     </div>
                 </div>
                 <div className='page-four pages'>
-                    <div className="page-title four-title"><span>菌群状态分析</span></div>
+                    <div className="page-title four-title"><h1>菌群状态分析</h1></div>
                     <div className='overview-flora'>
                         {flora.map((v, i) => (
                             <div key={i} className='overview-flora-items'>
@@ -305,7 +305,7 @@ const PDF = () => {
                     </div>
                 </div>
                 <div className='page-five pages'>
-                    <div className="page-title five-title"><span>健康指标评估</span></div>
+                    <div className="page-title five-title"><h1>健康指标评估</h1></div>
                     <div>
                         {assess.map((v, i) => (
                             <div key={i} className='assess-items'>
@@ -323,7 +323,7 @@ const PDF = () => {
                     </div>
                 </div>
                 <div className='page-six pages'>
-                    <div className="page-title six-title"><span>菌群改善建议</span></div>
+                    <div className="page-title six-title"><h1>菌群改善建议</h1></div>
                     <div className='suggestion-title-sm'>
                         饮食建议
                     </div>
@@ -384,7 +384,7 @@ const PDF = () => {
                     </div>
                 </div>
                 <div className='page-seven pages'>
-                    <div className="page-title seven-title"><span>具体检测结果</span></div>
+                    <div className="page-title seven-title"><h1>具体检测结果</h1></div>
                     <div className='overview-result'>
                         <div className='overview-result-info'>* 红色表示该菌含量异常，对健康有影响</div>
                         <table>
@@ -404,7 +404,7 @@ const PDF = () => {
                     </div>
                 </div>
                 <div className='page-eleven pages'>
-                    <div className="page-title eight-title"><span>肠道菌群知识科普</span></div>
+                    <div className="page-title eight-title"><h1>肠道菌群知识科普</h1></div>
                     <div className='know-title-sm'>01. 肠道菌群是什么</div>
                     <div className='know-what'>
                         <div className='know-what-content'>肠道不仅是我们人体最大的消化器官，也是人体最大的免疫器官，人体约99%的营养素和90%的毒素要在肠道中吸收和排出。

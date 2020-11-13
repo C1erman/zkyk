@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { throttle } from '../../utils/BIOFunc';
 import './pager.css';
 
@@ -11,6 +11,9 @@ const Pager = ({
     nextClick
 }) => {
     let [currentPage, setCurrent] = useState(current);
+    useEffect(() => {
+        setCurrent(current);
+    }, [current]);
     
     const prevHandler = () => {
         if(currentPage > 1){

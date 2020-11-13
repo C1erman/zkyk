@@ -88,8 +88,12 @@ const Input = ({
     let inputRef = useRef();
     let emptyRegexp = /\s/;
     // 目前架构只能给一个初始值
+    // 被重复挂载时会引起 BUG，使用 delete 进行清除
     useEffect(() => {
         if(form && enableEmpty) form[dataName] = {validated : true, value : form[dataName]};
+        return () => {
+            if(form && enableEmpty) delete form[dataName];
+        }
     }, []);
     // 赋默认值
     useEffect(() => {

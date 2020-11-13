@@ -48,9 +48,9 @@ body{color: #666666;line-height: 1.8;}
 }
 .page-title{
     text-align: left;
-    padding: 5rem 0 1rem 2rem;
+    padding: 3rem 0 1rem 2rem;
 }
-.page-title > span{
+.page-title > h1{
     text-align: center;
     display: inline-block;
     position: relative;
@@ -60,7 +60,7 @@ body{color: #666666;line-height: 1.8;}
     max-width: 400px;
     color: #ff4f76;
 }
-.page-title > span::before{
+.page-title > h1::before{
     display: block;
     position: absolute;
     color: #ffa6ba;
@@ -69,7 +69,7 @@ body{color: #666666;line-height: 1.8;}
     top: -6.8rem;
     z-index: -1;
 }
-.page-title > span::after{
+.page-title > h1::after{
     display: block;
     position: relative;
     content: "";
@@ -105,7 +105,7 @@ body{color: #666666;line-height: 1.8;}
     height: 800px;
     left: -22rem;
 }
-.three-title > span::before{
+.three-title > h1::before{
     content: 'A';
 }
 
@@ -184,7 +184,7 @@ body{color: #666666;line-height: 1.8;}
 }
 
 
-.four-title > span::before{
+.four-title > h1::before{
     content: 'B';
 }
 .overview-flora{
@@ -193,7 +193,7 @@ body{color: #666666;line-height: 1.8;}
 .overview-flora-items{
     width: 90%;
     margin: 0 auto;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     padding: 0.8rem;
     box-sizing: border-box;
 }
@@ -259,7 +259,7 @@ body{color: #666666;line-height: 1.8;}
     font-weight: bold;
 }
 
-.five-title > span::before{
+.five-title > h1::before{
     content: 'C';
 }
 .assess-items{
@@ -313,7 +313,7 @@ body{color: #666666;line-height: 1.8;}
     font-weight: bold;
 }
 
-.six-title > span::before{
+.six-title > h1::before{
     content: 'D';
 }
 
@@ -385,7 +385,7 @@ body{color: #666666;line-height: 1.8;}
     width: 164px;
     height: 82px;
 }
-.seven-title > span::before{
+.seven-title > h1::before{
     content: 'E';
 }
 
@@ -463,7 +463,7 @@ body{color: #666666;line-height: 1.8;}
 .overview-total-graph-info > p > span{
     float: right;
 }
-.eight-title > span::before{
+.eight-title > h1::before{
     content: 'F';
 }
 .know-title-sm{
