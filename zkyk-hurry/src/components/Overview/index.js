@@ -147,23 +147,13 @@ const showGraphNew = (label = '健康', score = 9) => {
     });
     // 绘制指标数字
     chart.annotation().text({
-        position: ['50%', '85%'],
+        position: ['50%', '94%'],
         content: label,
         style: {
-            fontSize: 15,
+            fontSize: 20,
             fill: '#ff4f76',
             textAlign: 'center',
         },
-    });
-    chart.annotation().text({
-        position: ['50%', '90%'],
-        content: `${data[0].value * 10} 分`,
-        style: {
-            fontSize: 30,
-            fill: '#ff4f76',
-            textAlign: 'center',
-        },
-        offsetY: 15,
     });
     chart.render();
 }

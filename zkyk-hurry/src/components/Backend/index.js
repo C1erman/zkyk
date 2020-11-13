@@ -273,14 +273,14 @@ const Backend = () => {
                         <table>
                             <thead className='backend-list-head'>
                                 <tr>
-                                    <th>公司名称</th><th>试管编号</th><th>报告状态</th><th>操作</th>
+                                    <th>受检人</th><th>报告编号</th><th>报告状态</th><th>操作</th>
                                 </tr>
                             </thead>
                             <tbody className='backend-list-body'>{ 
                                 list.map((v, i) => (
                                     <tr key={i}>
-                                        <td>{v.name}</td>
-                                        <td>{v.barcode}</td>
+                                        <td>{v.person_name ? v.person_name : '-'}</td>
+                                        <td>{v.barcode + (v.version ? ' V' + v.version : '')}</td>
                                         <td className={v.status_en}>{v.status_zh}</td>
                                         <td>{v.status_en === 'completed' ? (<a className='backend-list-btn' onClick={() => handleDownload(v.report_id)}>下载</a>) 
                                         : editStatusPermission ? (<a className='backend-list-btn' onClick={() => handleQueryStatus(v.barcode)}>更新状态</a>) : '-'}</td>
@@ -311,10 +311,10 @@ const Backend = () => {
                                 <Button text='查询' withError={false} click={handleSearch} />
                             </>
                         } />
-                        <Modal title='更新试管状态' controller={editModalController} content={
+                        <Modal title='更新报告状态' controller={editModalController} content={
                             queryResult ? (
                                 <div className='backend-edit-status'>
-                                    <p>正在准备更新试管编号为<span>{queryResult.barCode}</span>的试管，当前状态为<span className={queryResult.current}>{mapStatus[queryResult.current]}</span></p>
+                                    <p>正在准备更新报告编号为<span>{queryResult.barCode}</span>的报告，当前状态为<span className={queryResult.current}>{mapStatus[queryResult.current]}</span></p>
                                     {
                                         queryResult.operational ? (<>
                                         <div className='backend-form-input'>
