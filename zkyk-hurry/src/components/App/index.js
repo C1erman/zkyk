@@ -114,7 +114,7 @@ const GlobalInfo = () => {
 const AxiosConfig = () => {
     const dispatch = useDispatch();
     useEffect(() => {
-        Axios.defaults.timeout = 5000;
+        Axios.defaults.timeout = 10000;
         Axios.interceptors.response.use(
             response => response,
             error => {

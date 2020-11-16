@@ -51,8 +51,7 @@ const PDF = () => {
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
-            },
-            timeout: 5000
+            }
         }).then(_data => {
             const { data } = _data;
             if(data.code === 'success') showGraphNew(data.data.name, (+ data.data.value));
@@ -68,8 +67,7 @@ const PDF = () => {
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
-            },
-            timeout: 5000
+            }
         }).then(_data => {
             const { data } = _data;
             if (data.code === 'success') setUser(data.data);
@@ -85,8 +83,7 @@ const PDF = () => {
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
-            },
-            timeout: 5000
+            }
         }).then(_data => {
             const { data } = _data;
             if (data.code === 'success') setAbnormal(data.data);
@@ -102,8 +99,7 @@ const PDF = () => {
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
-            },
-            timeout: 5000
+            }
         }).then(_data => {
             const { data } = _data;
             if (data.code === 'success') setFlora(data.data);
@@ -119,8 +115,7 @@ const PDF = () => {
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
-            },
-            timeout: 5000
+            }
         }).then(_data => {
             const { data } = _data;
             if (data.code === 'success') setAssess(data.data);
@@ -137,8 +132,7 @@ const PDF = () => {
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
-            },
-            timeout: 5000
+            }
         }).then(_data => {
             const { data } = _data;
             if (data.code === 'success') setResult(data.data);
@@ -164,8 +158,7 @@ const PDF = () => {
                         headers: {
                             'Content-Type': 'application/json; charset=UTF-8'
                         },
-                        responseType: 'blob',
-                        timeout: 5000
+                        responseType: 'blob'
                     }).then(_data => {
                         let filename = decodeURI(_data.headers['filename']);
                         const { data } = _data;

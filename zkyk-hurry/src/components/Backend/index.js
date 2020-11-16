@@ -87,8 +87,7 @@ const Backend = () => {
             },
             headers : {
                 'Content-Type' : 'application/json; charset=UTF-8'
-            },
-            timeout : 5000
+            }
         }).then(_data => {
             const {data} = _data;
             if(data.code === 'success') setEditStatusPerm(true);
@@ -218,7 +217,7 @@ const Backend = () => {
             }
         }).catch(error => console.log(error))
     }
-    const handleEditStatus = (barCode) => {
+    const handleEditStatus = (barCode, currentStatus) => {
         Axios({
             method : 'POST',
             url : host + '/admin/modify/status',
@@ -227,7 +226,8 @@ const Backend = () => {
             },
             data : {
                 barcode : barCode,
-                status : selectEditStatusRef.current.value
+                status : selectEditStatusRef.current.value,
+                current : currentStatus
             },
             headers : {
                 'Content-Type' : 'application/json; charset=UTF-8'
@@ -327,7 +327,7 @@ const Backend = () => {
                                                 }
                                             </select>
                                         </div>
-                                        <Button text='更新' hollow={true} click={() => handleEditStatus(queryResult.barCode)} />
+                                        <Button text='更新' hollow={true} click={() => handleEditStatus(queryResult.barCode, queryResult.current)} />
                                         </>) : (<div className='backend-empty'>当前采样管无法更新状态。</div>)
                                     }
                                 </div>

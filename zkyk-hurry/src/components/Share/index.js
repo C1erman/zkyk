@@ -11,6 +11,7 @@ const Share = () => {
     const history = useHistory();
     const user = useSelector(state => state.user);
     
+    let [qrCodeList, setQrCodeList] = useState([]);
     let [qrCode, setQrCode] = useState({
         code: ''
     });
@@ -21,9 +22,6 @@ const Share = () => {
         time : ''
     })
     useEffect(() => {
-        if(!window.location.origin){
-            window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
-        }
         slideUp();
         Axios({
             method: 'POST',
@@ -37,8 +35,7 @@ const Share = () => {
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
-            },
-            timeout: 5000
+            }
         }).then(_data => {
             const { data } = _data;
             if (data.code === 'error') {
@@ -54,17 +51,38 @@ const Share = () => {
                 })
             }
         }).catch(error => console.log(error));
+        Axios({
+            method: 'GET',
+            url: host + '/user/code/permission',
+            params: {
+                'access-token': user.token
+            },
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        }).then(_data => {
+            const { data } = _data;
+            if (data.code === 'error') {
+                console.log(data.info);
+            }
+            else if (data.code === 'success') setQrCodeList(data.data);
+        }).catch(error => console.log(error));
         document.title = '分享';
         return () => {
             document.title = '信息绑定';
         }
     }, [])
-    const shareBind = () => {
+    const handleChangeCode = (action, title) => {
+        let actionMap = {
+            bind : '/#/guide/add/',
+            signup : '/#/guide/signup/',
+            report : ''
+        }
         Axios({
             method: 'POST',
-            url: host + '/ds/bind',
+            url: host + '/ds/' + action,
             data: {
-                url: window.location.origin + '/#/guide/add/',
+                url: window.location.origin + actionMap[action],
                 size: 200
             },
             params: {
@@ -72,8 +90,7 @@ const Share = () => {
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
-            },
-            timeout: 5000
+            }
         }).then(_data => {
             const { data } = _data;
             if (data.code === 'error') {
@@ -82,7 +99,7 @@ const Share = () => {
             else if (data.code === 'success') {
                 setQrCode(data.data);
                 setContent({
-                    title: '向受测人分享',
+                    title: title,
                     info: '',
                     url: data.data.url,
                     time : data.data.expire_at
@@ -90,41 +107,6 @@ const Share = () => {
             }
         }).catch(error => console.log(error));
     }
-    const shareSignup = () => {
-        Axios({
-            method: 'POST',
-            url: host + '/ds/signup',
-            data: {
-                url: window.location.origin + '/#/guide/signup/',
-                size: 200
-            },
-            params: {
-                'access-token': user.token
-            },
-            headers: {
-                'Content-Type': 'application/json; charset=UTF-8'
-            },
-            timeout: 5000
-        }).then(_data => {
-            const { data } = _data;
-            if (data.code === 'error') {
-                console.log(data.info);
-            }
-            else if (data.code === 'success') {
-                setQrCode(data.data);
-                setContent({
-                    title: '分享注册',
-                    info: '',
-                    url: data.data.url,
-                    time : data.data.expire_at
-                })
-            }
-        }).catch(error => console.log(error));
-    }
-    let [shareList, setShareList] = useState([
-        {title : '向受测人分享', handler : shareBind},
-        {title : '分享注册', handler : shareSignup}
-    ])
 
     return (
         <div className='share-container'>
@@ -133,7 +115,6 @@ const Share = () => {
             </div>
             <div className='share-code-container'>
                 <div className='share-code-title'>{content.title}</div>
-                {/* <div className='share-code-info'>{content.info}<a target='_blank'>{content.url}</a>{content.time ? (<span className='share-code-info-time'>，过期时间为：{content.time}</span>) : null}</div> */}
                 <div className='share-code-info'>{content.time ? (<span className='share-code-info-time'>过期时间为：{content.time}</span>) : null}</div>
                 <div className='share-code-img'>
                     {qrCode.code ? (<img src={host + '/ds/q/' + qrCode.code} />) : (<span>二维码获取中，请稍候</span>)}
@@ -142,9 +123,11 @@ const Share = () => {
             <div className='share-more'>全部</div>
             <div className='share-divide'></div>
             <div className='share-code-list'>
-                {shareList.length ? shareList.map((v, i) => (
-                    <div key={i} onClick={v.handler} className={v.title === content.title ? 'current' : ''}>{v.title}</div>
-                )) : '其它分享功能正在开发中，敬请期待。'}
+                { qrCodeList.length ? 
+                    qrCodeList.map((v, i) => (
+                        v.permission ? (<div key={i} onClick={() => handleChangeCode(v.name, v.title)} className={v.title === content.title ? 'current' : ''}>{v.title}</div>)
+                        : null )) 
+                    : '其它分享功能正在开发中，敬请期待。'}
             </div>
         </div>
     );

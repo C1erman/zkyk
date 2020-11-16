@@ -180,8 +180,7 @@ const Overview = () => {
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
-            },
-            timeout: 5000
+            }
         }).then(_data => {
             const { data } = _data;
             // if (data.code === 'success') showGraph(data.data.name, + data.data.value);
@@ -195,8 +194,7 @@ const Overview = () => {
             },
             params: {
                 'access-token': userInfo.token
-            },
-            timeout: 5000
+            }
         }).then(_data => {
             const { data } = _data;
             if (data.code === 'success') setGraphInfo(data.data);
@@ -211,8 +209,7 @@ const Overview = () => {
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
-            },
-            timeout: 5000
+            }
         }).then(_data => {
             const { data } = _data;
             if (data.code === 'success') setUser(data.data);
@@ -227,8 +224,7 @@ const Overview = () => {
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
-            },
-            timeout: 5000
+            }
         }).then(_data => {
             const { data } = _data;
             if (data.code === 'success') setAbnormal(data.data);
@@ -243,8 +239,7 @@ const Overview = () => {
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
-            },
-            timeout: 5000
+            }
         }).then(_data => {
             const { data } = _data;
             if (data.code === 'success') setResult(data.data);
@@ -259,8 +254,7 @@ const Overview = () => {
             },
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
-            },
-            timeout: 5000
+            }
         }).then(_data => {
             const { data } = _data;
             if (data.code === 'success') setFlora(data.data);

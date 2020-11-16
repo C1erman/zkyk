@@ -38,8 +38,7 @@ const UserInfo = () => {
             },
             headers : {
                 'Content-Type' : 'application/json; charset=UTF-8'
-            },
-            timeout : 5000
+            }
         }).then(_data => {
             const {data} = _data;
             if(data.code === 'error'){
@@ -60,8 +59,7 @@ const UserInfo = () => {
             },
             headers : {
                 'Content-Type' : 'application/json; charset=UTF-8'
-            },
-            timeout : 5000
+            }
         }).then(_data => {
             const {data} = _data;
             if(data.code === 'success') setShare(true);
@@ -94,8 +92,7 @@ const UserInfo = () => {
             },
             headers : {
                 'Content-Type' : 'application/json; charset=UTF-8'
-            },
-            timeout : 5000
+            }
         }).then(_data => {
             const {data} = _data;
             if(data.code === 'error'){
@@ -125,8 +122,7 @@ const UserInfo = () => {
             },
             headers : {
                 'Content-Type' : 'application/json; charset=UTF-8'
-            },
-            timeout : 5000
+            }
         }).then(_data => {
             const {data} = _data;
             if(data.code === 'error'){
@@ -154,8 +150,7 @@ const UserInfo = () => {
             },
             headers : {
                 'Content-Type' : 'application/json; charset=UTF-8'
-            },
-            timeout : 5000
+            }
         }).then(_data => {
             const {data} = _data;
             if(data.code === 'error'){
