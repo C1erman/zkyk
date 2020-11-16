@@ -127,6 +127,13 @@ const AxiosConfig = () => {
                             });
                             break;
                         }
+                        case 403 : {
+                            dispatch({
+                                type: BIO.GLOBAL_INFO,
+                                data: '抱歉，你没有权限进行此操作'
+                            });
+                            break;
+                        }
                         case 500 : {
                             dispatch({
                                 type : BIO.GLOBAL_INFO,

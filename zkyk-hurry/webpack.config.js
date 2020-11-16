@@ -40,7 +40,8 @@ module.exports = {
     plugins: [
         new CopyWebpackPlugin({
             patterns : [
-                { from : './src/config.js', to : path.resolve('./dist')}
+                { from : './src/config.js', to : path.resolve('./dist')},
+                { from : './src/index.css', to : path.resolve('./dist')}
             ]
         }),
         new Webpack.HotModuleReplacementPlugin(),  //webpack热更新，不是刷新

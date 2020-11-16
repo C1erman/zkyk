@@ -331,7 +331,7 @@ const Overview = () => {
                             <div className='overview-abnormal-content'>
                                 <div>菌群环境</div>
                                 <div className='overview-abnormal-content-item'>
-                                    {abnormal.metrics.intestinal_defense ? (<div><span className='title'>肠道防御力</span><span>{abnormal.metrics.intestinal_defense}</span></div>) : null}
+                                    {abnormal.metrics.intestinal_defense ? (<div><span className='title'>肠道防御力：</span><span>{abnormal.metrics.intestinal_defense}</span></div>) : null}
                                     {abnormal.metrics.beneficial ? (<div><span className='title'>有益菌：</span>{abnormal.metrics.beneficial}<span className='item'>偏低</span></div>) : null}
                                     {abnormal.metrics.general ? (<div><span className='title'>中性菌：</span>{abnormal.metrics.general.lower ? (<>{abnormal.metrics.general.lower}<span className='item'>偏低</span></>) : null }
                                     {abnormal.metrics.general.higher ? (<>{abnormal.metrics.general.higher}<span className='item'>超标</span></>) : null}</div>) : null}

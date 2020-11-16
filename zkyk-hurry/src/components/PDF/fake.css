@@ -193,9 +193,10 @@ body{color: #666666;line-height: 1.8;}
 .overview-flora-items{
     width: 90%;
     margin: 0 auto;
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
     padding: 0.8rem;
     box-sizing: border-box;
+    page-break-inside: avoid;
 }
 .overview-abnormal-content-item{
     line-height: 1.8;
@@ -262,6 +263,7 @@ body{color: #666666;line-height: 1.8;}
 .five-title > h1::before{
     content: 'C';
 }
+
 .assess-items{
     width: 90%;
     margin: 0 auto;
