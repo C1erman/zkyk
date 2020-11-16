@@ -301,6 +301,7 @@ const Backend = () => {
                                         <option value=''>无限制</option>
                                         <option value='completed'>已完成</option>
                                         <option value='succeeded'>实验完成</option>
+                                        <option value='pending'>待审核</option>
                                         <option value='failed'>实验失败</option>
                                         <option value='experimenting'>实验中</option>
                                         <option value='received'>已收样</option>

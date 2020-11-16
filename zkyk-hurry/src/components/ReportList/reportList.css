@@ -77,7 +77,7 @@ td.received{
 td.experimenting{
     color: #8959a8;
 }
-td.succeeded{
+td.completed{
     color: #5ead1c;
 }
 td.failed{

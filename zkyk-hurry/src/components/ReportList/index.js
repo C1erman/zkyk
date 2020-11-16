@@ -126,6 +126,28 @@ const ReportList = () => {
             failed : failedSrc
         }[status]
     }
+    const mapClassName = (status) => {
+        switch(status){
+            case 'failed' : {
+                return ' disabled';
+            }
+            case 'succeeded' : {
+                return ' disabled';
+            }
+            case 'experimenting' : {
+                return ' disabled';
+            }
+            default : {
+                return '';
+            } 
+        }
+    }
+    const mapOperate = (operate, reportId, sampleId) => {
+        if(operate === '查看') return selectHandler(reportId);
+        else if(operate === '编辑') return editHandler(sampleId);
+        else if(operate === '已锁定') return false;
+        else return false;
+    }
 
     return (
         <div className='reportList-container'>
@@ -150,7 +172,7 @@ const ReportList = () => {
                                     <td>{v.person_name}</td>
                                     <td>{v.sample_barcode + (v.version ? ' V' + v.version : '')}</td>
                                     <td className={v.status_en} onClick={() => getStatus(v.sample_id)}>{v.status_zh}</td>
-                                    <td><a className={'reportList-btn' + (v.status_zh === '实验失败' ? ' disabled' : '')} onClick={() =>{ v.operate === '查看' ? selectHandler(v.report_id || 'error') : editHandler(v.sample_id) }}>{v.operate}</a></td>
+                                    <td><a className={'reportList-btn' + mapClassName(v.status_en)} onClick={() => mapOperate(v.operate, v.report_id || 'error', v.sample_id)}>{v.operate}</a></td>
                                 </tr>)}
                             </tbody>
                         </table>
