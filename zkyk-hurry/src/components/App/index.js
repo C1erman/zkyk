@@ -134,6 +134,13 @@ const AxiosConfig = () => {
                             });
                             break;
                         }
+                        case 404 : {
+                            dispatch({
+                                type : BIO.GLOBAL_INFO,
+                                data : '资源未找到，请稍后再试'
+                            });
+                            break;
+                        }
                         case 500 : {
                             dispatch({
                                 type : BIO.GLOBAL_INFO,
