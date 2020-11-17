@@ -259,32 +259,34 @@ const PDF = () => {
                         </div>
                     </div>
                     <div className='overview-abnormal'>
-                        <div className='overview-abnormal-title'>根据您目前的肠道菌群情况，提示您<span>以下指标异常</span>，需要引起重视，可结合改善建议进行调理。</div>
                         {abnormal ? (
-                            <div>
-                                {abnormal.metrics ? (
-                                    <div className='overview-abnormal-content'>
-                                        <div>菌群环境</div>
-                                        <div className='overview-abnormal-content-item'>
-                                            {abnormal.metrics.intestinal_defense ? (<div><span className='title'>肠道防御力</span><span>{abnormal.metrics.intestinal_defense}</span></div>) : null}
-                                            {abnormal.metrics.beneficial ? (<div><span className='title'>有益菌：</span>{abnormal.metrics.beneficial}<span className='item'>偏低</span></div>) : null}
-                                            {abnormal.metrics.general ? (<div><span className='title'>中性菌：</span>{abnormal.metrics.general.lower ? (<>{abnormal.metrics.general.lower}<span className='item'>偏低</span></>) : null}
-                                                {abnormal.metrics.general.higher ? (<>{abnormal.metrics.general.higher}<span className='item'>超标</span></>) : null}</div>) : null}
-                                            {abnormal.metrics.harmful ? (<div><span className='title'>有害菌：</span>{abnormal.metrics.harmful}<span className='item'>超标</span></div>) : null}
-                                        </div>
-                                    </div>
-                                ) : null}
-                                {
-                                    abnormal.indicator ? (
+                            <>
+                                <div className='overview-abnormal-title'>根据您目前的肠道菌群情况，提示您<span>以下指标异常</span>，需要引起重视，可结合改善建议进行调理。</div>
+                                <div>
+                                    {abnormal.metrics ? (
                                         <div className='overview-abnormal-content'>
-                                            <div>健康指标</div>
-                                            <div className='overview-abnormal-content-item'>{abnormal.indicator.map((v, i) => (
-                                                <div key={i}>{v.type_zh}<span className='item-margin'>{v.rank_zh}</span></div>
-                                            ))}</div>
+                                            <div>菌群环境</div>
+                                            <div className='overview-abnormal-content-item'>
+                                                {abnormal.metrics.intestinal_defense ? (<div><span className='title'>肠道防御力：</span><span className='item'>{abnormal.metrics.intestinal_defense}</span></div>) : null}
+                                                {abnormal.metrics.beneficial ? (<div><span className='title'>有益菌：</span>{abnormal.metrics.beneficial}<span className='item'>偏低</span></div>) : null}
+                                                {abnormal.metrics.general ? (<div><span className='title'>中性菌：</span>{abnormal.metrics.general.lower ? (<>{abnormal.metrics.general.lower}<span className='item'>偏低</span></>) : null }
+                                                {abnormal.metrics.general.higher ? (<>{abnormal.metrics.general.higher}<span className='item'>超标</span></>) : null}</div>) : null}
+                                                {abnormal.metrics.harmful ? (<div><span className='title'>有害菌：</span>{abnormal.metrics.harmful}<span className='item'>超标</span></div>) : null}
+                                            </div>
                                         </div>
-                                    ) : null
-                                }
-                            </div>
+                                    ) : null}
+                                    {
+                                        abnormal.indicator ? (
+                                            <div className='overview-abnormal-content'>
+                                                <div>健康指标</div>
+                                                <div className='overview-abnormal-content-item'>{abnormal.indicator.map((v, i) => (
+                                                    <div key={i}>{v.type_zh}<span className='item-margin'>{v.rank_zh}</span></div>
+                                                ))}</div>
+                                        </div>
+                                        ) : null
+                                    }
+                                </div>
+                            </>
                         ) : null}
                     </div>
                 </div>

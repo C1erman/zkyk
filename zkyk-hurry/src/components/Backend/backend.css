@@ -147,7 +147,7 @@ span.received{
 span.experimenting{
     color: #8959a8;
 }
-span.succeeded{
+span.completed{
     color: #5ead1c;
 }
 span.failed{

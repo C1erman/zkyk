@@ -31,6 +31,7 @@ const Backend = () => {
         barCode : '',
         status : ''
     });
+    let [searchList, setSearchList] = useState([]);
 
     let modalController = {};
     let editModalController ={};
@@ -93,6 +94,19 @@ const Backend = () => {
             if(data.code === 'success') setEditStatusPerm(true);
             else setEditStatusPerm(false);
         }).catch(error => console.log(error));
+        Axios({
+            method : 'GET',
+            url : host + '/admin/query/list',
+            params : {
+                'access-token' : user.token
+            },
+            headers : {
+                'Content-Type' : 'application/json; charset=UTF-8'
+            }
+        }).then(_data => {
+            const {data} = _data;
+            if(data.code === 'success') setSearchList(data.data);
+        }).catch(error => console.log(error));
     }, [])
     const getList = (currentPage) => {
         // dispatch({
@@ -129,7 +143,7 @@ const Backend = () => {
         received : '已收样',
         experimenting : '实验中',
         succeeded : '实验完成',
-        pending : '待审核',
+        pending : '报告待审核',
         completed : '已完成',
         failed : '实验失败'
     }
@@ -146,6 +160,7 @@ const Backend = () => {
         });
     }
     const handleSearch = () => {
+        console.log(inputs.barCode.value);
         Axios({
             method : 'GET',
             url : host + '/admin/list',
@@ -274,7 +289,7 @@ const Backend = () => {
                         <table>
                             <thead className='backend-list-head'>
                                 <tr>
-                                    <th>受检人</th><th>报告编号</th><th>报告状态</th><th>操作</th>
+                                    <th>受检人</th><th>报告编号</th><th>报告状态</th><th>下载</th>{editStatusPermission ? (<th>状态更新</th>) : null}
                                 </tr>
                             </thead>
                             <tbody className='backend-list-body'>{ 
@@ -284,7 +299,8 @@ const Backend = () => {
                                         <td>{v.barcode + (v.version ? ' V' + v.version : '')}</td>
                                         <td className={v.status_en}>{v.status_zh}</td>
                                         <td>{v.status_en === 'completed' ? (<a className='backend-list-btn' onClick={() => handleDownload(v.report_id)}>下载</a>) 
-                                        : editStatusPermission ? (<a className='backend-list-btn' onClick={() => handleQueryStatus(v.barcode)}>更新状态</a>) : '-'}</td>
+                                        : (v.status_en === 'pending' ? (<a className='backend-list-btn' onClick={() => handleDownload(v.report_id)}>查看</a>) : '-')}</td>
+                                        {editStatusPermission ? <td><a className='backend-list-btn' onClick={() => handleQueryStatus(v.barcode)}>更新</a></td> : null}
                                     </tr>
                                     ))
                                 }
@@ -300,14 +316,7 @@ const Backend = () => {
                                     <label>报告状态</label>
                                     <select className='backend-form-inputs' ref={selectStatusRef}>
                                         <option value=''>无限制</option>
-                                        <option value='completed'>已完成</option>
-                                        <option value='succeeded'>实验完成</option>
-                                        <option value='pending'>待审核</option>
-                                        <option value='failed'>实验失败</option>
-                                        <option value='experimenting'>实验中</option>
-                                        <option value='received'>已收样</option>
-                                        <option value='registered'>已启用</option>
-                                        <option value='untreated'>未使用</option>
+                                        {searchList.length ? searchList.map((v, i) => (<option key={i} value={v.value}>{v.name}</option>)) : null}
                                     </select>
                                 </div>
                                 <Button text='查询' withError={false} click={handleSearch} />

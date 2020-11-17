@@ -107,8 +107,8 @@ const Input = ({
         <div className='input-container'>
             {withLabel ? (<label>{label}</label>) : null}
             <input className={'input' + (readOnly ? ' readonly' : '')} type={type} ref={inputRef} readOnly={readOnly} placeholder={placeholder} onChange={() => {
+                if(emptyRegexp.test(inputRef.current.value)) inputRef.current.value = inputRef.current.value.replace(emptyRegexp, '');
                 let value = inputRef.current.value;
-                if(emptyRegexp.test(value)) return inputRef.current.value = value.replace(emptyRegexp, '');
                 let result;
                 if(validateType instanceof RegExp) result = customValidate(validateType, enableEmpty, value, errorMsg);
                 else result = validate(validateType, value, enableEmpty);
