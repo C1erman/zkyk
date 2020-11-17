@@ -129,6 +129,7 @@ const Backend = () => {
         received : '已收样',
         experimenting : '实验中',
         succeeded : '实验完成',
+        pending : '待审核',
         completed : '已完成',
         failed : '实验失败'
     }

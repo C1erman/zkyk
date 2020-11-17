@@ -4,7 +4,7 @@ import './pdf.css';
 import PageOneLogoSrc from './img/logo.svg';
 import Axios from 'axios';
 import { host } from '../../_config';
-import Progress from '../Progress';
+import WebkitProgress from '../WebkitProgress';
 
 import vegetable from '../../icons/report/vegetable.svg';
 import akkermansia from '../../icons/report/akkermansia.svg';
@@ -301,7 +301,7 @@ const PDF = () => {
                                     {v.chart ? (
                                         <div className='overview-flora-item-progress'>
                                             {v.chart.map((v, i) => (
-                                                <Progress key={i} label={<span>{v.name + ' '}<span {...judgeProgress(v.state)}>{v.state}</span></span>} total={(+ v.median) + '%'} percent={(+ v.proportion) + '%'} />
+                                                <WebkitProgress key={i} label={<span>{v.name + ' '}<span {...judgeProgress(v.state)}>{v.state}</span></span>} total={(+ v.median) + '%'} percent={(+ v.proportion) + '%'} />
                                             ))}
                                         </div>
                                     ) : null}
