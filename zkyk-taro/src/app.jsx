@@ -1,11 +1,8 @@
+import 'taro-ui/dist/style/index.scss';
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
-
-import configStore from './store'
-
+import store from './store';
 import './app.css'
-
-const store = configStore()
 
 class App extends Component {
   componentDidMount () {}

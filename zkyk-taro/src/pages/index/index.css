@@ -1,4 +1,73 @@
-.index {
+.home-container{
+  width: 90%;
+  margin: 0 auto;
+  font-size: 30px;
+  color: #666666;
+  --fakeTheme : #ff4f76;
+  --theme : #de335e;
+  --background : #ffa6ba;
+  --fontColor : #ffe6eb;
+  --textContainer : #fff6f8;
+  --black : #1a1a1a;
+  --shadow : rgba(18,18,18,.1);
+  --error : #a4000f;
+  --border : #dfe2e5;
+  --white : #ffffff;
+  --riskNormal : #77c761;
+  --riskMiddle : #ffb85b;
+  --riskHigh : #ff4f76;
+}
+.home-textContainer{
+  height: 70%;
+  display: flex;
   flex-direction: column;
-  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.home-title{
+  margin: 1.5rem 0;
+  font-weight: lighter;
+  letter-spacing: 0.3rem;
+  user-select: none;
+}
+.home-info{
+  margin-top: 2rem;
+  padding: 1rem;
+  line-height: 2;
+  background-color: var(--textContainer);
+  font-weight: lighter;
+  border-radius: 7px;
+}
+.home-other{
+  height: 30%;
+  box-sizing: border-box;
+  margin-top: 1rem;
+}
+.home-selectContainer{
+  margin-top: 1rem;
+}
+.home-checkbox{
+  zoom: 0.8;
+  vertical-align: text-top;
+  margin: 0 0.5rem 0 1rem;
+}
+.home-select-modal{
+  cursor: pointer;
+  margin-left: 0.3rem;
+  color: var(--theme);
+  border-bottom: 1px solid var(--theme);
+}
+.home-agree-title{
+  text-indent: 1rem;
+  font-weight: bolder;
+  margin-right: 0.5rem;
+}
+.home-agree-content{
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
+}
+.home-agree-content > .items{
+  margin-bottom: 0.5rem;
+  text-indent: 1rem;
+  word-break: break-all;
 }
