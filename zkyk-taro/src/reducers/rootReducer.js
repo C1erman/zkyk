@@ -1,3 +1,4 @@
+import Taro from '@tarojs/taro';
 import * as BIO from '../actions';
 import initState from './initState';
 import { clone } from '../utils/BIOObject';
@@ -6,50 +7,31 @@ const rootReducer = (state = initState, action) => {
     switch(action.type){
         // 数据缓存
         case BIO.DATA_LOAD : {
+            let user = {
+                role : '',
+                token : ''
+            }
+            try {
+                user.role = Taro.getStorageSync({key : 'role'})
+                user.token = Taro.getStorageSync({key : 'token'})
+            } catch (error) {
+                console.log(error)
+                console.error('小程序缓存读取出现问题')
+            }
             return {
                 ...state,
-                user : {
-                    role : localStorage.getItem('role') || '',
-                    token : localStorage.getItem('token') || '',
-                    permission : localStorage.getItem('permission') || ''
-                },
-                sampleList : {
-                    totalPage : 1,
-                    currentPage : sessionStorage.getItem('SAMPLELIST_current_page') || 1,
-                },
-                report : {
-                    current : localStorage.getItem('VIEW_current') || ''
-                },
-                add : {
-                    barCode : localStorage.getItem('ADD_barCode') || '',
-                    sampleId : localStorage.getItem('ADD_sampleId') || '',
-                    testeeId : localStorage.getItem('ADD_testeeId') || ''
-                },
-                edit : {
-                    current : localStorage.getItem('EDIT_current') || ''
-                },
-                backendList : {
-                    totalPage : 1,
-                    currentPage : sessionStorage.getItem('BACKENDLIST_current_page') || 1,
-                },
-                share : {
-                    add : sessionStorage.getItem('SHARE_add') || '',
-                    signup : sessionStorage.getItem('SHARE_signup') || ''
-                },
-                pdf : sessionStorage.getItem('PDF_id') || ''
+                user
             }
         }
         // 用户登录
         case BIO.LOGIN_SUCCESS : {
             const user = clone(state['user']);
-            const { role, permission, token } = action.data;
+            const { role, token } = action.data;
             user.role = role;
-            user.permission = permission;
             user.token = token;
             // 保存登录凭证
-            localStorage.setItem('role', role);
-            localStorage.setItem('permission', permission);
-            localStorage.setItem('token', token);
+            Taro.setStorageSync({key : 'role', data : role})
+            Taro.setStorageSync({key : 'token', data : token})
             return {
                 ...state,
                 user

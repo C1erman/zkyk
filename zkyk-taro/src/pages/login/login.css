@@ -1,0 +1,14 @@
+.login-container{
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 1.5rem;
+    font-size: 30px;
+    color: #666666;
+    --error : #a4000f;
+}
+.login-input-error{
+    width: 90%;
+    margin: 0.5rem auto;
+    color: var(--error);
+    text-align: center;
+}

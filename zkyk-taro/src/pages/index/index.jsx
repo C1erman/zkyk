@@ -1,22 +1,80 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import Taro from '@tarojs/taro'
 import { View, Text, Checkbox, Label, Button, CheckboxGroup} from '@tarojs/components'
-import { AtButton, AtInput, AtCheckbox, AtModal, AtModalHeader, AtModalContent, AtModalAction } from 'taro-ui'
+import { AtButton, AtInput, AtModal, AtModalHeader, AtModalContent, AtModalAction, AtToast } from 'taro-ui'
 import './index.css'
+import * as BIO from '../../constants';
+import { host } from '../../config'
 
 const Index = () => {
-  
+  const dispatch = useDispatch();
+
   let [selected, setSelected] = useState(false)
   let [modalOpen, setModalOpen] = useState(false)
+  let [toastOpen, setToastOpen] = useState(false)
+  let [toastText, setToastText] = useState('')
   let [inputValue, setInputValue] = useState('')
   let [inputError, setError] = useState(false)
   let [errorText, setErrorText] = useState('')
+  let [btnLoading, setLoading] = useState(false)
 
   const handleInputChange = (value) => {
-    let regExp = /^\d{9}$/;
-    if(!regExp.test(value)){
-      setErrorText('请输入由9位数字组成的采样管编号。');
-    }
+    setInputValue(value)
     return value
+  }
+
+  const handleSubmit = () => {
+    setLoading(true)
+    let regExp = /^\d{9}$/;
+    if(!selected){
+      setToastText('请勾选检测须知')
+      setToastOpen(true)
+      setLoading(false)
+    }
+    else if(!regExp.test(inputValue)){
+      setError(true)
+      setErrorText('请输入由9位数字组成的采样管编号')
+      setTimeout(() => {
+        setError(false)
+        setErrorText('')
+        setLoading(false)
+      }, 2500)
+    }
+    else{
+      setError(false)
+      setErrorText('')
+      Taro.request({
+        url : host + '/validate/verify',
+        method : 'POST',
+        data : {
+          barcode : inputValue
+        },
+        header : {
+          'Content-Type' : 'application/json; charset=UTF-8'
+        }
+      }).then(_data => {
+        const {data} = _data;
+        if(data.code === 'error'){
+          setToastText(data.info)
+          setToastOpen(true)
+        }
+        else if(data.code === 'success'){
+            let { barcode = '', sample_id = '' } = data.data;
+            dispatch({
+                type : BIO.ADD_CHECK_SUCCESS,
+                data : {
+                    barCode : barcode,
+                    sampleId : sample_id
+                }
+            })
+        }
+        setLoading(false)
+      }).catch(error => {
+        console.log(error)
+        setLoading(false)
+      });
+    }
   }
 
   return (
@@ -31,13 +89,14 @@ const Index = () => {
         </View>
       </View>
       <View className='home-other'>
-        <AtInput placeholder='请输入9位数字采样管编号' type='number' adjustPosition
+        <AtInput placeholder='请输入采样管编号' type='number' adjustPosition
           maxlength='9' confirmType='done'
           onChange={handleInputChange} value={inputValue}
+          error={inputError}
         />
-        {errorText.length ? <View className='home-input-error'>{errorText}</View> : null}
+        {inputError ? <View className='home-input-error'>{errorText}</View> : null}
         <View className='home-selectContainer'>
-          <CheckboxGroup onChange={(e) => e.detail.value.length ? null : setSelected(false)}>
+          <CheckboxGroup onChange={(e) => e.detail.value.length ? setSelected(true) : setSelected(false)}>
             <Label>
               <Checkbox className='home-checkbox' value='agree' checked={selected} />我已知悉人体微生态
             </Label>
@@ -58,8 +117,13 @@ const Index = () => {
           </AtModalContent>
           <AtModalAction><Button onClick={() => { setModalOpen(false); setSelected(true) }}>同意</Button></AtModalAction>
         </AtModal>
-        <AtButton type='secondary' circle customStyle={{marginTop : '2rem'}}>绑定采样</AtButton>
+        <AtButton type='secondary' circle customStyle={{marginTop : '2rem'}} onClick={handleSubmit} loading={btnLoading} disabled={btnLoading}>绑定采样</AtButton>
       </View>
+      <AtToast isOpened={toastOpen} text={toastText} hasMask onClose={() => {
+        setToastOpen(false)
+        setToastText('')
+        }}
+      ></AtToast>
     </View>
   );
 }

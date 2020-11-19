@@ -1,4 +1,4 @@
 export default {
-    navigationBarTitleText: '送样填表'
+    navigationBarTitleText: '受测人信息绑定'
   }
   

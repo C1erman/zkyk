@@ -29,6 +29,7 @@
   font-weight: lighter;
   letter-spacing: 0.3rem;
   user-select: none;
+  font-size: larger;
 }
 .home-info{
   margin-top: 2rem;
@@ -42,6 +43,11 @@
   height: 30%;
   box-sizing: border-box;
   margin-top: 1rem;
+}
+.home-input-error{
+  width: 90%;
+  margin: 0.5rem auto;
+  color: var(--error);
 }
 .home-selectContainer{
   margin-top: 1rem;
@@ -61,10 +67,12 @@
   text-indent: 1rem;
   font-weight: bolder;
   margin-right: 0.5rem;
+  letter-spacing: 0.1rem;
 }
 .home-agree-content{
   margin-top: 0.5rem;
   margin-right: 0.5rem;
+  letter-spacing: 0.1rem;
 }
 .home-agree-content > .items{
   margin-bottom: 0.5rem;

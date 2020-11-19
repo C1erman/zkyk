@@ -2,8 +2,7 @@
 const initState = {
     user : {
         role : '',
-        token : '',
-        permission : ''
+        token : ''
     },
     sampleList : {
         totalPage : 1,
