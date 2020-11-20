@@ -31,7 +31,15 @@ const modifyKey = (obj, keyMaper) => {
     Object.keys(obj).map(key => maperArr.includes(key) ? result[keyMaper[key]] = obj[key] : result[key] = obj[key]);
     return result;
 }
+// 检查属性是否有空值
+const checkEmpty = (obj) => {
+    let result = Object.keys(obj).filter(v => {
+        return !obj[v];
+    });
+    return (result.length > 0);
+}
 export {
     clone,
-    modifyKey
+    modifyKey,
+    checkEmpty
 }

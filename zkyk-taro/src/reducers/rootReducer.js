@@ -7,20 +7,12 @@ const rootReducer = (state = initState, action) => {
     switch(action.type){
         // 数据缓存
         case BIO.DATA_LOAD : {
-            let user = {
-                role : '',
-                token : ''
-            }
-            try {
-                user.role = Taro.getStorageSync({key : 'role'})
-                user.token = Taro.getStorageSync({key : 'token'})
-            } catch (error) {
-                console.log(error)
-                console.error('小程序缓存读取出现问题')
-            }
             return {
                 ...state,
-                user
+                user : {
+                    role : Taro.getStorageSync('role'),
+                    token : Taro.getStorageSync('token')
+                }
             }
         }
         // 用户登录
@@ -30,8 +22,8 @@ const rootReducer = (state = initState, action) => {
             user.role = role;
             user.token = token;
             // 保存登录凭证
-            Taro.setStorageSync({key : 'role', data : role})
-            Taro.setStorageSync({key : 'token', data : token})
+            Taro.setStorageSync('role', role)
+            Taro.setStorageSync('token', token)
             return {
                 ...state,
                 user

@@ -1,14 +1,66 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Taro from '@tarojs/taro'
 import { View, Text, Checkbox, Label, Button, CheckboxGroup} from '@tarojs/components'
-import { AtButton, AtInput, AtModal, AtModalHeader, AtModalContent, AtModalAction, AtToast } from 'taro-ui'
+import { AtButton, AtInput, AtModal, AtModalHeader, AtModalContent, AtModalAction, AtToast, AtFab, AtDrawer } from 'taro-ui'
 import './index.css'
 import * as BIO from '../../constants';
 import { host } from '../../config'
 
+const Data = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    console.log('数据load' + JSON.stringify(Taro.getStorageInfoSync()))
+    dispatch({
+      type : BIO.DATA_LOAD
+    })
+  }, [])
+  return <></>;
+}
+
+const Menu = () => {
+  let [drawerShow, setDrawerShow] = useState(false)
+
+  const handleItemClick = (index) => {
+    switch(index){
+      case 0 : {
+        Taro.redirectTo({
+          url : '/pages/index/index'
+        })
+        break;
+      }
+      case 1 : {
+        Taro.navigateTo({
+          url : '/pages/reportList/reportList'
+        })
+        break;
+      }
+      case 2 : {
+        Taro.navigateTo({
+          url : '/pages/userinfo/userinfo'
+        })
+      }
+    }
+  }
+  return (
+    <>
+      <View className='home-menu'>
+        <AtFab onClick={() => setDrawerShow(true)}>
+          <Text className='at-fab__icon at-icon at-icon-menu'></Text>
+        </AtFab>
+      </View>
+      <AtDrawer right mask show={drawerShow} 
+        onClose={() => setDrawerShow(false)}
+        items={['首页', '报告列表', '个人中心']}
+        onItemClick={handleItemClick}
+      ></AtDrawer>
+    </>
+  );
+}
+
 const Index = () => {
   const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
 
   let [selected, setSelected] = useState(false)
   let [modalOpen, setModalOpen] = useState(false)
@@ -23,61 +75,80 @@ const Index = () => {
     setInputValue(value)
     return value
   }
+  const handleToastClose = () => {
+    setToastOpen(false)
+    setToastText('')
+  }
 
   const handleSubmit = () => {
-    setLoading(true)
-    let regExp = /^\d{9}$/;
-    if(!selected){
-      setToastText('请勾选检测须知')
+    if(!user.token){
+      setToastText('抱歉，请先登录')
       setToastOpen(true)
-      setLoading(false)
-    }
-    else if(!regExp.test(inputValue)){
-      setError(true)
-      setErrorText('请输入由9位数字组成的采样管编号')
       setTimeout(() => {
-        setError(false)
-        setErrorText('')
-        setLoading(false)
+        handleToastClose();
+        Taro.navigateTo({
+          url : '/pages/login/login'
+        })
       }, 2500)
+      return false;
     }
     else{
-      setError(false)
-      setErrorText('')
-      Taro.request({
-        url : host + '/validate/verify',
-        method : 'POST',
-        data : {
-          barcode : inputValue
-        },
-        header : {
-          'Content-Type' : 'application/json; charset=UTF-8'
-        }
-      }).then(_data => {
-        const {data} = _data;
-        if(data.code === 'error'){
-          setToastText(data.info)
-          setToastOpen(true)
-        }
-        else if(data.code === 'success'){
-            let { barcode = '', sample_id = '' } = data.data;
-            dispatch({
-                type : BIO.ADD_CHECK_SUCCESS,
-                data : {
-                    barCode : barcode,
-                    sampleId : sample_id
-                }
-            })
-        }
+      setLoading(true)
+      let regExp = /^\d{9}$/;
+      if(!selected){
+        setToastText('请勾选检测须知')
+        setToastOpen(true)
         setLoading(false)
-      }).catch(error => {
-        console.log(error)
-        setLoading(false)
-      });
+      }
+      else if(!regExp.test(inputValue)){
+        setError(true)
+        setErrorText('请输入由9位数字组成的采样管编号')
+        setTimeout(() => {
+          setError(false)
+          setErrorText('')
+          setLoading(false)
+        }, 2500)
+      }
+      else{
+        setError(false)
+        setErrorText('')
+        Taro.request({
+          url : host + '/validate/verify',
+          method : 'POST',
+          data : {
+            barcode : inputValue
+          },
+          header : {
+            'Content-Type' : 'application/json; charset=UTF-8'
+          }
+        }).then(_data => {
+          const {data} = _data;
+          if(data.code === 'error'){
+            setToastText(data.info)
+            setToastOpen(true)
+          }
+          else if(data.code === 'success'){
+              let { barcode = '', sample_id = '' } = data.data;
+              dispatch({
+                  type : BIO.ADD_CHECK_SUCCESS,
+                  data : {
+                      barCode : barcode,
+                      sampleId : sample_id
+                  }
+              })
+          }
+          setLoading(false)
+        }).catch(error => {
+          console.log(error)
+          setLoading(false)
+        });
+      }
     }
   }
 
-  return (
+  return (<>
+    <Data />
+    <Menu />
     <View className='home-container'>
       <View className='home-textContainer'>
         <View className='home-title'>— 人体微生态监测报告 —</View>
@@ -119,13 +190,9 @@ const Index = () => {
         </AtModal>
         <AtButton type='secondary' circle customStyle={{marginTop : '2rem'}} onClick={handleSubmit} loading={btnLoading} disabled={btnLoading}>绑定采样</AtButton>
       </View>
-      <AtToast isOpened={toastOpen} text={toastText} hasMask onClose={() => {
-        setToastOpen(false)
-        setToastText('')
-        }}
-      ></AtToast>
+      <AtToast isOpened={toastOpen} text={toastText} hasMask onClose={handleToastClose} duration={2500}></AtToast>
     </View>
-  );
+  </>);
 }
 
 export default Index

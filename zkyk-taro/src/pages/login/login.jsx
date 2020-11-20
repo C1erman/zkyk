@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { AtButton, AtInput, AtToast } from 'taro-ui'
+import { AtButton, AtInput, AtToast, AtMessage } from 'taro-ui'
 import { useDispatch } from 'react-redux'
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
@@ -15,7 +15,6 @@ const Login = () => {
     let [acc, setAcc] = useState('')
     let [pass, setPass] = useState('')
     let [btnLoading, setLoading] = useState(false)
-    let [error, setError] = useState('')
     let [toastText, setToastText] = useState('')
 
     const handleLogin = () => {
@@ -33,20 +32,27 @@ const Login = () => {
         }).then(res => {
             let {data} = res;
             if(data.code === 'success'){
-                setLoading(false)
-                setToastText('登陆成功，即将跳转')
-                dispatch({
-                    type : BIO.LOGIN_SUCCESS,
-                    data : data.data
+                Taro.atMessage({
+                    message : '登陆成功',
+                    type : 'success',
+                    duration : 2500
                 })
-                Taro.navigateBack();
-            }
-            else{
-                setError(data.info);
                 setTimeout(() => {
                     setLoading(false)
-                    setError('')  
+                    dispatch({
+                        type : BIO.LOGIN_SUCCESS,
+                        data : data.data
+                    })
+                    Taro.navigateBack();
                 }, 2500)
+            }
+            else{
+                Taro.atMessage({
+                    message : data.info,
+                    type : 'error',
+                    duration : 2500
+                })
+                setTimeout(() => setLoading(false), 2500)
             }
         })
         .catch(err => {
@@ -60,8 +66,8 @@ const Login = () => {
             <AtInput name='account' title='账号' type='text' placeholder='请输入账号' value={acc} onChange={(value) => setAcc(value)} />
             <AtInput name='password' title='密码' type='password' placeholder='请输入密码' value={pass} onChange={(value) => setPass(value)} />
             <AtButton type='primary' circle customStyle={{marginTop : '2rem'}} onClick={handleLogin} loading={btnLoading} disabled={btnLoading}>登录</AtButton>
-            {error ? (<View className='login-input-error'>{error}</View>) : null}
-            <AtToast isOpened={toastText.length} text={toastText} onClose={() => setToastText('')} />
+            <AtToast duration={2500} isOpened={toastText.length} text={toastText} onClose={() => setToastText('')} />
+            <AtMessage />
         </View>
     );
 }

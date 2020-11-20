@@ -19,16 +19,17 @@ export default {
     borderStyle : 'black',
     'list': [
       {
+        pagePath : 'pages/index/index',
+        text : '绑定采样',
+        
+      },
+      {
         pagePath : 'pages/userinfo/userinfo',
         text : '我'
       },
       {
-        pagePath : 'pages/index/index',
-        text : '绑定采样'
-      },
-      {
-        pagePath : 'pages/add/add',
-        text : '绑定信息'
+        pagePath : 'pages/login/login',
+        text : '登录'
       }
     ]
   }

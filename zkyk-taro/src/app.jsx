@@ -5,19 +5,26 @@ import React, { Component, useEffect } from 'react'
 import { Provider, useDispatch } from 'react-redux'
 import store from './store';
 import './app.css'
+import { AtFab } from 'taro-ui';
+import { Text } from '@tarojs/components';
 
-const Data = () => {
-  const dispatch = useDispatch();
-  dispatch({
-    type : BIO.DATA_LOAD
-  })
-  return <></>;
+const Nav = () => {
+  const handleClick = () => {
+    console.log('sd')
+  }
+  useEffect(() => {
+    console.log('nav 的 effect')
+  }, [])
+  return (
+      <AtFab onClick={handleClick}>
+        <Text className='at-fab__icon at-icon at-icon-menu'></Text>
+      </AtFab>
+  );
 }
 
 const App = ({children}) => {
   return (
     <Provider store={store}>
-      <Data />
       {children}
     </Provider>
   );

@@ -1,7 +1,37 @@
 .userinfo-container{
+    width: 90%;
     margin: 0 auto;
     margin-top: 1.5rem;
     font-size: 30px;
     color: #666666;
     --error : #a4000f;
+    --fakeTheme : #ff4f76;
+}
+.userinfo-btn-container{
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 2rem;
+}
+.userinfo-title{
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-weight: bolder;
+    font-size: 0.95rem;
+}
+.userinfo-title > .text{
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+}
+.userinfo-title > .text::after{
+    display: block;
+    content: '';
+    width: 120%;
+    height: 0.6rem;
+    position: relative;
+    z-index: -1;
+    background-color: var(--fakeTheme);
+    opacity: 0.5;
+    left: -10%;
+    top: -0.6rem;
 }
