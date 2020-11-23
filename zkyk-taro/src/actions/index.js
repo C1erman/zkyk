@@ -1,5 +1,7 @@
 // 数据缓存
 const DATA_LOAD = 'data-load';
+// 页面更改
+const APP_PAGE_CHANGE = 'app-page-change';
 // 登录注册
 const LOGIN_SUCCESS = 'login-success';
 const LOGIN_ERROR = 'login-error';
@@ -36,6 +38,7 @@ const DENY_UNAUTHORIZED = 'deny-unauthorized';
 
 export {
     DATA_LOAD,
+    APP_PAGE_CHANGE,
     LOGIN_SUCCESS,
     LOGIN_ERROR,
     LOGIN_EXPIRED,

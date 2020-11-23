@@ -11,6 +11,10 @@ export default {
     navigationBarTitleText: 'WeChat',
     navigationBarTextStyle: 'black'
   },
+  networkTimeout: {
+    request: 10000,
+    downloadFile: 10000
+  },
   tabBar: {
     position : 'bottom',
     color : '#666666',
@@ -20,16 +24,15 @@ export default {
     'list': [
       {
         pagePath : 'pages/index/index',
-        text : '绑定采样',
-        
+        text : '送样填表',
+      },
+      {
+        pagePath : 'pages/add/add',
+        text : '信息绑定',
       },
       {
         pagePath : 'pages/userinfo/userinfo',
-        text : '我'
-      },
-      {
-        pagePath : 'pages/login/login',
-        text : '登录'
+        text : '个人中心', 
       }
     ]
   }

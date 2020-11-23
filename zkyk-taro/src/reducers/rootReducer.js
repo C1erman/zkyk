@@ -12,7 +12,17 @@ const rootReducer = (state = initState, action) => {
                 user : {
                     role : Taro.getStorageSync('role'),
                     token : Taro.getStorageSync('token')
-                }
+                },
+            }
+        }
+        // 页面更改
+        case BIO.APP_PAGE_CHANGE : {
+            const app = clone(state['app']);
+            app.currentPage = action.data;
+            Taro.setStorageSync('APP_currentPage', action.data);
+            return {
+                ...state,
+                app
             }
         }
         // 用户登录

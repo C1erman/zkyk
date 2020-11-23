@@ -1,0 +1,67 @@
+.add-container{
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 1rem;
+    font-size: 30px;
+    color: #666666;
+    --fakeTheme : #ff4f76;
+    --theme : #de335e;
+    --background : #ffa6ba;
+    --fontColor : #ffe6eb;
+    --textContainer : #fff6f8;
+    --black : #1a1a1a;
+    --shadow : rgba(18,18,18,.1);
+    --error : #a4000f;
+    --border : #dfe2e5;
+    --white : #ffffff;
+    --riskNormal : #77c761;
+    --riskMiddle : #ffb85b;
+    --riskHigh : #ff4f76;
+}
+.add-noti{
+    line-height: 2;
+    margin-bottom: 1rem;
+}
+.add-noti-barcode, .add-noti-email, .add-noti-username{
+    font-size: 1rem;
+    padding-bottom: 0.2rem;
+    border-bottom: 1px solid var(--black);
+}
+.add-noti-email{
+    white-space: nowrap;
+}
+.add-title{
+    text-align: center;
+    margin: 1.5rem;
+    font-weight: bolder;
+    font-size: 0.95rem;
+}
+.add-title > .text{
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+}
+.add-title > .text::after{
+    display: block;
+    content: '';
+    width: 120%;
+    height: 0.6rem;
+    position: relative;
+    z-index: -1;
+    background-color: var(--fakeTheme);
+    opacity: 0.5;
+    left: -10%;
+    top: -0.6rem;
+}
+.add-title-sm{
+    margin: 0.7rem 0;
+    font-weight: bolder;
+    padding-left: 1rem;
+    border-left: 2PX solid var(--fakeTheme);
+}
+.add-picker-list::after{
+    border: none;
+}
+.add-picker-list::before{
+    border: none;
+}

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text } from '@tarojs/components';
 import { useSelector } from 'react-redux';
-import { AtInput, AtButton, AtMessage } from 'taro-ui';
-import Taro from '@tarojs/taro';
+import { AtInput, AtButton, AtMessage, AtList, AtListItem, AtCard, AtModal, AtFloatLayout } from 'taro-ui';
+import Taro, { useDidShow } from '@tarojs/taro';
 import './userinfo.css';
 import { host } from '../../config';
 import { checkEmpty } from '../../utils/BIOObject';
@@ -17,6 +17,8 @@ const UserInfo = () => {
         tel : '',
         org : ''
     })
+    let [layoutOpen, setLayoutOpen] = useState(false)
+
     useEffect(() => {
         Taro.request({
             url : host + '/user/personal/info',
@@ -37,11 +39,10 @@ const UserInfo = () => {
                 });
             }
         })
-    }, [])
+    }, [user])
 
     const handleUpdate = () => {
         // check empty
-        Taro.atMessage
         if(checkEmpty(userInfo)) Taro.atMessage({
             type : 'error',
             message : '填写格式不合规范',
@@ -94,12 +95,17 @@ const UserInfo = () => {
             }
         }
     }
+    const handleOpenModal = (type) => {
+        console.log(type)
+        setLayoutOpen(true)
+    }
+
     return (
         <View className='userinfo-container'>
             <AtMessage />
             <View className='userinfo-title'><Text className='text'>基本信息</Text></View>
             <AtInput name='username' title='用户名' value={userInfo.username} onChange={(value) => handleSetValue(value, 'username')} />
-            <AtInput name='tel' title='电话号码' value={userInfo.tel} />
+            <AtInput name='tel' title='电话号码' value={userInfo.tel} onChange={(value) => handleSetValue(value, 'tel')} />
             <AtInput name='org' title='所属机构' value={userInfo.org} disabled />
             <View className='userinfo-btn-container'>
                 <AtButton customStyle={{marginTop : '2rem'}} circle type='secondary'
@@ -108,8 +114,17 @@ const UserInfo = () => {
             </View>
             <View className='userinfo-set'>
                 <View className='userinfo-title'><Text className='text'>设置</Text></View>
-                <View className></View>
+                <View className='userinfo-setting'>
+                    <AtList hasBorder={false}>
+                         <AtListItem title='登录密码' hasBorder={false} extraText='修改' onClick={() => handleOpenModal('pass')} />
+                         <AtListItem title='邮箱地址' hasBorder={false} extraText='修改' onClick={() => handleOpenModal('email')} />
+                    </AtList>
+                </View>
             </View>
+            <AtFloatLayout title='修改登录密码' isOpened={layoutOpen} onClose={() => setLayoutOpen(false)}>
+                <View>我们将向您的邮箱发送一封邮件用以重置密码。请确认邮箱地址后选择发送。</View>
+                <AtButton circle type='primary'>发送</AtButton>
+            </AtFloatLayout>
         </View>
     );
 }

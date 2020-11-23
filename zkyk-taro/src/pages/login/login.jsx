@@ -6,6 +6,7 @@ import { View } from '@tarojs/components'
 import { host } from '../../config'
 import './login.css';
 import * as BIO from '../../actions'
+import { checkEmpty } from '../../utils/BIOObject'
 
 
 
@@ -18,47 +19,57 @@ const Login = () => {
     let [toastText, setToastText] = useState('')
 
     const handleLogin = () => {
-        setLoading(true)
-        Taro.request({
-            url : host + '/user/login',
-            method : 'POST',
-            data : {
-                username : acc,
-                password : pass
-            },
-            header : {
-                'Content-Type' : 'application/json; charset=UTF-8'
-            }
-        }).then(res => {
-            let {data} = res;
-            if(data.code === 'success'){
-                Taro.atMessage({
-                    message : '登陆成功',
-                    type : 'success',
-                    duration : 2500
-                })
-                setTimeout(() => {
-                    setLoading(false)
-                    dispatch({
-                        type : BIO.LOGIN_SUCCESS,
-                        data : data.data
+        if(checkEmpty({
+            username : acc,
+            password : pass
+        })) Taro.atMessage({
+            type : 'error',
+            message : '填写格式不规范',
+            duration : 2500
+        })
+        else{
+            setLoading(true)
+            Taro.request({
+                url : host + '/user/login',
+                method : 'POST',
+                data : {
+                    username : acc,
+                    password : pass
+                },
+                header : {
+                    'Content-Type' : 'application/json; charset=UTF-8'
+                }
+            }).then(res => {
+                let {data} = res;
+                if(data.code === 'success'){
+                    Taro.atMessage({
+                        message : '登陆成功',
+                        type : 'success',
+                        duration : 2500
                     })
-                    Taro.navigateBack();
-                }, 2500)
-            }
-            else{
-                Taro.atMessage({
-                    message : data.info,
-                    type : 'error',
-                    duration : 2500
-                })
-                setTimeout(() => setLoading(false), 2500)
-            }
-        })
-        .catch(err => {
-            console.log(err)
-            setLoading(false)
-        })
+                    setTimeout(() => {
+                        setLoading(false)
+                        dispatch({
+                            type : BIO.LOGIN_SUCCESS,
+                            data : data.data
+                        })
+                        Taro.navigateBack();
+                    }, 2500)
+                }
+                else{
+                    Taro.atMessage({
+                        message : data.info,
+                        type : 'error',
+                        duration : 2500
+                    })
+                    setTimeout(() => setLoading(false), 2500)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                setLoading(false)
+            })
+        }
     }
 
     return (

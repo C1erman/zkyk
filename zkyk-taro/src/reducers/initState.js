@@ -1,5 +1,8 @@
 // 初始 state 对象
 const initState = {
+    app : {
+        currentPage : 0
+    },
     user : {
         role : '',
         token : ''
