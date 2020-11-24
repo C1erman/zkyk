@@ -14,7 +14,7 @@ const ReportList = () => {
     let [listTotal, setTotal] = useState(1)
     let [listCurrent, setCurrent] = useState(1)
     let listNumPerPage = 7
-    let [status, setStatus] = useState([])
+    let [detailStatus, setStatus] = useState([])
 
 
     useEffect(() => {
@@ -106,12 +106,13 @@ const ReportList = () => {
         <View className='reportList-container'>
             <View className='reportList-title'><Text className='text'>选择报告以进行后续操作</Text></View>
             <View className='reportList-info'>
-                在实验结束、生成报告之前，您都有机会对您填写的信息进行修改；报告生成之后，您只能查看而不能修改相关信息。<br />点击报告的当前状态以查看状态详情。
+                在实验结束、生成报告之前，您都有机会对您填写的信息进行修改；报告生成之后，您只能查看而不能修改相关信息。点击报告的当前状态以查看状态详情。
             </View>
             {!list.length ? (
                 <View className='reportList-empty'>抱歉，暂时无可以操作的报告。</View>
             ) : (
                 <>
+                    <Image src='../../icons/list/succeeded_active.svg' />
                     <View className='reportList-table'>
                         <View className='reportList-table-head'>
                             <View className='tr'>
@@ -133,16 +134,16 @@ const ReportList = () => {
                     <AtPagination customStyle={{marginTop : '1.5rem'}} icon total={73}
                       current={listCurrent} pageSize={listNumPerPage} onPageChange={(action) => getCurrentList(action.current)}
                     ></AtPagination>
-                    <AtFloatLayout isOpened={status.length > 0} title='状态详情' onClose={() => setStatus([])}>
+                    <AtFloatLayout isOpened={detailStatus.length > 0} title='状态详情' onClose={() => setStatus([])}>
                         <View className='reportList-status'>
-                            { status.map((v, i) => (<View key={i} className={'reportList-status-item ' + v.status_en}>
+                            { detailStatus.map((v, i) => (<View key={i} className={'reportList-status-item ' + v.status_en}>
                                 <View className='reportList-status-time'>
                                     <Text>{v.year}</Text>
-                                    <Text>{v.month}</Text>
+                                    <Text className='important'>{v.month}</Text>
                                     <Text>{v.date}</Text>
                                 </View>
                                 <View className='reportList-status-icon'>
-                                    <Image src={mapStatusIcon(v.status_en)} />
+                                    <Image className='reportList-status-icon-self' src={mapStatusIcon(v.status_en)} />
                                 </View>
                                 <View className='reportList-status-content'>{v.detail}</View>
                             </View>))}

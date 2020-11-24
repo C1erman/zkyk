@@ -134,10 +134,10 @@
     top: 50%;
     opacity: 0.4;
 }
-.reportList-status > li:last-child > .reportList-status-time::after{
+.reportList-status-item:last-child > .reportList-status-time::after{
     display: none;
 }
-.reportList-status-time > span:nth-child(2){
+.reportList-status-time > .important{
     font-size: 1rem;
 }
 .reportList-status-icon{
@@ -150,6 +150,6 @@
     z-index: 9;
     background: var(--white);
 }
-.reportList-status-icon > img{
+.reportList-status-icon-self{
     width: 100%;
 }
