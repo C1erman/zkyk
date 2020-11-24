@@ -3,6 +3,7 @@ const DATA_LOAD = 'data-load';
 // 页面更改
 const APP_PAGE_CHANGE = 'app-page-change';
 // 登录注册
+const LOGIN_BY_WECHAT = 'login-by-wechat';
 const LOGIN_SUCCESS = 'login-success';
 const LOGIN_ERROR = 'login-error';
 const LOGIN_EXPIRED = 'login-expired';
@@ -39,6 +40,7 @@ const DENY_UNAUTHORIZED = 'deny-unauthorized';
 export {
     DATA_LOAD,
     APP_PAGE_CHANGE,
+    LOGIN_BY_WECHAT,
     LOGIN_SUCCESS,
     LOGIN_ERROR,
     LOGIN_EXPIRED,

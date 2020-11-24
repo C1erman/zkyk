@@ -32,6 +32,7 @@ const modifyKey = (obj, keyMaper) => {
     return result;
 }
 // 检查属性是否有空值
+    // 如果有空值则返回 true
 const checkEmpty = (obj) => {
     let result = Object.keys(obj).filter(v => {
         return !obj[v];

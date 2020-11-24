@@ -10,7 +10,6 @@ const rootReducer = (state = initState, action) => {
             return {
                 ...state,
                 user : {
-                    role : Taro.getStorageSync('role'),
                     token : Taro.getStorageSync('token')
                 },
             }
@@ -25,14 +24,21 @@ const rootReducer = (state = initState, action) => {
                 app
             }
         }
+        // 用户微信登录
+        case BIO.LOGIN_BY_WECHAT : {
+            const user = clone(state['user']);
+            user.username = action.data;
+            return {
+                ...state,
+                user
+            }
+        }
         // 用户登录
         case BIO.LOGIN_SUCCESS : {
             const user = clone(state['user']);
-            const { role, token } = action.data;
-            user.role = role;
+            const { token } = action.data;
             user.token = token;
             // 保存登录凭证
-            Taro.setStorageSync('role', role)
             Taro.setStorageSync('token', token)
             return {
                 ...state,

@@ -65,3 +65,13 @@
 .add-picker-list::before{
     border: none;
 }
+.add-info-check{
+    line-height: 1.8;
+    text-align: center;
+}
+.add-info-name > span:last-child{
+    margin-left: 1rem;
+}
+.add-info-other > span:last-child{
+    margin-left: 1rem;
+}

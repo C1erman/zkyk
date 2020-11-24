@@ -3,7 +3,9 @@ export default {
     'pages/index/index',
     'pages/add/add',
     'pages/login/login',
-    'pages/userinfo/userinfo'
+    'pages/infoadd/infoadd',
+    'pages/userinfo/userinfo',
+    'pages/reportlist/reportlist',
   ],
   window: {
     backgroundTextStyle: 'light',
@@ -33,6 +35,10 @@ export default {
       {
         pagePath : 'pages/userinfo/userinfo',
         text : '个人中心', 
+      },
+      {
+        pagePath : 'pages/reportlist/reportlist',
+        text : '报告列表', 
       }
     ]
   }

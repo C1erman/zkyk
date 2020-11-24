@@ -4,8 +4,8 @@ const initState = {
         currentPage : 0
     },
     user : {
-        role : '',
-        token : ''
+        token : '',
+        username : ''
     },
     sampleList : {
         totalPage : 1,

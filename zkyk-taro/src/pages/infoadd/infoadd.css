@@ -1,4 +1,4 @@
-.login-container{
+.infoadd-container{
     width: 85%;
     margin: 0 auto;
     margin-top: 30%;
@@ -8,18 +8,18 @@
     --wechat : #04c160;
     --fakeTheme : #ff4f76;
 }
-.login-title{
+.infoadd-title{
     text-align: center;
     margin: 1.5rem;
     font-weight: bolder;
     font-size: 0.95rem;
 }
-.login-title > .text{
+.infoadd-title > .text{
     display: inline-block;
     position: relative;
     z-index: 1;
 }
-.login-title > .text::after{
+.infoadd-title > .text::after{
     display: block;
     content: '';
     width: 120%;
@@ -31,14 +31,11 @@
     left: -10%;
     top: -0.6rem;
 }
-.login-btn{
-    width: 80%;
-    margin: 40% auto 0;
-    border: none;
+.infoadd-info{
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
 }
-.login-btn-wechat{
+.infoadd-button{
     width: 80%;
     margin: 2rem auto 0;
-    border: none;
-    background: var(--wechat);
 }

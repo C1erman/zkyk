@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Taro from '@tarojs/taro';
 import { View, Text, Picker } from '@tarojs/components';
 import { useSelector } from 'react-redux';
-import { AtInput, AtList, AtListItem } from 'taro-ui';
-import { clone } from '../../utils/BIOObject';
+import { AtInput, AtList, AtListItem, AtButton, AtFloatLayout, AtMessage } from 'taro-ui';
+import { clone, checkEmpty } from '../../utils/BIOObject';
 import './add.css';
 import { host } from '../../config';
-import { getPreviousDay } from '../../utils/BIODate';
+import { getPreviousDay, getNow } from '../../utils/BIODate';
 
 const Add = () => {
     let user = useSelector(state => state.user)
@@ -15,16 +15,12 @@ const Add = () => {
     let [contact, setContact] = useState('')
     let [addBasicInfo, setAddBasicInfo] = useState({
         last_name : '',
-        first_name : '',
-        gender : '',
-        blood_type : '',
-        birthday : ''
+        first_name : ''
     })
     let [addOtherInfo, setAddOtherInfo] = useState({
         height : '',
         weight : '',
-        meat_egetables : '',
-        antibiotics : ''
+        // antibiotics : ''
     })
     let [addPicker, setAddPicker] = useState({
         gender : {
@@ -35,12 +31,15 @@ const Add = () => {
             selector : ['O型', 'A型', 'B型', 'AB型', '其他'],
             selectorChecked : 'O型'
         },
-        date : '',
+        birthday : '',
         meatEgetable : {
             selector : ['0% - 20%', '20% - 40%', '40% - 60%', '60% - 80%', '80% - 100%'],
             selectorChecked : '0% - 20%'
         },
     })
+    let [layoutOpened, setLayoutOpened] = useState(false)
+    let [searchResult, setSearchResult] = useState([])
+    let [submitBtnLoading, setSubmitBtnLoading] = useState(false)
 
     useEffect(() => {
         Taro.request({
@@ -49,7 +48,7 @@ const Add = () => {
             data : {
                 'access-token' : user.token
             },
-            header : {
+            header : { 
                 'Content-Type': 'application/json; charset=UTF-8'
             }
         })
@@ -68,31 +67,93 @@ const Add = () => {
     }
     const handleSetOtherValue = (value, dataName) => {
         let otherInfo = clone(addOtherInfo);
-        addOtherInfo[dataName] = value;
+        otherInfo[dataName] = value;
         setAddOtherInfo(otherInfo);
     }
     const handleSetPickerValue = (e, type) => {
         let value = e.detail.value;
         let picker = clone(addPicker);
-        if(type === 'date') picker[type] = value;
+        if(type === 'birthday') picker[type] = value;
         else picker[type].selectorChecked = picker[type].selector[value];
         setAddPicker(picker);
     }
+    const handleGoNext = () => {
+        let data = {
+            ...addBasicInfo,
+            ...addOtherInfo,
+            gender : addPicker.gender.selectorChecked,
+            bloodType : addPicker.bloodType.selectorChecked,
+            birthday : addPicker.birthday
+        }
+        if(checkEmpty(data)) Taro.atMessage({
+            type : 'error',
+            message : '请确认信息是否填写完整',
+            duration : 2500
+        })
+        else setLayoutOpened(true);
+    }
+    const handleSearch = (name) => {
+        Taro.request({
+            url : host + '/validate/antibiotics',
+            method : 'GET',
+            data : name,
+            header : {
+                'Content-Type' : 'application/json; charset=UTF-8'
+            }
+        })
+        .then(res => {
+            let {data} = res;
+            if(data.code === 'success'){}
+        })
+    }
     const handleSubmit = () => {
-
+        let data = {
+            ...addBasicInfo,
+            ...addOtherInfo,
+            gender : addPicker.gender.selectorChecked,
+            bloodType : addPicker.bloodType.selectorChecked,
+            birthday : addPicker.birthday
+        }
+        Taro.request({
+            url : host + '/sample/bind?access-token=' + user.token,
+            method : 'POST',
+            data : data,
+            header : {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        })
+        .then(res => {
+            let {data} = res;
+            if(data.code === 'success'){
+                Taro.atMessage({
+                    type : 'success',
+                    message : '绑定成功',
+                    duration : 2500
+                })
+                setTimeout(() => {
+                    // Taro.navigateBack();
+                }, 2500)
+            }
+            else Taro.atMessage({
+                type : 'error',
+                message : data.info,
+                duration : 2500
+            })
+        })
     }
 
 
     return (
         <View className='add-container'>
+            <AtMessage />
             <View className='add-noti'>
                 <View>为了更加准确、合理地为受测人提供建议，请受测人如实填写下述信息。</View>
                 <View>您本次送检的采样管编号为：<Text className='add-noti-barcode'>{add.barCode}</Text></View>
                 { contact ? (<View>业务员名称：<Text className='add-noti-username'>{contact?.username}</Text>，联系方式为：<Text className='add-noti-email'>{contact?.contact}</Text></View>) : null}
             </View>
             <View className='add-title'><Text className='text'>受测人基本信息</Text></View>
-            <AtInput required title='姓' maxlength='3' placeholder='请输入姓氏' value={addBasicInfo.last_name} onChange={(value) => handleSetBasicValue(value, 'last_name')} />
-            <AtInput required title='名' maxlength='3' placeholder='请输入名字' value={addBasicInfo.first_name} onChange={(value) => handleSetBasicValue(value, 'first_name')} />
+            <AtInput name='last_name' required title='姓' maxlength='3' placeholder='请输入姓氏' value={addBasicInfo.last_name} onChange={(value) => handleSetBasicValue(value, 'last_name')} />
+            <AtInput name='first_name' required title='名' maxlength='3' placeholder='请输入名字' value={addBasicInfo.first_name} onChange={(value) => handleSetBasicValue(value, 'first_name')} />
             <Picker mode='selector' range={addPicker.gender.selector}
               className='add-picker' onChange={(e) => handleSetPickerValue(e, 'gender')}
             >
@@ -114,19 +175,19 @@ const Add = () => {
                 </AtList>
             </Picker>
             <Picker mode='date' className='add-picker'
-              onChange={(e) => handleSetPickerValue(e, 'date')}
-              end={getPreviousDay()}
+              onChange={(e) => handleSetPickerValue(e, 'birthday')}
+              end={getNow()}
             >
                 <AtList className='add-picker-list'>
                     <AtListItem 
                       title='生日'
-                      extraText={addPicker.date}
+                      extraText={addPicker.birthday}
                     />
                 </AtList>
             </Picker>
             <View className='add-title'><Text className='text'>受测人近期状况</Text></View>
-            <AtInput required title='身高' placeholder='请输入身高' type='digit' value={addOtherInfo.height} onChange={(value) => handleSetOtherValue(value, 'height')} />
-            <AtInput required title='体重' placeholder='请输入体重' type='digit' value={addOtherInfo.weight} onChange={(value) => handleSetOtherValue(value, 'weight')} />
+            <AtInput name='height' required title='身高' placeholder='请输入身高' type='digit' value={addOtherInfo.height} onChange={(value) => handleSetOtherValue(value, 'height')} />
+            <AtInput name='weight' required title='体重' placeholder='请输入体重' type='digit' value={addOtherInfo.weight} onChange={(value) => handleSetOtherValue(value, 'weight')} />
             <Picker mode='selector' range={addPicker.meatEgetable.selector}
               className='add-picker' onChange={(e) => handleSetPickerValue(e, 'meatEgetable')}
             >
@@ -137,6 +198,22 @@ const Add = () => {
                     />
                 </AtList>
             </Picker>
+            {/* <AtInput name='antibiotics' required title='服用过的抗生素' placeholder='一周内服用过的抗生素' value={addOtherInfo.antibiotics} onChange={(value) => handleSearch(value)} /> */}
+            <AtButton customStyle={{margin : '1rem 0'}} circle type='secondary' onClick={handleGoNext}>下一步</AtButton>
+            <AtFloatLayout isOpened={layoutOpened} title='受测人信息确认' onClose={() => setLayoutOpened(false)}>
+                <View className='add-info-check'>
+                    <View className='add-info-name'>
+                        <Text>{addBasicInfo.last_name + addBasicInfo.first_name}</Text>
+                        <Text>{addPicker.gender}</Text>
+                    </View>
+                    {/* <View>生日：{addPicker.birthday}</View>
+                    <View>血型：{addPicker.bloodType}型</View>
+                    <View className='add-info-other'><Text>身高：{addOtherInfo.height}厘米</Text><Text>体重：{addOtherInfo.weight}公斤</Text></View>
+                    <View>饮食中肉食占比：{addPicker.meatEgetable}</View>
+                    {addOtherInfo.antibiotics ? (<View>一周内服用过的抗生素：{addOtherInfo.antibiotics}</View>) : null} */}
+                </View>
+                <AtButton circle type='primary' onClick={handleSubmit} loading={submitBtnLoading} disabled={submitBtnLoading}>提交</AtButton>
+            </AtFloatLayout>
         </View>
     );
 }

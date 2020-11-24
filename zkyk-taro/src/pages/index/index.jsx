@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Taro from '@tarojs/taro'
+import Taro, { useDidShow } from '@tarojs/taro'
 import { View, Text, Checkbox, Label, Button, CheckboxGroup} from '@tarojs/components'
 import { AtButton, AtInput, AtModal, AtModalHeader, AtModalContent, AtModalAction, AtToast, AtFab, AtDrawer, AtTabBar, AtMessage } from 'taro-ui'
 import './index.css'
@@ -10,7 +10,6 @@ import { host } from '../../config'
 const Data = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    Taro.login().then(res => console.log(res))
     console.log('数据load' + JSON.stringify(Taro.getStorageInfoSync()))
     dispatch({
       type : BIO.DATA_LOAD
@@ -149,17 +148,9 @@ const Index = () => {
     }
   }
 
+
   return (<>
     <Data />
-    {/* <AtTabBar
-      fixed
-      tabList={[
-        { title : '送样填表', iconType : 'home'},
-        { title : '功能聚合', iconType : 'menu' },
-        { title : '个人中心', iconType : 'user' }
-      ]}
-      onClick={(e) => {console.log(e)}}
-    /> */}
     <View className='home-container'>
       <View className='home-textContainer'>
         <View className='home-title'>— 人体微生态监测报告 —</View>
