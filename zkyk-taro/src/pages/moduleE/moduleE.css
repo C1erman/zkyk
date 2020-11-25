@@ -1,0 +1,94 @@
+.M-container{
+    padding-top: 2rem;
+    font-size: 30px;
+    color: #666666;
+    line-height: 1.5;
+    --fakeTheme : #ff4f76;
+    --theme : #de335e;
+    --background : #ffa6ba;
+    --fontColor : #ffe6eb;
+    --textContainer : #fff6f8;
+    --black : #1a1a1a;
+    --shadow : rgba(18,18,18,.1);
+    --error : #a4000f;
+    --border : #dfe2e5;
+    --white : #ffffff;
+    --riskNormal : #77c761;
+    --riskMiddle : #ffb85b;
+    --riskHigh : #ff4f76;
+}
+.suggestion-title-sm{
+    width: 90%;
+    margin: 0 auto 1rem;
+    padding-left: 0.5rem;
+    font-weight: bolder;
+    font-size: 0.95rem;
+    border-left: 3PX solid var(--theme);
+}
+.sug-food{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: 0 auto;
+}
+.sug-food > .item{
+    margin-bottom: 1rem;
+    padding: 1rem;
+    box-sizing: border-box;
+    box-shadow: 0 0 5PX var(--shadow);
+    border-radius: 5PX;
+}
+.sug-item-img{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+.sug-item-img > .img{
+    width: 140px;
+    height: 140px;
+}
+.sug-item-img > .div{
+    display: inline-block;
+    align-self: center;
+    margin-left: 1rem;
+    font-weight: bolder;
+    text-align: right;
+}
+.sug-item-content{
+    text-indent: 1rem;
+    padding: 0.5rem;
+    border-radius: 5PX;
+    line-height: 1.7;
+    background: var(--textContainer);
+}
+.sug-biotics{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: 0 auto;
+}
+.sug-biotics > .item{
+    margin-bottom: 1rem;
+    padding: 1rem;
+    box-sizing: border-box;
+    box-shadow: 0 0 5PX var(--shadow);
+    border-radius: 5PX;
+}
+.sug-lifeStyle{
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+    margin: 0 auto;
+}
+.sug-lifeStyle-img{
+    width: 20%;
+    margin: 0.5rem 0.7rem;
+    padding: 0.5rem;
+    text-align: center;
+    box-shadow: 0 0 5PX var(--shadow);
+    border-radius: 5PX;
+}
+.sug-lifeStyle-img > .img{
+    width: 130px;
+    height: 130px;
+}

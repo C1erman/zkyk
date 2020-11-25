@@ -1,0 +1,41 @@
+.view-container{
+    padding-top: 2rem;
+    font-size: 30px;
+    color: #666666;
+    line-height: 1.5;
+    --error : #a4000f;
+    --fakeTheme : #ff4f76;
+    --textContainer : #fff6f8;
+    --balck : #1a1a1a;
+    --border : #dfe2e5;
+}
+.view-title{
+    text-align: center;
+    margin: 1.5rem;
+    font-weight: bolder;
+    font-size: 0.95rem;
+}
+.view-title > .text{
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+}
+.view-title > .text::after{
+    display: block;
+    content: '';
+    width: 120%;
+    height: 0.6rem;
+    position: relative;
+    z-index: -1;
+    background-color: var(--fakeTheme);
+    opacity: 0.5;
+    left: -10%;
+    top: -0.6rem;
+}
+.view-overview{
+    width: 90%;
+    margin: 0 auto;
+}
+.view-overview-info{
+    margin-bottom: 1.5rem;
+}

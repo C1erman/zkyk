@@ -6,8 +6,9 @@
     --error : #a4000f;
     --fakeTheme : #ff4f76;
     --textContainer : #fff6f8;
-    --balck : #1a1a1a;
+    --black : #1a1a1a;
     --border : #dfe2e5;
+    --white : #ffffff;
 }
 .reportList-title{
     text-align: center;
@@ -127,7 +128,7 @@
     content: '';
     display: block;
     position: absolute;
-    width: 1px;
+    width: 1PX;
     height: 100%;
     background: var(--black);
     right: -1.2rem;
@@ -144,12 +145,13 @@
     width: 1.2rem;
     height: 1.2rem;
     border-radius: 1.2rem;
-    border: 1px solid var(--border);
+    border: 1PX solid var(--border);
     padding: 0.3rem;
     margin: 0 0.2rem 0 0.1rem;
     z-index: 9;
     background: var(--white);
 }
 .reportList-status-icon-self{
-    width: 100%;
+    width: 20Px;
+    height: 20PX;
 }

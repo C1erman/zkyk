@@ -18,6 +18,18 @@
     --riskMiddle : #ffb85b;
     --riskHigh : #ff4f76;
 }
+.add-check{
+    background: var(--white);
+    border-radius: 5PX;
+    padding: 1rem;
+}
+.add-check-info{
+    line-height: 2;
+}
+.add-check-input{
+    margin-top: 2rem;
+}
+
 .add-noti{
     line-height: 2;
     margin-bottom: 1rem;
@@ -74,4 +86,8 @@
 }
 .add-info-other > span:last-child{
     margin-left: 1rem;
+}
+.add-submit-btn{
+    margin-top: 1rem;
+    width: 80%;
 }

@@ -1,0 +1,28 @@
+.progress{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 95%;
+    height: 1.5rem;
+    margin: 0.5rem auto;
+}
+.progress-label{
+    max-width: 48%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.progress-container{
+    position: relative;
+    width: 50%;
+    height: 0.5rem;
+    background: linear-gradient(to right, var(--fontColor) 0%, var(--fakeTheme) 50%, var(--fontColor) 100%);
+    border-radius: 1rem;
+}
+.progress-container > .item{
+    position: absolute;
+    height: 230%;
+    width: 2px;
+    top: -65%;
+    background: var(--fakeTheme);
+}

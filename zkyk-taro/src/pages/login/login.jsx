@@ -129,12 +129,16 @@ const Login = () => {
     return (
         <View className='login-container'>
             <View className='login-title'><Text className='text'>请登录</Text></View>
-            <AtInput name='account' title='账号' type='text' placeholder='请输入账号' value={acc} onChange={(value) => setAcc(value)} />
+            <View className='login-info'>
+
+            </View>
+            {/* <AtInput name='account' title='账号' type='text' placeholder='请输入账号' value={acc} onChange={(value) => setAcc(value)} />
             <AtInput name='password' title='密码' type='password' placeholder='请输入密码' value={pass} onChange={(value) => setPass(value)} />
-            <AtButton className='login-btn' type='primary' circle onClick={handleLogin} loading={btnLoading} disabled={btnLoading}>登录</AtButton>
-            <AtButton className='login-btn-wechat' type='primary' circle customStyle loading={btnLoading} disabled={btnLoading}
+            <AtButton className='login-btn' type='primary' circle onClick={handleLogin} loading={btnLoading} disabled={btnLoading}>登录</AtButton> */}
+            <AtButton className='login-btn-wechat' type='primary' circle loading={btnLoading} disabled={btnLoading}
               openType='getUserInfo' onGetUserInfo={(e) => handleGetUserInfo(e)}
-            >微信快捷登录</AtButton>
+            >微信账号快捷登录</AtButton>
+            <AtButton className='login-btn-cancle' type='primary' circle onClick={() => Taro.navigateBack()}>暂不登录</AtButton>
             <AtToast duration={2500} isOpened={toastText.length} text={toastText} onClose={() => setToastText('')} />
             <AtMessage />
         </View>

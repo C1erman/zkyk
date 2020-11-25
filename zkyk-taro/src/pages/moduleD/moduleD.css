@@ -1,0 +1,65 @@
+.M-container{
+    padding-top: 2rem;
+    font-size: 30px;
+    color: #666666;
+    line-height: 1.5;
+    --fakeTheme : #ff4f76;
+    --theme : #de335e;
+    --background : #ffa6ba;
+    --fontColor : #ffe6eb;
+    --textContainer : #fff6f8;
+    --black : #1a1a1a;
+    --shadow : rgba(18,18,18,.1);
+    --error : #a4000f;
+    --border : #dfe2e5;
+    --white : #ffffff;
+    --riskNormal : #77c761;
+    --riskMiddle : #ffb85b;
+    --riskHigh : #ff4f76;
+}
+.assess-items{
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    box-sizing: border-box;
+    box-shadow: 0 0 5PX var(--shadow);
+    border-radius: 5px;
+}
+.assess-item-header{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    color: var(--fakeTheme);
+}
+.assess-item-header > .first{
+    font-size: 1.3rem;
+    font-weight: bolder;
+}
+.assess-item-header > .last{
+    padding: 0.2rem 1rem;
+    background-color: var(--theme);
+    color: #ffffff;
+    border-radius: 1rem;
+}
+.assess-item-header > .low-risk{
+    background-color: var(--riskNormal);
+}
+.assess-item-header > .middle-risk{
+    background-color: var(--riskMiddle);
+}
+.assess-item-header > .high-risk{
+    background-color: var(--riskHigh);
+}
+.assess-item-body{
+    line-height: 1.8;
+    margin-bottom: 0.5rem;
+}
+.assess-item-result{
+    border-left: 5PX solid var(--fakeTheme);
+    padding: 0.7rem;
+    border-radius: 5PX;
+    background: var(--textContainer);
+    font-weight: bolder;
+}

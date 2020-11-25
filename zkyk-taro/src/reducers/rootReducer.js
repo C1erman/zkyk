@@ -10,7 +10,15 @@ const rootReducer = (state = initState, action) => {
             return {
                 ...state,
                 user : {
-                    token : Taro.getStorageSync('token')
+                    token : Taro.getStorageSync('token') || ''
+                },
+                report : {
+                    current : Taro.getStorageSync('VIEW_current') || ''
+                },
+                add : {
+                    barCode : Taro.getStorageSync('ADD_barCode') || '',
+                    sampleId : Taro.getStorageSync('ADD_sampleId') || '',
+                    testeeId : Taro.getStorageSync('ADD_testeeId') || ''
                 },
             }
         }
@@ -51,8 +59,7 @@ const rootReducer = (state = initState, action) => {
         }
         // 用户注销
         case BIO.LOGOUT_SUCCESS : {
-            localStorage.clear();
-            sessionStorage.clear();
+            Taro.clearStorageSync();
             return clone(initState);
         }
         // 用户登录状态过期
@@ -67,8 +74,8 @@ const rootReducer = (state = initState, action) => {
             const { barCode, sampleId } = action.data;
             add.barCode = barCode;
             add.sampleId = sampleId;
-            localStorage.setItem('ADD_barCode', barCode);
-            localStorage.setItem('ADD_sampleId', sampleId);
+            Taro.setStorageSync('ADD_barCode', barCode);
+            Taro.setStorageSync('ADD_sampleId', sampleId);
             return {
                 ...state,
                 add
@@ -84,10 +91,10 @@ const rootReducer = (state = initState, action) => {
             }
         }
         case BIO.ADD_SUCCESS : {
-            localStorage.removeItem('ADD_barCode');
-            localStorage.removeItem('ADD_sampleId');
-            localStorage.removeItem('ADD_testeeId');
-            sessionStorage.removeItem('SHARE_add');
+            Taro.removeStorageSync('ADD_barCode');
+            Taro.removeStorageSync('ADD_sampleId');
+            Taro.removeStorageSync('ADD_testeeId');
+            Taro.removeStorageSync('SHARE_add');
             const add = clone(initState['add']);
             return {
                 ...state,
@@ -100,7 +107,7 @@ const rootReducer = (state = initState, action) => {
             const report = clone(state['report']);
             report.current = current;
             // 保存查看报告编号
-            localStorage.setItem('VIEW_current', current);
+            Taro.setStorageSync('VIEW_current', current);
             return {
                 ...state,
                 report

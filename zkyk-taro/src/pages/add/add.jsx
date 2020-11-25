@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import Taro from '@tarojs/taro';
 import { View, Text, Picker } from '@tarojs/components';
-import { useSelector } from 'react-redux';
-import { AtInput, AtList, AtListItem, AtButton, AtFloatLayout, AtMessage } from 'taro-ui';
+import { useSelector, useDispatch } from 'react-redux';
+import { AtInput, AtList, AtListItem, AtButton, AtFloatLayout, AtMessage, AtCurtain } from 'taro-ui';
 import { clone, checkEmpty } from '../../utils/BIOObject';
 import './add.css';
+import * as BIO from '../../actions';
 import { host } from '../../config';
-import { getPreviousDay, getNow } from '../../utils/BIODate';
+import { getNow, getPreviousDay } from '../../utils/BIODate';
 
 const Add = () => {
+    const dispatch = useDispatch()
+
     let user = useSelector(state => state.user)
     let add = useSelector(state => state.add)
 
+    let [curtainOpen, setCurtainOpen] = useState(true)
+    let [testee, setTestee] = useState({
+        isFirst : true,
+        testeeCode : ''
+    })
     let [contact, setContact] = useState('')
     let [addBasicInfo, setAddBasicInfo] = useState({
         last_name : '',
@@ -20,7 +28,7 @@ const Add = () => {
     let [addOtherInfo, setAddOtherInfo] = useState({
         height : '',
         weight : '',
-        // antibiotics : ''
+        antibiotics : ''
     })
     let [addPicker, setAddPicker] = useState({
         gender : {
@@ -31,7 +39,7 @@ const Add = () => {
             selector : ['O型', 'A型', 'B型', 'AB型', '其他'],
             selectorChecked : 'O型'
         },
-        birthday : '',
+        birthday : getPreviousDay(),
         meatEgetable : {
             selector : ['0% - 20%', '20% - 40%', '40% - 60%', '60% - 80%', '80% - 100%'],
             selectorChecked : '0% - 20%'
@@ -57,9 +65,14 @@ const Add = () => {
             if(data.code === 'success') setContact(data.data);
             else console.log(data.info)
         })
-
+        .catch(e => console.log(e))
     }, [])
 
+    const handleSetTesteeValue = (value, dataName) => {
+        let _testee = clone(testee);
+        _testee[dataName] = value;
+        setTestee(_testee);
+    }
     const handleSetBasicValue = (value, dataName) => {
         let basicInfo = clone(addBasicInfo);
         basicInfo[dataName] = value;
@@ -85,6 +98,7 @@ const Add = () => {
             bloodType : addPicker.bloodType.selectorChecked,
             birthday : addPicker.birthday
         }
+        console.log(data)
         if(checkEmpty(data)) Taro.atMessage({
             type : 'error',
             message : '请确认信息是否填写完整',
@@ -133,6 +147,9 @@ const Add = () => {
                 setTimeout(() => {
                     // Taro.navigateBack();
                 }, 2500)
+                dispatch({
+                    type : BIO.ADD_SUCCESS
+                })
             }
             else Taro.atMessage({
                 type : 'error',
@@ -145,6 +162,15 @@ const Add = () => {
 
     return (
         <View className='add-container'>
+            <AtCurtain isOpened={curtainOpen} onClose={() => setCurtainOpen(false)}>
+                <View className='add-check'>
+                    <View className='add-check-info'>请在下方输入受测人编码。如果受测人首次送样，则请关闭该弹窗。</View>
+                    <View className='add-check-input'>
+                        <AtInput name='first' title='受测人编码' type='number' placeholder='请输入编码' value={testee.testeeCode} onChange={(value) => handleSetTesteeValue(value, 'testeeCode')} />
+                        <AtButton customStyle={{marginTop : '1rem'}} type='primary' circle onClick={() => console.log('sd')}>下一步</AtButton>
+                    </View>
+                </View>
+            </AtCurtain>
             <AtMessage />
             <View className='add-noti'>
                 <View>为了更加准确、合理地为受测人提供建议，请受测人如实填写下述信息。</View>
@@ -198,21 +224,21 @@ const Add = () => {
                     />
                 </AtList>
             </Picker>
-            {/* <AtInput name='antibiotics' required title='服用过的抗生素' placeholder='一周内服用过的抗生素' value={addOtherInfo.antibiotics} onChange={(value) => handleSearch(value)} /> */}
+            <AtInput name='antibiotics' required title='服用过的抗生素' placeholder='一周内服用过的抗生素' value={addOtherInfo.antibiotics} onChange={(value) => handleSetOtherValue(value, 'antibiotics')} />
             <AtButton customStyle={{margin : '1rem 0'}} circle type='secondary' onClick={handleGoNext}>下一步</AtButton>
             <AtFloatLayout isOpened={layoutOpened} title='受测人信息确认' onClose={() => setLayoutOpened(false)}>
                 <View className='add-info-check'>
                     <View className='add-info-name'>
-                        <Text>{addBasicInfo.last_name + addBasicInfo.first_name}</Text>
-                        <Text>{addPicker.gender}</Text>
+                        <View>{addBasicInfo.last_name + addBasicInfo.first_name}</View>
+                        <View>{addPicker.gender.selectorChecked}</View>
                     </View>
-                    {/* <View>生日：{addPicker.birthday}</View>
-                    <View>血型：{addPicker.bloodType}型</View>
+                    <View>生日：{addPicker.birthday}</View>
+                    <View>血型：{addPicker.bloodType.selectorChecked}</View>
                     <View className='add-info-other'><Text>身高：{addOtherInfo.height}厘米</Text><Text>体重：{addOtherInfo.weight}公斤</Text></View>
-                    <View>饮食中肉食占比：{addPicker.meatEgetable}</View>
-                    {addOtherInfo.antibiotics ? (<View>一周内服用过的抗生素：{addOtherInfo.antibiotics}</View>) : null} */}
+                    <View>饮食中肉食占比：{addPicker.meatEgetable.selectorChecked}</View>
+                    {addOtherInfo.antibiotics ? (<View>一周内服用过的抗生素：{addOtherInfo.antibiotics}</View>) : null}
                 </View>
-                <AtButton circle type='primary' onClick={handleSubmit} loading={submitBtnLoading} disabled={submitBtnLoading}>提交</AtButton>
+                <AtButton className='add-submit-btn' circle type='primary' onClick={handleSubmit} loading={submitBtnLoading} disabled={submitBtnLoading}>提交</AtButton>
             </AtFloatLayout>
         </View>
     );

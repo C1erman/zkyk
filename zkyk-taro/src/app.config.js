@@ -3,9 +3,18 @@ export default {
     'pages/index/index',
     'pages/add/add',
     'pages/login/login',
+    'pages/all/all',
+    'pages/view/view',
+    'pages/search/search',
     'pages/infoadd/infoadd',
     'pages/userinfo/userinfo',
     'pages/reportlist/reportlist',
+
+    'pages/moduleA/moduleA',
+    'pages/moduleB/moduleB',
+    'pages/moduleC/moduleC',
+    'pages/moduleD/moduleD',
+    'pages/moduleE/moduleE',
   ],
   window: {
     backgroundTextStyle: 'light',
@@ -27,6 +36,8 @@ export default {
       {
         pagePath : 'pages/index/index',
         text : '送样填表',
+        iconPath : 'icons/tab/add.png',
+        selectedIconPath : 'icons/tab/add_selected.png'
       },
       {
         pagePath : 'pages/add/add',
@@ -34,12 +45,40 @@ export default {
       },
       {
         pagePath : 'pages/userinfo/userinfo',
-        text : '个人中心', 
+        text : '我的',
+        iconPath : 'icons/tab/user.png',
+        selectedIconPath : 'icons/tab/user_selected.png'
       },
       {
         pagePath : 'pages/reportlist/reportlist',
-        text : '报告列表', 
+        text : '报告列表',
+      },
+      // {
+      //   pagePath : 'pages/all/all',
+      //   text : '功能',
+      //   iconPath : 'icons/tab/home.png',
+      //   selectedIconPath : 'icons/tab/home_selected.png'
+      // },
+      {
+        pagePath : 'pages/view/view',
+        text : '浏览'
       }
+      // {
+      //   pagePath : 'pages/moduleB/moduleB',
+      //   text : '菌群状态分析'
+      // }
+      // {
+      //   pagePath : 'pages/moduleC/moduleC',
+      //   text : '菌群状态分析'
+      // }
+      // {
+      //   pagePath : 'pages/moduleD/moduleD',
+      //   text : '健康评估'
+      // }
+      // {
+      //   pagePath : 'pages/moduleE/moduleE',
+      //   text : '菌群改善建议'
+      // }
     ]
   }
 }

@@ -64,20 +64,12 @@ const Index = () => {
 
   let [selected, setSelected] = useState(false)
   let [modalOpen, setModalOpen] = useState(false)
-  let [toastOpen, setToastOpen] = useState(false)
-  let [toastText, setToastText] = useState('')
   let [inputValue, setInputValue] = useState('')
-  let [inputError, setError] = useState(false)
-  let [errorText, setErrorText] = useState('')
   let [btnLoading, setLoading] = useState(false)
 
   const handleInputChange = (value) => {
     setInputValue(value)
     return value
-  }
-  const handleToastClose = () => {
-    setToastOpen(false)
-    setToastText('')
   }
 
   const handleSubmit = () => {
@@ -95,25 +87,19 @@ const Index = () => {
       return false;
     }
     else{
-      setLoading(true)
       let regExp = /^\d{9}$/;
-      if(!selected){
-        setToastText('请勾选检测须知')
-        setToastOpen(true)
-        setLoading(false)
-      }
-      else if(!regExp.test(inputValue)){
-        setError(true)
-        setErrorText('请输入由9位数字组成的采样管编号')
-        setTimeout(() => {
-          setError(false)
-          setErrorText('')
-          setLoading(false)
-        }, 2500)
-      }
+      if(!selected) Taro.atMessage({
+        type : 'info',
+        message : '请勾选检测须知',
+        duration : 2500
+      })
+      else if(!regExp.test(inputValue)) Taro.atMessage({
+        type : 'error',
+        message : '请输入9位数字组成的采样管编号',
+        duration : 2500
+      })
       else{
-        setError(false)
-        setErrorText('')
+        setLoading(true)
         Taro.request({
           url : host + '/validate/verify',
           method : 'POST',
@@ -125,10 +111,11 @@ const Index = () => {
           }
         }).then(_data => {
           const {data} = _data;
-          if(data.code === 'error'){
-            setToastText(data.info)
-            setToastOpen(true)
-          }
+          if(data.code === 'error') Taro.atMessage({
+            type : 'error',
+            message : data.info,
+            duration : 2500
+          })
           else if(data.code === 'success'){
               let { barcode = '', sample_id = '' } = data.data;
               dispatch({
@@ -137,6 +124,9 @@ const Index = () => {
                       barCode : barcode,
                       sampleId : sample_id
                   }
+              })
+              Taro.navigateTo({
+                url : '/pages/add/add'
               })
           }
           setLoading(false)
@@ -165,9 +155,7 @@ const Index = () => {
         <AtInput placeholder='请输入采样管编号' type='number' adjustPosition
           maxlength='9' confirmType='done'
           onChange={handleInputChange} value={inputValue}
-          error={inputError}
         />
-        {inputError ? <View className='home-input-error'>{errorText}</View> : null}
         <View className='home-selectContainer'>
           <CheckboxGroup onChange={(e) => e.detail.value.length ? setSelected(true) : setSelected(false)}>
             <Label>
@@ -192,7 +180,6 @@ const Index = () => {
         </AtModal>
         <AtButton type='secondary' circle customStyle={{marginTop : '2rem'}} onClick={handleSubmit} loading={btnLoading} disabled={btnLoading}>绑定采样</AtButton>
       </View>
-      <AtToast isOpened={toastOpen} text={toastText} hasMask onClose={handleToastClose} duration={2500}></AtToast>
       <AtMessage />
     </View>
   </>);
