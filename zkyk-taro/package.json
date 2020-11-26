@@ -36,6 +36,7 @@
   "author": "C1ER",
   "license": "MIT",
   "dependencies": {
+    "@antv/f2": "^3.8.0",
     "@babel/runtime": "^7.7.7",
     "@tarojs/components": "3.0.13",
     "@tarojs/react": "3.0.13",
@@ -47,6 +48,7 @@
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "taro-f2": "^2.2.0",
     "taro-ui": "^3.0.0-alpha.3"
   },
   "devDependencies": {

@@ -35,6 +35,7 @@
     margin-bottom: 1rem;
 }
 .add-noti-barcode, .add-noti-email, .add-noti-username{
+    margin: 0 0.5rem;
     font-size: 1rem;
     padding-bottom: 0.2rem;
     border-bottom: 1px solid var(--black);

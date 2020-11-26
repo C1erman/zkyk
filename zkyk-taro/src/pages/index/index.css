@@ -60,6 +60,7 @@
 .home-select-modal{
   cursor: pointer;
   margin-left: 0.3rem;
+  padding-bottom: 0.2rem;
   color: var(--theme);
   border-bottom: 1px solid var(--theme);
 }

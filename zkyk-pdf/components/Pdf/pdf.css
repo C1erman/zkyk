@@ -1,0 +1,22 @@
+.pdf-holder{
+    width: 90%;
+    min-height: calc(100vh - 200px);
+    margin: 0 auto;
+    padding-top: 2rem;
+    font-size: 0.9rem;
+}
+.pdf-holder-info{
+    text-align: center;
+    margin-top: 5rem;
+}
+.pdf-holder-success{
+    margin-top: 5rem;
+}
+.pdf-holder-success > p:first-child{
+    text-align: center;
+    font-weight: bolder;
+    margin-bottom: 1rem;
+}
+.pdf{
+    display: none;
+}

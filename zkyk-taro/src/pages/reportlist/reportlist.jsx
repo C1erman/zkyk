@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image } from '@tarojs/components';
 import { useSelector, useDispatch } from 'react-redux';
-import Taro from '@tarojs/taro';
-import { AtButton, AtPagination, AtFloatLayout, AtMessage } from 'taro-ui';
+import Taro, { useDidShow } from '@tarojs/taro';
+import { AtButton, AtPagination, AtFloatLayout, AtMessage, AtInput } from 'taro-ui';
 import './reportlist.css';
 import { host, imgSrc } from '../../config';
 import * as BIO from '../../actions';
@@ -19,6 +19,8 @@ const ReportList = () => {
     })
     let listNumPerPage = 7
     let [detailStatus, setStatus] = useState([])
+
+    let [listSearch, setListSearch] = useState('');
 
     let br = '\n';
 
@@ -44,7 +46,7 @@ const ReportList = () => {
             })
             .catch(e => console.log(e))
         }
-    }, [])
+    }, [user])
 
     const mapButtonStatus = (status) => {
         switch(status){
@@ -81,7 +83,8 @@ const ReportList = () => {
             data : {
                 'access-token' : user.token,
                 page : currentPage,
-                pageNum : listNumPerPage
+                pageNum : listNumPerPage,
+                query : listSearch
             },
             header : {
                 'Content-Type' : 'application/json; charset=UTF-8'
@@ -124,17 +127,13 @@ const ReportList = () => {
         }
     }
     const handleEditSample = (sampleId) => {
-        console.log('待开发')
-        // dispatch({
-        //     type : BIO.REPORT_EDIT,
-        //     data : { current : sampleId }
-        // })
-        // history.push({
-        //     pathname : '/report/edit',
-        //     state : {
-        //         current : sampleId
-        //     }
-        // });
+        dispatch({
+            type : BIO.REPORT_EDIT,
+            data : { current : sampleId }
+        })
+        Taro.navigateTo({
+            url : '/pages/edit/edit'
+        })
     }
     const mapOperate = (operate, reportId, sampleId) => {
         if(operate === '查看') return handleViewReport(reportId);
@@ -142,6 +141,62 @@ const ReportList = () => {
         else if(operate === '已锁定') return false;
         else return false;
     }
+    const handleListSearch = () => {
+        if(listSearch.length){
+            Taro.request({
+                url : host + '/sample/list',
+                method : 'GET',
+                data : {
+                    'access-token' : user.token,
+                    pageNum : listNumPerPage,
+                    query : listSearch
+                },
+                header : {
+                    'Content-Type' : 'application/json; charset=UTF-8'
+                }
+            })
+            .then(res => {
+                let {data} = res;
+                if(data.code === 'success'){
+                    setList(data.data.list)
+                    setPagination(data.data.pagination);
+                    Taro.atMessage({
+                        type : 'success',
+                        message : '查询成功',
+                        duration : 2500
+                    })
+                }
+            })
+            .catch(e => console.log(e))
+        }
+        else{
+            Taro.request({
+                url : host + '/sample/list',
+                method : 'GET',
+                data : {
+                    'access-token' : user.token,
+                    pageNum : listNumPerPage
+                },
+                header : {
+                    'Content-Type' : 'application/json; charset=UTF-8'
+                }
+            })
+            .then(res => {
+                let {data} = res;
+                if(data.code === 'success'){
+                    setList(data.data.list)
+                    setPagination(data.data.pagination);
+                    Taro.atMessage({
+                        type : 'success',
+                        message : '查询条件已清空',
+                        duration : 2500
+                    })
+                }
+            })
+            .catch(e => console.log(e))
+        }
+    }
+
 
     return (
         <View className='reportList-container'>
@@ -150,8 +205,21 @@ const ReportList = () => {
             <View className='reportList-info'>
                 在实验结束、生成报告之前，您都有机会对您填写的信息进行修改；报告生成之后，您只能查看而不能修改相关信息。<Text>{br}点击报告的当前状态以查看状态详情。</Text>
             </View>
-            {!list.length ? (
-                <View className='reportList-empty'>抱歉，暂时无可以操作的报告。</View>
+            {
+                !user.token ? (
+                    <View className='reportList-empty'>请登录过后再来查看。</View>
+                ) : !list.length ? (
+                <>
+                    <View className='reportList-empty'>抱歉，暂时无可以操作的报告。</View>
+                    <View className='reportList-title'><Text className='text'>报告查询</Text></View>
+                    <View className='reportList-search'>
+                        <View>可输入受测人、样本编号与状态进行查询，多条件查询时请用空格区分。</View>
+                        <AtInput type='text' name='search' placeholder='请输入查询条件' customStyle={{marginBottom : '1rem'}}
+                          value={listSearch} onChange={(value) => setListSearch(value)}
+                        />
+                        <AtButton className='bio-button' circle onClick={handleListSearch}>{listSearch.length ? '查询' : '全部报告'}</AtButton>
+                    </View>
+                </>
             ) : (
                 <>
                     <View className='reportList-table'>
@@ -172,9 +240,17 @@ const ReportList = () => {
                             </View>)}
                         </View>
                     </View>
-                    <AtPagination customStyle={{marginTop : '1.5rem'}} total={listPagination.total} pageSize={listNumPerPage}
+                    <AtPagination className='reportList-pagination bio-border' total={listPagination.total} pageSize={listNumPerPage}
                       current={listCurrent} onPageChange={(action) => getCurrentList(action.current)}
                     ></AtPagination>
+                    <View className='reportList-title'><Text className='text'>报告查询</Text></View>
+                    <View className='reportList-search'>
+                        <View>可输入受测人、样本编号与状态进行查询，多条件查询时请用空格区分。</View>
+                        <AtInput type='text' name='search' placeholder='请输入查询条件' customStyle={{marginBottom : '1rem'}}
+                          value={listSearch} onChange={(value) => setListSearch(value)} clear
+                        />
+                        <AtButton className='bio-button' circle onClick={handleListSearch}>{listSearch.length ? '查询' : '全部报告'}</AtButton>
+                    </View>
                     <AtFloatLayout isOpened={detailStatus.length > 0} title='状态详情' onClose={() => setStatus([])}>
                         <View className='reportList-status'>
                             { detailStatus.map((v, i) => (<View key={i} className={'reportList-status-item ' + v.status_en}>

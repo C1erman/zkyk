@@ -4,6 +4,7 @@ export default {
     'pages/add/add',
     'pages/login/login',
     'pages/all/all',
+    'pages/edit/edit',
     'pages/view/view',
     'pages/search/search',
     'pages/infoadd/infoadd',
@@ -39,9 +40,15 @@ export default {
         iconPath : 'icons/tab/add.png',
         selectedIconPath : 'icons/tab/add_selected.png'
       },
+      // {
+      //   pagePath : 'pages/add/add',
+      //   text : '信息绑定',
+      // },
       {
-        pagePath : 'pages/add/add',
-        text : '信息绑定',
+        pagePath : 'pages/reportlist/reportlist',
+        text : '报告列表',
+        iconPath : 'icons/tab/list.png',
+        selectedIconPath : 'icons/tab/list_selected.png'
       },
       {
         pagePath : 'pages/userinfo/userinfo',
@@ -49,19 +56,23 @@ export default {
         iconPath : 'icons/tab/user.png',
         selectedIconPath : 'icons/tab/user_selected.png'
       },
-      {
-        pagePath : 'pages/reportlist/reportlist',
-        text : '报告列表',
-      },
       // {
       //   pagePath : 'pages/all/all',
       //   text : '功能',
       //   iconPath : 'icons/tab/home.png',
       //   selectedIconPath : 'icons/tab/home_selected.png'
       // },
+      // {
+      //   pagePath : 'pages/view/view',
+      //   text : '浏览'
+      // }
+      // {
+      //   pagePath : 'pages/edit/edit',
+      //   text : '编辑'
+      // }
       {
-        pagePath : 'pages/view/view',
-        text : '浏览'
+        pagePath : 'pages/moduleA/moduleA',
+        text : '整体情况'
       }
       // {
       //   pagePath : 'pages/moduleB/moduleB',

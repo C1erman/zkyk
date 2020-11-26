@@ -10,6 +10,13 @@
     --border : #dfe2e5;
     --white : #ffffff;
 }
+.bio-button{
+    border-color: var(--fakeTheme);
+    color: var(--fakeTheme);
+}
+.bio-border{
+    border-color: var(--fakeTheme);
+}
 .reportList-title{
     text-align: center;
     margin-bottom: 1.5rem;
@@ -94,6 +101,10 @@
 .reportList-table-tr{
     text-align: center;
 }
+.reportList-pagination{
+    width: 80%;
+    margin: 1.5rem auto;
+}
 .reportList-status{
     margin-left: 1.5rem;
     margin-top: 1rem;
@@ -107,6 +118,7 @@
     opacity: 0.5;
 }
 .reportList-status-item:first-child{
+    font-weight: bolder;
     opacity: 1;
 }
 .reportList-status-item:last-child{
@@ -154,4 +166,8 @@
 .reportList-status-icon-self{
     width: 20Px;
     height: 20PX;
+}
+.reportList-search{
+    width: 90%;
+    margin: 0 auto;
 }

@@ -152,14 +152,17 @@ const UserInfo = () => {
                     <AtListItem hasBorder={false} title='个人信息' arrow='right'
                       iconInfo={{size : 25, color : '#ff4f76', value : 'message'}}
                       onClick={user.token ? () => handleLayoutOpen('userInfo') : null}
+                      disabled={!user.token}
                     />
                     <AtListItem hasBorder={false} title='修改密码' arrow='right'
                       iconInfo={{size : 25, color : '#ff4f76', value : 'lock'}}
                       onClick={user.token ? () => handleLayoutOpen('password') : null}
+                      disabled
                     />
                     <AtListItem hasBorder={false} title='修改邮箱' arrow='right'
                       iconInfo={{size : 25, color : '#ff4f76', value : 'mail'}}
                       onClick={user.token ? () => handleLayoutOpen('email') : null}
+                      disabled
                     />
                 </AtList>
             </View>

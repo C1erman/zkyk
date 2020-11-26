@@ -45,6 +45,13 @@ const Add = () => {
             selectorChecked : '0% - 20%'
         },
     })
+    let [readOnly, setReadOnly] = useState({
+        last_name : false,
+        first_name : false,
+        gender : false,
+        bloodType : false,
+        birthday : false
+    })
     let [layoutOpened, setLayoutOpened] = useState(false)
     let [searchResult, setSearchResult] = useState([])
     let [submitBtnLoading, setSubmitBtnLoading] = useState(false)
@@ -68,6 +75,34 @@ const Add = () => {
         .catch(e => console.log(e))
     }, [])
 
+    const mapPickerKey = {
+        '男' : 'M',
+        '女' : 'F',
+        'O型' : 'O',
+        'A型' : 'A',
+        'B型' : 'B',
+        'AB型' : 'AB',
+        '其他' : 'OTHER',
+        '0% - 20%' : '0',
+        '20% - 40%' : '1',
+        '40% - 60%' : '2',
+        '60% - 80%' : '3',
+        '80% - 100%' : '4'
+    }
+    const mapPickerValue = {
+        'M' : '男',
+        'F' : '女',
+        'O' : 'O型',
+        'A' : 'A型',
+        'B' : 'B型',
+        'AB' : 'AB型',
+        'OTHER' : '其他',
+        '0' : '0% - 20%',
+        '1' : '20% - 40%',
+        '2' : '40% - 60%',
+        '3' : '60% - 80%',
+        '4' : '80% - 100%'
+    }
     const handleSetTesteeValue = (value, dataName) => {
         let _testee = clone(testee);
         _testee[dataName] = value;
@@ -90,15 +125,17 @@ const Add = () => {
         else picker[type].selectorChecked = picker[type].selector[value];
         setAddPicker(picker);
     }
+
     const handleGoNext = () => {
         let data = {
             ...addBasicInfo,
-            ...addOtherInfo,
+            height : addOtherInfo.height,
+            weight : addOtherInfo.weight,
             gender : addPicker.gender.selectorChecked,
             bloodType : addPicker.bloodType.selectorChecked,
-            birthday : addPicker.birthday
+            birthday : addPicker.birthday,
+            meatEgetable : addPicker.meatEgetable.selectorChecked
         }
-        console.log(data)
         if(checkEmpty(data)) Taro.atMessage({
             type : 'error',
             message : '请确认信息是否填写完整',
@@ -124,10 +161,16 @@ const Add = () => {
         let data = {
             ...addBasicInfo,
             ...addOtherInfo,
-            gender : addPicker.gender.selectorChecked,
-            bloodType : addPicker.bloodType.selectorChecked,
-            birthday : addPicker.birthday
+            gender : mapPickerKey[addPicker.gender.selectorChecked],
+            blood_type : mapPickerKey[addPicker.bloodType.selectorChecked],
+            birthday : addPicker.birthday,
+            meat_egetables : mapPickerKey[addPicker.meatEgetable.selectorChecked],
+            code : testee.testeeCode,
+            isFirst : testee.isFirst,
+            sample_id : add.sampleId
         }
+        console.log(data)
+        setSubmitBtnLoading(true);
         Taro.request({
             url : host + '/sample/bind?access-token=' + user.token,
             method : 'POST',
@@ -155,32 +198,148 @@ const Add = () => {
                 type : 'error',
                 message : data.info,
                 duration : 2500
-            })
+            });
+            setSubmitBtnLoading(false);
         })
     }
-
+    const handleFirst = () => {
+        setSubmitBtnLoading(true)
+        Taro.request({
+            url : host + '/sample/person',
+            method : 'GET',
+            data : {
+                'access-token' : user.token
+            },
+            header : {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        })
+        .then(res => {
+            let {data} = res;
+            if(data.code === 'success'){
+                dispatch({
+                    type : BIO.ADD_SET_TESTEE_CODE,
+                    data : data.data
+                })
+                handleSetTesteeValue(data.data, 'testeeCode');
+                Taro.atMessage({
+                    type : 'info',
+                    message : '正在为新的受测人填写信息',
+                    duration : 2500
+                })
+            }
+            else Taro.atMessage({
+                type : 'error',
+                message : data.info,
+                duration : 2500
+            })
+            setSubmitBtnLoading(false)
+        })
+        .catch(e => console.log(e))
+    }
+    const handleAlready = () => {
+        if(checkEmpty({
+            testeeCode : testee.testeeCode
+        })) Taro.atMessage({
+            type : 'error',
+            message : '受测人编码不能为空',
+            duration : 2500
+        })
+        else{
+            Taro.request({
+                url : host + '/sample/person',
+                method : 'GET',
+                data : {
+                    'access-token' : user.token,
+                    code : testee.testeeCode
+                },
+                header : {
+                    'Content-Type': 'application/json; charset=UTF-8'
+                }
+            })
+            .then(res => {
+                let {data} = res;
+                if(data.code === 'success'){
+                    // 赋默认值
+                    let {last_name, first_name, gender, blood_type, birthday, height, weight} = data.data;
+                    setAddBasicInfo({
+                        last_name, first_name
+                    });
+                    let otherInfo = clone(addOtherInfo);
+                    otherInfo = {
+                        ...otherInfo,
+                        height, weight
+                    }
+                    setAddOtherInfo(otherInfo);
+                    let picker = clone(addPicker);
+                    picker = {
+                        ...picker,
+                        gender : {
+                            selector : ['男', '女'],
+                            selectorChecked : mapPickerValue[gender]
+                        },
+                        bloodType : {
+                            selector : ['O型', 'A型', 'B型', 'AB型', '其他'],
+                            selectorChecked : mapPickerValue[blood_type]
+                        },
+                        birthday : birthday
+                    }
+                    setAddPicker(picker);
+                    // readonly
+                    setReadOnly({
+                        last_name : true,
+                        first_name : true,
+                        gender : true,
+                        bloodType : true,
+                        birthday : true
+                    })
+                    // not first
+                    handleSetTesteeValue(false, 'isFirst')
+                    Taro.atMessage({
+                        type : 'success',
+                        message : '受测人信息导入成功',
+                        duration : 2500
+                    })
+                    setCurtainOpen(false)
+                }
+                else Taro.atMessage({
+                    type : 'error',
+                    message : data.info,
+                    duration : 2500
+                })
+            })
+            .catch(e => console.log(e))
+        }
+    }
+    const handleCloseCurtain = () => {
+        handleFirst();
+        setCurtainOpen(false);
+    }
 
     return (
         <View className='add-container'>
-            <AtCurtain isOpened={curtainOpen} onClose={() => setCurtainOpen(false)}>
+            <AtMessage />
+            <AtCurtain isOpened={curtainOpen} onClose={handleCloseCurtain}>
                 <View className='add-check'>
                     <View className='add-check-info'>请在下方输入受测人编码。如果受测人首次送样，则请关闭该弹窗。</View>
                     <View className='add-check-input'>
                         <AtInput name='first' title='受测人编码' type='number' placeholder='请输入编码' value={testee.testeeCode} onChange={(value) => handleSetTesteeValue(value, 'testeeCode')} />
-                        <AtButton customStyle={{marginTop : '1rem'}} type='primary' circle onClick={() => console.log('sd')}>下一步</AtButton>
+                        <AtButton customStyle={{marginTop : '1rem'}} type='primary' circle
+                          onClick={() => handleAlready()}
+                          loading={submitBtnLoading} disabled={submitBtnLoading}
+                        >下一步</AtButton>
                     </View>
                 </View>
             </AtCurtain>
-            <AtMessage />
             <View className='add-noti'>
                 <View>为了更加准确、合理地为受测人提供建议，请受测人如实填写下述信息。</View>
                 <View>您本次送检的采样管编号为：<Text className='add-noti-barcode'>{add.barCode}</Text></View>
                 { contact ? (<View>业务员名称：<Text className='add-noti-username'>{contact?.username}</Text>，联系方式为：<Text className='add-noti-email'>{contact?.contact}</Text></View>) : null}
             </View>
             <View className='add-title'><Text className='text'>受测人基本信息</Text></View>
-            <AtInput name='last_name' required title='姓' maxlength='3' placeholder='请输入姓氏' value={addBasicInfo.last_name} onChange={(value) => handleSetBasicValue(value, 'last_name')} />
-            <AtInput name='first_name' required title='名' maxlength='3' placeholder='请输入名字' value={addBasicInfo.first_name} onChange={(value) => handleSetBasicValue(value, 'first_name')} />
-            <Picker mode='selector' range={addPicker.gender.selector}
+            <AtInput name='last_name' required disabled={readOnly.last_name} title='姓' maxlength='3' placeholder='请输入姓氏' value={addBasicInfo.last_name} onChange={(value) => handleSetBasicValue(value, 'last_name')} />
+            <AtInput name='first_name' required disabled={readOnly.first_name} title='名' maxlength='3' placeholder='请输入名字' value={addBasicInfo.first_name} onChange={(value) => handleSetBasicValue(value, 'first_name')} />
+            <Picker mode='selector' range={addPicker.gender.selector} disabled={readOnly.gender}
               className='add-picker' onChange={(e) => handleSetPickerValue(e, 'gender')}
             >
                 <AtList className='add-picker-list'>
@@ -190,7 +349,7 @@ const Add = () => {
                     />
                 </AtList>
             </Picker>
-            <Picker mode='selector' range={addPicker.bloodType.selector}
+            <Picker mode='selector' range={addPicker.bloodType.selector} disabled={readOnly.bloodType}
               className='add-picker' onChange={(e) => handleSetPickerValue(e, 'bloodType')}
             >
                 <AtList className='add-picker-list'>
@@ -200,7 +359,7 @@ const Add = () => {
                     />
                 </AtList>
             </Picker>
-            <Picker mode='date' className='add-picker'
+            <Picker mode='date' className='add-picker' disabled={readOnly.birthday}
               onChange={(e) => handleSetPickerValue(e, 'birthday')}
               end={getNow()}
             >
@@ -234,7 +393,7 @@ const Add = () => {
                     </View>
                     <View>生日：{addPicker.birthday}</View>
                     <View>血型：{addPicker.bloodType.selectorChecked}</View>
-                    <View className='add-info-other'><Text>身高：{addOtherInfo.height}厘米</Text><Text>体重：{addOtherInfo.weight}公斤</Text></View>
+                    <View className='add-info-other'><Text>身高：{addOtherInfo.height}厘米</Text>、<Text>体重：{addOtherInfo.weight}公斤</Text></View>
                     <View>饮食中肉食占比：{addPicker.meatEgetable.selectorChecked}</View>
                     {addOtherInfo.antibiotics ? (<View>一周内服用过的抗生素：{addOtherInfo.antibiotics}</View>) : null}
                 </View>

@@ -141,6 +141,7 @@ const Index = () => {
 
   return (<>
     <Data />
+    <AtMessage />
     <View className='home-container'>
       <View className='home-textContainer'>
         <View className='home-title'>— 人体微生态监测报告 —</View>
@@ -180,7 +181,6 @@ const Index = () => {
         </AtModal>
         <AtButton type='secondary' circle customStyle={{marginTop : '2rem'}} onClick={handleSubmit} loading={btnLoading} disabled={btnLoading}>绑定采样</AtButton>
       </View>
-      <AtMessage />
     </View>
   </>);
 }

@@ -6,6 +6,10 @@ import { AtGrid, AtButton } from 'taro-ui';
 
 import './view.css'
 
+// const PDF = () => {
+//     return 
+// }
+
 const ReportView = () => {
 
     const user = useSelector(state => state.user)
@@ -31,7 +35,7 @@ const ReportView = () => {
         })
     }
     const handleDownLoad = (reportId) => {
-
+        
     }
 
     return (

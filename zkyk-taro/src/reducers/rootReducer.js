@@ -20,6 +20,9 @@ const rootReducer = (state = initState, action) => {
                     sampleId : Taro.getStorageSync('ADD_sampleId') || '',
                     testeeId : Taro.getStorageSync('ADD_testeeId') || ''
                 },
+                edit : {
+                    current : Taro.getStorageSync('EDIT_current') || ''
+                }
             }
         }
         // 页面更改
@@ -84,7 +87,7 @@ const rootReducer = (state = initState, action) => {
         case BIO.ADD_SET_TESTEE_CODE : {
             const add = clone(state['add']);
             add.testeeId = action.data;
-            localStorage.setItem('ADD_testeeId', action.data);
+            Taro.setStorageSync('ADD_testeeId', action.data);
             return {
                 ...state,
                 add
@@ -135,14 +138,14 @@ const rootReducer = (state = initState, action) => {
             const edit = clone(state['edit']);
             edit.current = current;
             // 保存编辑报告编号
-            localStorage.setItem('EDIT_current', current);
+            Taro.setStorageSync('EDIT_current', current);
             return {
                 ...state,
                 edit
             }
         }
         case BIO.REPORT_EDIT_SUCCESS : {
-            localStorage.removeItem('EDIT_current');
+            Taro.removeStorageSync('EDIT_current');
             const edit = clone(initState['edit']);
             return {
                 ...state,
