@@ -2,7 +2,6 @@
     margin-top: 1.5rem;
     font-size: 30px;
     color: #666666;
-    background-color: var(--grayBackground);
     --error : #a4000f;
     --fakeTheme : #ff4f76;
     --shadow : rgba(18,18,18,.1);
@@ -27,7 +26,7 @@
 }
 .userinfo-avatar-info > .name{
     font-weight: bolder;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
 }
 .userinfo-avatar-info > .org{
     color: var(--gray);
