@@ -42,11 +42,6 @@ const config = {
       }
     }
   },
-  weapp: {
-    compile: {
-      include: ['taro-f2']
-    }
-  },
   h5: {
     publicPath: '/',
     staticDirectory: 'static',
@@ -64,10 +59,7 @@ const config = {
         }
       }
     },
-    esnextModules: ['taro-ui']
-  
-  
-  
+    esnextModules: ['taro-ui', 'react-dom']
   }
 }
 

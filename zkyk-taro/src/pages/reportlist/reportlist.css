@@ -118,7 +118,6 @@
     opacity: 0.5;
 }
 .reportList-status-item:first-child{
-    font-weight: bolder;
     opacity: 1;
 }
 .reportList-status-item:last-child{
@@ -169,5 +168,5 @@
 }
 .reportList-search{
     width: 90%;
-    margin: 0 auto;
+    margin: 1rem auto;
 }

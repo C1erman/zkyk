@@ -33,11 +33,12 @@
     font-size: 28px;
 }
 .userinfo-list{
-    margin: 1.5rem 0;
+    margin: 2.5rem 0 4rem;
     background: var(--white);
 }
 .userinfo-logout{
-    margin-top: 1.5rem;
+    width: 80%;
+    margin: 2.5rem auto 0;
     background: var(--white);
 }
 .userinfo-btn-container{

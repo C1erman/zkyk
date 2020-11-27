@@ -18,13 +18,14 @@
     --riskHigh : #ff4f76;
 }
 .overview-result{
-    width: 90%;
+    width: 95%;
     margin: 0 auto;
 }
 .overview-result-info{
+    text-align: center;
     color: var(--theme);
     font-weight: bolder;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 .overview-result .table{
     display: table;

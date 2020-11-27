@@ -1,27 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 import { View, Text } from '@tarojs/components';
 import { useSelector } from 'react-redux';
 import Taro from '@tarojs/taro'
 import { AtGrid, AtButton } from 'taro-ui';
 
 import './view.css'
-
-// const PDF = () => {
-//     return 
-// }
+import { host } from '../../config';
 
 const ReportView = () => {
-
     const user = useSelector(state => state.user)
     const report = useSelector(state => state.report)
 
-    useEffect(() => {
-        
-    }, [])
+    let [downloadLoading, setLoading] = useState(false)
 
-    const handleFabClick = () => {
-        
-    }
     const handleItemClick = (name) => {
         let module = {
             '整体情况' : '/pages/moduleA/moduleA',
@@ -34,8 +26,52 @@ const ReportView = () => {
             url : module[name]
         })
     }
-    const handleDownLoad = (reportId) => {
-        
+    const handleDownLoad = () => {
+        setLoading(true);
+        Taro.request({
+            url : host + '/admin/wx/pdf?access-token=' + user.token,
+            method : 'POST',
+            data : {
+                id : report.current
+            },
+            header : {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        })
+        .then(res => {
+            let {data} = res;
+            if(data.code === 'success'){
+                Taro.downloadFile({
+                    url : data.data.url,
+                    success : (response) => {
+                        setLoading(false);
+                        let {tempFilePath} = response;
+                        let fileName = data.data.filename;
+                        Taro.saveFile({
+                            tempFilePath : tempFilePath,
+                            filePath : wx.env.USER_DATA_PATH + '/' + fileName + '.pdf',
+                            success : (xxx) => {
+                            }
+                        });
+                        Taro.openDocument({
+                            filePath : wx.env.USER_DATA_PATH + '/' + fileName + '.pdf',
+                            fileType : 'pdf',
+                            success : (xxx) => {
+                            }
+                        })
+                    }
+                });
+            }
+            else{
+                Taro.atMessage({
+                    type : 'error',
+                    message : data.info,
+                    duration : 2500
+                })
+                setTimeout(() => setLoading(false), 2500)
+            }
+        })
+        .catch(e => console.log(e))
     }
 
     return (
@@ -50,8 +86,8 @@ const ReportView = () => {
             </View>
             <View className='view-title'><Text className='text'>其他功能</Text></View>
             <View className='view-overview'>
-                <View className='view-overview-info'>下载这份报告的PDF版本并进行预览：</View>
-                <AtButton type='secondary' circle onClick={handleDownLoad}>下载报告</AtButton>
+                <View className='view-overview-info'>查看这份报告的PDF版本并进行预览或下载，同时也可以将报告分享给其他人：</View>
+                <AtButton loading={downloadLoading} disabled={downloadLoading} type='primary' circle onClick={handleDownLoad}>预览报告</AtButton>
             </View>
         </View>
     );

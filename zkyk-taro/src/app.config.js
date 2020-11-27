@@ -3,10 +3,8 @@ export default {
     'pages/index/index',
     'pages/add/add',
     'pages/login/login',
-    'pages/all/all',
     'pages/edit/edit',
     'pages/view/view',
-    'pages/search/search',
     'pages/infoadd/infoadd',
     'pages/userinfo/userinfo',
     'pages/reportlist/reportlist',
@@ -62,18 +60,18 @@ export default {
       //   iconPath : 'icons/tab/home.png',
       //   selectedIconPath : 'icons/tab/home_selected.png'
       // },
-      // {
-      //   pagePath : 'pages/view/view',
-      //   text : '浏览'
-      // }
+      {
+        pagePath : 'pages/view/view',
+        text : '浏览'
+      }
       // {
       //   pagePath : 'pages/edit/edit',
       //   text : '编辑'
       // }
-      {
-        pagePath : 'pages/moduleA/moduleA',
-        text : '整体情况'
-      }
+      // {
+      //   pagePath : 'pages/moduleA/moduleA',
+      //   text : '整体情况'
+      // }
       // {
       //   pagePath : 'pages/moduleB/moduleB',
       //   text : '菌群状态分析'
@@ -85,10 +83,6 @@ export default {
       // {
       //   pagePath : 'pages/moduleD/moduleD',
       //   text : '健康评估'
-      // }
-      // {
-      //   pagePath : 'pages/moduleE/moduleE',
-      //   text : '菌群改善建议'
       // }
     ]
   }

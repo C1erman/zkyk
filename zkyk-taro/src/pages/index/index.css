@@ -1,6 +1,7 @@
 .home-container{
   width: 90%;
   margin: 0 auto;
+  padding-top: 2rem;
   font-size: 30px;
   color: #666666;
   --fakeTheme : #ff4f76;
@@ -60,7 +61,7 @@
 .home-select-modal{
   cursor: pointer;
   margin-left: 0.3rem;
-  padding-bottom: 0.2rem;
+  padding-bottom: 0.1rem;
   color: var(--theme);
   border-bottom: 1px solid var(--theme);
 }

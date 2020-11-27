@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Taro, { useDidShow } from '@tarojs/taro'
 import { View, Text, Checkbox, Label, Button, CheckboxGroup} from '@tarojs/components'
-import { AtButton, AtInput, AtModal, AtModalHeader, AtModalContent, AtModalAction, AtToast, AtFab, AtDrawer, AtTabBar, AtMessage } from 'taro-ui'
+import { AtButton, AtInput, AtModal, AtModalHeader, AtModalContent, AtModalAction, AtMessage } from 'taro-ui'
 import './index.css'
 import * as BIO from '../../constants';
-import { host } from '../../config'
+import { host } from '../../config';
 
 const Data = () => {
   const dispatch = useDispatch();
@@ -16,46 +16,6 @@ const Data = () => {
     })
   }, [])
   return <></>;
-}
-
-const Menu = () => {
-  let [drawerShow, setDrawerShow] = useState(false)
-
-  const handleItemClick = (index) => {
-    switch(index){
-      case 0 : {
-        Taro.redirectTo({
-          url : '/pages/index/index'
-        })
-        break;
-      }
-      case 1 : {
-        Taro.navigateTo({
-          url : '/pages/reportList/reportList'
-        })
-        break;
-      }
-      case 2 : {
-        Taro.navigateTo({
-          url : '/pages/userinfo/userinfo'
-        })
-      }
-    }
-  }
-  return (
-    <>
-      <View className='home-menu'>
-        <AtFab onClick={() => setDrawerShow(true)}>
-          <Text className='at-fab__icon at-icon at-icon-menu'></Text>
-        </AtFab>
-      </View>
-      <AtDrawer right mask show={drawerShow} 
-        onClose={() => setDrawerShow(false)}
-        items={['首页', '报告列表', '个人中心']}
-        onItemClick={handleItemClick}
-      ></AtDrawer>
-    </>
-  );
 }
 
 const Index = () => {
@@ -175,11 +135,11 @@ const Index = () => {
             <View className='home-agree-content'>
               <View className='items'>本检测通过分析肠道菌群的具体组成，可以了解人体阶段性的身体健康状况，同时还可以有针对性地进行饮食调整和益生菌/益生原的干预，以维持肠道菌群的微生态环境平衡，使人体保持健康状态。</View>
               <View className='items'>本检测的流程为：收取采样盒 » 样品采集 » 样品回邮 » 实验处理 » 检测报告 » 个性化营养方案。</View>
-            </View>
+            </View> 
           </AtModalContent>
           <AtModalAction><Button onClick={() => { setModalOpen(false); setSelected(true) }}>同意</Button></AtModalAction>
         </AtModal>
-        <AtButton type='secondary' circle customStyle={{marginTop : '2rem'}} onClick={handleSubmit} loading={btnLoading} disabled={btnLoading}>绑定采样</AtButton>
+        <AtButton type='secondary' circle customStyle={{margin : '1.5rem 0'}} onClick={handleSubmit} loading={btnLoading} disabled={btnLoading}>绑定采样</AtButton>
       </View>
     </View>
   </>);

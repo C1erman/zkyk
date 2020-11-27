@@ -30,6 +30,10 @@ const ModuleD = () => {
     return (
         <View className='M-container'>
             <View className='suggestion-title-sm'>
+                友情提示
+            </View>
+            <View className='sug-advice'>*菌群改善建议部分正在持续完善中，目前结果仅供参考。</View>
+            <View className='suggestion-title-sm'>
                 饮食建议
             </View>
             <View className='sug-food'>
@@ -63,15 +67,14 @@ const ModuleD = () => {
                 <View className='item'>
                     <View className='sug-item-img'><Image className='img' src={imageUrl['probiotics']} /><View className='div'>益生菌补充</View></View>
                         <View className='sug-item-content'>
-                        可通过直接补充含乳酸杆菌、双歧杆菌的益生菌制剂来提升双歧杆菌、阿克曼氏菌等有益菌的含量，竞争性抑制有害菌生长，
+                        通过直接补充含乳酸杆菌、双歧杆菌的益生菌制剂来提升双歧杆菌、阿克曼氏菌等有益菌的含量，竞争性抑制有害菌生长，
                         以降低有害菌的含量，调节肠道菌群平衡，促进身体健康。
                         <View>建议优先选择多菌株配方的微生态制剂，具有临床研究证据的菌株优先选择。</View>
                         </View>
                     </View>
                 <View className='item'>
                     <View className='sug-item-img'><Image className='img' src={imageUrl['prebiotics']} /><View className='div'>益生元补充</View></View>
-                    <View className='sug-item-content'>检测结果显示您的肠道处于失衡状态，可补充含低聚果糖、低聚半乳糖、低聚异麦芽糖、
-                    菊粉、抗性淀粉等在内的复合型益生元产品，
+                    <View className='sug-item-content'>补充含低聚果糖、低聚半乳糖、低聚异麦芽糖、菊粉、抗性淀粉等在内的复合型益生元产品。
                     此类益生元进入肠道后，不能被有害菌利用，可被如双歧杆菌、乳酸杆菌等有益菌选择性利用，
                     促进这些有益菌的生长，限制有害菌繁殖，从而达到肠道菌群平衡的作用。
                     </View>

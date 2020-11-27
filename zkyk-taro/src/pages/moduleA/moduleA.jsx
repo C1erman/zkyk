@@ -4,16 +4,35 @@ import { useSelector } from 'react-redux';
 import Taro from '@tarojs/taro';
 import './moduleA.css';
 import { host } from '../../config';
+import InfoProgress from '../../component/InfoProgress';
 
 
 const ModuleA = () => {
     const _user = useSelector(state => state.user)
     const report = useSelector(state => state.report)
 
+    let [graph, setGraph] = useState({
+        value : '10'
+    })
     let [user, setUser] = useState({})
     let [abnormal, setAbnormal] = useState([])
 
     useEffect(() => {
+        Taro.request({
+            url : host + '/charts/gauge',
+            method : 'GET',
+            data : {
+                id : report.current,
+                'access-token' : _user.token
+            },
+            header : {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        })
+        .then(res => {
+            let {data} = res;
+            if(data.code === 'success') setGraph(data.data);
+        }).catch(e => console.log(e));
         Taro.request({
             url : host + '/sample/personal',
             method : 'GET',
@@ -51,7 +70,10 @@ const ModuleA = () => {
     return (
         <View className='M-container'>
             <View className='overview-total-graph'>
-                
+                <InfoProgress percent={+ graph.value} labels={[{text : '40', pos : '32%'},{text : '60', pos : '52%'},{text : '80', pos : '72%'}]}
+                  texts={[{text : '重度', pos : '15%'},{text : '中度', pos : '35%'},{text : '轻度', pos : '55%'},{text : '健康', pos : '65%'}]}
+                />
+                <View className='title'>{graph.name}</View>
             </View>
             { user.age && (+ user.age) ? (<View className='overview-age-prediction'>预测年龄：{(+ user.age).toFixed(1)} 岁</View>) : null }
             <View className='overview-total'>

@@ -25,6 +25,11 @@
     font-size: 0.95rem;
     border-left: 3PX solid var(--theme);
 }
+.sug-advice{
+    width: 90%;
+    margin: 0 auto 1rem;
+    opacity: 0.8;
+}
 .sug-food{
     display: flex;
     flex-direction: column;

@@ -32,6 +32,10 @@
     left: -10%;
     top: -0.6rem;
 }
+.login-info{
+    margin-top: 50%;
+    overflow: hidden;
+}
 .login-btn{
     width: 80%;
     margin: 40% auto 0;

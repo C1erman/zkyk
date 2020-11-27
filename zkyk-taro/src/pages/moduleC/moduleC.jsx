@@ -40,6 +40,7 @@ const ModuleC = () => {
     }
     const judgeRange = (value, min, max, type) => {
         switch (type) {
+            case 'beneficial':
             case 'general': {
                 if (value < min) {
                     return { className: 'td overview-result-below' }
@@ -53,15 +54,7 @@ const ModuleC = () => {
                     return { className: 'td overview-result-above' }
                 }
             }
-            case 'beneficial': {
-                if (value < min) {
-                    return { className: 'td overview-result-below' }
-                }
-                else if (value > max) {
-                    return { className: 'td overview-result-above' }
-                }
-            }
-            default: return { className: 'td overview-result-above' };
+            default: return { className: 'td' };
         }
     }
     

@@ -169,7 +169,7 @@ const UserInfo = () => {
             {
                 user.token ? (
                     <View className='userinfo-logout'>
-                        <AtButton full type='secondary' onClick={handleLogout}>登出</AtButton>
+                        <AtButton circle type='primary' onClick={handleLogout}>登出</AtButton>
                     </View>
                 ) : null
             }
