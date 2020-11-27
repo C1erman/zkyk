@@ -38,10 +38,6 @@ export default {
         iconPath : 'icons/tab/add.png',
         selectedIconPath : 'icons/tab/add_selected.png'
       },
-      // {
-      //   pagePath : 'pages/add/add',
-      //   text : '信息绑定',
-      // },
       {
         pagePath : 'pages/reportlist/reportlist',
         text : '报告列表',
@@ -54,36 +50,6 @@ export default {
         iconPath : 'icons/tab/user.png',
         selectedIconPath : 'icons/tab/user_selected.png'
       },
-      // {
-      //   pagePath : 'pages/all/all',
-      //   text : '功能',
-      //   iconPath : 'icons/tab/home.png',
-      //   selectedIconPath : 'icons/tab/home_selected.png'
-      // },
-      {
-        pagePath : 'pages/view/view',
-        text : '浏览'
-      }
-      // {
-      //   pagePath : 'pages/edit/edit',
-      //   text : '编辑'
-      // }
-      // {
-      //   pagePath : 'pages/moduleA/moduleA',
-      //   text : '整体情况'
-      // }
-      // {
-      //   pagePath : 'pages/moduleB/moduleB',
-      //   text : '菌群状态分析'
-      // }
-      // {
-      //   pagePath : 'pages/moduleC/moduleC',
-      //   text : '菌群状态分析'
-      // }
-      // {
-      //   pagePath : 'pages/moduleD/moduleD',
-      //   text : '健康评估'
-      // }
     ]
   }
 }

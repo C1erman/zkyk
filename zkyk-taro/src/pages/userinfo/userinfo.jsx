@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text } from '@tarojs/components';
 import { useSelector, useDispatch } from 'react-redux';
-import { AtInput, AtButton, AtMessage, AtList, AtListItem, AtCard, AtModal, AtFloatLayout } from 'taro-ui';
-import Taro, { useDidShow } from '@tarojs/taro';
+import { AtInput, AtButton, AtMessage, AtList, AtListItem, AtFloatLayout } from 'taro-ui';
+import Taro from '@tarojs/taro';
 import * as BIO from '../../actions';
 import './userinfo.css';
 import { host } from '../../config';
@@ -83,22 +83,22 @@ const UserInfo = () => {
             .then(res => {
                 let {data} = res;
                 if(data.code === 'success'){
-                    setUserInfo({
-                        ...userInfo,
-                        ...userUpadteInfo
-                    })
                     Taro.atMessage({
                         type : 'success',
                         message : '信息更新成功'
                     })
+                    setUserInfo({
+                        ...userInfo,
+                        ...userUpadteInfo
+                    })
                 }
                 else{
-                    setUserUpdateInfo(userInfo);
                     Taro.atMessage({
                         type : 'error',
                         message : data.info,
                         duration : 2500
                     })
+                    setUserUpdateInfo(userInfo);
                 }
                 setLoading(false)
             })
@@ -140,60 +140,62 @@ const UserInfo = () => {
     }
 
     return (
-        <View className='userinfo-container'>
+        <>
             <AtMessage />
-            <View className='userinfo-avatar'>
-                {user.token ? (<View className='userinfo-avatar-info'>
-                    <View className='name'>{userInfo.username}</View><View className='org'>{userInfo.org}</View>
-                </View>) : (<View className='userinfo-avatar-login' onClick={() => Taro.navigateTo({url : '/pages/login/login'})}>请登录</View>)}
-            </View>
-            <View className='userinfo-list'>
-                <AtList hasBorder={false}>
-                    <AtListItem hasBorder={false} title='个人信息' arrow='right'
-                      iconInfo={{size : 25, color : '#ff4f76', value : 'message'}}
-                      onClick={user.token ? () => handleLayoutOpen('userInfo') : null}
-                      disabled={!user.token}
-                    />
-                    <AtListItem hasBorder={false} title='修改密码' arrow='right'
-                      iconInfo={{size : 25, color : '#ff4f76', value : 'lock'}}
-                      onClick={user.token ? () => handleLayoutOpen('password') : null}
-                      disabled
-                    />
-                    <AtListItem hasBorder={false} title='修改邮箱' arrow='right'
-                      iconInfo={{size : 25, color : '#ff4f76', value : 'mail'}}
-                      onClick={user.token ? () => handleLayoutOpen('email') : null}
-                      disabled
-                    />
-                </AtList>
-            </View>
-            {
-                user.token ? (
-                    <View className='userinfo-logout'>
-                        <AtButton circle type='primary' onClick={handleLogout}>登出</AtButton>
+            <View className='userinfo-container'>
+                <View className='userinfo-avatar'>
+                    {user.token ? (<View className='userinfo-avatar-info'>
+                        <View className='name'>{userInfo.username}</View><View className='org'>{userInfo.org}</View>
+                    </View>) : (<View className='userinfo-avatar-login' onClick={() => Taro.navigateTo({url : '/pages/login/login'})}>请登录</View>)}
+                </View>
+                <View className='userinfo-list'>
+                    <AtList hasBorder={false}>
+                        <AtListItem hasBorder={false} title='个人信息' arrow='right'
+                          iconInfo={{size : 25, color : '#ff4f76', value : 'message'}}
+                          onClick={user.token ? () => handleLayoutOpen('userInfo') : null}
+                          disabled={!user.token}
+                        />
+                        <AtListItem hasBorder={false} title='修改密码' arrow='right'
+                          iconInfo={{size : 25, color : '#ff4f76', value : 'lock'}}
+                          onClick={user.token ? () => handleLayoutOpen('password') : null}
+                          disabled
+                        />
+                        <AtListItem hasBorder={false} title='修改邮箱' arrow='right'
+                          iconInfo={{size : 25, color : '#ff4f76', value : 'mail'}}
+                          onClick={user.token ? () => handleLayoutOpen('email') : null}
+                          disabled
+                        />
+                    </AtList>
+                </View>
+                {
+                    user.token ? (
+                        <View className='userinfo-logout'>
+                            <AtButton circle type='primary' onClick={handleLogout}>登出</AtButton>
+                        </View>
+                    ) : null
+                }
+                <AtFloatLayout title='基本信息' isOpened={layoutOpen.userInfo} onClose={() => handleLayoutClose('userInfo')}>
+                    <AtInput name='username' title='用户名' value={userUpadteInfo.username} onChange={(value) => handleSetValue(value, 'username')} />
+                    <AtInput name='tel' title='电话号码' value={userUpadteInfo.tel} onChange={(value) => handleSetValue(value, 'tel')} />
+                    <AtInput name='org' title='所属机构' value={userUpadteInfo.org} disabled />
+                    <View className='userinfo-btn-container'>
+                        <AtButton customStyle={{marginTop : '2rem'}} circle type='secondary'
+                          disabled={btnLoading} loading={btnLoading} onClick={handleUpdate}
+                        >更新</AtButton>
                     </View>
-                ) : null
-            }
-            <AtFloatLayout title='基本信息' isOpened={layoutOpen.userInfo} onClose={() => handleLayoutClose('userInfo')}>
-                <AtInput name='username' title='用户名' value={userUpadteInfo.username} onChange={(value) => handleSetValue(value, 'username')} />
-                <AtInput name='tel' title='电话号码' value={userUpadteInfo.tel} onChange={(value) => handleSetValue(value, 'tel')} />
-                <AtInput name='org' title='所属机构' value={userUpadteInfo.org} disabled />
-                <View className='userinfo-btn-container'>
-                    <AtButton customStyle={{marginTop : '2rem'}} circle type='secondary'
-                      disabled={btnLoading} loading={btnLoading} onClick={handleUpdate}
-                    >更新</AtButton>
-                </View>
-            </AtFloatLayout>
-            <AtFloatLayout title='基本信息' isOpened={false} onClose={() => handleLayoutClose('userInfo')}>
-                <View className='userinfo-setting'>
-                    我们将向您的邮箱<Text className='email'>{userInfo.emial}</Text>发送一封邮件用以重置密码。请确认邮箱地址后选择发送。
-                </View>
-                <View className='userinfo-btn-container'>
-                    <AtButton customStyle={{marginTop : '2rem'}} circle type='secondary'
-                      disabled={btnLoading} loading={btnLoading} onClick={handleUpdate}
-                    >发送</AtButton>
-                </View>
-            </AtFloatLayout>
-        </View>
+                </AtFloatLayout>
+                <AtFloatLayout title='基本信息' isOpened={false} onClose={() => handleLayoutClose('userInfo')}>
+                    <View className='userinfo-setting'>
+                        我们将向您的邮箱<Text className='email'>{userInfo.emial}</Text>发送一封邮件用以重置密码。请确认邮箱地址后选择发送。
+                    </View>
+                    <View className='userinfo-btn-container'>
+                        <AtButton customStyle={{marginTop : '2rem'}} circle type='secondary'
+                          disabled={btnLoading} loading={btnLoading} onClick={handleUpdate}
+                        >发送</AtButton>
+                    </View>
+                </AtFloatLayout>
+            </View>
+        </>
     );
 }
 
