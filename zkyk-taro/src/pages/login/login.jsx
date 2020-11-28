@@ -43,7 +43,7 @@ const Login = () => {
                 let {data} = res;
                 if(data.code === 'success'){
                     Taro.atMessage({
-                        message : '登陆成功',
+                        message : '登录成功',
                         type : 'success',
                         duration : 2500
                     })
@@ -95,7 +95,7 @@ const Login = () => {
                             })
                             Taro.atMessage({
                                 type : 'success',
-                                message : '登陆成功',
+                                message : '登录成功',
                                 duration : 2500
                             })
                             setTimeout(() => {

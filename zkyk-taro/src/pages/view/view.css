@@ -39,3 +39,6 @@
 .view-overview-info{
     margin-bottom: 1.5rem;
 }
+.at-grid__flex .content-inner__text{
+    font-size: 0.9rem;
+}

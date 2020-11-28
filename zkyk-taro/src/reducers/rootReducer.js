@@ -129,6 +129,14 @@ const rootReducer = (state = initState, action) => {
                 sampleList
             }
         }
+        case BIO.REPORT_LIST_CURRENT_SEARCH : {
+            const sampleList = clone(state['sampleList']);
+            sampleList.search = action.data;
+            return {
+                ...state,
+                sampleList
+            }
+        }
         case BIO.REPORT_READ_OVER : {
             const report = clone(initState['report']);
             localStorage.removeItem('VIEW_current');

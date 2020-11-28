@@ -5,7 +5,7 @@ import Taro from '@tarojs/taro'
 import { AtGrid, AtButton } from 'taro-ui';
 
 import './view.css'
-import { host } from '../../config';
+import { host, imgSrc } from '../../config';
 
 const ReportView = () => {
     const user = useSelector(state => state.user)
@@ -78,9 +78,10 @@ const ReportView = () => {
         <View className='view-container'>
             <View className='view-title'><Text className='text'>报告模块</Text></View>
             <View className='view-list'>
-                <AtGrid mode='rect' data={[
-                    {value : '整体情况'}, {value : '菌群状态分析'}, {value : '具体检测结果'},
-                    {value : '健康评估'}, {value : '菌群改善建议'}
+                <AtGrid mode='square' data={[
+                    {value : '整体情况', image : imgSrc + '/icons/view/a.png' }, {value : '菌群状态分析', image : imgSrc + '/icons/view/b.png' },
+                    {value : '具体检测结果', image : imgSrc + '/icons/view/c.png' },
+                    {value : '健康评估',  image : imgSrc + '/icons/view/d.png' }, {value : '菌群改善建议', image : imgSrc + '/icons/view/e.png' }
                 ]} onClick={(item, index) => handleItemClick(item.value)}
                 />
             </View>

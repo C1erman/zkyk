@@ -22,8 +22,8 @@ export default {
     navigationBarTextStyle: 'black'
   },
   networkTimeout: {
-    request: 10000,
-    downloadFile: 10000
+    request: 30000,
+    downloadFile: 30000
   },
   tabBar: {
     position : 'bottom',
@@ -49,7 +49,12 @@ export default {
         text : '我的',
         iconPath : 'icons/tab/user.png',
         selectedIconPath : 'icons/tab/user_selected.png'
+      },
+      {
+        pagePath : 'pages/add/add',
+        text : '我的',
       }
+
     ]
   }
 }

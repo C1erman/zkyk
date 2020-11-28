@@ -14,6 +14,11 @@ const Data = () => {
     dispatch({
       type : BIO.DATA_LOAD
     })
+    Taro.atMessage({
+      type : 'info',
+      message : '欢迎回来',
+      duration : 2000
+    });
   }, [])
   return <></>;
 }
@@ -145,4 +150,4 @@ const Index = () => {
   </>);
 }
 
-export default Index
+export default Index;

@@ -10,6 +10,7 @@ const initState = {
     sampleList : {
         totalPage : 1,
         currentPage : 1,
+        search : ''
     },
     report : {
         current : ''

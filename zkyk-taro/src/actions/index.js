@@ -23,6 +23,7 @@ const REPORT_READ_OVER = 'report-read-over';
 const REPORT_EDIT = 'report-edit';
 const REPORT_EDIT_SUCCESS = 'report-edit-success';
 const REPORT_LIST_CURRENT_PAGE = 'report-list-current-page';
+const REPORT_LIST_CURRENT_SEARCH = 'report-list-current-search';
 // 报告下载
 const REPORT_DOWNLOAD = 'report-download';
 const REPORT_DOWNLOAD_SUCCESS = 'report-download-success';
@@ -57,6 +58,7 @@ export {
     REPORT_EDIT,
     REPORT_EDIT_SUCCESS,
     REPORT_LIST_CURRENT_PAGE,
+    REPORT_LIST_CURRENT_SEARCH,
     REPORT_DOWNLOAD,
     REPORT_DOWNLOAD_SUCCESS,
     SHARE_REPORT_ADD,

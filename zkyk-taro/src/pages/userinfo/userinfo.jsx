@@ -59,7 +59,7 @@ const UserInfo = () => {
             .catch(e => console.log(e))
         }
     }, [user])
-    
+
     const handleUpdate = () => {
         // check empty
         if(checkEmpty(userUpadteInfo)) Taro.atMessage({
@@ -85,28 +85,28 @@ const UserInfo = () => {
                 if(data.code === 'success'){
                     Taro.atMessage({
                         type : 'success',
-                        message : '信息更新成功'
-                    })
+                        message : '信息更新成功',
+                        duration : 2500
+                    });
                     setUserInfo({
                         ...userInfo,
                         ...userUpadteInfo
-                    })
+                    });
                 }
                 else{
                     Taro.atMessage({
                         type : 'error',
                         message : data.info,
                         duration : 2500
-                    })
+                    });
                     setUserUpdateInfo(userInfo);
                 }
-                setLoading(false)
+                setLoading(false);
             })
             .catch(error => console.log(error))
         }
     }
     const handleSetValue = (value, name) => {
-        console.log(value, name)
         let _userInfo = clone(userUpadteInfo);
         _userInfo[name] = value;
         setUserUpdateInfo(_userInfo);
@@ -168,7 +168,7 @@ const UserInfo = () => {
                 }
                 <AtFloatLayout title='基本信息' isOpened={layoutOpen.userInfo} onClose={() => handleLayoutClose('userInfo')}>
                     <AtInput name='username' title='用户名' value={userUpadteInfo.username} onChange={(value) => handleSetValue(value, 'username')} />
-                    <AtInput name='tel' title='电话号码' value={userUpadteInfo.tel} onChange={(value) => handleSetValue(value, 'tel')} />
+                    <AtInput name='tel' title='电话号码' type='phone' value={userUpadteInfo.tel} onChange={(value) => handleSetValue(value, 'tel')} />
                     <AtInput name='org' title='所属机构' value={userUpadteInfo.org} disabled />
                     <View className='userinfo-btn-container'>
                         <AtButton customStyle={{marginTop : '2rem'}} circle type='secondary'

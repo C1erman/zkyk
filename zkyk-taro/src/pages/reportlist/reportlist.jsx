@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Image } from '@tarojs/components';
 import { useSelector, useDispatch } from 'react-redux';
 import Taro, { useDidShow } from '@tarojs/taro';
-import { AtButton, AtPagination, AtFloatLayout, AtMessage, AtInput } from 'taro-ui';
+import { AtButton, AtPagination, AtFloatLayout, AtMessage, AtInput, AtAccordion } from 'taro-ui';
 import './reportlist.css';
 import { host, imgSrc } from '../../config';
 import * as BIO from '../../actions';
@@ -23,13 +23,15 @@ const ReportList = () => {
     let listNumPerPage = 7
     let [detailStatus, setStatus] = useState([])
 
-    let [listSearch, setListSearch] = useState('');
-    let [listSearchText, setListSearchText] = useState('')
+    let [listSearch, setListSearch] = useState(sampleList.search || '');
+    let [listSearchText, setListSearchText] = useState(sampleList.search || '')
 
+    let [testeeCode, setTesteeCode] = useState({
+        name : '',
+        code : ''
+    })
     let br = '\n';
 
-    // useEffect(() => {
-    // }, [user])
     useDidShow(() => {
         if(user.token){
             Taro.request({
@@ -50,7 +52,8 @@ const ReportList = () => {
                 if(data.code === 'success'){
                     setList(data.data.list)
                     setPagination(data.data.pagination);
-                    setListSearchText('');
+                    setListSearch(listSearch);
+                    setListSearchText(listSearch);
                 }
             })
             .catch(e => console.log(e))
@@ -82,7 +85,27 @@ const ReportList = () => {
             if(data.code === 'success'){
                 setStatus(data.data);
             }
+        }).catch(e => console.log(e))
+    }
+    const getTesteeCode = (barcode) => {
+        Taro.request({
+            url : host + '/sample/testee/code',
+            method : 'GET',
+            data : {
+                'access-token' : user.token,
+                barcode : barcode
+            },
+            header : {
+                'Content-Type' : 'application/json; charset=UTF-8'
+            }
         })
+        .then(res => {
+            let {data} = res;
+            if(data.code === 'success'){
+                setTesteeCode(data.data);
+            }
+        })
+        .catch(e => console.log(e))
     }
     const initialList = () => {
         Taro.request({
@@ -209,6 +232,14 @@ const ReportList = () => {
                     setCurrent(1);
                     setPagination(data.data.pagination);
                     setListSearchText(listSearch);
+                    dispatch({
+                        type : BIO.REPORT_LIST_CURRENT_PAGE,
+                        data : 1
+                    });
+                    dispatch({
+                        type : BIO.REPORT_LIST_CURRENT_SEARCH,
+                        data : listSearch
+                    })
                     Taro.atMessage({
                         type : 'success',
                         message : '查询成功',
@@ -226,8 +257,10 @@ const ReportList = () => {
         <View className='reportList-container'>
             <AtMessage />
             <View className='reportList-title'><Text className='text'>选择报告以进行后续操作</Text></View>
+            AtAccordion 
+            
             <View className='reportList-info'>
-                在实验结束、生成报告之前，您都有机会对您填写的信息进行修改；报告生成之后，您只能查看而不能修改相关信息。<Text>{br}点击报告的当前状态以查看状态详情。</Text>
+                在实验结束、生成报告之前，您都有机会对您填写的信息进行修改；报告生成之后，您只能查看而不能修改相关信息。<Text>{br}点击受测人姓名查看受测人编码，点击报告的当前状态查看状态详情。</Text>
             </View>
             {
                 !user.token ? (
@@ -269,7 +302,7 @@ const ReportList = () => {
                         </View>
                         <View className='reportList-table-body'>
                             {list.map((v, i) => <View key={i} className='reportList-table-tr tr'>
-                                <View className='td'>{v.person_name}</View>
+                                <View className='td' onClick={() => getTesteeCode(v.sample_barcode)}>{v.person_name}</View>
                                 <View className='td'>{v.sample_barcode + (v.version ? ' V' + v.version : '')}</View>
                                 <View className={'td ' + v.status_en} onClick={() => getStatus(v.sample_id)}>{v.status_zh}</View>
                                 <View className='td'><AtButton className='bio-border' size='small' circle disabled={mapButtonStatus(v.status_en)} onClick={() => mapOperate(v.operate, v.report_id || 'error', v.sample_id)}>{v.operate}</AtButton></View>
@@ -301,6 +334,12 @@ const ReportList = () => {
                                 </View>
                                 <View className='reportList-status-content'>{v.detail}</View>
                             </View>))}
+                        </View>
+                    </AtFloatLayout>
+                    <AtFloatLayout  isOpened={testeeCode.name} title='受测人编码' onClose={() => setTesteeCode({})}>
+                        <View className='reportList-testeeCode'>
+                            <Text className='name'>{testeeCode.name}</Text>的受测人编码为<Text className='code'>{testeeCode.code}</Text>。
+                            <View>下一次为该受测人填写信息时请输入该编码。</View>
                         </View>
                     </AtFloatLayout>
                 </>
