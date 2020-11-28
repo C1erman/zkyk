@@ -326,7 +326,7 @@ const Add = () => {
             <AtMessage />
             <AtCurtain isOpened={curtainOpen} onClose={handleCloseCurtain}>
                 <View className='add-check'>
-                    <View className='add-check-info'>若非首次送样，请在下方输入受测人编码；否则请直接点击下一步。如退回上一步，请关闭弹窗。</View>
+                    <View className='add-check-info'>若非首次送样，请在下方输入受测人编码；否则请直接点击下一步。如需返回上一步，请关闭弹窗。</View>
                     <View className='add-check-input'>
                         <AtInput name='first' title='受测人编码' type='number' placeholder='请输入编码' value={testee.testeeCode} onChange={(value) => handleSetTesteeValue(value, 'testeeCode')} />
                         <AtButton customStyle={{marginTop : '1rem'}} type='primary' circle

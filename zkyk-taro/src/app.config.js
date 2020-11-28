@@ -49,12 +49,7 @@ export default {
         text : '我的',
         iconPath : 'icons/tab/user.png',
         selectedIconPath : 'icons/tab/user_selected.png'
-      },
-      {
-        pagePath : 'pages/add/add',
-        text : '我的',
       }
-
     ]
   }
 }
