@@ -6,6 +6,7 @@ import { AtButton, AtPagination, AtFloatLayout, AtMessage, AtInput } from 'taro-
 import './reportlist.css';
 import { host, imgSrc } from '../../config';
 import * as BIO from '../../actions';
+import Pager from '../../component/Pager';
 
 
 const ReportList = () => {
@@ -15,16 +16,20 @@ const ReportList = () => {
     let [list, setList] = useState([])
     let [listCurrent, setCurrent] = useState(1)
     let [listPagination, setPagination] = useState({
-        total : 1
+        total : 1,
+        pageSize : 1
     })
     let listNumPerPage = 7
     let [detailStatus, setStatus] = useState([])
 
     let [listSearch, setListSearch] = useState('');
+    let [listSearchText, setListSearchText] = useState('')
 
     let br = '\n';
 
-    useEffect(() => {
+    // useEffect(() => {
+    // }, [user])
+    useDidShow(() => {
         if(user.token){
             Taro.request({
                 url : host + '/sample/list',
@@ -41,12 +46,14 @@ const ReportList = () => {
                 let {data} = res;
                 if(data.code === 'success'){
                     setList(data.data.list)
+                    setCurrent(1);
                     setPagination(data.data.pagination);
+                    setListSearchText('');
                 }
             })
             .catch(e => console.log(e))
         }
-    }, [user])
+    })
 
     const mapButtonStatus = (status) => {
         switch(status){
@@ -74,6 +81,40 @@ const ReportList = () => {
                 setStatus(data.data);
             }
         })
+    }
+    const initialList = () => {
+        Taro.request({
+            url : host + '/sample/list',
+            method : 'GET',
+            data : {
+                'access-token' : user.token,
+                pageNum : listNumPerPage
+            },
+            header : {
+                'Content-Type' : 'application/json; charset=UTF-8'
+            }
+        })
+        .then(res => {
+            let {data} = res;
+            if(data.code === 'success'){
+                setList(data.data.list)
+                setCurrent(1);
+                setPagination(data.data.pagination);
+                setListSearch('');
+                setListSearchText('');
+                Taro.atMessage({
+                    type : 'success',
+                    message : '查询条件清空成功',
+                    duration : 2500
+                });
+            }
+            else Taro.atMessage({
+                type : 'error',
+                message : data.info,
+                duration : 2500
+            });
+        })
+        .catch(e => console.log(e))
     }
     const getCurrentList = (currentPage) => {
         setCurrent(currentPage)
@@ -158,8 +199,10 @@ const ReportList = () => {
             .then(res => {
                 let {data} = res;
                 if(data.code === 'success'){
-                    setList(data.data.list)
+                    setList(data.data.list);
+                    setCurrent(1);
                     setPagination(data.data.pagination);
+                    setListSearchText(listSearch);
                     Taro.atMessage({
                         type : 'success',
                         message : '查询成功',
@@ -169,32 +212,7 @@ const ReportList = () => {
             })
             .catch(e => console.log(e))
         }
-        else{
-            Taro.request({
-                url : host + '/sample/list',
-                method : 'GET',
-                data : {
-                    'access-token' : user.token,
-                    pageNum : listNumPerPage
-                },
-                header : {
-                    'Content-Type' : 'application/json; charset=UTF-8'
-                }
-            })
-            .then(res => {
-                let {data} = res;
-                if(data.code === 'success'){
-                    setList(data.data.list)
-                    setPagination(data.data.pagination);
-                    Taro.atMessage({
-                        type : 'success',
-                        message : '查询条件已清空',
-                        duration : 2500
-                    })
-                }
-            })
-            .catch(e => console.log(e))
-        }
+        else initialList();
     }
 
 
@@ -210,6 +228,12 @@ const ReportList = () => {
                     <View className='reportList-empty'>请登录过后再来查看。</View>
                 ) : !list.length ? (
                 <>
+                    {listSearchText.length ? (
+                        <View className='reportList-search-show'>
+                            当前查询条件为：<Text className='reportList-search-text'>{listSearchText}</Text>
+                            <View className='reportList-search-button' onClick={initialList}>清空</View>
+                        </View>
+                    ) : null}
                     <View className='reportList-empty'>抱歉，暂时无可以操作的报告。</View>
                     <View className='reportList-title'><Text className='text'>报告查询</Text></View>
                     <View className='reportList-search'>
@@ -217,11 +241,17 @@ const ReportList = () => {
                         <AtInput type='text' name='search' placeholder='请输入查询条件' customStyle={{marginBottom : '1rem'}}
                           value={listSearch} onChange={(value) => setListSearch(value)}
                         />
-                        <AtButton className='bio-button' circle onClick={handleListSearch}>{listSearch.length ? '查询' : '全部报告'}</AtButton>
+                        <AtButton className='bio-button' circle onClick={handleListSearch}>查询</AtButton>
                     </View>
                 </>
             ) : (
                 <>
+                    {listSearchText.length ? (
+                        <View className='reportList-search-show'>
+                            当前查询条件为：<Text className='reportList-search-text'>{listSearchText}</Text>
+                            <View className='reportList-search-button' onClick={initialList}>清空</View>
+                        </View>
+                    ) : null}
                     <View className='reportList-table'>
                         <View className='reportList-table-head'>
                             <View className='tr'>
@@ -236,20 +266,21 @@ const ReportList = () => {
                                 <View className='td'>{v.person_name}</View>
                                 <View className='td'>{v.sample_barcode + (v.version ? ' V' + v.version : '')}</View>
                                 <View className={'td ' + v.status_en} onClick={() => getStatus(v.sample_id)}>{v.status_zh}</View>
-                                <View className='td'><AtButton size='small' circle disabled={mapButtonStatus(v.status_en)} onClick={() => mapOperate(v.operate, v.report_id || 'error', v.sample_id)}>{v.operate}</AtButton></View>
+                                <View className='td'><AtButton className='bio-border' size='small' circle disabled={mapButtonStatus(v.status_en)} onClick={() => mapOperate(v.operate, v.report_id || 'error', v.sample_id)}>{v.operate}</AtButton></View>
                             </View>)}
                         </View>
                     </View>
-                    <AtPagination className='reportList-pagination bio-border' total={listPagination.total} pageSize={listNumPerPage}
+                    <Pager current={listCurrent} total={listPagination.pageSize} prevClick={(currentPage) => getCurrentList(currentPage)} nextClick={(currentPage) => getCurrentList(currentPage)}  />
+                    {/* <AtPagination className='reportList-pagination bio-border' total={listPagination.total} pageSize={listNumPerPage}
                       current={listCurrent} onPageChange={(action) => getCurrentList(action.current)}
-                    ></AtPagination>
+                    ></AtPagination> */}
                     <View className='reportList-title'><Text className='text'>报告查询</Text></View>
                     <View className='reportList-search'>
                         <View>可输入受测人、样本编号与状态进行查询，多条件查询时请用空格区分。</View>
                         <AtInput type='text' name='search' placeholder='请输入查询条件' customStyle={{marginBottom : '1rem'}}
-                          value={listSearch} onChange={(value) => setListSearch(value)} clear
+                          value={listSearch} onChange={(value) => setListSearch(value)}
                         />
-                        <AtButton className='bio-button' circle onClick={handleListSearch}>{listSearch.length ? '查询' : '全部报告'}</AtButton>
+                        <AtButton className='bio-button' circle onClick={handleListSearch}>查询</AtButton>
                     </View>
                     <AtFloatLayout isOpened={detailStatus.length > 0} title='状态详情' onClose={() => setStatus([])}>
                         <View className='reportList-status'>

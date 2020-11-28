@@ -50,6 +50,10 @@ export default {
         iconPath : 'icons/tab/user.png',
         selectedIconPath : 'icons/tab/user_selected.png'
       },
+      {
+        pagePath : 'pages/edit/edit',
+        text : '编辑',
+      },
     ]
   }
 }

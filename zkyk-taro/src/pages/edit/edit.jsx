@@ -167,7 +167,9 @@ const Edit = () => {
         setEditPicker(picker);
     }
     const handleSetOtherValue = (value, dataName) => {
+        console.log(value, dataName)
         let otherInfo = clone(editOtherInfo);
+        console.log(otherInfo)
         otherInfo[dataName] = value;
         setEditOtherInfo(otherInfo);
     }
@@ -371,7 +373,7 @@ const Edit = () => {
                     <Picker mode='selector' range={editPicker.gender.selector}
                       className='edit-picker' onChange={(e) => _handleSetPickerValue(e, 'gender')}
                     >
-                        <AtList className='add-picker-list'>
+                        <AtList className='edit-picker-list'>
                             <AtListItem 
                               title='性别'
                               extraText={_editPicker.gender.selectorChecked}
@@ -381,7 +383,7 @@ const Edit = () => {
                     <Picker mode='selector' range={_editPicker.bloodType.selector}
                       className='add-picker' onChange={(e) => _handleSetPickerValue(e, 'bloodType')}
                     >
-                        <AtList className='add-picker-list'>
+                        <AtList className='edit-picker-list'>
                             <AtListItem 
                               title='血型'
                               extraText={_editPicker.bloodType.selectorChecked}
@@ -392,7 +394,7 @@ const Edit = () => {
                       onChange={(e) => _handleSetPickerValue(e, 'birthday')}
                       end={getNow()}
                     >
-                        <AtList className='add-picker-list'>
+                        <AtList className='edit-picker-list'>
                             <AtListItem 
                               title='生日'
                               extraText={_editPicker.birthday}

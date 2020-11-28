@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState } from 'react';
 import { View, Text } from '@tarojs/components';
 import { useSelector } from 'react-redux';
 import Taro from '@tarojs/taro'

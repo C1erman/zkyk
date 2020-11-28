@@ -1,0 +1,29 @@
+.pager{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 2rem 0 1rem;
+    user-select: none;
+    --theme : #ff4f76;
+}
+.pager > .pager-btn{
+    display: inline-block;
+    height: 1.35rem;
+    line-height: 1.3rem;
+    background-color: #ffffff;
+    color: var(--theme);
+    border: 1PX solid var(--theme);
+    padding: 0.2rem 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+}
+.pager > .pager-disabled{
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--theme);
+    color: #ffffff;
+}
+.pager-current{
+    font-weight: bolder;
+    color: var(--theme);
+}

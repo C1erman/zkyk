@@ -45,6 +45,24 @@
     background-color: var(--textContainer);
     padding: 1rem;
 }
+.reportList-search-show{
+    width: 90%;
+    margin: 0 auto 1rem;
+    line-height: 1.8;
+    overflow: hidden;
+}
+.reportList-search-text{
+    font-weight: bolder;
+}
+.reportList-search-button{
+    display: inline-block;
+    float: right;
+    border-radius: 1rem;
+    margin-right: 1rem;
+    padding: 0.1rem 1rem;
+    background: var(--fakeTheme);
+    color: var(--white);
+}
 .reportList-empty{
     text-align: center;
     margin: 1.5rem 0;
