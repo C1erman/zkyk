@@ -167,9 +167,7 @@ const Edit = () => {
         setEditPicker(picker);
     }
     const handleSetOtherValue = (value, dataName) => {
-        console.log(value, dataName)
         let otherInfo = clone(editOtherInfo);
-        console.log(otherInfo)
         otherInfo[dataName] = value;
         setEditOtherInfo(otherInfo);
     }
@@ -363,7 +361,7 @@ const Edit = () => {
                     />
                 </AtList>
             </Picker>
-            <AtInput name='antibiotics' required title='服用过的抗生素' placeholder='一周内服用过的抗生素' value={editOtherInfo.antibiotics} onChange={(value) => handleSetOtherValue(value, 'antibiotics')} />
+            <AtInput name='antibiotics' title='服用过的抗生素' placeholder='一周内服用过的抗生素' value={editOtherInfo.antibiotics} onChange={(value) => handleSetOtherValue(value, 'antibiotics')} />
             <AtButton customStyle={{margin : '1rem 0'}} circle type='secondary' onClick={handleSubmit}>修改</AtButton>
             <AtFloatLayout isOpened={layoutOpened} title='受测人信息修改' onClose={() => setLayoutOpened(false)}>
                 <View className='edit-info-check'>修改受测人基本信息将会引起所有相关联绑定信息的修改，请谨慎修改。</View>

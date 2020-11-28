@@ -13,7 +13,6 @@ const InfoAdd = () => {
     const dispatch = useDispatch()
 
     let [userData, setUserData] = useState({
-        email : '',
         invitation : ''
     })
     let [submitLoading, setLoading] = useState(false)
@@ -36,7 +35,6 @@ const InfoAdd = () => {
                 method : 'POST',
                 data : {
                     username : user.username,
-                    email : userData.email,
                     invitation : userData.invitation
                 },
                 header : {
@@ -68,10 +66,10 @@ const InfoAdd = () => {
             <View className='infoadd-info'>
                 请补充填写下述必要信息以完成登录：
             </View>
-            <AtInput name='email' placeholder='请输入邮箱'
+            {/* <AtInput name='email' placeholder='请输入邮箱'
               title='邮箱' type='text' required value={userData.email}
               onChange={(value) => handleSetValue(value, 'email')}
-            />
+            /> */}
             <AtInput name='invitation' placeholder='请输入企业邀请码'
               title='邀请码' type='text' required value={userData.invitation}
               onChange={(value) => handleSetValue(value, 'invitation')}

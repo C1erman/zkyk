@@ -12,9 +12,10 @@ import Pager from '../../component/Pager';
 const ReportList = () => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)
+    const sampleList = useSelector(state => state.sampleList)
 
     let [list, setList] = useState([])
-    let [listCurrent, setCurrent] = useState(1)
+    let [listCurrent, setCurrent] = useState(+ sampleList.currentPage)
     let [listPagination, setPagination] = useState({
         total : 1,
         pageSize : 1
@@ -36,7 +37,9 @@ const ReportList = () => {
                 method : 'GET',
                 data : {
                     'access-token' : user.token,
-                    pageNum : listNumPerPage
+                    pageNum : listNumPerPage,
+                    page : + sampleList.currentPage,
+                    query : listSearch
                 },
                 header : {
                     'Content-Type' : 'application/json; charset=UTF-8'
@@ -46,7 +49,6 @@ const ReportList = () => {
                 let {data} = res;
                 if(data.code === 'success'){
                     setList(data.data.list)
-                    setCurrent(1);
                     setPagination(data.data.pagination);
                     setListSearchText('');
                 }
@@ -118,6 +120,10 @@ const ReportList = () => {
     }
     const getCurrentList = (currentPage) => {
         setCurrent(currentPage)
+        dispatch({
+            type : BIO.REPORT_LIST_CURRENT_PAGE,
+            data : currentPage
+        });
         Taro.request({
             url : host + '/sample/list',
             method : 'GET',

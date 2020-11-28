@@ -70,8 +70,8 @@ const ModuleA = () => {
     return (
         <View className='M-container'>
             <View className='overview-total-graph'>
-                <InfoProgress percent={+ graph.value} labels={[{text : '40', pos : '32%'},{text : '60', pos : '52%'},{text : '80', pos : '72%'}]}
-                  texts={[{text : '重度', pos : '15%'},{text : '中度', pos : '35%'},{text : '轻度', pos : '55%'},{text : '健康', pos : '65%'}]}
+                <InfoProgress percent={+ graph.value} labels={[{text : '20', pos : '12%'},{text : '60', pos : '52%'},{text : '80', pos : '72%'}]}
+                  texts={[{text : '重度', pos : '5%'},{text : '中度', pos : '25%'},{text : '轻度', pos : '52%'},{text : '健康', pos : '67%'}]}
                 />
                 <View className='title'>{graph.name}</View>
             </View>

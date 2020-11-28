@@ -187,12 +187,13 @@ const Add = () => {
                     message : '绑定成功',
                     duration : 2500
                 })
-                setTimeout(() => {
-                    // Taro.navigateBack();
-                }, 2500)
                 dispatch({
                     type : BIO.ADD_SUCCESS
                 })
+                setTimeout(() => {
+                    setSubmitBtnLoading(false);
+                    Taro.navigateBack();
+                }, 2500)
             }
             else Taro.atMessage({
                 type : 'error',
@@ -383,7 +384,7 @@ const Add = () => {
                     />
                 </AtList>
             </Picker>
-            <AtInput name='antibiotics' required title='服用过的抗生素' placeholder='一周内服用过的抗生素' value={addOtherInfo.antibiotics} onChange={(value) => handleSetOtherValue(value, 'antibiotics')} />
+            <AtInput name='antibiotics' title='服用过的抗生素' placeholder='一周内服用过的抗生素' value={addOtherInfo.antibiotics} onChange={(value) => handleSetOtherValue(value, 'antibiotics')} />
             <AtButton customStyle={{margin : '1rem 0'}} circle type='secondary' onClick={handleGoNext}>下一步</AtButton>
             <AtFloatLayout isOpened={layoutOpened} title='受测人信息确认' onClose={() => setLayoutOpened(false)}>
                 <View className='add-info-check'>

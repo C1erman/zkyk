@@ -22,7 +22,11 @@ const rootReducer = (state = initState, action) => {
                 },
                 edit : {
                     current : Taro.getStorageSync('EDIT_current') || ''
-                }
+                },
+                sampleList : {
+                    totalPage : 1,
+                    currentPage : Taro.getStorageSync('SAMPLELIST_current_page') || 1,
+                },
             }
         }
         // 页面更改
@@ -119,7 +123,7 @@ const rootReducer = (state = initState, action) => {
         case BIO.REPORT_LIST_CURRENT_PAGE : {
             const sampleList = clone(state['sampleList']);
             sampleList.currentPage = action.data;
-            sessionStorage.setItem('SAMPLELIST_current_page', action.data);
+            Taro.setStorageSync('SAMPLELIST_current_page', action.data);
             return {
                 ...state,
                 sampleList

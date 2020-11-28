@@ -50,14 +50,15 @@ const ReportView = () => {
                             tempFilePath : tempFilePath,
                             filePath : wx.env.USER_DATA_PATH + '/' + fileName + '.pdf',
                             success : (xxx) => {
+                                Taro.openDocument({
+                                    filePath : wx.env.USER_DATA_PATH + '/' + fileName + '.pdf',
+                                    fileType : 'pdf',
+                                    success : (xxx) => {
+                                        console.log('下载成功');
+                                    }
+                                })
                             }
                         });
-                        Taro.openDocument({
-                            filePath : wx.env.USER_DATA_PATH + '/' + fileName + '.pdf',
-                            fileType : 'pdf',
-                            success : (xxx) => {
-                            }
-                        })
                     }
                 });
             }

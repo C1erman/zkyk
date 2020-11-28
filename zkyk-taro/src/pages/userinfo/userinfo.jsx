@@ -59,10 +59,10 @@ const UserInfo = () => {
             .catch(e => console.log(e))
         }
     }, [user])
-
+    
     const handleUpdate = () => {
         // check empty
-        if(checkEmpty(userInfo)) Taro.atMessage({
+        if(checkEmpty(userUpadteInfo)) Taro.atMessage({
             type : 'error',
             message : '填写格式不合规范',
             duration : 2500
@@ -106,22 +106,10 @@ const UserInfo = () => {
         }
     }
     const handleSetValue = (value, name) => {
-        switch(name){
-            case 'username' : {
-                setUserUpdateInfo({
-                    ...userUpadteInfo,
-                    username : value
-                })
-                break;
-            }
-            case 'tel' : {
-                setUserUpdateInfo({
-                    ...userUpadteInfo,
-                    tel : value
-                })
-                break;
-            }
-        }
+        console.log(value, name)
+        let _userInfo = clone(userUpadteInfo);
+        _userInfo[name] = value;
+        setUserUpdateInfo(_userInfo);
     }
     const handleLayoutOpen = (type) => {
         let open = clone(layoutOpen);
@@ -172,7 +160,11 @@ const UserInfo = () => {
                         <View className='userinfo-logout'>
                             <AtButton circle type='primary' onClick={handleLogout}>登出</AtButton>
                         </View>
-                    ) : null
+                    ) : (
+                        <View className='userinfo-login'>
+                            <AtButton circle type='primary' onClick={() => Taro.navigateTo({url : '/pages/login/login'})}>去登录</AtButton>
+                        </View>
+                    )
                 }
                 <AtFloatLayout title='基本信息' isOpened={layoutOpen.userInfo} onClose={() => handleLayoutClose('userInfo')}>
                     <AtInput name='username' title='用户名' value={userUpadteInfo.username} onChange={(value) => handleSetValue(value, 'username')} />

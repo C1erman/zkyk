@@ -36,7 +36,7 @@
     margin: 2.5rem 0 4rem;
     background: var(--white);
 }
-.userinfo-logout{
+.userinfo-login, .userinfo-logout{
     width: 80%;
     margin: 2.5rem auto 0;
     background: var(--white);
