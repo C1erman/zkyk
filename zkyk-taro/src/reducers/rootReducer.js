@@ -26,6 +26,7 @@ const rootReducer = (state = initState, action) => {
                 sampleList : {
                     totalPage : 1,
                     currentPage : Taro.getStorageSync('SAMPLELIST_current_page') || 1,
+                    search : '',
                 },
             }
         }

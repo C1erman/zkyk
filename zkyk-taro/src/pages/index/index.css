@@ -39,6 +39,7 @@
   background-color: var(--textContainer);
   font-weight: lighter;
   border-radius: 7px;
+  text-indent: 2rem;
 }
 .home-other{
   height: 30%;
