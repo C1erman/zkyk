@@ -19,7 +19,8 @@ const ReportView = () => {
             '菌群状态分析' : '/pages/moduleB/moduleB',
             '具体检测结果' : '/pages/moduleC/moduleC',
             '健康评估' : '/pages/moduleD/moduleD',
-            '菌群改善建议' : '/pages/moduleE/moduleE'
+            '菌群改善建议' : '/pages/moduleE/moduleE',
+            '菌群知识科普' : '/pages/moduleF/moduleF'
         }
         Taro.navigateTo({
             url : module[name]
@@ -81,7 +82,8 @@ const ReportView = () => {
                 <AtGrid mode='square' data={[
                     {value : '整体情况', image : imgSrc + '/icons/view/a.png' }, {value : '菌群状态分析', image : imgSrc + '/icons/view/b.png' },
                     {value : '具体检测结果', image : imgSrc + '/icons/view/c.png' },
-                    {value : '健康评估',  image : imgSrc + '/icons/view/d.png' }, {value : '菌群改善建议', image : imgSrc + '/icons/view/e.png' }
+                    {value : '健康评估',  image : imgSrc + '/icons/view/d.png' }, {value : '菌群改善建议', image : imgSrc + '/icons/view/e.png' },
+                    {value : '菌群知识科普', image : imgSrc + '/icons/view/f.png'}
                 ]} onClick={(item, index) => handleItemClick(item.value)}
                 />
             </View>

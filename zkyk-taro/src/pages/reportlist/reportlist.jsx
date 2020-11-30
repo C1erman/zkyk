@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image } from '@tarojs/components';
 import { useSelector, useDispatch } from 'react-redux';
 import Taro, { useDidShow } from '@tarojs/taro';
-import { AtButton, AtPagination, AtFloatLayout, AtInput, AtToast } from 'taro-ui';
+import { AtButton, AtFloatLayout, AtIcon, AtToast, AtSearchBar, AtAccordion, } from 'taro-ui';
 import './reportlist.css';
 import { host, imgSrc } from '../../config';
 import * as BIO from '../../actions';
@@ -13,6 +13,8 @@ const ReportList = () => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)
     const sampleList = useSelector(state => state.sampleList)
+
+    let [accordionOpen, setAccordionOpen] = useState(false)
 
     let [list, setList] = useState([])
     let [listCurrent, setCurrent] = useState(+ sampleList.currentPage)
@@ -126,7 +128,7 @@ const ReportList = () => {
         .then(res => {
             let {data} = res;
             if(data.code === 'success'){
-                setToast('查询条件清空成功')
+                setToast('查询条件已清空')
                 setList(data.data.list)
                 setPagination(data.data.pagination);
                 setCurrent(1);
@@ -271,10 +273,20 @@ const ReportList = () => {
         <>
             <AtToast isOpened={toastText.length} text={toastText} duration={2500} onClose={() => setToast('')}></AtToast>
             <View className='reportList-container'>
-                <View className='reportList-title'><Text className='text'>选择报告以进行后续操作</Text></View>
-                <View className='reportList-info'>
-                    在实验结束、生成报告之前，您都有机会对您填写的信息进行修改；报告生成之后，您只能查看而不能修改相关信息。<Text>{br}点击受测人姓名查看受测人编码，点击报告的当前状态查看状态详情。</Text>
+                <View className='reportList-title'><Text className='text'>选择你要查看的报告</Text></View>
+                <View className='reportList-search'>
+                    <AtSearchBar className='reportList-search-input' disabled={!user.token}
+                      value={listSearch} onChange={(value) => setListSearch(value)} onActionClick={handleListSearch}
+                    />
+                    <View className='reportList-search-info'>可输入受测人、样本编号与状态进行查询，多条件查询时请用空格连接。</View>
                 </View>
+                <AtAccordion open={accordionOpen} onClick={() => setAccordionOpen(!accordionOpen)} hasBorder={false} title='说明'
+                  icon={{value : 'help', color : '#666666', size : '20'}}
+                >
+                    <View className='reportList-info'>
+                        在实验结束、生成报告之前，您都有机会对您填写的信息进行修改；报告生成之后，您只能查看而不能修改相关信息。<Text>{br}点击受测人姓名查看受测人编码，点击报告的当前状态查看状态详情。</Text>
+                    </View>
+                </AtAccordion>
                 {
                     !user.token ? (
                         <View className='reportList-empty'>请登录过后再来查看。</View>
@@ -286,15 +298,7 @@ const ReportList = () => {
                                 <View className='reportList-search-button' onClick={clearSearch}>清空</View>
                             </View>
                         ) : null}
-                        <View className='reportList-empty'>抱歉，暂时无可以操作的报告。</View>
-                        <View className='reportList-title'><Text className='text'>报告查询</Text></View>
-                        <View className='reportList-search'>
-                            <View>可输入受测人、样本编号与状态进行查询，多条件查询时请用空格连接。</View>
-                            <AtInput type='text' name='search' placeholder='请输入查询条件' customStyle={{marginBottom : '1rem'}}
-                            value={listSearch} onChange={(value) => setListSearch(value)}
-                            />
-                            <AtButton className='bio-button' circle onClick={handleListSearch}>查询</AtButton>
-                        </View>
+                        <View className='reportList-empty'>抱歉，暂时没有报告可以展示。</View>
                     </>
                 ) : (
                     <>
@@ -318,22 +322,11 @@ const ReportList = () => {
                                     <View className='td' onClick={() => getTesteeCode(v.sample_barcode)}>{v.person_name}</View>
                                     <View className='td'>{v.sample_barcode + (v.version ? ' V' + v.version : '')}</View>
                                     <View className={'td ' + v.status_en} onClick={() => getStatus(v.sample_id)}>{v.status_zh}</View>
-                                    <View className='td'><AtButton className='bio-border' size='small' circle disabled={mapButtonStatus(v.status_en)} onClick={() => mapOperate(v.operate, v.report_id || 'error', v.sample_id)}>{v.operate}</AtButton></View>
+                                    <View className='td'><AtButton className='bio-button' size='small' circle disabled={mapButtonStatus(v.status_en)} onClick={() => mapOperate(v.operate, v.report_id || 'error', v.sample_id)}>{v.operate}</AtButton></View>
                                 </View>)}
                             </View>
                         </View>
-                        <Pager current={listCurrent} total={listPagination.pageSize} prevClick={(currentPage) => getCurrentList(currentPage)} nextClick={(currentPage) => getCurrentList(currentPage)}  />
-                        {/* <AtPagination className='reportList-pagination bio-border' total={listPagination.total} pageSize={listNumPerPage}
-                        current={listCurrent} onPageChange={(action) => getCurrentList(action.current)}
-                        ></AtPagination> */}
-                        <View className='reportList-title'><Text className='text'>报告查询</Text></View>
-                        <View className='reportList-search'>
-                            <View>可输入受测人、样本编号与状态进行查询，多条件查询时请用空格连接。</View>
-                            <AtInput type='text' name='search' placeholder='请输入查询条件' customStyle={{marginBottom : '1rem'}}
-                            value={listSearch} onChange={(value) => setListSearch(value)}
-                            />
-                            <AtButton className='bio-button' circle onClick={handleListSearch}>查询</AtButton>
-                        </View>
+                        <Pager current={listCurrent} total={listPagination.pageSize} prevClick={(currentPage) => getCurrentList(currentPage)} nextClick={(currentPage) => getCurrentList(currentPage)} />
                         <AtFloatLayout isOpened={detailStatus.length > 0} title='状态详情' onClose={() => setStatus([])}>
                             <View className='reportList-status'>
                                 { detailStatus.map((v, i) => (<View key={i} className={'reportList-status-item ' + v.status_en}>

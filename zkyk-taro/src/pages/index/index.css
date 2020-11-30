@@ -33,7 +33,7 @@
   font-size: larger;
 }
 .home-info{
-  margin-top: 2rem;
+  margin: 2rem 0;
   padding: 1rem;
   line-height: 2;
   background-color: var(--textContainer);

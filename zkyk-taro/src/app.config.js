@@ -14,6 +14,7 @@ export default {
     'pages/moduleC/moduleC',
     'pages/moduleD/moduleD',
     'pages/moduleE/moduleE',
+    'pages/moduleF/moduleF',
   ],
   window: {
     backgroundTextStyle: 'light',

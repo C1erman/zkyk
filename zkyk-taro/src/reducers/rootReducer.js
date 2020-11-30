@@ -72,8 +72,7 @@ const rootReducer = (state = initState, action) => {
         }
         // 用户登录状态过期
         case BIO.LOGIN_EXPIRED : {
-            localStorage.clear();
-            sessionStorage.clear();
+            Taro.clearStorageSync();
             return clone(initState);
         }
         // 绑定采样
@@ -165,19 +164,6 @@ const rootReducer = (state = initState, action) => {
                 edit
             }
         }
-        // 更新个人信息
-        // 后台管理
-        case BIO.BACKEND_LIST_CURRENT_PAGE : {
-            const backendList = clone(state['backendList']);
-            let { currentPage, totalPage } = action.data;
-            backendList.currentPage = currentPage;
-            backendList.totalPage = totalPage;
-            sessionStorage.setItem('BACKENDLIST_current_page', currentPage);
-            return {
-                ...state,
-                backendList
-            }
-        }
         // 分享
         case BIO.SHARE_REPORT_ADD : {
             const share = clone(state['share']);
@@ -186,43 +172,6 @@ const rootReducer = (state = initState, action) => {
             return {
                 ...state,
                 share
-            }
-        }
-        case BIO.SHARE_SIGN_UP : {
-            const share = clone(state['share']);
-            share.signup = action.data;
-            sessionStorage.setItem('SHARE_signup', action.data);
-            return {
-                ...state,
-                share
-            }
-        }
-        // 报告下载
-        case BIO.REPORT_DOWNLOAD : {
-            sessionStorage.setItem('PDF_id', action.data);
-            return {
-                ...state,
-                pdf : action.data
-            }
-        }
-        case BIO.REPORT_DOWNLOAD_SUCCESS : {
-            sessionStorage.removeItem('PDF_id');
-            return {
-                ...state,
-                pdf : ''
-            }
-        }
-        // 设置全局消息
-        case BIO.GLOBAL_INFO : {
-            return {
-                ...state,
-                globalInfo : action.data
-            }
-        }
-        case BIO.GLOBAL_INFO_CLEAN : {
-            return {
-                ...state,
-                globalInfo : ''
             }
         }
         // 违规操作，清空状态

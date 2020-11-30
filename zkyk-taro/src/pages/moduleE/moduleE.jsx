@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Image } from '@tarojs/components';
-import { useSelector } from 'react-redux';
-import Taro from '@tarojs/taro';
+import React from 'react';
+import { View, Image } from '@tarojs/components';
 import './moduleE.css';
 import { imgSrc } from '../../config';
 
-const ModuleD = () => {
-    const _user = useSelector(state => state.user)
-    const report = useSelector(state => state.report)
+const ModuleE = () => {
 
     let imageUrl = {
         vegetable : imgSrc + '/icons/report/vegetable.svg',
@@ -21,12 +17,8 @@ const ModuleD = () => {
         do_exercise : imgSrc + '/icons/report/do-exercise.svg',
         do_sleep : imgSrc + '/icons/report/do-sleep.svg'
     }
-    useEffect(() => {
-        
-    }, [report])
     
     
-
     return (
         <View className='M-container'>
             <View className='suggestion-title-sm'>
@@ -94,4 +86,4 @@ const ModuleD = () => {
     );
 }
 
-export default ModuleD;
+export default ModuleE;

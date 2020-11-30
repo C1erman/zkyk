@@ -1,0 +1,203 @@
+.M-container{
+    padding-top: 2rem;
+    font-size: 30px;
+    color: #666666;
+    line-height: 1.5;
+    --fakeTheme : #ff4f76;
+    --theme : #de335e;
+    --background : #ffa6ba;
+    --fontColor : #ffe6eb;
+    --textContainer : #fff6f8;
+    --black : #1a1a1a;
+    --shadow : rgba(18,18,18,.1);
+    --error : #a4000f;
+    --border : #dfe2e5;
+    --white : #ffffff;
+    --riskNormal : #77c761;
+    --riskMiddle : #ffb85b;
+    --riskHigh : #ff4f76;
+}
+.know-title{
+    text-align: center;
+    margin: 1.5rem;
+    font-weight: bolder;
+    font-size: 0.95rem;
+}
+.know-title > .text{
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+}
+.know-title > .text::after{
+    display: block;
+    content: '';
+    width: 120%;
+    height: 0.6rem;
+    position: relative;
+    z-index: -1;
+    background-color: var(--fakeTheme);
+    opacity: 0.5;
+    left: -10%;
+    top: -0.6rem;
+}
+.know-title-sm{
+    width: 90%;
+    margin: 0 auto 1rem;
+    padding-left: 0.5rem;
+    font-weight: bolder;
+    font-size: 0.95rem;
+    border-left: 3PX solid var(--theme);
+}
+.know-contents{
+    width: 90%;
+    margin: 0 auto 1rem;
+}
+.know-content{
+    margin-bottom: 0.5rem;
+    text-indent: 1rem;
+}
+.know-which-item{
+    margin: 1rem auto;
+    padding: 0.5rem;
+    border-radius: 5PX;
+    border: 1PX solid var(--fontColor);
+    box-shadow: 0 0 5PX var(--shadow);
+}
+.know-which-item > .title{
+    font-weight: bolder;
+    color: var(--theme);
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+.know-which-item > .content{
+    text-indent: 1rem;
+}
+.know-effect-item{
+    margin: 1rem auto;
+    padding: 0.5rem;
+    border-radius: 5PX;
+    border: 1PX solid var(--fontColor);
+    box-shadow: 0 0 5PX var(--shadow);
+}
+.know-effect-item > .title{
+    font-weight: bolder;
+    color: var(--theme);
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+.know-effect-item > .content{
+    text-indent: 1rem;
+}
+.know-balance > .img{
+    display: block;
+    width: 320PX;
+    height: 418PX;
+    margin: 0 auto;
+    border-radius: 5PX;
+}
+.know-method-item{
+    position: relative;
+    border-radius: 5PX;
+    margin-bottom: 1.5rem;
+    padding: 1rem 0.5rem 0.5rem;
+    border: 1PX solid var(--fakeTheme);
+    background: var(--textContainer);
+}
+.know-method-item::before{
+    display: inline-block;
+    position: absolute;
+    font-size: 0.75rem;
+    font-weight: bolder;
+    color: var(--white);
+    padding: 0 0.5rem;
+    top: -0.75rem;
+    left: 1rem;
+    height: 1.5rem;
+    border-radius: 1.5rem;
+    line-height: 1.5rem;
+    background: var(--fakeTheme);
+}
+.know-method-item-one::before{
+    content: '益生菌补充';
+}
+.know-method-item-two::before{
+    content: '益生元补充';
+}
+.know-method-item-three::before{
+    content: '临床研究';
+}
+.know-method-title{
+    color: var(--theme);
+    margin: 0.5rem 0;
+    font-weight: bolder;
+    text-align: center;
+}
+.know-method-intestine{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+.know-method-intestine > .item{
+    margin: 0.5rem 0;
+}
+.know-method-intestine .img{
+    display: block;
+    width: 10rem;
+    height: 10rem;
+    margin: 0.5rem auto;
+}
+.know-method-intestine .content{
+    width: 60%;
+    margin: 0 auto;
+    text-align: center;
+    opacity: 0.6;
+}
+.know-method-list .title{
+    font-weight: bolder;
+}
+.know-method-care{
+    text-indent: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.table{
+    display: table;
+}
+.thead{
+    display: table-header-group;
+}
+.tbody{
+    display: table-row-group;
+}
+.tr{
+    display: table-row;
+}
+.td{
+    display: table-cell;
+}
+
+.know-method-item-three > .table{
+    width: 100%;
+    overflow-x: scroll;
+}
+.know-method-table-head .tr{
+    border-bottom: 1PX solid var(--border);
+    padding: 0.5rem 0;
+    color: var(--black);
+    vertical-align: bottom;
+}
+.know-method-table-body{
+    text-align: center;
+    line-height: 1.7;
+}
+.know-method-table-body > .tr{
+    border-bottom: 1PX solid var(--border);
+}
+.know-method-table-body > .tr:last-child{
+    border-bottom: none;
+}
+.know-method-table-body > .tr > .td{
+    padding: 0.4rem 0;
+    vertical-align: middle;
+}
