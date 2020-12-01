@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
-import { AtButton, AtInput, AtToast, AtMessage } from 'taro-ui'
+import { AtButton, AtToast, AtMessage } from 'taro-ui'
 import { useDispatch } from 'react-redux'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import { host } from '../../config'
 import './login.css';
 import * as BIO from '../../actions'
-import { checkEmpty } from '../../utils/BIOObject'
-
 
 
 const Login = () => {

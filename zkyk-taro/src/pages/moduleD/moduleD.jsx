@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { AtMessage } from 'taro-ui';
 import { View } from '@tarojs/components';
 import { useSelector } from 'react-redux';
 import Taro from '@tarojs/taro';
@@ -41,21 +42,24 @@ const ModuleD = () => {
     }
 
     return (
-        <View className='M-container'>
-            {assess.map((v, i) => (
-                <View key={i} className='assess-items'>
-                    <View className='assess-item-header'>
-                        <View className='first'>{v.type_zh}</View><View className={'last ' + mapRisk[v.conclusion]}>{v.rank_zh}</View>
+        <>
+            <AtMessage />
+            <View className='M-container'>
+                {assess.map((v, i) => (
+                    <View key={i} className='assess-items'>
+                        <View className='assess-item-header'>
+                            <View className='first'>{v.type_zh}</View><View className={'last ' + mapRisk[v.conclusion]}>{v.rank_zh}</View>
+                        </View>
+                        <View className='assess-item-body'>
+                            <View>{v.summary}</View>
+                        </View>
+                        {v.suggestion ? (<View className='assess-item-result'>
+                            {v.suggestion}
+                        </View>) : null}
                     </View>
-                    <View className='assess-item-body'>
-                        <View>{v.summary}</View>
-                    </View>
-                    {v.suggestion ? (<View className='assess-item-result'>
-                        {v.suggestion}
-                    </View>) : null}
-                </View>
-            ))}
-        </View>
+                ))}
+            </View>
+        </>
     );
 }
 

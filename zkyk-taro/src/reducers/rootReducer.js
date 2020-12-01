@@ -61,10 +61,6 @@ const rootReducer = (state = initState, action) => {
                 user
             }
         }
-        // 用户注册
-        case BIO.SIGN_SUCCESS : {
-            sessionStorage.removeItem('SHARE_signup');
-        }
         // 用户注销
         case BIO.LOGOUT_SUCCESS : {
             Taro.clearStorageSync();

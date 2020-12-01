@@ -1,27 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Taro, { useDidShow } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import { View, Text, Checkbox, Label, Button, CheckboxGroup} from '@tarojs/components'
 import { AtButton, AtInput, AtModal, AtModalHeader, AtModalContent, AtModalAction, AtMessage } from 'taro-ui'
 import './index.css'
 import * as BIO from '../../constants';
 import { host } from '../../config';
-
-const Data = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    console.log('数据load' + JSON.stringify(Taro.getStorageInfoSync()))
-    dispatch({
-      type : BIO.DATA_LOAD
-    })
-    Taro.atMessage({
-      type : 'info',
-      message : '欢迎回来',
-      duration : 2000
-    });
-  }, [])
-  return <></>;
-}
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -103,9 +87,7 @@ const Index = () => {
     }
   }
 
-
   return (<>
-    <Data />
     <AtMessage />
     <View className='home-container'>
       <View className='home-textContainer'>

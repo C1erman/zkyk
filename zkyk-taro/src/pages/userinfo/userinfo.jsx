@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text } from '@tarojs/components';
+import { View, Text, Image } from '@tarojs/components';
 import { useSelector, useDispatch } from 'react-redux';
 import { AtInput, AtButton, AtMessage, AtList, AtListItem, AtFloatLayout } from 'taro-ui';
 import Taro from '@tarojs/taro';
@@ -7,6 +7,7 @@ import * as BIO from '../../actions';
 import './userinfo.css';
 import { host } from '../../config';
 import { checkEmpty, clone } from '../../utils/BIOObject';
+import { BIOValidate } from '../../utils/BIOValidate';
 
 const UserInfo = () => {
     const dispatch = useDispatch()
@@ -15,7 +16,7 @@ const UserInfo = () => {
     let [btnLoading, setLoading] = useState(false)
     let [userInfo, setUserInfo] = useState({
         username : '',
-        emial : '',
+        avatar : '',
         tel : '',
         org : ''
     })
@@ -61,10 +62,14 @@ const UserInfo = () => {
     }, [user])
 
     const handleUpdate = () => {
-        // check empty
-        if(checkEmpty(userUpadteInfo)) Taro.atMessage({
+        let data = [
+            {data : userUpadteInfo.tel, type : BIOValidate.TYPE.TEL},
+            {data : userUpadteInfo.username, type : BIOValidate.TYPE.USERNAME}
+        ]
+        let validate = BIOValidate.validate(data);
+        if(!validate.validated) Taro.atMessage({
             type : 'error',
-            message : '填写格式不合规范',
+            message : validate.info,
             duration : 2500
         })
         else {

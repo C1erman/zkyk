@@ -61,22 +61,20 @@ const InfoAdd = () => {
     }
 
     return (
-        <View className='infoadd-container'>
-            <View className='infoadd-title'><Text className='text'>个人信息补充</Text></View>
-            <View className='infoadd-info'>
-                请补充填写下述必要信息以完成登录：
-            </View>
-            {/* <AtInput name='email' placeholder='请输入邮箱'
-              title='邮箱' type='text' required value={userData.email}
-              onChange={(value) => handleSetValue(value, 'email')}
-            /> */}
-            <AtInput name='invitation' placeholder='请输入企业邀请码'
-              title='邀请码' type='text' required value={userData.invitation}
-              onChange={(value) => handleSetValue(value, 'invitation')}
-            />
-            <AtButton className='infoadd-button' type='secondary' circle disabled={submitLoading} loading={submitLoading} onClick={handleSubmit}>完成</AtButton>
+        <>
             <AtMessage />
-        </View>
+            <View className='infoadd-container'>
+                <View className='infoadd-title'><Text className='text'>个人信息补充</Text></View>
+                <View className='infoadd-info'>
+                    请补充填写下述必要信息以完成登录：
+                </View>
+                <AtInput name='invitation' placeholder='请输入企业邀请码'
+                  title='邀请码' type='number' required value={userData.invitation}
+                  onChange={(value) => handleSetValue(value, 'invitation')}
+                />
+                <AtButton className='infoadd-button' type='secondary' circle disabled={submitLoading} loading={submitLoading} onClick={handleSubmit}>完成</AtButton>
+            </View>
+        </>
     );
 }
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { AtMessage } from 'taro-ui';
 import { View, Text } from '@tarojs/components';
 import { useSelector } from 'react-redux';
 import Taro from '@tarojs/taro';
@@ -47,30 +48,33 @@ const ModuleB = () => {
     }
 
     return (
-        <View className='M-container'>
-            <View className='overview-flora'>
-                {flora.map((v, i) => (
-                    <View key={i} className='overview-flora-items'>
-                        <View className='overview-flora-item-header'>
-                            <View className='first'>{v.type_zh}</View><View className={'last ' + mapRisk[v.conclusion]}>{v.rank_zh}</View>
+        <>
+            <AtMessage />
+            <View className='M-container'>
+                <View className='overview-flora'>
+                    {flora.map((v, i) => (
+                        <View key={i} className='overview-flora-items'>
+                            <View className='overview-flora-item-header'>
+                                <View className='first'>{v.type_zh}</View><View className={'last ' + mapRisk[v.conclusion]}>{v.rank_zh}</View>
+                            </View>
+                            <View className='overview-flora-item-body'>
+                                <View>{v.summary}</View>
+                                {v.chart ? (
+                                    <View className='overview-flora-item-progress'>
+                                        {v.chart.map((_v, _i) => (
+                                            <Progress key={_i} label={<Text>{_v.name + ' '}<Text {...judgeProgress(_v.state)}>{_v.state}</Text></Text>} total={(+ _v.median) + '%'} percent={(+ _v.proportion) + '%'} />
+                                        ))}
+                                    </View>
+                                ) : null}
+                            </View>
+                            {
+                                v.suggestion ? (<View className='overview-flora-item-result'>{v.suggestion}</View>) : null
+                            }
                         </View>
-                        <View className='overview-flora-item-body'>
-                            <View>{v.summary}</View>
-                            {v.chart ? (
-                                <View className='overview-flora-item-progress'>
-                                    {v.chart.map((_v, _i) => (
-                                        <Progress key={_i} label={<Text>{_v.name + ' '}<Text {...judgeProgress(_v.state)}>{_v.state}</Text></Text>} total={(+ _v.median) + '%'} percent={(+ _v.proportion) + '%'} />
-                                    ))}
-                                </View>
-                            ) : null}
-                        </View>
-                        {
-                            v.suggestion ? (<View className='overview-flora-item-result'>{v.suggestion}</View>) : null
-                        }
-                    </View>
-                ))}
+                    ))}
+                </View>
             </View>
-        </View>
+        </>
     );
 }
 

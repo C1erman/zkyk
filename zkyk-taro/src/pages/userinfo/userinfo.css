@@ -21,7 +21,8 @@
     overflow: hidden;
 }
 .userinfo-avatar-info{
-    margin-left: 1rem;
+    text-align: right;
+    margin-right: 1.5rem;
     line-height: 2;
 }
 .userinfo-avatar-info > .name{

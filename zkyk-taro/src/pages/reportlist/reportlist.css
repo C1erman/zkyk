@@ -57,7 +57,7 @@
     margin: 1rem auto;
 }
 .reportList-search-show{
-    margin: 1rem;
+    margin: 0.5rem;
     overflow: hidden;
 }
 .reportList-search-text{
@@ -65,10 +65,6 @@
 }
 .reportList-search-button{
     float: right;
-    border-radius: 1rem;
-    padding: 0.1rem 1rem;
-    background: var(--fakeTheme);
-    color: var(--white);
 }
 .reportList-empty{
     text-align: center;

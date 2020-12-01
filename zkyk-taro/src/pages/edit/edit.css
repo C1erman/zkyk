@@ -1,7 +1,7 @@
 .edit-container{
     width: 90%;
     margin: 0 auto;
-    pediting-top: 1rem;
+    padding-top: 1rem;
     font-size: 30px;
     color: #666666;
     --fakeTheme : #ff4f76;
@@ -57,6 +57,20 @@
     padding-left: 1rem;
     border-left: 2PX solid var(--fakeTheme);
 }
+.edit-name-group{
+    width: 100%;
+    overflow: hidden;
+}
+.edit-name-group > .name{
+    max-width: 45%;
+}
+.edit-name-group > .name:first-child{
+    float: left;
+}
+.edit-name-group > .name:last-child{
+    margin-left: 0;
+    float: right;
+}
 .edit-picker-list::after{
     border: none;
 }
@@ -68,12 +82,12 @@
     margin: 1rem;
 }
 .edit-info-form{
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
 }
 .edit-submit-btn{
     margin-top: 1rem;
-    width: 80%;
+    width: 90%;
 }
 .edit-for-testee{
     margin: 1rem 0;
@@ -83,5 +97,4 @@
 .edit-for-testee > .btn{
     float: right;
     color: var(--theme);
-    margin-right: 1rem;
 }

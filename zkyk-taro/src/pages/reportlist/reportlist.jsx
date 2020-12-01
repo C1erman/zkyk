@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image } from '@tarojs/components';
 import { useSelector, useDispatch } from 'react-redux';
 import Taro, { useDidShow } from '@tarojs/taro';
-import { AtButton, AtFloatLayout, AtIcon, AtToast, AtSearchBar, AtAccordion, } from 'taro-ui';
+import { AtButton, AtFloatLayout, AtIcon, AtToast, AtSearchBar, AtAccordion, AtMessage, } from 'taro-ui';
 import './reportlist.css';
 import { host, imgSrc } from '../../config';
 import * as BIO from '../../actions';
@@ -271,7 +271,8 @@ const ReportList = () => {
 
     return (
         <>
-            <AtToast isOpened={toastText.length} text={toastText} duration={2500} onClose={() => setToast('')}></AtToast>
+            <AtMessage />
+            <AtToast isOpened={toastText.length} text={toastText} duration={2000} onClose={() => setToast('')}></AtToast>
             <View className='reportList-container'>
                 <View className='reportList-title'><Text className='text'>选择你要查看的报告</Text></View>
                 <View className='reportList-search'>
@@ -295,7 +296,7 @@ const ReportList = () => {
                         {listSearchText.length ? (
                             <View className='reportList-search-show'>
                                 当前查询条件为：<Text className='reportList-search-text'>{listSearchText}</Text>
-                                <View className='reportList-search-button' onClick={clearSearch}>清空</View>
+                                <AtButton className='reportList-search-button' size='small' circle type='secondary' onClick={clearSearch}>点击清空</AtButton>
                             </View>
                         ) : null}
                         <View className='reportList-empty'>抱歉，暂时没有报告可以展示。</View>
@@ -305,7 +306,7 @@ const ReportList = () => {
                         {listSearchText.length ? (
                             <View className='reportList-search-show'>
                                 当前查询条件为：<Text className='reportList-search-text'>{listSearchText}</Text>
-                                <View className='reportList-search-button' onClick={clearSearch}>清空</View>
+                                <AtButton className='reportList-search-button' size='small' circle type='secondary' onClick={clearSearch}>点击清空</AtButton>
                             </View>
                         ) : null}
                         <View className='reportList-table'>

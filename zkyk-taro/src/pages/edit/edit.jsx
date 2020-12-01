@@ -8,6 +8,7 @@ import { getPreviousDay, getNow } from '../../utils/BIODate';
 import { host } from '../../config';
 import { clone, checkEmpty } from '../../utils/BIOObject';
 import './edit.css';
+import { BIOValidate } from '../../utils/BIOValidate';
 
 const Edit = () => {
     const dispatch = useDispatch()
@@ -157,7 +158,7 @@ const Edit = () => {
             }
         })
         .catch(e => console.log(e))
-    }, [])
+    }, [user])
 
     const handleSetPickerValue = (e, type) => {
         let value = e.detail.value;
@@ -192,9 +193,15 @@ const Edit = () => {
             blood_type : mapPickerKey[_editPicker.bloodType.selectorChecked],
             birthday : _editPicker.birthday
         }
-        if(checkEmpty(data)) Taro.atMessage({
+        let validateData = [
+            {data : _editBasicInfo.last_name, type : BIOValidate.TYPE.NAME, info : '请输入一到三个汉字组成的姓氏'},
+            {data : _editBasicInfo.first_name, type : BIOValidate.TYPE.NAME, info : '请输入一到三个汉字组成的名字'}
+        ]
+        let validated = BIOValidate.validate(validateData);
+
+        if(!validated.validated) Taro.atMessage({
             type : 'error',
-            message : '请确认信息是否填写完整',
+            message : validated.info,
             duration : 2500
         })
         else{
@@ -254,13 +261,17 @@ const Edit = () => {
             weight : editOtherInfo.weight,
             meat_egetables : mapPickerKey[editPicker.meatEgetable.selectorChecked]
         }
-        if(checkEmpty(data)) Taro.atMessage({
+        let validateData = [
+            {data : editOtherInfo.height, type : BIOValidate.TYPE.HEIGHT},
+            {data : editOtherInfo.weight, type : BIOValidate.TYPE.WEIGHT}
+        ]
+        let validated = BIOValidate.validate(validateData);
+        if(!validated.validated) Taro.atMessage({
             type : 'error',
-            message : '请确认信息是否填写完整',
+            message : validated.info,
             duration : 2500
         })
         else{
-            console.log(data)
             setSubmitBtnLoading(true);
             Taro.request({
                 url : host + '/sample/modify?access-token=' + user.token,
@@ -305,104 +316,110 @@ const Edit = () => {
     
 
     return (
-        <View className='edit-container'>
+        <>
             <AtMessage />
-            <View className='edit-noti'>
-                <View>您当前正在预览采样管编号为<Text className='edit-noti-barcode'>{editData.barcode}</Text>
-                的绑定信息，受测人编码为<Text className='edit-noti-testeeCode'>{editData.code}</Text>
-                ，此份信息的送样时间为<Text className='edit-noti-time'>{editData.date_of_collection}</Text>。</View>
-            </View>
-            <View className='edit-title'><Text className='text'>受测人基本信息</Text></View>
-            <AtInput name='last_name' required disabled={readOnly.last_name} title='姓' maxlength='3' placeholder='请输入姓氏' value={editBasicInfo.last_name} />
-            <AtInput name='first_name' required disabled={readOnly.first_name} title='名' maxlength='3' placeholder='请输入名字' value={editBasicInfo.first_name} />
-            <Picker mode='selector' range={editPicker.gender.selector} disabled={readOnly.gender}
-              className='edit-picker'
-            >
-                <AtList className='edit-picker-list'>
-                    <AtListItem 
-                      title='性别'
-                      extraText={editPicker.gender.selectorChecked}
-                    />
-                </AtList>
-            </Picker>
-            <Picker mode='selector' range={editPicker.bloodType.selector} disabled={readOnly.bloodType}
-              className='edit-picker'
-            >
-                <AtList className='edit-picker-list'>
-                    <AtListItem 
-                      title='血型'
-                      extraText={editPicker.bloodType.selectorChecked}
-                    />
-                </AtList>
-            </Picker>
-            <Picker mode='date' className='edit-picker' disabled={readOnly.birthday}
-              end={getNow()}
-            >
-                <AtList className='edit-picker-list'>
-                    <AtListItem 
-                      title='生日'
-                      extraText={editPicker.birthday}
-                    />
-                </AtList>
-            </Picker>
-            <View className='edit-for-testee'>上述信息为受测人基本信息。
-                <AtButton className='btn' size='small' circle type='secondary' onClick={() => setLayoutOpened(true)}>点击修改</AtButton>
-            </View>
-            <View className='edit-title'><Text className='text'>受测人近期状况</Text></View>
-            <AtInput name='height' required title='身高' placeholder='请输入身高' type='digit' value={editOtherInfo.height} onChange={(value) => handleSetOtherValue(value, 'height')} />
-            <AtInput name='weight' required title='体重' placeholder='请输入体重' type='digit' value={editOtherInfo.weight} onChange={(value) => handleSetOtherValue(value, 'weight')} />
-            <Picker mode='selector' range={editPicker.meatEgetable.selector}
-              className='edit-picker' onChange={(e) => handleSetPickerValue(e, 'meatEgetable')}
-            >
-                <AtList className='edit-picker-list'>
-                    <AtListItem 
-                      title='饮食中肉食占比'
-                      extraText={editPicker.meatEgetable.selectorChecked}
-                    />
-                </AtList>
-            </Picker>
-            <AtInput name='antibiotics' title='服用过的抗生素' placeholder='一周内服用过的抗生素' value={editOtherInfo.antibiotics} onChange={(value) => handleSetOtherValue(value, 'antibiotics')} />
-            <AtButton customStyle={{margin : '1rem 0'}} circle type='secondary' onClick={handleSubmit}>修改</AtButton>
-            <AtFloatLayout isOpened={layoutOpened} title='受测人信息修改' onClose={() => setLayoutOpened(false)}>
-                <View className='edit-info-check'>修改受测人基本信息将会引起所有相关联绑定信息的修改，请谨慎修改。</View>
-                <View className='edit-info-form'>
-                    <AtInput name='last_name' required title='姓' maxlength='3' placeholder='请输入姓氏' value={_editBasicInfo.last_name} onChange={(value) => _handleSetBasicValue(value, 'last_name')} />
-                    <AtInput name='first_name' required title='名' maxlength='3' placeholder='请输入名字' value={_editBasicInfo.first_name} onChange={(value) => _handleSetBasicValue(value, 'first_name')} />
-                    <Picker mode='selector' range={editPicker.gender.selector}
-                      className='edit-picker' onChange={(e) => _handleSetPickerValue(e, 'gender')}
-                    >
-                        <AtList className='edit-picker-list'>
-                            <AtListItem 
-                              title='性别'
-                              extraText={_editPicker.gender.selectorChecked}
-                            />
-                        </AtList>
-                    </Picker>
-                    <Picker mode='selector' range={_editPicker.bloodType.selector}
-                      className='add-picker' onChange={(e) => _handleSetPickerValue(e, 'bloodType')}
-                    >
-                        <AtList className='edit-picker-list'>
-                            <AtListItem 
-                              title='血型'
-                              extraText={_editPicker.bloodType.selectorChecked}
-                            />
-                        </AtList>
-                    </Picker>
-                    <Picker mode='date' className='add-picker'
-                      onChange={(e) => _handleSetPickerValue(e, 'birthday')}
-                      end={getNow()}
-                    >
-                        <AtList className='edit-picker-list'>
-                            <AtListItem 
-                              title='生日'
-                              extraText={_editPicker.birthday}
-                            />
-                        </AtList>
-                    </Picker>
+            <View className='edit-container'>
+                <View className='edit-noti'>
+                    <View>您当前正在预览采样管编号为<Text className='edit-noti-barcode'>{editData.barcode}</Text>
+                    的绑定信息，受测人编码为<Text className='edit-noti-testeeCode'>{editData.code}</Text>
+                    ，此份信息的送样时间为<Text className='edit-noti-time'>{editData.date_of_collection}</Text>。</View>
                 </View>
-                <AtButton className='edit-submit-btn' circle type='primary' onClick={handleEdit} loading={submitBtnLoading} disabled={submitBtnLoading}>确认修改</AtButton>
-            </AtFloatLayout>
-        </View>
+                <View className='edit-title'><Text className='text'>受测人基本信息</Text></View>
+                <View className='edit-name-group'>
+                    <AtInput className='name' name='last_name' required disabled={readOnly.last_name} title='姓' maxlength='3' placeholder='姓氏' value={editBasicInfo.last_name} />
+                    <AtInput className='name' name='first_name' required disabled={readOnly.first_name} title='名' maxlength='3' placeholder='名字' value={editBasicInfo.first_name} />
+                </View>
+                <Picker mode='selector' range={editPicker.gender.selector} disabled={readOnly.gender}
+                  className='edit-picker'
+                >
+                    <AtList className='edit-picker-list'>
+                        <AtListItem 
+                          title='性别'
+                          extraText={editPicker.gender.selectorChecked}
+                        />
+                    </AtList>
+                </Picker>
+                <Picker mode='selector' range={editPicker.bloodType.selector} disabled={readOnly.bloodType}
+                  className='edit-picker'
+                >
+                    <AtList className='edit-picker-list'>
+                        <AtListItem 
+                          title='血型'
+                          extraText={editPicker.bloodType.selectorChecked}
+                        />
+                    </AtList>
+                </Picker>
+                <Picker mode='date' className='edit-picker' disabled={readOnly.birthday}
+                  end={getNow()}
+                >
+                    <AtList className='edit-picker-list'>
+                        <AtListItem 
+                          title='生日'
+                          extraText={editPicker.birthday}
+                        />
+                    </AtList>
+                </Picker>
+                <View className='edit-for-testee'>上述信息为受测人基本信息。
+                    <AtButton className='btn' size='small' circle type='secondary' onClick={() => setLayoutOpened(true)}>点击修改</AtButton>
+                </View>
+                <View className='edit-title'><Text className='text'>受测人近期状况</Text></View>
+                <AtInput name='height' required title='身高' placeholder='请输入身高' type='digit' value={editOtherInfo.height} onChange={(value) => handleSetOtherValue(value, 'height')} />
+                <AtInput name='weight' required title='体重' placeholder='请输入体重' type='digit' value={editOtherInfo.weight} onChange={(value) => handleSetOtherValue(value, 'weight')} />
+                <Picker mode='selector' range={editPicker.meatEgetable.selector}
+                  className='edit-picker' onChange={(e) => handleSetPickerValue(e, 'meatEgetable')}
+                >
+                    <AtList className='edit-picker-list'>
+                        <AtListItem 
+                          title='饮食中肉食占比'
+                          extraText={editPicker.meatEgetable.selectorChecked}
+                        />
+                    </AtList>
+                </Picker>
+                <AtInput name='antibiotics' title='服用过的抗生素' placeholder='一周内服用过的抗生素' value={editOtherInfo.antibiotics} onChange={(value) => handleSetOtherValue(value, 'antibiotics')} />
+                <AtButton customStyle={{margin : '1rem 0'}} circle type='secondary' onClick={handleSubmit}>修改</AtButton>
+                <AtFloatLayout isOpened={layoutOpened} title='受测人信息修改' onClose={() => setLayoutOpened(false)}>
+                    <View className='edit-info-check'>修改受测人基本信息将会引起所有相关联绑定信息的修改，请谨慎修改。</View>
+                    <View className='edit-info-form'>
+                        <View className='edit-name-group'>
+                            <AtInput className='name' name='last_name' required title='姓' maxlength='3' placeholder='姓氏' value={_editBasicInfo.last_name} onChange={(value) => _handleSetBasicValue(value, 'last_name')} />
+                            <AtInput className='name' name='first_name' required title='名' maxlength='3' placeholder='名字' value={_editBasicInfo.first_name} onChange={(value) => _handleSetBasicValue(value, 'first_name')} />
+                        </View>
+                        <Picker mode='selector' range={editPicker.gender.selector}
+                          className='edit-picker' onChange={(e) => _handleSetPickerValue(e, 'gender')}
+                        >
+                            <AtList className='edit-picker-list'>
+                                <AtListItem 
+                                  title='性别'
+                                  extraText={_editPicker.gender.selectorChecked}
+                                />
+                            </AtList>
+                        </Picker>
+                        <Picker mode='selector' range={_editPicker.bloodType.selector}
+                          className='add-picker' onChange={(e) => _handleSetPickerValue(e, 'bloodType')}
+                        >
+                            <AtList className='edit-picker-list'>
+                                <AtListItem 
+                                  title='血型'
+                                  extraText={_editPicker.bloodType.selectorChecked}
+                                />
+                            </AtList>
+                        </Picker>
+                        <Picker mode='date' className='add-picker'
+                          onChange={(e) => _handleSetPickerValue(e, 'birthday')}
+                          end={getNow()}
+                        >
+                            <AtList className='edit-picker-list'>
+                                <AtListItem 
+                                  title='生日'
+                                  extraText={_editPicker.birthday}
+                                />
+                            </AtList>
+                        </Picker>
+                    </View>
+                    <AtButton className='edit-submit-btn' circle type='primary' onClick={handleEdit} loading={submitBtnLoading} disabled={submitBtnLoading}>确认修改</AtButton>
+                </AtFloatLayout>
+            </View>
+        </>
     );
 }
 

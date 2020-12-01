@@ -41,7 +41,7 @@
     border-bottom: 1px solid var(--black);
 }
 .add-noti-email{
-    white-space: nowrap;
+    word-break: break-all;
 }
 .add-title{
     text-align: center;
@@ -71,6 +71,20 @@
     font-weight: bolder;
     padding-left: 1rem;
     border-left: 2PX solid var(--fakeTheme);
+}
+.add-name-group{
+    width: 100%;
+    overflow: hidden;
+}
+.add-name-group > .name{
+    max-width: 45%;
+}
+.add-name-group > .name:first-child{
+    float: left;
+}
+.add-name-group > .name:last-child{
+    margin-left: 0;
+    float: right;
 }
 .add-picker-list::after{
     border: none;
