@@ -8,7 +8,7 @@ const InfoProgress = ({
     texts = [],
     ...rest
 }) => {
-    const colorArray = ['#ff4f76','#ff4f76','#ff6470','#ff8e65','#ffb85b','#d8bc5c','#b2c05e','#97c35f','#87c560','#77c761', '#77c761'];
+    const colorArray = ['#ff4f76','#ff5d72','#fe6b71','#ff7a6b','#ff8866','#ff9764','#ffa461','#ffb35d','#ecb95d','#cfbc5d','#77c761'];
     const countHex = (start, end, per) => {
         let result = [];
         start = start.slice(1); end = end.slice(1);

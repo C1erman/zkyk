@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text } from '@tarojs/components';
+import { View, Text, PickerView, PickerViewColumn, Picker } from '@tarojs/components';
 import { throttle } from '../../utils/BIOFunc';
 import './pager.css';
+import { range } from '../../utils/BIOArray';
+import { AtInput, AtFloatLayout } from 'taro-ui';
 
 const Pager = ({
     total = 10,
@@ -12,9 +14,15 @@ const Pager = ({
     nextClick
 }) => {
     let [currentPage, setCurrent] = useState(current);
+    let [picker, setPicker] = useState({
+        selector : [1],
+        selectorChecked : 1
+    })
+
     useEffect(() => {
         setCurrent(current);
-    }, [current]);
+        setPicker(range(1,total))
+    }, [current, total]);
     
     const prevHandler = () => {
         if(currentPage > 1){
@@ -28,14 +36,23 @@ const Pager = ({
             setCurrent(currentPage + 1);
         }
     }
+    const handleSetPicker = (e) => {
+        console.log(e);
+    }
+
     return (
-        <View className='pager'>
-            <Text className={'pager-btn' + (currentPage === 1 ? ' pager-disabled' : '')} onClick={throttle(prevHandler, 400)}>{prevText}</Text>
-            <View>
-                <Text className='pager-current'>{currentPage}</Text> / <Text className='pager-total'>{total}</Text>
+        <>
+            <View className='pager'>
+                <Text className={'pager-btn' + (currentPage === 1 ? ' pager-disabled' : '')} onClick={throttle(prevHandler, 400)}>{prevText}</Text>
+                <View>
+                    <Picker className='pager-picker' mode='selector' range={picker.selector} onChange={(e) => handleSetPicker(e)}>
+                        <Text className='pager-current'>{currentPage}</Text>
+                    </Picker>
+                    /<Text className='pager-total'>{total}</Text>
+                </View>
+                <Text className={'pager-btn' + (currentPage === total ? ' pager-disabled' : '')} onClick={throttle(nextHandler, 400)}>{nextText}</Text>
             </View>
-            <Text className={'pager-btn' + (currentPage === total ? ' pager-disabled' : '')} onClick={throttle(nextHandler, 400)}>{nextText}</Text>
-        </View>
+        </>
     );
 }
 

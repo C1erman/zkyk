@@ -180,6 +180,7 @@
 .know-method-item-three > .table{
     width: 100%;
     overflow-x: scroll;
+    text-align: center;
 }
 .know-method-table-head .tr{
     border-bottom: 1PX solid var(--border);

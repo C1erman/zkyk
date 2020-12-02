@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text } from '@tarojs/components';
 import { useSelector } from 'react-redux';
 import Taro from '@tarojs/taro'
@@ -8,10 +8,18 @@ import './view.css'
 import { host, imgSrc } from '../../config';
 
 const ReportView = () => {
+
     const user = useSelector(state => state.user)
     const report = useSelector(state => state.report)
 
     let [downloadLoading, setLoading] = useState(false)
+
+    let [reportInfo, setReportInfo] = useState({
+        name : '',
+        barcode : '',
+        version : '1'
+    })
+    
 
     const handleItemClick = (name) => {
         let module = {
@@ -54,6 +62,7 @@ const ReportView = () => {
                                 Taro.openDocument({
                                     filePath : wx.env.USER_DATA_PATH + '/' + fileName + '.pdf',
                                     fileType : 'pdf',
+                                    showMenu : true,
                                     success : (xxx) => {
                                         console.log('下载成功');
                                     }
@@ -75,10 +84,34 @@ const ReportView = () => {
         .catch(e => console.log(e))
     }
 
+    useEffect(() => {
+        Taro.request({
+            url : host + '/sample/codename',
+            method : 'GET',
+            data : {
+                'access-token' : user.token,
+                id : report.current
+            },
+            header : {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        })
+        .then(res => {
+            let {data} = res;
+            if(data.code === 'success') setReportInfo(data.data)
+        })
+        .then(e => console.log(e));
+
+    }, [report])
+
     return (
         <>
             <AtMessage />
             <View className='view-container'>
+                <View className='view-info'>
+                    正在浏览<Text className='name'>{reportInfo.name}</Text>的报告，报告编号为<Text className='code'>{reportInfo.barcode}</Text>，
+                    报告版本<Text className='version'>{'v' + reportInfo.version}</Text>。
+                </View>
                 <View className='view-title'><Text className='text'>报告模块</Text></View>
                 <View className='view-list'>
                     <AtGrid mode='square' data={[

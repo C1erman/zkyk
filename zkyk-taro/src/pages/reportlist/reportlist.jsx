@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image } from '@tarojs/components';
 import { useSelector, useDispatch } from 'react-redux';
 import Taro, { useDidShow } from '@tarojs/taro';
-import { AtButton, AtFloatLayout, AtIcon, AtToast, AtSearchBar, AtAccordion, AtMessage, } from 'taro-ui';
+import { AtButton, AtFloatLayout, AtIcon, AtToast, AtSearchBar, AtAccordion, AtMessage } from 'taro-ui';
 import './reportlist.css';
 import { host, imgSrc } from '../../config';
 import * as BIO from '../../actions';
@@ -135,11 +135,7 @@ const ReportList = () => {
                 setListSearch('');
                 setListSearchText('');
             }
-            else Taro.atMessage({
-                type : 'error',
-                message : data.info,
-                duration : 2500
-            });
+            else setToast(data.info);
         })
         .catch(e => console.log(e))
     }
@@ -200,18 +196,14 @@ const ReportList = () => {
         }[status]
     }
     const handleViewReport = (reportId) => {
-        if(reportId === 'error') Taro.atMessage({
-            type : 'error',
-            message : '抱歉，此份报告暂时无法查看',
-            duration : 2500 
-        })
+        if(reportId === 'error') setToast('抱歉，此份报告暂时无法查看');
         else{
             dispatch({
                 type : BIO.REPORT_SELECT,
                 data : { current : reportId }
             })
             Taro.navigateTo({
-                url : '/pages/view/view'
+                url : '/pages/view/view?id=' + reportId
             })
         }
     }
@@ -267,7 +259,6 @@ const ReportList = () => {
         }
         else clearSearch();
     }
-
 
     return (
         <>

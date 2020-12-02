@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
 import { useSelector, useDispatch } from 'react-redux';
-import { AtInput, AtButton, AtMessage, AtList, AtListItem, AtFloatLayout } from 'taro-ui';
+import { AtInput, AtButton, AtList, AtListItem, AtFloatLayout, AtToast } from 'taro-ui';
 import Taro from '@tarojs/taro';
 import * as BIO from '../../actions';
 import './userinfo.css';
 import { host } from '../../config';
-import { checkEmpty, clone } from '../../utils/BIOObject';
+import { clone } from '../../utils/BIOObject';
 import { BIOValidate } from '../../utils/BIOValidate';
 
 const UserInfo = () => {
@@ -30,6 +30,7 @@ const UserInfo = () => {
         password : false,
         email : false
     })
+    let [toastText, setToast] = useState('')
 
     useEffect(() => {
         if(user.token){
@@ -67,11 +68,7 @@ const UserInfo = () => {
             {data : userUpadteInfo.username, type : BIOValidate.TYPE.USERNAME}
         ]
         let validate = BIOValidate.validate(data);
-        if(!validate.validated) Taro.atMessage({
-            type : 'error',
-            message : validate.info,
-            duration : 2500
-        })
+        if(!validate.validated) setToast(validate.info)
         else {
             setLoading(true)
             Taro.request({
@@ -88,22 +85,14 @@ const UserInfo = () => {
             .then(res => {
                 let {data} = res;
                 if(data.code === 'success'){
-                    Taro.atMessage({
-                        type : 'success',
-                        message : '信息更新成功',
-                        duration : 2500
-                    });
+                    setToast('信息更新成功')
                     setUserInfo({
                         ...userInfo,
                         ...userUpadteInfo
                     });
                 }
                 else{
-                    Taro.atMessage({
-                        type : 'error',
-                        message : data.info,
-                        duration : 2500
-                    });
+                    setToast(data.info)
                     setUserUpdateInfo(userInfo);
                 }
                 setLoading(false);
@@ -134,7 +123,7 @@ const UserInfo = () => {
 
     return (
         <>
-            <AtMessage />
+            <AtToast isOpened={toastText.length} text={toastText} duration={2000} onClose={() => setToast('')}></AtToast>
             <View className='userinfo-container'>
                 <View className='userinfo-avatar'>
                     {user.token ? (<View className='userinfo-avatar-info'>

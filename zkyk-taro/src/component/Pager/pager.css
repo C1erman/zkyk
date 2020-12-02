@@ -5,6 +5,7 @@
     margin: 2rem 0 1rem;
     user-select: none;
     --theme : #ff4f76;
+    --black : #1a1a1a;
 }
 .pager > .pager-btn{
     display: inline-block;
@@ -26,4 +27,13 @@
 .pager-current{
     font-weight: bolder;
     color: var(--theme);
+    border-bottom: 1PX solid var(--black);
+    margin: 0 0.5rem;
+}
+.pager-total{
+    margin-left: 0.5rem;
+    opacity: 0.8;
+}
+.pager-picker{
+    display: inline-block;
 }

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Taro from '@tarojs/taro'
 import { View, Text, Checkbox, Label, Button, CheckboxGroup} from '@tarojs/components'
-import { AtButton, AtInput, AtModal, AtModalHeader, AtModalContent, AtModalAction, AtMessage } from 'taro-ui'
+import { AtButton, AtInput, AtModal, AtModalHeader, AtModalContent, AtModalAction, AtToast } from 'taro-ui'
 import './index.css'
 import * as BIO from '../../constants';
 import { host } from '../../config';
@@ -16,6 +16,8 @@ const Index = () => {
   let [inputValue, setInputValue] = useState('')
   let [btnLoading, setLoading] = useState(false)
 
+  let [toastText, setToast] = useState('')
+
   const handleInputChange = (value) => {
     setInputValue(value)
     return value
@@ -23,30 +25,18 @@ const Index = () => {
 
   const handleSubmit = () => {
     if(!user.token){
-      Taro.atMessage({
-        type : 'info',
-        message : '请先登录',
-        duration : 2500
-      })
+      setToast('请先登录');
       setTimeout(() => {
         Taro.navigateTo({
           url : '/pages/login/login'
         })
-      }, 2500)
+      }, 2000)
       return false;
     }
     else{
       let regExp = /^\d{9}$/;
-      if(!selected) Taro.atMessage({
-        type : 'info',
-        message : '请勾选检测须知',
-        duration : 2500
-      })
-      else if(!regExp.test(inputValue)) Taro.atMessage({
-        type : 'error',
-        message : '请输入9位数字组成的采样管编号',
-        duration : 2500
-      })
+      if(!selected) setToast('请勾选检测须知');
+      else if(!regExp.test(inputValue)) setToast('请输入9位数字组成的采样管编号');
       else{
         setLoading(true)
         Taro.request({
@@ -60,11 +50,7 @@ const Index = () => {
           }
         }).then(_data => {
           const {data} = _data;
-          if(data.code === 'error') Taro.atMessage({
-            type : 'error',
-            message : data.info,
-            duration : 2500
-          })
+          if(data.code === 'error') setToast(data.info);
           else if(data.code === 'success'){
               let { barcode = '', sample_id = '' } = data.data;
               dispatch({
@@ -88,7 +74,7 @@ const Index = () => {
   }
 
   return (<>
-    <AtMessage />
+    <AtToast isOpened={toastText.length} text={toastText} duration={2000} onClose={() => setToast('')}></AtToast>
     <View className='home-container'>
       <View className='home-textContainer'>
         <View className='home-title'>— 人体微生态监测报告 —</View>

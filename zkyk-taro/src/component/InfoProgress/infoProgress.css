@@ -10,7 +10,8 @@
     white-space: nowrap;
 }
 .infoProgress-container{
-    width: 100%;
+    width: 90%;
+    margin: 0 auto;
     height: 1rem;
     position: relative;
     background: #dfe2e5;
@@ -24,20 +25,18 @@
 }
 .infoProgress-infos{
     position: relative;
-    width: 100%;
-    margin-bottom: 0.5rem;
+    width: 90%;
+    margin: 0 auto 0.5rem;
     color: #666666;
-    overflow: hidden;
 }
 .infoProgress-infos > .item{
     position: relative;
 }
 .infoProgress-texts{
     position: relative;
-    width: 100%;
-    margin-top: 0.5rem;
+    width: 90%;
+    margin: 0.5rem auto 0;
     color: #666666;
-    overflow: hidden;
 }
 .infoProgress-texts > .item{
     position: relative;

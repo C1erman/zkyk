@@ -6,7 +6,7 @@
     --error : #a4000f;
     --fakeTheme : #ff4f76;
     --textContainer : #fff6f8;
-    --balck : #1a1a1a;
+    --black : #1a1a1a;
     --border : #dfe2e5;
 }
 .view-title{
@@ -32,9 +32,23 @@
     left: -10%;
     top: -0.6rem;
 }
-.view-overview{
+.view-info{
     width: 90%;
     margin: 0 auto;
+    line-height: 2;
+}
+.view-info > .name, .view-info > .code, .view-info > .version{
+    margin: 0 0.5rem;
+    font-size: 1rem;
+    padding-bottom: 0.2rem;
+    border-bottom: 1px solid var(--black);
+}
+.view-info > .code{
+    word-break: break-all;
+}
+.view-overview{
+    width: 90%;
+    margin: 0 auto 1rem;
 }
 .view-overview-info{
     margin-bottom: 1.5rem;

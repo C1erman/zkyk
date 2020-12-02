@@ -197,7 +197,7 @@ const Add = () => {
                 Taro.atMessage({
                     type : 'success',
                     message : '绑定成功',
-                    duration : 2500
+                    duration : 2000
                 })
                 dispatch({
                     type : BIO.ADD_SUCCESS
@@ -205,7 +205,7 @@ const Add = () => {
                 setTimeout(() => {
                     setSubmitBtnLoading(false);
                     Taro.navigateBack();
-                }, 3000)
+                }, 2000)
             }
             else Taro.atMessage({
                 type : 'error',
@@ -331,7 +331,7 @@ const Add = () => {
         <>
             <AtMessage />
             <View className='add-container'>
-                <AtCurtain isOpened={curtainOpen} onClose={handleCloseCurtain}>
+                <AtCurtain isOpened={curtainOpen} onClose={handleCloseCurtain} closeBtnPosition='top-right'>
                     <View className='add-check'>
                         <View className='add-check-info'>若非首次送样，请在下方输入受测人编码；否则请直接点击下一步。如需返回上一步，请关闭弹窗。</View>
                         <View className='add-check-input'>
@@ -350,8 +350,8 @@ const Add = () => {
                 </View>
                 <View className='add-title'><Text className='text'>受测人基本信息</Text></View>
                 <View className='add-name-group'>
-                    <AtInput className='name' name='last_name' required disabled={readOnly.last_name} title='姓' maxlength='3' placeholder='请输入姓氏' value={addBasicInfo.last_name} onChange={(value) => handleSetBasicValue(value, 'last_name')} />
-                    <AtInput className='name' name='first_name' required disabled={readOnly.first_name} title='名' maxlength='3' placeholder='请输入名字' value={addBasicInfo.first_name} onChange={(value) => handleSetBasicValue(value, 'first_name')} />
+                    <AtInput className='name' name='last_name' required disabled={readOnly.last_name} title='姓' maxlength='3' placeholder='姓氏' value={addBasicInfo.last_name} onChange={(value) => handleSetBasicValue(value, 'last_name')} />
+                    <AtInput className='name' name='first_name' required disabled={readOnly.first_name} title='名' maxlength='3' placeholder='名字' value={addBasicInfo.first_name} onChange={(value) => handleSetBasicValue(value, 'first_name')} />
                 </View>
                 <Picker mode='selector' range={addPicker.gender.selector} disabled={readOnly.gender}
                   className='add-picker' onChange={(e) => handleSetPickerValue(e, 'gender')}

@@ -63,6 +63,7 @@ const InfoAdd = () => {
     return (
         <>
             <AtMessage />
+            
             <View className='infoadd-container'>
                 <View className='infoadd-title'><Text className='text'>个人信息补充</Text></View>
                 <View className='infoadd-info'>
