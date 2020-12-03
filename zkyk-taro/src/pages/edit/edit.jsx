@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Picker } from '@tarojs/components';
-import Taro from '@tarojs/taro';
+import Taro, { useDidShow } from '@tarojs/taro';
 import { AtMessage, AtInput, AtButton, AtList, AtListItem, AtFloatLayout } from 'taro-ui';
 import { useDispatch, useSelector } from 'react-redux';
 import * as BIO from '../../actions';
 import { getPreviousDay, getNow } from '../../utils/BIODate';
 import { host } from '../../config';
-import { clone, checkEmpty } from '../../utils/BIOObject';
+import { clone } from '../../utils/BIOObject';
 import './edit.css';
 import { BIOValidate } from '../../utils/BIOValidate';
 
@@ -15,6 +15,7 @@ const Edit = () => {
 
     let user = useSelector(state => state.user)
     let edit = useSelector(state => state.edit)
+    let _antibiotics = useSelector(state => state.antibiotics)
 
     let [editData, setEditData] = useState({
         barcode : '',
@@ -184,7 +185,6 @@ const Edit = () => {
         basicInfo[dataName] = value;
         _setEditBasicInfo(basicInfo);
     }
-
     const handleEdit = () => {
         let data = {
             last_name : _editBasicInfo.last_name,
@@ -313,7 +313,18 @@ const Edit = () => {
             .catch(e => console.log(e))
         }
     }
+    const handleAntibiotics = () => {
+        Taro.navigateTo({
+            url : '/pages/antibiotics/antibiotics?from=edit',
+        })
+    }
     
+    useDidShow(() => {
+        if(_antibiotics.edit){
+            handleSetOtherValue(_antibiotics.edit, 'antibiotics')
+        }
+    });
+
 
     return (
         <>
@@ -375,7 +386,10 @@ const Edit = () => {
                         />
                     </AtList>
                 </Picker>
-                <AtInput name='antibiotics' title='服用过的抗生素' placeholder='一周内服用过的抗生素' value={editOtherInfo.antibiotics} onChange={(value) => handleSetOtherValue(value, 'antibiotics')} />
+                <View className='edit-indexes'>
+                    <AtInput name='antibiotics' title='服用过的抗生素' placeholder='一周内服用过的抗生素' value={editOtherInfo.antibiotics} onChange={(value) => handleSetOtherValue(value, 'antibiotics')} />
+                    <AtButton type='primary' size='small' onClick={handleAntibiotics}>选择</AtButton>
+                </View>
                 <AtButton customStyle={{margin : '1rem 0'}} circle type='secondary' onClick={handleSubmit}>修改</AtButton>
                 <AtFloatLayout isOpened={layoutOpened} title='受测人信息修改' onClose={() => setLayoutOpened(false)}>
                     <View className='edit-info-check'>修改受测人基本信息将会引起所有相关联绑定信息的修改，请谨慎修改。</View>

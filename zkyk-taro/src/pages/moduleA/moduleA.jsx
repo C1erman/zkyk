@@ -75,7 +75,7 @@ const ModuleA = () => {
                 <View className='overview-total-graph'>
                     <View className='title'>{graph.name}</View>
                     <InfoProgress percent={+ graph.value} texts={[{text : '0', pos : '0%'},{text : '60', pos : '50%'},{text : '75', pos : '65%'},{text : '90', pos : '80%'}]}
-                      labels={[{text : '严重', pos : '25%'},{text : '中度', pos : '52%'},{text : '轻度', pos : '67%'}]}
+                      labels={[{text : '严重', pos : '25%'},{text : '中度', pos : '52%'},{text : '轻度', pos : '66%'}]}
                     />
                 </View>
                 { user.age && (+ user.age) ? (<View className='overview-age-prediction'>预测年龄：{(+ user.age).toFixed(1)} 岁</View>) : null }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text } from '@tarojs/components';
 import { useSelector } from 'react-redux';
 import Taro from '@tarojs/taro'
-import { AtGrid, AtButton, AtMessage } from 'taro-ui';
+import { AtGrid, AtButton, AtMessage, AtIcon} from 'taro-ui';
 
 import './view.css'
 import { host, imgSrc } from '../../config';
@@ -109,15 +109,16 @@ const ReportView = () => {
             <AtMessage />
             <View className='view-container'>
                 <View className='view-info'>
-                    正在浏览<Text className='name'>{reportInfo.name}</Text>的报告，报告编号为<Text className='code'>{reportInfo.barcode}</Text>，
-                    报告版本<Text className='version'>{'v' + reportInfo.version}</Text>。
+                    <View className='name'><View className='at-icon at-icon-user'>{reportInfo.name}</View></View>
+                    <View className='code'><View className='at-icon at-icon-bookmark'>{reportInfo.barcode}</View></View>
+                    <View className='version'><View className='at-icon at-icon-tag'>{'V' + reportInfo.version}</View></View>
                 </View>
                 <View className='view-title'><Text className='text'>报告模块</Text></View>
                 <View className='view-list'>
                     <AtGrid mode='square' data={[
                         {value : '整体情况', image : imgSrc + '/icons/view/a.png' }, {value : '菌群状态分析', image : imgSrc + '/icons/view/b.png' },
-                        {value : '具体检测结果', image : imgSrc + '/icons/view/c.png' },
-                        {value : '健康评估',  image : imgSrc + '/icons/view/d.png' }, {value : '菌群改善建议', image : imgSrc + '/icons/view/e.png' },
+                        {value : '健康评估',  image : imgSrc + '/icons/view/d.png' },
+                        {value : '菌群改善建议', image : imgSrc + '/icons/view/e.png' },{value : '具体检测结果', image : imgSrc + '/icons/view/c.png' },
                         {value : '菌群知识科普', image : imgSrc + '/icons/view/f.png'}
                     ]} onClick={(item, index) => handleItemClick(item.value)}
                     />

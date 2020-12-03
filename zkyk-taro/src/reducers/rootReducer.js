@@ -25,7 +25,8 @@ const rootReducer = (state = initState, action) => {
                 },
                 sampleList : {
                     totalPage : 1,
-                    currentPage : Taro.getStorageSync('SAMPLELIST_current_page') || 1,
+                    // currentPage : Taro.getStorageSync('SAMPLELIST_current_page') || 1,
+                    currentPage : 1,
                     search : '',
                 },
             }
@@ -102,6 +103,23 @@ const rootReducer = (state = initState, action) => {
             return {
                 ...state,
                 add
+            }
+        }
+        case BIO.ADD_SET_ANTIBIOTICS : {
+            const antibiotics = clone(state['antibiotics']);
+            antibiotics.add = action.data;
+            return {
+                ...state,
+                antibiotics
+            }
+        }
+        // 编辑信息
+        case BIO.EDIT_SET_ANTIBIOTICS : {
+            const antibiotics = clone(state['antibiotics']);
+            antibiotics.edit = action.data;
+            return {
+                ...state,
+                antibiotics
             }
         }
         // 报告列表

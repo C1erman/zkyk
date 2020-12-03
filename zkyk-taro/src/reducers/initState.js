@@ -31,8 +31,11 @@ const initState = {
         add : '',
         signup : ''
     },
-    pdf : '',
-    globalInfo : ''
+    antibiotics : {
+        add : '',
+        edit : ''
+    },
+    pdf : ''
 }
 
 export default initState;

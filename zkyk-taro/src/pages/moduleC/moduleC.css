@@ -19,7 +19,7 @@
 }
 .overview-result{
     width: 95%;
-    margin: 0 auto;
+    margin: 0 auto 1rem;
 }
 .overview-result-info{
     text-align: center;
@@ -81,11 +81,24 @@
 }
 .overview-result-below::after{
     content: '↓';
-    margin-left: 5px;
+    margin-left: 5PX;
     position: relative;
 }
 .overview-result-above::after{
     content: '↑';
-    margin-left: 5px;
+    margin-left: 5PX;
+    position: relative;
+}
+.overview-result-bene-above, .overview-result-harm-below{
+    color: var(--riskNormal);
+}
+.overview-result-bene-above::after{
+    content: '↑';
+    margin-left: 5PX;
+    position: relative;
+}
+.overview-result-harm-below::after{
+    content: '↓';
+    margin-left: 5PX;
     position: relative;
 }

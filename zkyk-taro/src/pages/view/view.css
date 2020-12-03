@@ -33,18 +33,18 @@
     top: -0.6rem;
 }
 .view-info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 90%;
     margin: 0 auto;
     line-height: 2;
 }
 .view-info > .name, .view-info > .code, .view-info > .version{
-    margin: 0 0.5rem;
+    margin: 0 1rem;
     font-size: 1rem;
     padding-bottom: 0.2rem;
-    border-bottom: 1px solid var(--black);
-}
-.view-info > .code{
-    word-break: break-all;
+    border-bottom: 1PX solid var(--black);
 }
 .view-overview{
     width: 90%;

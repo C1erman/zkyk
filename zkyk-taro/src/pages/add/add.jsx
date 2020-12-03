@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Taro from '@tarojs/taro';
+import Taro, { useDidShow } from '@tarojs/taro';
 import { View, Text, Picker } from '@tarojs/components';
 import { useSelector, useDispatch } from 'react-redux';
 import { AtInput, AtList, AtListItem, AtButton, AtFloatLayout, AtMessage, AtCurtain } from 'taro-ui';
@@ -15,6 +15,7 @@ const Add = () => {
 
     let user = useSelector(state => state.user)
     let add = useSelector(state => state.add)
+    let antibiotics = useSelector(state => state.antibiotics)
 
     let [curtainOpen, setCurtainOpen] = useState(true)
     let [testee, setTestee] = useState({
@@ -56,24 +57,7 @@ const Add = () => {
     let [layoutOpened, setLayoutOpened] = useState(false)
     let [submitBtnLoading, setSubmitBtnLoading] = useState(false)
 
-    useEffect(() => {
-        Taro.request({
-            url : host + '/user/operator/info',
-            method : 'GET',
-            data : {
-                'access-token' : user.token
-            },
-            header : { 
-                'Content-Type': 'application/json; charset=UTF-8'
-            }
-        })
-        .then(res => {
-            let { data } = res;
-            if(data.code === 'success') setContact(data.data);
-            else console.log(data.info)
-        })
-        .catch(e => console.log(e))
-    }, [])
+    let br = '\n';
 
     const mapPickerKey = {
         '男' : 'M',
@@ -125,7 +109,6 @@ const Add = () => {
         else picker[type].selectorChecked = picker[type].selector[value];
         setAddPicker(picker);
     }
-
     const handleGoNext = () => {
         let data = {
             ...addBasicInfo,
@@ -155,20 +138,6 @@ const Add = () => {
             duration : 2500
         })
         else setLayoutOpened(true);
-    }
-    const handleSearch = (name) => {
-        Taro.request({
-            url : host + '/validate/antibiotics',
-            method : 'GET',
-            data : name,
-            header : {
-                'Content-Type' : 'application/json; charset=UTF-8'
-            }
-        })
-        .then(res => {
-            let {data} = res;
-            if(data.code === 'success'){}
-        })
     }
     const handleSubmit = () => {
         let data = {
@@ -321,11 +290,39 @@ const Add = () => {
         Taro.navigateBack();
     }
     const handleSelectClick = () => {
-
-
         if(testee.testeeCode && testee.testeeCode.length > 0) handleAlready();
         else handleFirst();
     }
+    const handleAntibiotics = () => {
+        Taro.navigateTo({
+            url : '/pages/antibiotics/antibiotics?from=add',
+        })
+    }
+
+    useEffect(() => {
+        Taro.request({
+            url : host + '/user/operator/info',
+            method : 'GET',
+            data : {
+                'access-token' : user.token
+            },
+            header : { 
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        })
+        .then(res => {
+            let { data } = res;
+            if(data.code === 'success') setContact(data.data);
+            else console.log(data.info)
+        })
+        .catch(e => console.log(e))
+    }, [user]);
+    useDidShow(() => {
+        if(antibiotics.add){
+            handleSetOtherValue(antibiotics.add, 'antibiotics')
+        }
+    });
+
 
     return (
         <>
@@ -333,7 +330,7 @@ const Add = () => {
             <View className='add-container'>
                 <AtCurtain isOpened={curtainOpen} onClose={handleCloseCurtain} closeBtnPosition='top-right'>
                     <View className='add-check'>
-                        <View className='add-check-info'>若非首次送样，请在下方输入受测人编码；否则请直接点击下一步。如需返回上一步，请关闭弹窗。</View>
+                        <View className='add-check-info'>若非首次送样，请在下方输入受测人编码；否则请直接点击下一步。<Text>{br}</Text>如需返回上一步，请关闭弹窗。</View>
                         <View className='add-check-input'>
                             <AtInput name='first' title='受测人编码' type='number' placeholder='请输入编码' value={testee.testeeCode} onChange={(value) => handleSetTesteeValue(value, 'testeeCode')} />
                             <AtButton customStyle={{marginTop : '1rem'}} type='primary' circle
@@ -397,7 +394,10 @@ const Add = () => {
                         />
                     </AtList>
                 </Picker>
-                <AtInput name='antibiotics' title='服用过的抗生素' placeholder='一周内服用过的抗生素' value={addOtherInfo.antibiotics} onChange={(value) => handleSetOtherValue(value, 'antibiotics')} />
+                <View className='add-indexes'>
+                    <AtInput name='antibiotics' title='抗生素' placeholder='一周内服用过的抗生素' value={addOtherInfo.antibiotics} onChange={(value) => handleSetOtherValue(value, 'antibiotics')} />
+                    <AtButton type='primary' size='small' onClick={handleAntibiotics}>选择</AtButton>
+                </View>
                 <AtButton customStyle={{margin : '1rem 0'}} circle type='secondary' onClick={handleGoNext}>下一步</AtButton>
                 <AtFloatLayout isOpened={layoutOpened} title='受测人信息确认' onClose={() => setLayoutOpened(false)}>
                     <View className='add-info-check'>

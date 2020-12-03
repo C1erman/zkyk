@@ -45,7 +45,10 @@ const ModuleC = () => {
                 if (value < min) {
                     return { className: 'td overview-result-below' }
                 }
-                else return { className : 'td' }
+                else if (value > max) {
+                    return { className: 'td overview-result-bene-above'}
+                }
+                else return { className: 'td' }
             case 'general': {
                 if (value < min) {
                     return { className: 'td overview-result-below' }
@@ -57,6 +60,9 @@ const ModuleC = () => {
             case 'harmful': {
                 if (value > max) {
                     return { className: 'td overview-result-above' }
+                }
+                else if (value < min) {
+                    return { className: 'td overview-result-harm-below' }
                 }
             }
             default: return { className: 'td' };

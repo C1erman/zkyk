@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Taro from '@tarojs/taro'
 import { View, Text, Checkbox, Label, Button, CheckboxGroup} from '@tarojs/components'
-import { AtButton, AtInput, AtModal, AtModalHeader, AtModalContent, AtModalAction, AtToast } from 'taro-ui'
+import { AtButton, AtInput, AtModal, AtModalHeader, AtModalContent, AtModalAction, AtToast, AtMessage } from 'taro-ui'
 import './index.css'
 import * as BIO from '../../constants';
 import { host } from '../../config';
@@ -74,6 +74,7 @@ const Index = () => {
   }
 
   return (<>
+    <AtMessage />
     <AtToast isOpened={toastText.length} text={toastText} duration={2000} onClose={() => setToast('')}></AtToast>
     <View className='home-container'>
       <View className='home-textContainer'>

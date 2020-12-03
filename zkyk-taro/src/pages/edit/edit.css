@@ -98,3 +98,8 @@
     float: right;
     color: var(--theme);
 }
+.edit-indexes{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

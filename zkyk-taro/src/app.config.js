@@ -8,6 +8,7 @@ export default {
     'pages/infoadd/infoadd',
     'pages/userinfo/userinfo',
     'pages/reportlist/reportlist',
+    'pages/antibiotics/antibiotics',
 
     'pages/moduleA/moduleA',
     'pages/moduleB/moduleB',

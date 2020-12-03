@@ -7,6 +7,7 @@ import './reportlist.css';
 import { host, imgSrc } from '../../config';
 import * as BIO from '../../actions';
 import Pager from '../../component/Pager';
+import { clone } from '../../utils/BIOObject';
 
 
 const ReportList = () => {
@@ -35,6 +36,13 @@ const ReportList = () => {
     let br = '\n';
     let [toastText, setToast] = useState('')
 
+    let [listSort, setListSort] = useState({
+        name : '',
+        barcode : '',
+        status : ''
+    });
+    let [listSortCurrent, setListSortCurrent] = useState('')
+
     useDidShow(() => {
         if(user.token){
             let current = (+ sampleList.currentPage) || 1;
@@ -46,7 +54,9 @@ const ReportList = () => {
                     'access-token' : user.token,
                     pageNum : listNumPerPage,
                     page : current,
-                    query : query
+                    query : query,
+                    field : listSortCurrent,
+                    order : listSort[listSortCurrent]
                 },
                 header : {
                     'Content-Type' : 'application/json; charset=UTF-8'
@@ -163,7 +173,9 @@ const ReportList = () => {
                 'access-token' : user.token,
                 page : currentPage,
                 pageNum : listNumPerPage,
-                query : listSearch
+                query : listSearch,
+                field : listSortCurrent,
+                order : listSort[listSortCurrent]
             },
             header : {
                 'Content-Type' : 'application/json; charset=UTF-8'
@@ -245,6 +257,12 @@ const ReportList = () => {
                     setCurrent(1);
                     setListSearch(listSearch);
                     setListSearchText(listSearch);
+
+                    setListSort({
+                        name : '',
+                        barcode : '',
+                        status : ''
+                    });
                     dispatch({
                         type : BIO.REPORT_LIST_CURRENT_PAGE,
                         data : 1
@@ -259,6 +277,87 @@ const ReportList = () => {
         }
         else clearSearch();
     }
+    const switchOrder = (current) => {
+        if(!current) return 'desc';
+        else if(current === 'desc') return 'asc';
+        else if(current === 'asc') return '';
+    }
+    const mapListSort = (field) => {
+        if(field === listSortCurrent) return listSort[field] === 'desc' ? 'at-icon at-icon-chevron-down' : 'at-icon at-icon-chevron-up';
+        else return '';
+    }
+    const handleListSort = (field) => {
+        let order = switchOrder(listSort[field]);
+        if(order){
+            Taro.request({
+                url : host + '/sample/list',
+                method : 'GET',
+                data : {
+                    'access-token' : user.token,
+                    page : '',
+                    pageNum : listNumPerPage,
+                    query : listSearch,
+                    field : field,
+                    order : order
+                },
+                header : {
+                    'Content-Type' : 'application/json; charset=UTF-8'
+                }
+            })
+            .then(res => {
+                let {data} = res;
+                if(data.code === 'success'){
+                    setList(data.data.list)
+                    setPagination(data.data.pagination);
+                    setCurrent(1);
+
+                    setListSortCurrent(field);
+                    let sort = {
+                        name : '',
+                        barcode : '',
+                        status : ''
+                    };
+                    sort[field] = order;
+                    setListSort(sort);
+                    setToast('排序成功')
+                }
+            })
+            .catch(e => console.log(e))
+        }
+        else{
+            Taro.request({
+                url : host + '/sample/list',
+                method : 'GET',
+                data : {
+                    'access-token' : user.token,
+                    page : '',
+                    pageNum : listNumPerPage,
+                    query : listSearch,
+                    field : '',
+                    order : ''
+                },
+                header : {
+                    'Content-Type' : 'application/json; charset=UTF-8'
+                }
+            })
+            .then(res => {
+                let {data} = res;
+                if(data.code === 'success'){
+                    setList(data.data.list)
+                    setPagination(data.data.pagination);
+                    setCurrent(1);
+
+                    setListSortCurrent('');
+                    setListSort({
+                        name : '',
+                        barcode : '',
+                        status : ''
+                    });
+                }
+            })
+            .catch(e => console.log(e))
+        }
+    }
 
     return (
         <>
@@ -268,7 +367,7 @@ const ReportList = () => {
                 <View className='reportList-title'><Text className='text'>选择你要查看的报告</Text></View>
                 <View className='reportList-search'>
                     <AtSearchBar className='reportList-search-input' disabled={!user.token}
-                      value={listSearch} onChange={(value) => setListSearch(value)} onActionClick={handleListSearch}
+                      value={listSearch} onChange={(value) => setListSearch(value)} onActionClick={handleListSearch} onConfirm={handleListSearch}
                     />
                     <View className='reportList-search-info'>可输入受测人、样本编号与状态进行查询，多条件查询时请用空格连接。</View>
                 </View>
@@ -303,9 +402,9 @@ const ReportList = () => {
                         <View className='reportList-table'>
                             <View className='reportList-table-head'>
                                 <View className='tr'>
-                                    <View className='td'>受测人</View>
-                                    <View className='td'>样本编号</View>
-                                    <View className='td'>当前状态</View>
+                                    <View className='td' onClick={() => handleListSort('name')}><View className={mapListSort('name')}>受测人</View></View>
+                                    <View className='td' onClick={() => handleListSort('barcode')}><View className={mapListSort('barcode')}>样本编号</View></View>
+                                    <View className='td' onClick={() => handleListSort('status')}><View className={mapListSort('status')}>当前状态</View></View>
                                     <View className='td'>操作</View>
                                 </View>
                             </View>

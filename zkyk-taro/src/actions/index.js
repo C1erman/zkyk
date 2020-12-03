@@ -15,8 +15,11 @@ const USER_EDIT_EMAIL = 'user-edit-email';
 // 绑定采样
 const ADD_CHECK_SUCCESS = 'add-check-success';
 const ADD_SET_TESTEE_CODE = 'add-set-testee-code';
+const ADD_SET_ANTIBIOTICS = 'add-set-antibiotics';
 const ADD_SUCCESS = 'add-success';
 const ADD_ERROR = 'add-error';
+// 编辑信息
+const EDIT_SET_ANTIBIOTICS = 'edit-set-antibiotics';
 // 报告列表
 const REPORT_SELECT = 'report-select';
 const REPORT_READ_OVER = 'report-read-over';
@@ -51,8 +54,10 @@ export {
     USER_EDIT_EMAIL,
     ADD_CHECK_SUCCESS,
     ADD_SET_TESTEE_CODE,
+    ADD_SET_ANTIBIOTICS,
     ADD_SUCCESS,
     ADD_ERROR,
+    EDIT_SET_ANTIBIOTICS,
     REPORT_SELECT,
     REPORT_READ_OVER,
     REPORT_EDIT,
