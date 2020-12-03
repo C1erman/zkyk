@@ -7,8 +7,6 @@ import './reportlist.css';
 import { host, imgSrc } from '../../config';
 import * as BIO from '../../actions';
 import Pager from '../../component/Pager';
-import { clone } from '../../utils/BIOObject';
-
 
 const ReportList = () => {
     const dispatch = useDispatch()
