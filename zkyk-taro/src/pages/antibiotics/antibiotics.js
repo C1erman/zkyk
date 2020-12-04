@@ -48,10 +48,7 @@ const Antibiotics = () => {
             })
             .then(res => {
                 let {data} = res;
-                if(data.code === 'success'){
-                    setList(data.data);
-                    setToast('搜索成功');
-                }
+                if(data.code === 'success') setList(data.data);
                 else if(data.code === 'error') setToast(data.info);
             })
             .catch(e => console.log(e))
@@ -82,7 +79,7 @@ const Antibiotics = () => {
     return (
         <View style='height : 100vh'>
             <AtToast isOpened={toastText.length} text={toastText} duration={2000} onClose={() => setToast('')}></AtToast>
-            <AtIndexes list={list} isShowToast={false} onClick={handleClick} topKey='顶部'>
+            <AtIndexes list={list} isShowToast={false} onClick={handleClick} topKey='向上'>
                 <View>
                     <AtSearchBar placeholder='查找抗生素' 
                       onActionClick={handleSearch} value={search} onChange={(value) => setSearch(value)}

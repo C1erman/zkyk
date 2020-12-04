@@ -286,7 +286,7 @@ const Edit = () => {
                 }
             })
             .then(res => {
-                let {data} = res;
+                let { data } = res;
                 if(data.code === 'success'){
                     Taro.atMessage({
                         type : 'success',
@@ -299,7 +299,11 @@ const Edit = () => {
                     }, 2500)
                     dispatch({
                         type : BIO.REPORT_EDIT_SUCCESS
-                    })
+                    });
+                    dispatch({
+                        type : BIO.EDIT_SET_ANTIBIOTICS,
+                        data : ''
+                    });
                 }
                 else{
                     Taro.atMessage({
@@ -388,7 +392,7 @@ const Edit = () => {
                 </Picker>
                 <View className='edit-indexes'>
                     <AtInput name='antibiotics' title='服用过的抗生素' placeholder='一周内服用过的抗生素' value={editOtherInfo.antibiotics} onChange={(value) => handleSetOtherValue(value, 'antibiotics')} />
-                    <AtButton type='primary' size='small' onClick={handleAntibiotics}>选择</AtButton>
+                    <AtButton type='primary' size='small' onClick={handleAntibiotics}>搜索</AtButton>
                 </View>
                 <AtButton customStyle={{margin : '1rem 0'}} circle type='secondary' onClick={handleSubmit}>修改</AtButton>
                 <AtFloatLayout isOpened={layoutOpened} title='受测人信息修改' onClose={() => setLayoutOpened(false)}>

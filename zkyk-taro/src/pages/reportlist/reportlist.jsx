@@ -54,7 +54,7 @@ const ReportList = () => {
                     page : current,
                     query : query,
                     field : listSortCurrent,
-                    order : listSort[listSortCurrent]
+                    order : listSort[listSortCurrent] || ''
                 },
                 header : {
                     'Content-Type' : 'application/json; charset=UTF-8'
@@ -142,6 +142,13 @@ const ReportList = () => {
                 setCurrent(1);
                 setListSearch('');
                 setListSearchText('');
+
+                setListSortCurrent('');
+                setListSort({
+                    name : '',
+                    barcode : '',
+                    status : ''
+                });
             }
             else setToast(data.info);
         })
@@ -256,6 +263,7 @@ const ReportList = () => {
                     setListSearch(listSearch);
                     setListSearchText(listSearch);
 
+                    setListSortCurrent('');
                     setListSort({
                         name : '',
                         barcode : '',

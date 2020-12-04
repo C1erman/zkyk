@@ -26,6 +26,9 @@
 .add-check-info{
     line-height: 2;
 }
+.add-check-info > .bold{
+    font-weight: bolder;
+}
 .add-check-input{
     margin-top: 2rem;
 }

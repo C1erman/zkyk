@@ -170,7 +170,11 @@ const Add = () => {
                 })
                 dispatch({
                     type : BIO.ADD_SUCCESS
-                })
+                });
+                dispatch({
+                    type : BIO.ADD_SET_ANTIBIOTICS,
+                    data : ''
+                });
                 setTimeout(() => {
                     setSubmitBtnLoading(false);
                     Taro.navigateBack();
@@ -330,7 +334,7 @@ const Add = () => {
             <View className='add-container'>
                 <AtCurtain isOpened={curtainOpen} onClose={handleCloseCurtain} closeBtnPosition='top-right'>
                     <View className='add-check'>
-                        <View className='add-check-info'>若非首次送样，请在下方输入受测人编码；否则请直接点击下一步。<Text>{br}</Text>如需返回上一步，请关闭弹窗。</View>
+                        <View className='add-check-info'><Text className='bold'>不是首次送样</Text>，请在下方输入受测人编码；<Text>{br}</Text><Text className='bold'>首次送样</Text>，请直接点击下一步按钮。<Text>{br}</Text>如需返回上一步，请关闭弹窗。</View>
                         <View className='add-check-input'>
                             <AtInput name='first' title='受测人编码' type='number' placeholder='请输入编码' value={testee.testeeCode} onChange={(value) => handleSetTesteeValue(value, 'testeeCode')} />
                             <AtButton customStyle={{marginTop : '1rem'}} type='primary' circle
@@ -396,7 +400,7 @@ const Add = () => {
                 </Picker>
                 <View className='add-indexes'>
                     <AtInput name='antibiotics' title='抗生素' placeholder='一周内服用过的抗生素' value={addOtherInfo.antibiotics} onChange={(value) => handleSetOtherValue(value, 'antibiotics')} />
-                    <AtButton type='primary' size='small' onClick={handleAntibiotics}>选择</AtButton>
+                    <AtButton type='primary' size='small' onClick={handleAntibiotics}>搜索</AtButton>
                 </View>
                 <AtButton customStyle={{margin : '1rem 0'}} circle type='secondary' onClick={handleGoNext}>下一步</AtButton>
                 <AtFloatLayout isOpened={layoutOpened} title='受测人信息确认' onClose={() => setLayoutOpened(false)}>
