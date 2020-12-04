@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text } from '@tarojs/components';
 import { useSelector, useDispatch } from 'react-redux';
-import { AtInput, AtButton, AtList, AtListItem, AtFloatLayout, AtToast } from 'taro-ui';
-import Taro from '@tarojs/taro';
+import { AtInput, AtButton, AtList, AtListItem, AtFloatLayout, AtToast, AtActionSheet, AtActionSheetItem } from 'taro-ui';
+import Taro, { useShareAppMessage } from '@tarojs/taro';
 import * as BIO from '../../actions';
 import './userinfo.css';
-import { host } from '../../config';
+import { host, imgSrc } from '../../config';
 import { clone } from '../../utils/BIOObject';
 import { BIOValidate } from '../../utils/BIOValidate';
 
@@ -31,6 +31,9 @@ const UserInfo = () => {
         email : false
     })
     let [toastText, setToast] = useState('')
+
+    let [shareOpen, setShareOpen] = useState(false)
+
 
     useEffect(() => {
         if(user.token){
@@ -120,6 +123,21 @@ const UserInfo = () => {
             type : BIO.LOGOUT_SUCCESS
         })
     }
+    const handleShareBind = () => {
+        Taro.showShareMenu({
+            withShareTicket : true
+        })
+    }
+    useShareAppMessage(res => {
+        if(res.from === 'button'){
+            console.log(res.target)
+        }
+        return {
+            title : '自助送样填表',
+            path : '/pages/share/share?token=' + user.token,
+            imageUrl : '../../icons/cover/add.png'
+        }
+    })
 
     return (
         <>
@@ -134,9 +152,14 @@ const UserInfo = () => {
                     <AtList hasBorder={false}>
                         <AtListItem hasBorder={false} title='个人信息' arrow='right'
                           iconInfo={{size : 25, color : '#ff4f76', value : 'message'}}
-                          onClick={user.token ? () => handleLayoutOpen('userInfo') : null}
+                          onClick={() => handleLayoutOpen('userInfo')}
                           disabled={!user.token}
                         />
+                        {/* <AtListItem hasBorder={false} title='分享' arrow='right'
+                          iconInfo={{size : 25, color : '#ff4f76', value : 'share-2'}}
+                          onClick={() => setShareOpen(true)}
+                          disabled={!user.token}
+                        /> */}
                         <AtListItem hasBorder={false} title='修改密码' arrow='right'
                           iconInfo={{size : 25, color : '#ff4f76', value : 'lock'}}
                           onClick={user.token ? () => handleLayoutOpen('password') : null}
@@ -180,6 +203,9 @@ const UserInfo = () => {
                         >发送</AtButton>
                     </View>
                 </AtFloatLayout>
+                <AtActionSheet isOpened={shareOpen} cancelText='取消' onClose={() => setShareOpen(false)} onCancel={() => setShareOpen(false)}>
+                    <AtActionSheetItem onClick={handleShareBind}><AtButton openType='share' type='secondary' circle>分享绑定</AtButton></AtActionSheetItem>
+                </AtActionSheet>
             </View>
         </>
     );

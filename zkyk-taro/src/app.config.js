@@ -5,6 +5,7 @@ export default {
     'pages/login/login',
     'pages/edit/edit',
     'pages/view/view',
+    'pages/share/share',
     'pages/infoadd/infoadd',
     'pages/userinfo/userinfo',
     'pages/reportlist/reportlist',
@@ -51,7 +52,11 @@ export default {
         text : '我的',
         iconPath : 'icons/tab/user.png',
         selectedIconPath : 'icons/tab/user_selected.png'
-      }
+      },
+      // {
+      //   pagePath : 'pages/share/share',
+      //   text : '分享绑定',
+      // }
     ]
   }
 }
