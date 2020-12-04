@@ -43,6 +43,7 @@
 .reportList-info{
     background-color: var(--textContainer);
     padding: 1rem;
+    letter-spacing: 0.1rem;
 }
 .reportList-search{
     margin: 1rem auto;

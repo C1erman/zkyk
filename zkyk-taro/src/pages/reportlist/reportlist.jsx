@@ -382,6 +382,7 @@ const ReportList = () => {
                 >
                     <View className='reportList-info'>
                         在实验结束、生成报告之前，您都有机会对您填写的信息进行修改；报告生成之后，您只能查看而不能修改相关信息。<Text>{br}点击受测人姓名查看受测人编码，点击报告的当前状态查看状态详情。</Text>
+                        <Text>{br}支持对受测人、样本编号与当前状态的排序操作，请点击表头。</Text>
                     </View>
                 </AtAccordion>
                 {
