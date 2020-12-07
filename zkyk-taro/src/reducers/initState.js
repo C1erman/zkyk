@@ -23,11 +23,19 @@ const initState = {
         sampleId : '',
         testeeId : ''
     },
-    backendList : {
-        totalPage : 1,
-        currentPage : 1,
-    },
+    // 生成二维码用
     share : {
+        add : {
+            code : '',
+            expire : ''
+        },
+        signup : {
+            code : '',
+            expire : ''
+        }
+    },
+    // 接收二维码用
+    guide : {
         add : '',
         signup : ''
     },
@@ -35,7 +43,6 @@ const initState = {
         add : '',
         edit : ''
     },
-    pdf : ''
 }
 
 export default initState;

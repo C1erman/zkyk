@@ -25,10 +25,13 @@ const rootReducer = (state = initState, action) => {
                 },
                 sampleList : {
                     totalPage : 1,
-                    // currentPage : Taro.getStorageSync('SAMPLELIST_current_page') || 1,
                     currentPage : 1,
                     search : '',
                 },
+                guide : {
+                    add : Taro.getStorageSync('GUIDE_add') || '',
+                    edit : ''
+                }
             }
         }
         // 页面更改
@@ -181,11 +184,24 @@ const rootReducer = (state = initState, action) => {
         // 分享
         case BIO.SHARE_REPORT_ADD : {
             const share = clone(state['share']);
-            share.add = action.data;
-            sessionStorage.setItem('SHARE_add', action.data);
+            let {code, expire} = action.data;
+            share.add = {
+                code,
+                expire
+            };
             return {
                 ...state,
                 share
+            }
+        }
+        // 接受分享
+        case BIO.GUIDE_REPORT_ADD : {
+            const guide = clone(state['guide']);
+            guide.add = action.data;
+            Taro.setStorageSync('GUIDE_add', action.data);
+            return {
+                ...state,
+                guide
             }
         }
         // 违规操作，清空状态

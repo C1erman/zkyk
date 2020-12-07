@@ -53,10 +53,10 @@ export default {
         iconPath : 'icons/tab/user.png',
         selectedIconPath : 'icons/tab/user_selected.png'
       },
-      // {
-      //   pagePath : 'pages/share/share',
-      //   text : '分享绑定',
-      // }
+      {
+        pagePath : 'pages/share/share',
+        text : '分享绑定',
+      }
     ]
   }
 }

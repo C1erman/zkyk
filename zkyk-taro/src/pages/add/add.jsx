@@ -180,13 +180,15 @@ const Add = () => {
                     Taro.navigateBack();
                 }, 2000)
             }
-            else Taro.atMessage({
-                type : 'error',
-                message : data.info,
-                duration : 2500
-            });
-            setSubmitBtnLoading(false);
-        })
+            else {
+                Taro.atMessage({
+                    type : 'error',
+                    message : data.info,
+                    duration : 2500
+                });
+                setSubmitBtnLoading(false);
+            }
+        }).catch(e => console.log(e))
     }
     const handleFirst = () => {
         setSubmitBtnLoading(true)
@@ -334,7 +336,11 @@ const Add = () => {
             <View className='add-container'>
                 <AtCurtain isOpened={curtainOpen} onClose={handleCloseCurtain} closeBtnPosition='top-right'>
                     <View className='add-check'>
-                        <View className='add-check-info'><Text className='bold'>不是首次送样</Text>，请在下方输入受测人编码；<Text>{br}</Text><Text className='bold'>首次送样</Text>，请直接点击下一步按钮。<Text>{br}</Text>如需返回上一步，请关闭弹窗。</View>
+                        <View className='add-check-info'>
+                            <Text className='bold'>首次送样</Text>，请直接点击下一步按钮。<Text>{br}</Text>
+                            <Text className='bold'>不是首次送样</Text>，请在下方输入受测人编码。<Text>{br}</Text>
+                            如需返回上一步，请关闭弹窗。
+                        </View>
                         <View className='add-check-input'>
                             <AtInput name='first' title='受测人编码' type='number' placeholder='请输入编码' value={testee.testeeCode} onChange={(value) => handleSetTesteeValue(value, 'testeeCode')} />
                             <AtButton customStyle={{marginTop : '1rem'}} type='primary' circle

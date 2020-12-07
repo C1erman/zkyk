@@ -1,6 +1,108 @@
 .share-container{
     width: 90%;
     margin: 0 auto;
+    font-size: 30px;
     padding-top: 2rem;
-    
+    color: #666666;
+    --error : #a4000f;
+    --fakeTheme : #ff4f76;
+    --shadow : rgba(18,18,18,.1);
+    --grayBackground : #f5f5f5;
+    --white : #ffffff;
+    --gray : #cccccc;
+    --border : #dfe2e5;
+}
+.share-title{
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-weight: bolder;
+    font-size: 0.95rem;
+}
+.share-title > .text{
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+}
+.share-title > .text::after{
+    display: block;
+    content: '';
+    width: 120%;
+    height: 0.6rem;
+    position: relative;
+    z-index: -1;
+    background-color: var(--fakeTheme);
+    opacity: 0.5;
+    left: -10%;
+    top: -0.6rem;
+}
+.table{
+    display: table;
+}
+.thead{
+    display: table-header-group;
+}
+.tbody{
+    display: table-row-group;
+}
+.tr{
+    display: table-row;
+}
+.td{
+    display: table-cell;
+}
+.share-list .table{
+    width: 100%;
+    text-align: center;
+}
+
+.share-list .thead .tr{
+    color: var(--black);
+    vertical-align: bottom;
+    font-weight: bolder;
+}
+.share-list .thead .td{
+    border-bottom: 1PX solid var(--border);
+    padding: 0.5rem 0;
+}
+.share-list .tbody{
+    text-align: center;
+    font-size: 0.92rem;
+    font-size: 1.6;
+}
+.share-list .tbody .td{
+    padding: 0.5rem 0;
+    vertical-align: middle;
+    border-bottom: 1PX solid var(--border);
+}
+.tbody .link{
+    max-width: 10rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.share-code-container{
+    border-radius: 0.3rem;
+    border: 1PX solid var(--border);
+    margin: 1rem 0;
+}
+.share-code-container > .title{
+    height: 2.5rem;
+    padding-left: 1rem;
+    line-height: 2.5rem;
+    font-weight: bolder;
+    border-bottom: 1PX solid var(--border);
+}
+.share-code-container > .img{
+    display: block;
+    width: 10rem;
+    height: 10rem;
+    margin: 1rem auto;
+}
+.share-code-container > .time{
+    padding: 0 1rem;
+    margin: 0.5rem auto 1rem;
+}
+
+.share-empty{
+
 }
