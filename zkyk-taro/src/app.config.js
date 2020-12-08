@@ -6,6 +6,7 @@ export default {
     'pages/edit/edit',
     'pages/view/view',
     'pages/share/share',
+    'pages/guide/guide',
     'pages/infoadd/infoadd',
     'pages/userinfo/userinfo',
     'pages/reportlist/reportlist',
@@ -53,10 +54,6 @@ export default {
         iconPath : 'icons/tab/user.png',
         selectedIconPath : 'icons/tab/user_selected.png'
       },
-      {
-        pagePath : 'pages/share/share',
-        text : '分享绑定',
-      }
     ]
   }
 }

@@ -123,53 +123,12 @@ const UserInfo = () => {
             type : BIO.LOGOUT_SUCCESS
         })
     }
-    // const handleShareBind = () => {
-    //     Taro.showShareMenu({
-    //         withShareTicket : true
-    //     })
-    // }
     const handleShareBind = () => {
-        Taro.request({
-            url : host + '/ds/bind?access-token=' + user.token,
-            method : 'POST',
-            data : {
-                url : 'http://p.biohuge.cn/portal/code/'
-            },
-            header : {
-                'Content-Type': 'application/json; charset=UTF-8'
-            }
-        })
-        .then(res => {
-            let { data } = res;
-            if(data.code === 'success'){
-                let {code, expire_at} = data.data;
-                dispatch({
-                    type : BIO.SHARE_REPORT_ADD,
-                    data : {
-                        code,
-                        expire : expire_at
-                    }
-                });
-                setShareOpen(false);
-                Taro.navigateTo({
-                    url : '/pages/share/share'
-                });
-            }
-            else Taro.atMessage({
-                type : 'error',
-                message : data.info,
-                duration : 2500
-            })
-        })
-        .catch(e => console.log(e))
+        setShareOpen(false);
+        Taro.navigateTo({
+            url : '/pages/share/share'
+        });
     }
-    // useShareAppMessage(res => {
-    //     return {
-    //         title : '自助送样填表',
-    //         path : '/pages/share/share?token=' + user.token,
-    //         imageUrl : imgSrc + '/icons/other/sy.png'
-    //     }
-    // })
 
     return (
         <>

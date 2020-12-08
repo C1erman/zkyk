@@ -35,6 +35,14 @@
     left: -10%;
     top: -0.6rem;
 }
+.share-generate{
+    width: 90%;
+    margin: 0 auto 1rem;
+}
+.share-generate > .button{
+    margin-top: 1rem;
+}
+
 .table{
     display: table;
 }
@@ -49,6 +57,9 @@
 }
 .td{
     display: table-cell;
+}
+.share-list{
+    margin-bottom: 1rem;
 }
 .share-list .table{
     width: 100%;
@@ -75,9 +86,10 @@
     border-bottom: 1PX solid var(--border);
 }
 .tbody .link{
-    max-width: 10rem;
+    max-width: 9rem;
     overflow: hidden;
     text-overflow: ellipsis;
+    word-break: break-all;
 }
 
 .share-code-container{
@@ -94,8 +106,8 @@
 }
 .share-code-container > .img{
     display: block;
-    width: 10rem;
-    height: 10rem;
+    width: 8rem;
+    height: 8rem;
     margin: 1rem auto;
 }
 .share-code-container > .time{
@@ -104,5 +116,44 @@
 }
 
 .share-empty{
-
+    margin-bottom: 1rem;
+    text-align: center;
+    opacity: 0.8;
+}
+.share-gen{
+    width: 90%;
+    margin: 0 auto;
+}
+.share-gen > .title{
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    text-indent: 1rem;
+}
+.share-gen > .radio{
+    margin-bottom: 1rem;
+}
+.selected-img{
+    display: block;
+    width: 8rem;
+    height: 8rem;
+    margin: 1rem auto;
+}
+.share-show-code{
+    margin: 1rem 0;
+}
+.share-show-code > .title{
+    height: 2rem;
+    padding-left: 1rem;
+    line-height: 2rem;
+    font-weight: bolder;
+}
+.share-show-code > .time{
+    padding: 0 1rem;
+    margin: 0.5rem auto 1rem;
+}
+.share-show-code > .img{
+    display: block;
+    width: 9rem;
+    height: 9rem;
+    margin: 0 auto;
 }

@@ -14,6 +14,7 @@ const Add = () => {
     const dispatch = useDispatch()
 
     let user = useSelector(state => state.user)
+    let guide = useSelector(state => state.guide)
     let add = useSelector(state => state.add)
     let antibiotics = useSelector(state => state.antibiotics)
 
@@ -153,7 +154,7 @@ const Add = () => {
         }
         setSubmitBtnLoading(true);
         Taro.request({
-            url : host + '/sample/bind?access-token=' + user.token,
+            url : host + '/sample/bind?access-token=' + user.token + '&access-code=' + guide.add,
             method : 'POST',
             data : data,
             header : {
@@ -196,7 +197,8 @@ const Add = () => {
             url : host + '/sample/person',
             method : 'GET',
             data : {
-                'access-token' : user.token
+                'access-token' : user.token,
+                'access-code' : guide.add
             },
             header : {
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -232,6 +234,7 @@ const Add = () => {
             method : 'GET',
             data : {
                 'access-token' : user.token,
+                'access-code' : guide.add,
                 code : testee.testeeCode
             },
             header : {
@@ -310,7 +313,8 @@ const Add = () => {
             url : host + '/user/operator/info',
             method : 'GET',
             data : {
-                'access-token' : user.token
+                'access-token' : user.token,
+                'access-code' : guide.add
             },
             header : { 
                 'Content-Type': 'application/json; charset=UTF-8'

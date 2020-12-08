@@ -10,6 +10,7 @@ import { host } from '../../config';
 const Index = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
+  const guide = useSelector(state => state.guide)
 
   let [selected, setSelected] = useState(false)
   let [modalOpen, setModalOpen] = useState(false)
@@ -24,7 +25,7 @@ const Index = () => {
   }
 
   const handleSubmit = () => {
-    if(!user.token){
+    if(!user.token && !guide.add){
       setToast('请先登录');
       setTimeout(() => {
         Taro.navigateTo({
