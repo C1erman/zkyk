@@ -38,7 +38,7 @@ const ReportList = () => {
             params : {
                 'access-token' : user.token,
                 page : + sampleList.currentPage,
-                pageNum : 5
+                pageNum : 7
             },
             headers : {
                 'Content-Type' : 'application/json; charset=UTF-8'

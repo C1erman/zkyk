@@ -52,7 +52,7 @@
   color: var(--error);
 }
 .home-selectContainer{
-  margin-top: 1rem;
+  margin: 1rem 0 2.5rem;
 }
 .home-checkbox{
   zoom: 0.8;
