@@ -54,11 +54,6 @@ const UserInfo = () => {
                         tel,
                         org : organization
                     });
-                    setUserUpdateInfo({
-                        username,
-                        tel,
-                        org : organization
-                    })
                 }
             })
             .catch(e => console.log(e))
@@ -129,6 +124,33 @@ const UserInfo = () => {
             url : '/pages/share/share'
         });
     }
+    const getUserInfo = () => {
+        Taro.request({
+            url : host + '/user/personal/info',
+            method : 'GET',
+            data : {
+                'access-token' : user.token
+            }
+        })
+        .then(res => {
+            let { data } = res;
+            if(data.code === 'success'){
+                let { username, email, organization, tel} = data.data;
+                setUserInfo({
+                    username,
+                    email,
+                    tel,
+                    org : organization
+                });
+                setUserUpdateInfo({
+                    username,
+                    tel,
+                    org : organization
+                })
+            }
+        })
+        .catch(e => console.log(e))
+    }
 
     return (
         <>
@@ -144,7 +166,7 @@ const UserInfo = () => {
                     <AtList hasBorder={false}>
                         <AtListItem hasBorder={false} title='个人信息' arrow='right'
                           iconInfo={{size : 25, color : '#ff4f76', value : 'message'}}
-                          onClick={() => handleLayoutOpen('userInfo')}
+                          onClick={() => { handleLayoutOpen('userInfo'); getUserInfo(); }}
                           disabled={!user.token}
                         />
                         <AtListItem hasBorder={false} title='分享' arrow='right'
