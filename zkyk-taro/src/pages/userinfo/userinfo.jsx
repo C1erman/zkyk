@@ -172,7 +172,7 @@ const UserInfo = () => {
                         <AtListItem hasBorder={false} title='分享' arrow='right'
                           iconInfo={{size : 25, color : '#ff4f76', value : 'share-2'}}
                           onClick={() => setShareOpen(true)}
-                          disabled={!user.token}
+                          disabled
                         />
                         <AtListItem hasBorder={false} title='修改密码' arrow='right'
                           iconInfo={{size : 25, color : '#ff4f76', value : 'lock'}}
