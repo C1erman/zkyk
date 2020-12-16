@@ -62,7 +62,7 @@ const UserInfo = () => {
 
     const handleUpdate = () => {
         let data = [
-            {data : userUpadteInfo.tel, type : BIOValidate.TYPE.TEL},
+            {data : userUpadteInfo.tel, type : BIOValidate.TYPE.TEL, empty : true},
             {data : userUpadteInfo.username, type : BIOValidate.TYPE.USERNAME}
         ]
         let validate = BIOValidate.validate(data);

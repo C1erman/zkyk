@@ -25,7 +25,7 @@ const InfoAdd = () => {
     const handleSubmit = () => {
         if(checkEmpty(userData)) Taro.atMessage({
             type : 'error',
-            message : '请确认信息是否填写完整',
+            message : '请填写企业邀请码',
             duration : 2500
         })
         else{
@@ -43,11 +43,18 @@ const InfoAdd = () => {
             })
             .then(res => {
                 let {data} = res;
-                if(data.code === 'success') {
+                if(data.code === 'success'){
+                    Taro.atMessage({
+                        type : 'success',
+                        message : '登录成功'
+                    })
                     dispatch({
                         type : BIO.LOGIN_SUCCESS,
                         data : data.data
-                    })
+                    });
+                    Taro.navigateBack({
+                        delta : 2
+                    });
                 }
                 else Taro.atMessage({
                     type : 'error',
@@ -63,7 +70,6 @@ const InfoAdd = () => {
     return (
         <>
             <AtMessage />
-            
             <View className='infoadd-container'>
                 <View className='infoadd-title'><Text className='text'>个人信息补充</Text></View>
                 <View className='infoadd-info'>

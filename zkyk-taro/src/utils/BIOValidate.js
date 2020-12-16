@@ -58,12 +58,11 @@ const infoMaper = {
 }
 
 const validate = (obj = [
-    {data : '', type : TYPE.TEL, info : '手机号格式错误'}
+    {data : '', type : TYPE.TEL, info : '手机号格式错误', empty : false}
 ]) => {
     let result = obj.map((v) => {
-        if(typeMaper[v.type](v.data)) return {
-            validated : true
-        }
+        if(!v.data && v.empty) return { validated : true };
+        if(typeMaper[v.type](v.data)) return { validated : true };
         else return {
             validated : false,
             info : v.info ? v.info : infoMaper[v.type]
@@ -71,9 +70,7 @@ const validate = (obj = [
     })
     let validated = result.filter((v) => !v.validated);
     if(validated.length) return validated[0];
-    else return {
-        validated : true
-    }
+    else return { validated : true };
 }
 
 const BIOValidate = {
