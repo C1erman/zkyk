@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { View, Text } from '@tarojs/components';
 import { useSelector, useDispatch } from 'react-redux';
 import { AtInput, AtButton, AtList, AtListItem, AtFloatLayout, AtToast, AtActionSheet, AtActionSheetItem, AtMessage } from 'taro-ui';
-import Taro, { useShareAppMessage } from '@tarojs/taro';
+import Taro from '@tarojs/taro';
 import * as BIO from '../../actions';
 import './userinfo.css';
-import { host, imgSrc } from '../../config';
+import { host } from '../../config';
 import { clone } from '../../utils/BIOObject';
 import { BIOValidate } from '../../utils/BIOValidate';
 
@@ -13,6 +13,7 @@ const UserInfo = () => {
     const dispatch = useDispatch()
     let user = useSelector(state => state.user)
 
+    let [sharePermission, setSharePermission] = useState(false);
     let [btnLoading, setLoading] = useState(false)
     let [userInfo, setUserInfo] = useState({
         username : '',
@@ -42,12 +43,15 @@ const UserInfo = () => {
                 method : 'GET',
                 data : {
                     'access-token' : user.token
+                },
+                header : {
+                    'Content-Type' : 'application/json; charset=UTF-8'
                 }
             })
             .then(res => {
                 let { data } = res;
                 if(data.code === 'success'){
-                    let { username, email, organization, tel} = data.data;
+                    let { username, email, organization, tel } = data.data;
                     setUserInfo({
                         username,
                         email,
@@ -56,7 +60,25 @@ const UserInfo = () => {
                     });
                 }
             })
-            .catch(e => console.log(e))
+            .catch(e => console.log(e));
+            // 分享权限判定
+            Taro.request({
+                url : host + '/user/permission',
+                method : 'GET',
+                data : {
+                    'access-token' : user.token,
+                    controller : 'ds',
+                    action : 'bind'
+                },
+                header : {
+                    'Content-Type' : 'application/json; charset=UTF-8'
+                }
+            })
+            .then(res => {
+                let {data} = res;
+                if(data.code === 'success') setSharePermission(true);
+            })
+            .catch(e => console.log(e));
         }
     }, [user])
 
@@ -172,7 +194,7 @@ const UserInfo = () => {
                         <AtListItem hasBorder={false} title='分享' arrow='right'
                           iconInfo={{size : 25, color : '#ff4f76', value : 'share-2'}}
                           onClick={() => setShareOpen(true)}
-                          disabled
+                          disabled={!sharePermission}
                         />
                         <AtListItem hasBorder={false} title='修改密码' arrow='right'
                           iconInfo={{size : 25, color : '#ff4f76', value : 'lock'}}

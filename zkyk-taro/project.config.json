@@ -42,5 +42,25 @@
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
   "libVersion": "2.14.0",
-  "condition": {}
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "name": "扫描普通二维码",
+          "pathName": "pages/guide/guide",
+          "query": "\\dfdsf",
+          "scene": 1011
+        }
+      ]
+    }
+  }
 }

@@ -18,7 +18,7 @@ const Share = () => {
     let [listUpdate, setListUpdate] = useState('')
     let [expire, setExpire] = useState('')
     let [radioValue, setRadioValue] = useState('month')
-    let [shareList, setShareList] = useState()
+    let [shareList, setShareList] = useState([])
     let [genFloatOpen, setGenFloatOpen] = useState(false)
 
     let [listCurrent, setCurrent] = useState(1)
@@ -36,7 +36,6 @@ const Share = () => {
         }
     }, [share])
     useEffect(() => {
-        console.log('更新了')
         Taro.request({
             url : host + '/user/wx/share',
             method : 'GET',
@@ -72,7 +71,6 @@ const Share = () => {
             url : host + '/ds/bind?access-token=' + user.token,
             method : 'POST',
             data : {
-                url : 'http://p.biohuge.cn/portal/code/',
                 expire : mapExpire(radioValue)
             },
             header : {
@@ -130,13 +128,9 @@ const Share = () => {
         <>
             <AtMessage />
             <View className='share-container'>
-                <View className='share-title'><Text className='text'>创建分享二维码</Text></View>
-                <View className='share-generate'>
-                    <AtButton className='button' type='primary' circle onClick={() => setGenFloatOpen(true)}>创建</AtButton>
-                </View>
                 <View className='share-title'><Text className='text'>过往分享记录</Text></View>
-                { shareList ? (
-                <>
+                { shareList.length ? (
+                <View className='share-list-container'>
                     <View className='share-list'>
                         <View className='table'>
                             <View className='thead '>
@@ -160,10 +154,14 @@ const Share = () => {
                         </View>
                     </View>
                     <Pager current={listCurrent} total={listPagination.pageSize} prevClick={(currentPage) => getCurrentList(currentPage)} nextClick={(currentPage) => getCurrentList(currentPage)} />
-                </>
+                </View>
                 ) : (
                     <View className='share-empty'>你还没有生成过分享二维码。</View>
                 )}
+                <View className='share-title'><Text className='text'>创建分享二维码</Text></View>
+                <View className='share-generate'>
+                    <AtButton className='button' type='primary' circle onClick={() => setGenFloatOpen(true)}>创建</AtButton>
+                </View>
                 <AtFloatLayout isOpened={genFloatOpen} title='创建分享' onClose={() => setGenFloatOpen(false)}>
                     <View className='share-gen'>
                         <View className='title'>选择过期时间：</View>
@@ -184,7 +182,7 @@ const Share = () => {
                     <View className='share-show-code'>
                         <View className='title'>向受测人分享</View>
                         <View className='time'>过期时间为：{expire}</View>
-                        <Image className='img' src={showSrc} />
+                        <Image className='img' src={showSrc} showMenuByLongpress />
                     </View>
                 </AtFloatLayout>
             </View>
