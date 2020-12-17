@@ -4,7 +4,7 @@ import Taro from '@tarojs/taro'
 import { View, Text, Checkbox, Label, Button, CheckboxGroup} from '@tarojs/components'
 import { AtButton, AtInput, AtModal, AtModalHeader, AtModalContent, AtModalAction, AtToast, AtMessage } from 'taro-ui'
 import './index.css'
-import * as BIO from '../../constants';
+import * as BIO from '../../actions';
 import { host } from '../../config';
 
 const Index = () => {
@@ -41,7 +41,7 @@ const Index = () => {
       else{
         setLoading(true)
         Taro.request({
-          url : host + '/validate/verify',
+          url : host() + '/validate/verify',
           method : 'POST',
           data : {
             barcode : inputValue

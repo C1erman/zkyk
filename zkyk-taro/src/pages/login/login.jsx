@@ -20,7 +20,7 @@ const Login = () => {
             Taro.login().then(res => {
                 let code = res.code;
                 Taro.request({
-                    url : host + '/user/wx/signup',
+                    url : host() + '/user/wx/signup',
                     method : 'POST',
                     data : { code : code },
                     header : {

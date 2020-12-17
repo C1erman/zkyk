@@ -20,7 +20,7 @@ const ModuleA = () => {
 
     useEffect(() => {
         Taro.request({
-            url : host + '/charts/gauge',
+            url : host() + '/charts/gauge',
             method : 'GET',
             data : {
                 id : report.current,
@@ -35,7 +35,7 @@ const ModuleA = () => {
             if(data.code === 'success') setGraph(data.data);
         }).catch(e => console.log(e));
         Taro.request({
-            url : host + '/sample/personal',
+            url : host() + '/sample/personal',
             method : 'GET',
             data : {
                 id : report.current,
@@ -51,7 +51,7 @@ const ModuleA = () => {
         })
         .catch(e => console.log(e))
         Taro.request({
-            url : host + '/sample/abnormal',
+            url : host() + '/sample/abnormal',
             method : 'GET',
             data : {
                 id : report.current,

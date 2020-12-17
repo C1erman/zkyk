@@ -1,7 +1,5 @@
 // 数据缓存
 const DATA_LOAD = 'data-load';
-// 页面更改
-const APP_PAGE_CHANGE = 'app-page-change';
 // 登录注册
 const LOGIN_BY_WECHAT = 'login-by-wechat';
 const LOGIN_SUCCESS = 'login-success';
@@ -30,17 +28,14 @@ const REPORT_LIST_CURRENT_SEARCH = 'report-list-current-search';
 // 报告下载
 const REPORT_DOWNLOAD = 'report-download';
 const REPORT_DOWNLOAD_SUCCESS = 'report-download-success';
-// 分享
-const SHARE_REPORT_ADD = 'share-report-add';
-const SHARE_SIGN_UP = 'share-sign-up';
 // 使用分享
 const GUIDE_REPORT_ADD = 'guide-report-add';
+const GUIDE_SIGN_UP = 'guide-sign-up';
 // 违规操作
 const DENY_UNAUTHORIZED = 'deny-unauthorized';
 
 export {
     DATA_LOAD,
-    APP_PAGE_CHANGE,
     LOGIN_BY_WECHAT,
     LOGIN_SUCCESS,
     LOGIN_ERROR,
@@ -63,8 +58,7 @@ export {
     REPORT_LIST_CURRENT_SEARCH,
     REPORT_DOWNLOAD,
     REPORT_DOWNLOAD_SUCCESS,
-    SHARE_REPORT_ADD,
-    SHARE_SIGN_UP,
     GUIDE_REPORT_ADD,
+    GUIDE_SIGN_UP,
     DENY_UNAUTHORIZED
 }

@@ -1,7 +1,7 @@
 import 'taro-ui/dist/style/index.scss';
 import React, { useEffect } from 'react'
 import Taro from '@tarojs/taro';
-import { Provider, useDispatch } from 'react-redux'
+import { Provider, useDispatch, useSelector } from 'react-redux'
 import store from './store';
 import * as BIO from './actions';
 import './app.css'
@@ -19,7 +19,9 @@ const Data = () => {
 }
 // Taro 响应拦截器
 const Interceptor = () => {
+  const guide = useSelector(state => state.guide);
   const dispatch = useDispatch();
+
   const BioInterceptor = (chain) => {
     const requestParams = chain.requestParams;
     return chain.proceed(requestParams).then(response => {
@@ -42,7 +44,7 @@ const Interceptor = () => {
         case 403 : {
           Taro.atMessage({
             type : 'error',
-            message : '你没有权限下载这份报告',
+            message : '你没有权限查看这份报告',
             duration : 2000
           });
           break;
@@ -50,7 +52,7 @@ const Interceptor = () => {
         case 500 : {
           Taro.atMessage({
             type : 'error',
-            message : '你没有权限下载这份报告',
+            message : '服务器出现意外情况，请稍后再试',
             duration : 2000
           });
           break;
@@ -63,6 +65,7 @@ const Interceptor = () => {
     });
   }
   useEffect(() => {
+    console.log(guide);
     Taro.addInterceptor(BioInterceptor);
     console.log('拦截器添加成功')
   }, [])

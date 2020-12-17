@@ -1,4 +1,4 @@
-.share-container{
+.shareR-container{
     width: 90%;
     margin: 0 auto;
     font-size: 30px;
@@ -12,18 +12,18 @@
     --gray : #cccccc;
     --border : #dfe2e5;
 }
-.share-title{
+.shareR-title{
     text-align: center;
     margin-bottom: 1.5rem;
     font-weight: bolder;
     font-size: 0.95rem;
 }
-.share-title > .text{
+.shareR-title > .text{
     display: inline-block;
     position: relative;
     z-index: 1;
 }
-.share-title > .text::after{
+.shareR-title > .text::after{
     display: block;
     content: '';
     width: 120%;
@@ -35,11 +35,11 @@
     left: -10%;
     top: -0.6rem;
 }
-.share-generate{
+.shareR-generate{
     width: 90%;
     margin: 0 auto 1rem;
 }
-.share-generate > .button{
+.shareR-generate > .button{
     margin-top: 1rem;
 }
 
@@ -58,31 +58,31 @@
 .td{
     display: table-cell;
 }
-.share-list-container{
+.shareR-list-container{
     margin-bottom: 5rem;
 }
-.share-list{
+.shareR-list{
     margin-bottom: 1rem;
 }
-.share-list .table{
+.shareR-list .table{
     width: 100%;
     text-align: center;
 }
-.share-list .thead .tr{
+.shareR-list .thead .tr{
     color: var(--black);
     vertical-align: bottom;
     font-weight: bolder;
 }
-.share-list .thead .td{
+.shareR-list .thead .td{
     border-bottom: 1PX solid var(--border);
     padding: 0.5rem 0;
 }
-.share-list .tbody{
+.shareR-list .tbody{
     text-align: center;
     font-size: 0.92rem;
     font-size: 1.6;
 }
-.share-list .tbody .td{
+.shareR-list .tbody .td{
     padding: 0.5rem 0;
     vertical-align: middle;
     border-bottom: 1PX solid var(--border);
@@ -94,43 +94,43 @@
     word-break: break-all;
 }
 
-.share-code-container{
+.shareR-code-container{
     border-radius: 0.3rem;
     border: 1PX solid var(--border);
     margin: 1rem 0;
 }
-.share-code-container > .title{
+.shareR-code-container > .title{
     height: 2.5rem;
     padding-left: 1rem;
     line-height: 2.5rem;
     font-weight: bolder;
     border-bottom: 1PX solid var(--border);
 }
-.share-code-container > .img{
+.shareR-code-container > .img{
     display: block;
     width: 8rem;
     height: 8rem;
     margin: 1rem auto;
 }
-.share-code-container > .time{
+.shareR-code-container > .time{
     padding: 0 1rem;
     margin: 0.5rem auto 1rem;
 }
 
-.share-empty{
+.shareR-empty{
     text-align: center;
     opacity: 0.8;
 }
-.share-gen{
+.shareR-gen{
     width: 90%;
     margin: 0 auto;
 }
-.share-gen > .title{
+.shareR-gen > .title{
     margin-bottom: 1rem;
     font-size: 1rem;
     text-indent: 1rem;
 }
-.share-gen > .radio{
+.shareR-gen > .radio{
     margin-bottom: 1rem;
 }
 .selected-img{
@@ -139,20 +139,20 @@
     height: 8rem;
     margin: 1rem auto;
 }
-.share-show-code{
+.shareR-show-code{
     margin: 1rem 0;
 }
-.share-show-code > .title{
+.shareR-show-code > .title{
     height: 2rem;
     padding-left: 1rem;
     line-height: 2rem;
     font-weight: bolder;
 }
-.share-show-code > .time{
+.shareR-show-code > .time{
     padding: 0 1rem;
     margin: 0.5rem auto 1rem;
 }
-.share-show-code > .img{
+.shareR-show-code > .img{
     display: block;
     width: 9rem;
     height: 9rem;

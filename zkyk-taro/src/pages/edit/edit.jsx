@@ -105,7 +105,7 @@ const Edit = () => {
 
     useEffect(() => {
         Taro.request({
-            url : host + '/sample/update/bind',
+            url : host() + '/sample/update/bind',
             method : 'GET',
             data : {
                 id : edit.current,
@@ -207,7 +207,7 @@ const Edit = () => {
         else{
             setSubmitBtnLoading(true)
             Taro.request({
-                url : host + '/sample/alter/person?access-token=' + user.token,
+                url : host() + '/sample/alter/person?access-token=' + user.token,
                 method : 'POST',
                 data : {
                     ...data,
@@ -274,7 +274,7 @@ const Edit = () => {
         else{
             setSubmitBtnLoading(true);
             Taro.request({
-                url : host + '/sample/modify?access-token=' + user.token,
+                url : host() + '/sample/modify?access-token=' + user.token,
                 method : 'POST',
                 data : {
                     ...data,

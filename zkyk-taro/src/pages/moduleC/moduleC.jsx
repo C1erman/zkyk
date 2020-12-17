@@ -15,7 +15,7 @@ const ModuleC = () => {
 
     useEffect(() => {
         Taro.request({
-            url : host + '/sample/bacteria',
+            url : host() + '/sample/bacteria',
             method : 'GET',
             data : {
                 id : report.current,

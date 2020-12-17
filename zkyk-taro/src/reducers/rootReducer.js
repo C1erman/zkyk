@@ -30,18 +30,8 @@ const rootReducer = (state = initState, action) => {
                 },
                 guide : {
                     add : Taro.getStorageSync('GUIDE_add') || '',
-                    edit : ''
+                    signup : Taro.getStorageSync('GUIDE_signup') || ''
                 }
-            }
-        }
-        // 页面更改
-        case BIO.APP_PAGE_CHANGE : {
-            const app = clone(state['app']);
-            app.currentPage = action.data;
-            Taro.setStorageSync('APP_currentPage', action.data);
-            return {
-                ...state,
-                app
             }
         }
         // 用户微信登录
@@ -181,19 +171,6 @@ const rootReducer = (state = initState, action) => {
                 edit
             }
         }
-        // 分享
-        case BIO.SHARE_REPORT_ADD : {
-            const share = clone(state['share']);
-            let {code, expire} = action.data;
-            share.add = {
-                code,
-                expire
-            };
-            return {
-                ...state,
-                share
-            }
-        }
         // 接受分享
         case BIO.GUIDE_REPORT_ADD : {
             const guide = clone(state['guide']);
@@ -204,6 +181,7 @@ const rootReducer = (state = initState, action) => {
                 guide
             }
         }
+        
         // 违规操作，清空状态
         case BIO.DENY_UNAUTHORIZED : {
             return clone(initState);

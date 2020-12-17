@@ -39,7 +39,7 @@ const UserInfo = () => {
     useEffect(() => {
         if(user.token){
             Taro.request({
-                url : host + '/user/personal/info',
+                url : host() + '/user/personal/info',
                 method : 'GET',
                 data : {
                     'access-token' : user.token
@@ -63,7 +63,7 @@ const UserInfo = () => {
             .catch(e => console.log(e));
             // 分享权限判定
             Taro.request({
-                url : host + '/user/permission',
+                url : host() + '/user/permission',
                 method : 'GET',
                 data : {
                     'access-token' : user.token,
@@ -79,6 +79,20 @@ const UserInfo = () => {
                 if(data.code === 'success') setSharePermission(true);
             })
             .catch(e => console.log(e));
+            // 获得分享类型
+            Taro.request({
+                url : host() + '/ds/type',
+                method : 'GET',
+                data : {
+                    'access-token' : user.token
+                },
+                header : {
+                    'Content-Type' : 'application/json; charset=UTF-8'
+                }
+            })
+            .then(res => {
+                let { data } = res;
+            })
         }
     }, [user])
 
@@ -92,7 +106,7 @@ const UserInfo = () => {
         else {
             setLoading(true)
             Taro.request({
-                url : host + '/user/personal?access-token=' + user.token,
+                url : host() + '/user/personal?access-token=' + user.token,
                 method : 'POST',
                 data : {
                     username : userUpadteInfo.username,
@@ -103,7 +117,7 @@ const UserInfo = () => {
                 }
             })
             .then(res => {
-                let {data} = res;
+                let { data } = res;
                 if(data.code === 'success'){
                     setToast('信息更新成功')
                     setUserInfo({
@@ -146,9 +160,15 @@ const UserInfo = () => {
             url : '/pages/share/share'
         });
     }
+    const handleShareSign = () => {
+        setShareOpen(false);
+        Taro.navigateTo({
+            url : '/pages/shareSign/shareSign'
+        });
+    }
     const getUserInfo = () => {
         Taro.request({
-            url : host + '/user/personal/info',
+            url : host() + '/user/personal/info',
             method : 'GET',
             data : {
                 'access-token' : user.token
@@ -241,6 +261,8 @@ const UserInfo = () => {
                 </AtFloatLayout>
                 <AtActionSheet isOpened={shareOpen} cancelText='取消' onClose={() => setShareOpen(false)} onCancel={() => setShareOpen(false)}>
                     <AtActionSheetItem onClick={handleShareBind}>分享绑定</AtActionSheetItem>
+                    {/* <AtActionSheetItem onClick={handleShareReport}>分享报告</AtActionSheetItem> */}
+                    <AtActionSheetItem onClick={handleShareSign}>分享注册</AtActionSheetItem>
                 </AtActionSheet>
             </View>
         </>

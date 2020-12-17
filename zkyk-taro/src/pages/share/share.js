@@ -9,14 +9,11 @@ import { host } from '../../config';
 import Pager from '../../component/Pager';
 
 const Share = () => {
-    const user = useSelector(state => state.user)
-    const share = useSelector(state => state.share)
+    const user = useSelector(state => state.user);
 
-    let pageNum = 5;
+    let pageSize = 5; // 每页显示栏目数量
 
-    let [showSrc, setShowSrc] = useState('')
     let [listUpdate, setListUpdate] = useState('')
-    let [expire, setExpire] = useState('')
     let [radioValue, setRadioValue] = useState('month')
     let [shareList, setShareList] = useState([])
     let [genFloatOpen, setGenFloatOpen] = useState(false)
@@ -27,22 +24,28 @@ const Share = () => {
     })
 
     let [showFloatOpen, setShowFloatOpen] = useState(false)
+    let [showContent, setShowContent] = useState({
+        src : '',
+        expire : '',
+        password : '',
+    })
     
-    useEffect(() => {
-        let type = 'add'
-        if(share[type].code){
-            setExpire(share[type].expire)
-            setShowSrc(host + '/ds/q/' + share[type].code);
-        }
-    }, [share])
+    // useEffect(() => {
+    //     let type = 'add'
+    //     if(share[type].code){
+    //         setExpire(share[type].expire)
+    //         setShowSrc(host() + '/ds/q/' + share[type].code);
+    //     }
+    // }, [share])
     useEffect(() => {
         Taro.request({
-            url : host + '/user/wx/share',
+            url : host() + '/ds/list',
             method : 'GET',
             data : {
                 'access-token' : user.token,
-                page : listCurrent,
-                pageNum : pageNum
+                type : 'bind',
+                pageNum : listCurrent,
+                pageSize : pageSize
             },
             header : {
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -56,7 +59,7 @@ const Share = () => {
             }
         })
         .catch(e => console.log(e))
-    }, [listUpdate])
+    }, [user, listUpdate])
 
     const mapExpire = (type) => {
         return {
@@ -68,7 +71,7 @@ const Share = () => {
     }
     const handleGenerate = () => {
         Taro.request({
-            url : host + '/ds/bind?access-token=' + user.token,
+            url : host() + '/ds/bind?access-token=' + user.token,
             method : 'POST',
             data : {
                 expire : mapExpire(radioValue)
@@ -80,10 +83,15 @@ const Share = () => {
         .then(res => {
             let { data } = res;
             if(data.code === 'success'){
-                let src = host + '/ds/q/' + data.data.code;
-                setListUpdate(src);
-                setExpire(data.data.expire_at);
-                setShowSrc(src);
+                let { expire_at, code, password } = data.data;
+                // 设置查看内容
+                setShowContent({
+                    src : host() + '/ds/q/' + code,
+                    expire : expire_at,
+                    password
+                });
+                // 驱使列表更新
+                setListUpdate(code);
                 setGenFloatOpen(false);
                 setShowFloatOpen(true);
             }
@@ -95,20 +103,25 @@ const Share = () => {
         })
         .catch(e => console.log(e))
     }
-    const handleShowQrCode = (code, expire_at) => {
-        setExpire(expire_at);
-        setShowSrc(host + '/ds/q/' + code);
+    const handleShowQrCode = (data) => {
+        let { expire_at, code, password } = data;
+        setShowContent({
+            src : host() + '/ds/q/' + code,
+            expire : expire_at,
+            password
+        });
         setShowFloatOpen(true);
     }
     const getCurrentList = (currentPage) => {
         setCurrent(currentPage);
         Taro.request({
-            url : host + '/user/wx/share',
+            url : host() + '/ds/list',
             method : 'GET',
             data : {
                 'access-token' : user.token,
-                page : currentPage,
-                pageNum : pageNum
+                type : 'bind',
+                pageNum : currentPage,
+                pageSize : pageSize
             },
             header : {
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -133,7 +146,7 @@ const Share = () => {
                 <View className='share-list-container'>
                     <View className='share-list'>
                         <View className='table'>
-                            <View className='thead '>
+                            <View className='thead'>
                                 <View className='tr'>
                                     <View className='td'>链接</View>
                                     <View className='td'>过期时间</View>
@@ -146,23 +159,28 @@ const Share = () => {
                                         <View className='tr' key={i}>
                                             <Text className='td link' selectable>{v.data}</Text>
                                             <Text className='td'>{v.expire_at}</Text>
-                                            <View className='td'><AtButton type='secondary' size='small' circle onClick={() => handleShowQrCode(v.code, v.expire_at)}>查看</AtButton></View>
+                                            <View className='td'><AtButton type='secondary' size='small' circle onClick={() => handleShowQrCode(v)}>查看</AtButton></View>
                                         </View>
                                     ))
                                 }
                             </View>
                         </View>
                     </View>
-                    <Pager current={listCurrent} total={listPagination.pageSize} prevClick={(currentPage) => getCurrentList(currentPage)} nextClick={(currentPage) => getCurrentList(currentPage)} />
+                    <Pager
+                      current={listCurrent} 
+                      total={listPagination.pageSize} 
+                      prevClick={(currentPage) => getCurrentList(currentPage)}
+                      nextClick={(currentPage) => getCurrentList(currentPage)}
+                    />
                 </View>
                 ) : (
-                    <View className='share-empty'>你还没有生成过分享二维码。</View>
+                    <View className='share-empty share-list-container'>未查询到分享记录。</View>
                 )}
-                <View className='share-title'><Text className='text'>创建分享二维码</Text></View>
+                <View className='share-title'><Text className='text'>创建分享绑定二维码</Text></View>
                 <View className='share-generate'>
                     <AtButton className='button' type='primary' circle onClick={() => setGenFloatOpen(true)}>创建</AtButton>
                 </View>
-                <AtFloatLayout isOpened={genFloatOpen} title='创建分享' onClose={() => setGenFloatOpen(false)}>
+                <AtFloatLayout isOpened={genFloatOpen} title='创建二维码' onClose={() => setGenFloatOpen(false)}>
                     <View className='share-gen'>
                         <View className='title'>选择过期时间：</View>
                         <AtRadio className='radio'
@@ -181,8 +199,9 @@ const Share = () => {
                 <AtFloatLayout isOpened={showFloatOpen} title='二维码' onClose={() => setShowFloatOpen(false)}>
                     <View className='share-show-code'>
                         <View className='title'>向受测人分享</View>
-                        <View className='time'>过期时间为：{expire}</View>
-                        <Image className='img' src={showSrc} showMenuByLongpress />
+                        <View className='time'>过期时间为：{showContent.expire}</View>
+                        { showContent.password ? (<View className='pass'>使用二维码时请对方输入分享码：{showContent.password}</View>) : null }
+                        <Image className='img' src={showContent.src} showMenuByLongpress />
                     </View>
                 </AtFloatLayout>
             </View>

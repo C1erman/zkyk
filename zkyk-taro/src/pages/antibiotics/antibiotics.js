@@ -37,7 +37,7 @@ const Antibiotics = () => {
     const handleSearch = () => {
         if(search.length){
             Taro.request({
-                url : host + '/validate/wx/antibiotics',
+                url : host() + '/validate/wx/antibiotics',
                 method : 'POST',
                 data : {
                     antibiotics : search
@@ -60,7 +60,7 @@ const Antibiotics = () => {
         setPageFrom(from);
 
         Taro.request({
-            url : host + '/validate/wx/antibiotics',
+            url : host() + '/validate/wx/antibiotics',
             method : 'POST',
             data : {
                 antibiotics : ''

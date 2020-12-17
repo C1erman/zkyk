@@ -31,7 +31,7 @@ const InfoAdd = () => {
         else{
             setLoading(true)
             Taro.request({
-                url : host + '/user/wx/login',
+                url : host() + '/user/wx/login',
                 method : 'POST',
                 data : {
                     username : user.username,

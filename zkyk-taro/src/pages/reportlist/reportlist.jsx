@@ -46,7 +46,7 @@ const ReportList = () => {
             let current = (+ sampleList.currentPage) || 1;
             let query = sampleList.search || '';
             Taro.request({
-                url : host + '/sample/list',
+                url : host() + '/sample/list',
                 method : 'GET',
                 data : {
                     'access-token' : user.token,
@@ -84,7 +84,7 @@ const ReportList = () => {
     }
     const getStatus = (sampleId) => {
         Taro.request({
-            url : host + '/sample/status',
+            url : host() + '/sample/status',
             method : 'GET',
             data : {
                 'access-token' : user.token,
@@ -103,7 +103,7 @@ const ReportList = () => {
     }
     const getTesteeCode = (barcode) => {
         Taro.request({
-            url : host + '/sample/testee/code',
+            url : host() + '/sample/testee/code',
             method : 'GET',
             data : {
                 'access-token' : user.token,
@@ -123,7 +123,7 @@ const ReportList = () => {
     }
     const initialList = () => {
         Taro.request({
-            url : host + '/sample/list',
+            url :  + '/sample/list',
             method : 'GET',
             data : {
                 'access-token' : user.token,
@@ -172,7 +172,7 @@ const ReportList = () => {
             data : currentPage
         });
         Taro.request({
-            url : host + '/sample/list',
+            url : host() + '/sample/list',
             method : 'GET',
             data : {
                 'access-token' : user.token,
@@ -242,7 +242,7 @@ const ReportList = () => {
     const handleListSearch = () => {
         if(listSearch.length){
             Taro.request({
-                url : host + '/sample/list',
+                url : host() + '/sample/list',
                 method : 'GET',
                 data : {
                     'access-token' : user.token,
@@ -296,7 +296,7 @@ const ReportList = () => {
         let order = switchOrder(listSort[field]);
         if(order){
             Taro.request({
-                url : host + '/sample/list',
+                url : host() + '/sample/list',
                 method : 'GET',
                 data : {
                     'access-token' : user.token,
@@ -332,7 +332,7 @@ const ReportList = () => {
         }
         else{
             Taro.request({
-                url : host + '/sample/list',
+                url : host() + '/sample/list',
                 method : 'GET',
                 data : {
                     'access-token' : user.token,

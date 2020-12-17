@@ -34,7 +34,7 @@ const Guide = () => {
             let code = regExp.exec(url);
             // 获取 url 中的最后一位
             Taro.request({
-                url : host + '/ds/' + code[1],
+                url : host() + '/ds/' + code[1],
                 method : 'GET',
                 header : {
                     'Content-Type' : 'application/json; charset=UTF-8'
@@ -54,11 +54,18 @@ const Guide = () => {
                         });
                     }
                 }
-                else Taro.atMessage({
-                    type : 'error',
-                    message : data.info,
-                    duration : 2500
-                });
+                else{
+                    Taro.atMessage({
+                        type : 'error',
+                        message : data.info,
+                        duration : 2500
+                    });
+                    setTimeout(() => {
+                        Taro.reLaunch({
+                            url : '/pages/index/index'
+                        });
+                    }, 2500);
+                }
             })
             .catch(e => console.log(e))
         }

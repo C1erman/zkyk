@@ -1,4 +1,4 @@
-.share-container{
+.shareSign-container{
     width: 90%;
     margin: 0 auto;
     font-size: 30px;
@@ -12,18 +12,18 @@
     --gray : #cccccc;
     --border : #dfe2e5;
 }
-.share-title{
+.shareSign-title{
     text-align: center;
     margin-bottom: 1.5rem;
     font-weight: bolder;
     font-size: 0.95rem;
 }
-.share-title > .text{
+.shareSign-title > .text{
     display: inline-block;
     position: relative;
     z-index: 1;
 }
-.share-title > .text::after{
+.shareSign-title > .text::after{
     display: block;
     content: '';
     width: 120%;
@@ -35,11 +35,11 @@
     left: -10%;
     top: -0.6rem;
 }
-.share-generate{
+.shareSign-generate{
     width: 90%;
     margin: 0 auto 1rem;
 }
-.share-generate > .button{
+.shareSign-generate > .button{
     margin-top: 1rem;
 }
 
@@ -58,31 +58,31 @@
 .td{
     display: table-cell;
 }
-.share-list-container{
+.shareSign-list-container{
     margin-bottom: 5rem;
 }
-.share-list{
+.shareSign-list{
     margin-bottom: 1rem;
 }
-.share-list .table{
+.shareSign-list .table{
     width: 100%;
     text-align: center;
 }
-.share-list .thead .tr{
+.shareSign-list .thead .tr{
     color: var(--black);
     vertical-align: bottom;
     font-weight: bolder;
 }
-.share-list .thead .td{
+.shareSign-list .thead .td{
     border-bottom: 1PX solid var(--border);
     padding: 0.5rem 0;
 }
-.share-list .tbody{
+.shareSign-list .tbody{
     text-align: center;
     font-size: 0.92rem;
     font-size: 1.6;
 }
-.share-list .tbody .td{
+.shareSign-list .tbody .td{
     padding: 0.5rem 0;
     vertical-align: middle;
     border-bottom: 1PX solid var(--border);
@@ -94,43 +94,43 @@
     word-break: break-all;
 }
 
-.share-code-container{
+.shareSign-code-container{
     border-radius: 0.3rem;
     border: 1PX solid var(--border);
     margin: 1rem 0;
 }
-.share-code-container > .title{
+.shareSign-code-container > .title{
     height: 2.5rem;
     padding-left: 1rem;
     line-height: 2.5rem;
     font-weight: bolder;
     border-bottom: 1PX solid var(--border);
 }
-.share-code-container > .img{
+.shareSign-code-container > .img{
     display: block;
     width: 8rem;
     height: 8rem;
     margin: 1rem auto;
 }
-.share-code-container > .time{
+.shareSign-code-container > .time{
     padding: 0 1rem;
     margin: 0.5rem auto 1rem;
 }
 
-.share-empty{
+.shareSign-empty{
     text-align: center;
     opacity: 0.8;
 }
-.share-gen{
+.shareSign-gen{
     width: 90%;
     margin: 0 auto;
 }
-.share-gen > .title{
+.shareSign-gen > .title{
     margin-bottom: 1rem;
     font-size: 1rem;
     text-indent: 1rem;
 }
-.share-gen > .radio{
+.shareSign-gen > .radio{
     margin-bottom: 1rem;
 }
 .selected-img{
@@ -139,20 +139,20 @@
     height: 8rem;
     margin: 1rem auto;
 }
-.share-show-code{
+.shareSign-show-code{
     margin: 1rem 0;
 }
-.share-show-code > .title{
+.shareSign-show-code > .title{
     height: 2rem;
     padding-left: 1rem;
     line-height: 2rem;
     font-weight: bolder;
 }
-.share-show-code > .time{
+.shareSign-show-code > .time{
     padding: 0 1rem;
     margin: 0.5rem auto 1rem;
 }
-.share-show-code > .img{
+.shareSign-show-code > .img{
     display: block;
     width: 9rem;
     height: 9rem;

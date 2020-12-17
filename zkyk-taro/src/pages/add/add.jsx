@@ -154,7 +154,7 @@ const Add = () => {
         }
         setSubmitBtnLoading(true);
         Taro.request({
-            url : host + '/sample/bind?access-token=' + user.token + '&access-code=' + guide.add,
+            url : host() + '/sample/bind?access-token=' + user.token + '&access-code=' + guide.add,
             method : 'POST',
             data : data,
             header : {
@@ -162,7 +162,7 @@ const Add = () => {
             }
         })
         .then(res => {
-            let {data} = res;
+            let { data } = res;
             if(data.code === 'success'){
                 Taro.atMessage({
                     type : 'success',
@@ -194,7 +194,7 @@ const Add = () => {
     const handleFirst = () => {
         setSubmitBtnLoading(true)
         Taro.request({
-            url : host + '/sample/person',
+            url : host() + '/sample/person',
             method : 'GET',
             data : {
                 'access-token' : user.token,
@@ -230,7 +230,7 @@ const Add = () => {
     }
     const handleAlready = () => {
         Taro.request({
-            url : host + '/sample/person',
+            url : host() + '/sample/person',
             method : 'GET',
             data : {
                 'access-token' : user.token,
@@ -310,7 +310,7 @@ const Add = () => {
 
     useEffect(() => {
         Taro.request({
-            url : host + '/user/operator/info',
+            url : host() + '/user/operator/info',
             method : 'GET',
             data : {
                 'access-token' : user.token,

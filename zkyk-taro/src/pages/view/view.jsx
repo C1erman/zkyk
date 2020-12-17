@@ -37,7 +37,7 @@ const ReportView = () => {
     const handleDownLoad = () => {
         setLoading(true);
         Taro.request({
-            url : host + '/admin/wx/pdf?access-token=' + user.token,
+            url : host() + '/admin/wx/pdf?access-token=' + user.token,
             method : 'POST',
             data : {
                 id : report.current
@@ -86,7 +86,7 @@ const ReportView = () => {
 
     useEffect(() => {
         Taro.request({
-            url : host + '/sample/codename',
+            url : host() + '/sample/codename',
             method : 'GET',
             data : {
                 'access-token' : user.token,
