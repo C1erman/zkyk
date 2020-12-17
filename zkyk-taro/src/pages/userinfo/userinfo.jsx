@@ -13,7 +13,6 @@ const UserInfo = () => {
     const dispatch = useDispatch()
     let user = useSelector(state => state.user)
 
-    let [sharePermission, setSharePermission] = useState(false);
     let [btnLoading, setLoading] = useState(false)
     let [userInfo, setUserInfo] = useState({
         username : '',
@@ -33,9 +32,17 @@ const UserInfo = () => {
     })
     let [toastText, setToast] = useState('')
 
+    let [shareList, setShareList] = useState([])
     let [shareOpen, setShareOpen] = useState(false)
 
 
+    const shareUrlMaper = (type) => {
+        return {
+            bind : '/pages/share/share',
+            report : '/pages/shareReport/shareReport',
+            signup : '/pages/shareSign/shareSign'
+        }[type]
+    }
     useEffect(() => {
         if(user.token){
             Taro.request({
@@ -61,24 +68,6 @@ const UserInfo = () => {
                 }
             })
             .catch(e => console.log(e));
-            // 分享权限判定
-            Taro.request({
-                url : host() + '/user/permission',
-                method : 'GET',
-                data : {
-                    'access-token' : user.token,
-                    controller : 'ds',
-                    action : 'bind'
-                },
-                header : {
-                    'Content-Type' : 'application/json; charset=UTF-8'
-                }
-            })
-            .then(res => {
-                let {data} = res;
-                if(data.code === 'success') setSharePermission(true);
-            })
-            .catch(e => console.log(e));
             // 获得分享类型
             Taro.request({
                 url : host() + '/ds/type',
@@ -92,7 +81,20 @@ const UserInfo = () => {
             })
             .then(res => {
                 let { data } = res;
+                if(data.code === 'success'){
+                    let types = Object.keys(data.data || {});
+                    if(types.length){
+                        let arr = types.map((v) => {
+                            return {
+                                title : data.data[v],
+                                url : shareUrlMaper(v)
+                            }
+                        })
+                        setShareList(arr);
+                    }
+                }
             })
+            .catch(e => console.log(e))
         }
     }, [user])
 
@@ -154,17 +156,9 @@ const UserInfo = () => {
             type : BIO.LOGOUT_SUCCESS
         })
     }
-    const handleShareBind = () => {
+    const handleShare = (url) => {
         setShareOpen(false);
-        Taro.navigateTo({
-            url : '/pages/share/share'
-        });
-    }
-    const handleShareSign = () => {
-        setShareOpen(false);
-        Taro.navigateTo({
-            url : '/pages/shareSign/shareSign'
-        });
+        Taro.navigateTo({ url });
     }
     const getUserInfo = () => {
         Taro.request({
@@ -214,7 +208,7 @@ const UserInfo = () => {
                         <AtListItem hasBorder={false} title='分享' arrow='right'
                           iconInfo={{size : 25, color : '#ff4f76', value : 'share-2'}}
                           onClick={() => setShareOpen(true)}
-                          disabled={!sharePermission}
+                          disabled={!user.token || !shareList.length}
                         />
                         <AtListItem hasBorder={false} title='修改密码' arrow='right'
                           iconInfo={{size : 25, color : '#ff4f76', value : 'lock'}}
@@ -260,9 +254,11 @@ const UserInfo = () => {
                     </View>
                 </AtFloatLayout>
                 <AtActionSheet isOpened={shareOpen} cancelText='取消' onClose={() => setShareOpen(false)} onCancel={() => setShareOpen(false)}>
-                    <AtActionSheetItem onClick={handleShareBind}>分享绑定</AtActionSheetItem>
-                    {/* <AtActionSheetItem onClick={handleShareReport}>分享报告</AtActionSheetItem> */}
-                    <AtActionSheetItem onClick={handleShareSign}>分享注册</AtActionSheetItem>
+                    {
+                        shareList.map((v, i) => (
+                            <AtActionSheetItem key={i} onClick={() => handleShare(v.url)}>{'分享' + v.title}</AtActionSheetItem>
+                        ))
+                    }
                 </AtActionSheet>
             </View>
         </>

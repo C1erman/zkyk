@@ -10,7 +10,7 @@ import { host } from '../../config';
 const ShareSign = () => {
     const user = useSelector(state => state.user)
 
-    let pageNum = 5;
+    let pageSize = 5; // 每页栏目显示数量
     
     let [shareList, setShareList] = useState([])
     let [currentPage, setCurrentPage] = useState(1)
@@ -71,8 +71,8 @@ const ShareSign = () => {
             data : {
                 'access-token' : user.token,
                 type : 'signup',
-                page : currentPage,
-                pageNum,
+                pageNum : currentPage,
+                pageSize
             },
             header : {
                 'Content-Type' : 'application/json; charset=UTF-8'
