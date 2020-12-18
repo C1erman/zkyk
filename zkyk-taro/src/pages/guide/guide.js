@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Taro, { getCurrentInstance } from '@tarojs/taro';
+import Taro, { getCurrentInstance, useDidShow } from '@tarojs/taro';
 import { View } from '@tarojs/components';
 import { AtActivityIndicator, AtMessage } from 'taro-ui';
 import { useDispatch } from 'react-redux';
@@ -16,7 +16,7 @@ const Guide = () => {
         SIGNUP : 'signup',
         REPORT : 'report'
     }
-    useEffect(() => {
+    useDidShow(() => {
         let { q } = getCurrentInstance().router.params;
         if(!q){
             Taro.atMessage({
@@ -84,7 +84,7 @@ const Guide = () => {
             })
             .catch(e => console.log(e))
         }
-    }, [])
+    })
     return (
         <>
             <AtMessage />

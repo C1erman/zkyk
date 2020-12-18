@@ -11,6 +11,7 @@ const ReportView = () => {
 
     const user = useSelector(state => state.user)
     const report = useSelector(state => state.report)
+    const guide = useSelector(state => state.guide)
 
     let [downloadLoading, setDownloadLoading] = useState(false)
     let [shareLoading, setShareLoading] = useState(false)
@@ -139,6 +140,7 @@ const ReportView = () => {
             method : 'GET',
             data : {
                 'access-token' : user.token,
+                'access-code' : guide.report,
                 id : report.current
             },
             header : {

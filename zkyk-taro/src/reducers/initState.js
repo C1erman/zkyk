@@ -29,7 +29,8 @@ const initState = {
         // 存放 access-code
     guide : {
         add : '',
-        signup : ''
+        signup : '',
+        report : ''
     },
     // 抗生素搜索引导
     antibiotics : {

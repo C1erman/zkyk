@@ -157,7 +157,6 @@ const UserInfo = () => {
         })
     }
     const handleShare = (url) => {
-        setShareOpen(false);
         Taro.navigateTo({ url });
     }
     const getUserInfo = () => {

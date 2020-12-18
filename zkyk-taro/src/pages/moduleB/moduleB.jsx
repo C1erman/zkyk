@@ -10,6 +10,7 @@ import Progress from '../../component/Progress';
 const ModuleB = () => {
     const _user = useSelector(state => state.user)
     const report = useSelector(state => state.report)
+    const guide = useSelector(state => state.guide)
 
     let [flora, setFlora] = useState([])
 
@@ -19,7 +20,8 @@ const ModuleB = () => {
             method : 'GET',
             data : {
                 id : report.current,
-                'access-token' : _user.token
+                'access-token' : _user.token,
+                'access-code' : guide.report
             },
             header : {
                 'Content-Type': 'application/json; charset=UTF-8'

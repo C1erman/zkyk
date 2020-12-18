@@ -9,6 +9,7 @@ import { host } from '../../config';
 const ModuleD = () => {
     const _user = useSelector(state => state.user)
     const report = useSelector(state => state.report)
+    const guide = useSelector(state => state.guide)
 
     let [assess, setAssess] = useState([])
 
@@ -18,7 +19,8 @@ const ModuleD = () => {
             method : 'GET',
             data : {
                 id : report.current,
-                'access-token' : _user.token
+                'access-token' : _user.token,
+                'access-code' : guide.report
             },
             header : {
                 'Content-Type': 'application/json; charset=UTF-8'

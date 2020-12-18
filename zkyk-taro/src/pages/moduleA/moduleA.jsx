@@ -11,6 +11,7 @@ import InfoProgress from '../../component/InfoProgress';
 const ModuleA = () => {
     const _user = useSelector(state => state.user)
     const report = useSelector(state => state.report)
+    const guide = useSelector(state => state.guide)
 
     let [graph, setGraph] = useState({
         value : '10'
@@ -24,7 +25,8 @@ const ModuleA = () => {
             method : 'GET',
             data : {
                 id : report.current,
-                'access-token' : _user.token
+                'access-token' : _user.token,
+                'access-code' : guide.report
             },
             header : {
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -39,7 +41,8 @@ const ModuleA = () => {
             method : 'GET',
             data : {
                 id : report.current,
-                'access-token' : _user.token
+                'access-token' : _user.token,
+                'access-code' : guide.report
             },
             header : {
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -55,7 +58,8 @@ const ModuleA = () => {
             method : 'GET',
             data : {
                 id : report.current,
-                'access-token' : _user.token
+                'access-token' : _user.token,
+                'access-code' : guide.report
             },
             header : {
                 'Content-Type': 'application/json; charset=UTF-8'

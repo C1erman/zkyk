@@ -191,7 +191,7 @@ const ShareSign = () => {
                 <AtFloatLayout isOpened={floatShowOpen} title='向其他人分享' onClose={() => setFloatShowOpen(false)}>
                     <View className='shareSign-show-code'>
                         <Image className='img' src={showContent.src} showMenuByLongpress />
-                        <View className='time'>过期时间为：{showContent.expire}</View>
+                        <View className='time'>过期时间为：<Text className='time-detail'>{showContent.expire}</Text></View>
                         { showContent.password ? (<View className='pass'>使用二维码时请对方输入分享码：<Text selectable>{showContent.password}</Text></View>) : null }
                     </View>
                 </AtFloatLayout>
