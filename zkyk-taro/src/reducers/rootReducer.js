@@ -30,7 +30,8 @@ const rootReducer = (state = initState, action) => {
                 },
                 guide : {
                     add : Taro.getStorageSync('GUIDE_add') || '',
-                    signup : Taro.getStorageSync('GUIDE_signup') || ''
+                    signup : Taro.getStorageSync('GUIDE_signup') || '',
+                    report : Taro.getStorageSync('GUIDE_report') || ''
                 }
             }
         }
@@ -176,6 +177,15 @@ const rootReducer = (state = initState, action) => {
             const guide = clone(state['guide']);
             guide.add = action.data;
             Taro.setStorageSync('GUIDE_add', action.data);
+            return {
+                ...state,
+                guide
+            }
+        }
+        case BIO.GUIDE_REPORT : {
+            const guide = clone(state['guide']);
+            guide.report = action.data;
+            Taro.setStorageSync('GUIDE_report', action.data);
             return {
                 ...state,
                 guide

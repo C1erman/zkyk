@@ -38,7 +38,7 @@ const UserInfo = () => {
 
     const shareUrlMaper = (type) => {
         return {
-            bind : '/pages/share/share',
+            bind : '/pages/shareBind/shareBind',
             report : '/pages/shareReport/shareReport',
             signup : '/pages/shareSign/shareSign'
         }[type]
@@ -82,7 +82,7 @@ const UserInfo = () => {
             .then(res => {
                 let { data } = res;
                 if(data.code === 'success'){
-                    let types = Object.keys(data.data || {});
+                    let types = Object.keys(data.data || {}).filter((v) => v != 'report');
                     if(types.length){
                         let arr = types.map((v) => {
                             return {

@@ -8,6 +8,7 @@
     --textContainer : #fff6f8;
     --black : #1a1a1a;
     --border : #dfe2e5;
+    --shadow : rgba(18,18,18,.1);
 }
 .view-title{
     text-align: center;
@@ -50,9 +51,48 @@
     width: 90%;
     margin: 0 auto 1rem;
 }
-.view-overview-info{
+.view-overview-item{
+    margin: 0 auto 1rem;
+    padding: 1rem;
+    border-radius: 5PX;
+    box-sizing: border-box;
+    box-shadow: 0 0 5PX var(--border);
+}
+.view-overview-item > .info{
     margin-bottom: 1.5rem;
 }
+.view-generate{
+    width: 90%;
+    margin: 0 auto;
+}
+.view-generate > .radio{
+    margin: 1rem 0;
+}
+.view-share{
+    margin-top: 1.5rem;
+}
+.view-share > .time,
+.view-share > .pass{
+    padding: 0 1rem;
+    margin: 0.5rem auto 1rem;
+}
+.view-share .time-detail,
+.view-share .code{
+    font-size: 1rem;
+    padding-bottom: 0.2rem;
+    border-bottom: 1PX solid var(--black);
+}
+.view-share > .img{
+    display: block;
+    width: 9rem;
+    height: 9rem;
+    margin: 0 auto 1rem;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    box-shadow: 0 0 5PX var(--border);
+    border-radius: 5PX;
+}
+/* 样式重置 */
 .at-grid__flex .content-inner__text{
     font-size: 0.9rem;
 }

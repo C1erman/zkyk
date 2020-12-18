@@ -28,6 +28,7 @@ const Interceptor = () => {
       let code = response.statusCode || response.status;
       switch(code){
         case 401 : {
+          // if(guide.)
           dispatch({
             type : BIO.LOGIN_EXPIRED
           });
@@ -65,7 +66,6 @@ const Interceptor = () => {
     });
   }
   useEffect(() => {
-    console.log(guide);
     Taro.addInterceptor(BioInterceptor);
     console.log('拦截器添加成功')
   }, [])

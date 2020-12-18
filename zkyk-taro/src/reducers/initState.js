@@ -34,7 +34,8 @@ const initState = {
     // 抗生素搜索引导
     antibiotics : {
         add : '',
-        edit : ''
+        edit : '',
+        report : ''
     },
 }
 

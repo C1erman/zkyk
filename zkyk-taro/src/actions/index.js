@@ -31,6 +31,7 @@ const REPORT_DOWNLOAD_SUCCESS = 'report-download-success';
 // 使用分享
 const GUIDE_REPORT_ADD = 'guide-report-add';
 const GUIDE_SIGN_UP = 'guide-sign-up';
+const GUIDE_REPORT = 'guide-report';
 // 违规操作
 const DENY_UNAUTHORIZED = 'deny-unauthorized';
 
@@ -60,5 +61,6 @@ export {
     REPORT_DOWNLOAD_SUCCESS,
     GUIDE_REPORT_ADD,
     GUIDE_SIGN_UP,
+    GUIDE_REPORT,
     DENY_UNAUTHORIZED
 }

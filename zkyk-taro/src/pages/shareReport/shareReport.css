@@ -1,4 +1,4 @@
-.shareR-container{
+.shareReport-container{
     width: 90%;
     margin: 0 auto;
     font-size: 30px;
@@ -12,18 +12,18 @@
     --gray : #cccccc;
     --border : #dfe2e5;
 }
-.shareR-title{
+.shareReport-title{
     text-align: center;
     margin-bottom: 1.5rem;
     font-weight: bolder;
     font-size: 0.95rem;
 }
-.shareR-title > .text{
+.shareReport-title > .text{
     display: inline-block;
     position: relative;
     z-index: 1;
 }
-.shareR-title > .text::after{
+.shareReport-title > .text::after{
     display: block;
     content: '';
     width: 120%;
@@ -35,11 +35,11 @@
     left: -10%;
     top: -0.6rem;
 }
-.shareR-generate{
+.shareReport-generate{
     width: 90%;
     margin: 0 auto 1rem;
 }
-.shareR-generate > .button{
+.shareReport-generate > .button{
     margin-top: 1rem;
 }
 
@@ -58,31 +58,31 @@
 .td{
     display: table-cell;
 }
-.shareR-list-container{
+.shareReport-list-container{
     margin-bottom: 5rem;
 }
-.shareR-list{
+.shareReport-list{
     margin-bottom: 1rem;
 }
-.shareR-list .table{
+.shareReport-list .table{
     width: 100%;
     text-align: center;
 }
-.shareR-list .thead .tr{
+.shareReport-list .thead .tr{
     color: var(--black);
     vertical-align: bottom;
     font-weight: bolder;
 }
-.shareR-list .thead .td{
+.shareReport-list .thead .td{
     border-bottom: 1PX solid var(--border);
     padding: 0.5rem 0;
 }
-.shareR-list .tbody{
+.shareReport-list .tbody{
     text-align: center;
     font-size: 0.92rem;
     font-size: 1.6;
 }
-.shareR-list .tbody .td{
+.shareReport-list .tbody .td{
     padding: 0.5rem 0;
     vertical-align: middle;
     border-bottom: 1PX solid var(--border);
@@ -94,44 +94,39 @@
     word-break: break-all;
 }
 
-.shareR-code-container{
+.shareReport-code-container{
     border-radius: 0.3rem;
     border: 1PX solid var(--border);
     margin: 1rem 0;
 }
-.shareR-code-container > .title{
+.shareReport-code-container > .title{
     height: 2.5rem;
     padding-left: 1rem;
     line-height: 2.5rem;
     font-weight: bolder;
     border-bottom: 1PX solid var(--border);
 }
-.shareR-code-container > .img{
+.shareReport-code-container > .img{
     display: block;
     width: 8rem;
     height: 8rem;
     margin: 1rem auto;
 }
-.shareR-code-container > .time{
+.shareReport-code-container > .time{
     padding: 0 1rem;
     margin: 0.5rem auto 1rem;
 }
 
-.shareR-empty{
+.shareReport-empty{
     text-align: center;
     opacity: 0.8;
 }
-.shareR-gen{
+.shareReport-gen{
     width: 90%;
     margin: 0 auto;
 }
-.shareR-gen > .title{
-    margin-bottom: 1rem;
-    font-size: 1rem;
-    text-indent: 1rem;
-}
-.shareR-gen > .radio{
-    margin-bottom: 1rem;
+.shareReport-gen > .radio{
+    margin: 1rem 0;
 }
 .selected-img{
     display: block;
@@ -139,22 +134,21 @@
     height: 8rem;
     margin: 1rem auto;
 }
-.shareR-show-code{
-    margin: 1rem 0;
+.shareReport-show-code{
+    margin-top: 1.5rem;
 }
-.shareR-show-code > .title{
-    height: 2rem;
-    padding-left: 1rem;
-    line-height: 2rem;
-    font-weight: bolder;
-}
-.shareR-show-code > .time{
+.shareReport-show-code > .time,
+.shareReport-show-code > .pass{
     padding: 0 1rem;
     margin: 0.5rem auto 1rem;
 }
-.shareR-show-code > .img{
+.shareReport-show-code > .img{
     display: block;
     width: 9rem;
     height: 9rem;
-    margin: 0 auto;
+    margin: 0 auto 1rem;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    box-shadow: 0 0 5PX var(--border);
+    border-radius: 5PX;
 }

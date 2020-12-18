@@ -5,8 +5,9 @@ export default {
     'pages/login/login',
     'pages/edit/edit',
     'pages/view/view',
-    'pages/share/share',
+    'pages/shareBind/shareBind',
     'pages/shareSign/shareSign',
+    'pages/shareReport/shareReport',
     'pages/guide/guide',
     'pages/infoadd/infoadd',
     'pages/userinfo/userinfo',
@@ -27,7 +28,7 @@ export default {
     navigationBarTextStyle: 'black'
   },
   networkTimeout: {
-    request: 30000,
+    request: 25000,
     downloadFile: 30000
   },
   tabBar: {
@@ -55,10 +56,10 @@ export default {
         iconPath : 'icons/tab/user.png',
         selectedIconPath : 'icons/tab/user_selected.png'
       },
-      {
-        pagePath : 'pages/shareSign/shareSign',
-        text : '分享注册',
-      },
+      // {
+      //   pagePath : 'pages/shareSign/shareSign',
+      //   text : '分享注册',
+      // },
       // {
       //   pagePath : 'pages/share/share',
       //   text : '分享绑定',

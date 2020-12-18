@@ -125,13 +125,8 @@
     width: 90%;
     margin: 0 auto;
 }
-.shareSign-gen > .title{
-    margin-bottom: 1rem;
-    font-size: 1rem;
-    text-indent: 1rem;
-}
 .shareSign-gen > .radio{
-    margin-bottom: 1rem;
+    margin: 1rem 0;
 }
 .selected-img{
     display: block;
@@ -140,15 +135,10 @@
     margin: 1rem auto;
 }
 .shareSign-show-code{
-    margin: 1rem 0;
+    margin-top: 1.5rem;
 }
-.shareSign-show-code > .title{
-    height: 2rem;
-    padding-left: 1rem;
-    line-height: 2rem;
-    font-weight: bolder;
-}
-.shareSign-show-code > .time{
+.shareSign-show-code > .time,
+.shareSign-show-code > .pass{
     padding: 0 1rem;
     margin: 0.5rem auto 1rem;
 }
@@ -156,5 +146,9 @@
     display: block;
     width: 9rem;
     height: 9rem;
-    margin: 0 auto;
+    margin: 0 auto 1rem;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    box-shadow: 0 0 5PX var(--border);
+    border-radius: 5PX;
 }

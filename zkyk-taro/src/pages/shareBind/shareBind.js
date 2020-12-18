@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux';
 import Taro from '@tarojs/taro';
 import { AtButton, AtRadio, AtFloatLayout, AtMessage } from 'taro-ui';
 
-import './share.css';
+import './shareBind.css';
 import { host } from '../../config';
 import Pager from '../../component/Pager';
 
-const Share = () => {
+const ShareBind = () => {
     const user = useSelector(state => state.user);
 
     let pageSize = 5; // 每页显示栏目数量
@@ -30,13 +30,6 @@ const Share = () => {
         password : '',
     })
     
-    // useEffect(() => {
-    //     let type = 'add'
-    //     if(share[type].code){
-    //         setExpire(share[type].expire)
-    //         setShowSrc(host() + '/ds/q/' + share[type].code);
-    //     }
-    // }, [share])
     useEffect(() => {
         Taro.request({
             url : host() + '/ds/list',
@@ -54,8 +47,8 @@ const Share = () => {
         .then(res => {
             let { data } = res;
             if(data.code === 'success'){
-                setShareList(data.data.list);
-                setPagination(data.data.pagination);
+                setShareList(data.data?.list || []);
+                setPagination(data.data?.pagination || { pageSize : 1 });
             }
         })
         .catch(e => console.log(e))
@@ -140,11 +133,11 @@ const Share = () => {
     return (
         <>
             <AtMessage />
-            <View className='share-container'>
-                <View className='share-title'><Text className='text'>过往分享记录</Text></View>
+            <View className='shareBind-container'>
+                <View className='shareBind-title'><Text className='text'>过往分享记录</Text></View>
                 { shareList.length ? (
-                <View className='share-list-container'>
-                    <View className='share-list'>
+                <View className='shareBind-list-container'>
+                    <View className='shareBind-list'>
                         <View className='table'>
                             <View className='thead'>
                                 <View className='tr'>
@@ -174,15 +167,14 @@ const Share = () => {
                     />
                 </View>
                 ) : (
-                    <View className='share-empty share-list-container'>未查询到分享记录。</View>
+                    <View className='shareBind-empty shareBind-list-container'>未查询到分享记录。</View>
                 )}
-                <View className='share-title'><Text className='text'>创建分享绑定二维码</Text></View>
-                <View className='share-generate'>
+                <View className='shareBind-title'><Text className='text'>创建分享绑定二维码</Text></View>
+                <View className='shareBind-generate'>
                     <AtButton className='button' type='primary' circle onClick={() => setGenFloatOpen(true)}>创建</AtButton>
                 </View>
-                <AtFloatLayout isOpened={genFloatOpen} title='创建二维码' onClose={() => setGenFloatOpen(false)}>
-                    <View className='share-gen'>
-                        <View className='title'>选择过期时间：</View>
+                <AtFloatLayout isOpened={genFloatOpen} title='选择过期时间' onClose={() => setGenFloatOpen(false)}>
+                    <View className='shareBind-gen'>
                         <AtRadio className='radio'
                           options={[
                                 {label : '一天', value : 'day'},
@@ -196,12 +188,11 @@ const Share = () => {
                         <AtButton type='secondary' circle onClick={handleGenerate}>生成</AtButton>
                     </View>
                 </AtFloatLayout>
-                <AtFloatLayout isOpened={showFloatOpen} title='二维码' onClose={() => setShowFloatOpen(false)}>
-                    <View className='share-show-code'>
-                        <View className='title'>向受测人分享</View>
-                        <View className='time'>过期时间为：{showContent.expire}</View>
-                        { showContent.password ? (<View className='pass'>使用二维码时请对方输入分享码：{showContent.password}</View>) : null }
+                <AtFloatLayout isOpened={showFloatOpen} title='向受测人分享' onClose={() => setShowFloatOpen(false)}>
+                    <View className='shareBind-show-code'>
                         <Image className='img' src={showContent.src} showMenuByLongpress />
+                        <View className='time'>过期时间为：{showContent.expire}</View>
+                        { showContent.password ? (<View className='pass'>使用二维码时请对方输入分享码：<Text selectable>{showContent.password}</Text></View>) : null }
                     </View>
                 </AtFloatLayout>
             </View>
@@ -210,4 +201,4 @@ const Share = () => {
 
 }
 
-export default Share;
+export default ShareBind;

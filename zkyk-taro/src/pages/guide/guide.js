@@ -13,6 +13,8 @@ const Guide = () => {
 
     const TYPE = {
         BIND : 'bind',
+        SIGNUP : 'signup',
+        REPORT : 'report'
     }
     useEffect(() => {
         let { q } = getCurrentInstance().router.params;
@@ -44,13 +46,26 @@ const Guide = () => {
                 let { data } = res;
                 if(data.code === 'success'){
                     let { type, access_code } = data.data;
-                    if(type === TYPE.BIND){
-                        dispatch({
-                            type : BIO.GUIDE_REPORT_ADD,
-                            data : access_code
-                        });
-                        Taro.reLaunch({
-                            url : '/pages/index/index'
+                    switch(type){
+                        case TYPE.BIND : {
+                            dispatch({ type : BIO.GUIDE_REPORT_ADD, data : access_code });
+                            Taro.reLaunch({ url : '/pages/index/index' });
+                            break;
+                        }
+                        case TYPE.SIGNUP : {
+                            dispatch({ type : BIO.GUIDE_SIGN_UP, data : access_code });
+                            Taro.reLaunch({ url : '/pages/login/login' });
+                            break;
+                        }
+                        case TYPE.REPORT : {
+                            dispatch({ type : BIO.GUIDE_REPORT, data : access_code });
+                            Taro.reLaunch({ url : '/pages/view/view' });
+                            break;
+                        }
+                        default : Taro.atMessage({
+                            type : 'error',
+                            message : '分享二维码无效',
+                            duration : 2500
                         });
                     }
                 }

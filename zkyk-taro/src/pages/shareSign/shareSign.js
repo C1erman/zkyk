@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 
 import './shareSign.css';
 import { host } from '../../config';
+import Pager from '../../component/Pager';
 
 const ShareSign = () => {
     const user = useSelector(state => state.user)
@@ -13,17 +14,19 @@ const ShareSign = () => {
     let pageSize = 5; // 每页栏目显示数量
     
     let [shareList, setShareList] = useState([])
-    let [currentPage, setCurrentPage] = useState(1)
+    let [listCurrent, setListCurrentPage] = useState(1)
+    let [listPagination, setListPagination] = useState({ pageSize : 1 })
     let [floatGenOpen, setFloatGenOpen] = useState(false)
     let [floatShowOpen, setFloatShowOpen] = useState(false)
 
     let [genRadioVal, setGenRadio] = useState('month')
 
     let [shareListUpdate, setShareListUpdate] = useState('')
-    let [showSrc, setShowSrc] = useState('')
-    let [showExpire, setShowExpire] = useState('')
-
-
+    let [showContent, setShowContent] = useState({
+        src : '',
+        expire : '',
+        password : ''
+    })
 
     const mapExpire = (type) => {
         return {
@@ -47,11 +50,15 @@ const ShareSign = () => {
         .then(res => {
             let { data } = res;
             if(data.code === 'success'){
-
-                let codeSrc = host() + '/ds/q/' + data.data.code;
-                setShareListUpdate(codeSrc); // 驱使列表更新
-                setShowSrc(codeSrc);
-                setShowExpire(data.data.expire_at);
+                let { expire_at, code, password } = data.data;
+                // 设置查看内容
+                setShowContent({
+                    src : host() + '/ds/q/' + code,
+                    expire : expire_at,
+                    password
+                });
+                // 驱使列表更新
+                setShareListUpdate(code);
                 setFloatGenOpen(false);
                 setFloatShowOpen(true);
             }
@@ -63,6 +70,39 @@ const ShareSign = () => {
         })
         .catch(e => console.log(e))
     }
+    const getCurrentList = (currentPage) => {
+        setListCurrentPage(currentPage);
+        Taro.request({
+            url : host() + '/ds/list',
+            method : 'GET',
+            data : {
+                'access-token' : user.token,
+                type : 'signup',
+                pageNum : currentPage,
+                pageSize : pageSize
+            },
+            header : {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        })
+        .then(res => {
+            let { data } = res;
+            if(data.code === 'success'){
+                setShareList(data.data.list);
+                setListPagination(data.data.pagination);
+            }
+        })
+        .catch(e => console.log(e))
+    }
+    const handleShowQrCode = (data) => {
+        let { expire_at, code, password } = data;
+        setShowContent({
+            src : host() + '/ds/q/' + code,
+            expire : expire_at,
+            password
+        });
+        setFloatShowOpen(true);
+    }
 
     useEffect(() => {
         Taro.request({
@@ -71,7 +111,7 @@ const ShareSign = () => {
             data : {
                 'access-token' : user.token,
                 type : 'signup',
-                pageNum : currentPage,
+                pageNum : listCurrent,
                 pageSize
             },
             header : {
@@ -80,7 +120,10 @@ const ShareSign = () => {
         })
         .then(res => {
             let {data} = res;
-            if(data.code === 'success') setShareList(data.data?.list || []);
+            if(data.code === 'success'){
+                setShareList(data.data?.list || []);
+                setListPagination(data.data?.pagination || { pageSize : 1 });
+            }
         })
         .catch(e => console.log(e))
     }, [user, shareListUpdate])
@@ -108,13 +151,19 @@ const ShareSign = () => {
                                             <View className='tr' key={i}>
                                                 <Text className='td link' selectable>{v.data}</Text>
                                                 <Text className='td'>{v.expire_at}</Text>
-                                                <View className='td'><AtButton type='secondary' size='small' circle>查看</AtButton></View>
+                                                <View className='td'><AtButton type='secondary' size='small' circle onClick={() => handleShowQrCode(v)}>查看</AtButton></View>
                                             </View>
                                         ))
                                     }
                                     </view>
                                 </View>
                             </View>
+                            <Pager
+                              current={listCurrent} 
+                              total={listPagination.pageSize} 
+                              prevClick={(currentPage) => getCurrentList(currentPage)}
+                              nextClick={(currentPage) => getCurrentList(currentPage)}
+                            />
                         </View>
                     ) : (
                         <View className='shareSign-empty shareSign-list-container'>未查询到分享记录。</View>
@@ -124,9 +173,8 @@ const ShareSign = () => {
                 <View className='shareSign-generate'>
                     <AtButton className='button' type='primary' circle onClick={() => setFloatGenOpen(true)}>创建</AtButton>
                 </View>
-                <AtFloatLayout isOpened={floatGenOpen} title='创建二维码' onClose={() => setFloatGenOpen(false)}>
+                <AtFloatLayout isOpened={floatGenOpen} title='选择过期时间' onClose={() => setFloatGenOpen(false)}>
                     <View className='shareSign-gen'>
-                        <View className='title'>选择过期时间：</View>
                         <AtRadio className='radio'
                           options={[
                                 {label : '一天', value : 'day'},
@@ -140,11 +188,11 @@ const ShareSign = () => {
                         <AtButton type='secondary' circle onClick={handleGenerate}>生成</AtButton>
                     </View>
                 </AtFloatLayout>
-                <AtFloatLayout isOpened={floatShowOpen} title='二维码' onClose={() => setFloatShowOpen(false)}>
+                <AtFloatLayout isOpened={floatShowOpen} title='向其他人分享' onClose={() => setFloatShowOpen(false)}>
                     <View className='shareSign-show-code'>
-                        <View className='title'>向受测人分享</View>
-                        <View className='time'>过期时间为：{showExpire}</View>
-                        <Image className='img' src={showSrc} showMenuByLongpress />
+                        <Image className='img' src={showContent.src} showMenuByLongpress />
+                        <View className='time'>过期时间为：{showContent.expire}</View>
+                        { showContent.password ? (<View className='pass'>使用二维码时请对方输入分享码：<Text selectable>{showContent.password}</Text></View>) : null }
                     </View>
                 </AtFloatLayout>
             </View>
