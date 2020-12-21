@@ -60,10 +60,10 @@ export default {
       //   pagePath : 'pages/shareSign/shareSign',
       //   text : '分享注册',
       // },
-      // {
-      //   pagePath : 'pages/share/share',
-      //   text : '分享绑定',
-      // },
+      {
+        pagePath : 'pages/guide/guide',
+        text : '引导页面',
+      },
     ]
   }
 }

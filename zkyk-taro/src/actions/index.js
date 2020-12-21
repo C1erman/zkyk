@@ -20,7 +20,6 @@ const ADD_ERROR = 'add-error';
 const EDIT_SET_ANTIBIOTICS = 'edit-set-antibiotics';
 // 报告列表
 const REPORT_SELECT = 'report-select';
-const REPORT_READ_OVER = 'report-read-over';
 const REPORT_EDIT = 'report-edit';
 const REPORT_EDIT_SUCCESS = 'report-edit-success';
 const REPORT_LIST_CURRENT_PAGE = 'report-list-current-page';
@@ -29,6 +28,7 @@ const REPORT_LIST_CURRENT_SEARCH = 'report-list-current-search';
 const REPORT_DOWNLOAD = 'report-download';
 const REPORT_DOWNLOAD_SUCCESS = 'report-download-success';
 // 使用分享
+const GUIDE_USE = 'guide-use';
 const GUIDE_REPORT_ADD = 'guide-report-add';
 const GUIDE_SIGN_UP = 'guide-sign-up';
 const GUIDE_REPORT = 'guide-report';
@@ -52,13 +52,13 @@ export {
     ADD_ERROR,
     EDIT_SET_ANTIBIOTICS,
     REPORT_SELECT,
-    REPORT_READ_OVER,
     REPORT_EDIT,
     REPORT_EDIT_SUCCESS,
     REPORT_LIST_CURRENT_PAGE,
     REPORT_LIST_CURRENT_SEARCH,
     REPORT_DOWNLOAD,
     REPORT_DOWNLOAD_SUCCESS,
+    GUIDE_USE,
     GUIDE_REPORT_ADD,
     GUIDE_SIGN_UP,
     GUIDE_REPORT,

@@ -14,7 +14,6 @@ const ReportView = () => {
     const guide = useSelector(state => state.guide)
 
     let [downloadLoading, setDownloadLoading] = useState(false)
-    let [shareLoading, setShareLoading] = useState(false)
 
     let [reportInfo, setReportInfo] = useState({
         name : '',
@@ -135,13 +134,15 @@ const ReportView = () => {
     }
 
     useEffect(() => {
+        let { code, password } = guide.report;
         Taro.request({
             url : host() + '/sample/codename',
             method : 'GET',
             data : {
                 'access-token' : user.token,
-                'access-code' : guide.report,
-                id : report.current
+                'access-code' : code,
+                id : report.current,
+                password
             },
             header : {
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -149,10 +150,15 @@ const ReportView = () => {
         })
         .then(res => {
             let {data} = res;
-            if(data.code === 'success') setReportInfo(data.data)
+            if(data.code === 'success') setReportInfo(data.data);
+            else Taro.atMessage({
+                type : 'error',
+                message : data.info,
+                duration : 2500
+            });
         })
-        .then(e => console.log(e));
-    }, [report, user])
+        .catch(e => console.log(e));
+    }, [report, user, guide])
 
     return (
         <>
@@ -186,7 +192,7 @@ const ReportView = () => {
                             </View>
                             <View className='view-overview-item'>
                                 <View className='info'>分享这份报告的在线版本供其他人浏览：</View>
-                                <AtButton loading={shareLoading} disabled={shareLoading} type='secondary' circle onClick={() => setFloatGenOpen(true)}>分享报告</AtButton>
+                                <AtButton type='secondary' circle onClick={() => setFloatGenOpen(true)}>分享报告</AtButton>
                             </View>
                         </View>
                         <AtFloatLayout isOpened={floatGenOpen} title='选择过期时间' onClose={() => setFloatGenOpen(false)}>

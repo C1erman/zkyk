@@ -82,7 +82,8 @@ const UserInfo = () => {
             .then(res => {
                 let { data } = res;
                 if(data.code === 'success'){
-                    let types = Object.keys(data.data || {}).filter((v) => v != 'report');
+                    // let types = Object.keys(data.data || {}).filter((v) => v != 'report');
+                    let types = Object.keys(data.data || {});
                     if(types.length){
                         let arr = types.map((v) => {
                             return {
@@ -228,7 +229,7 @@ const UserInfo = () => {
                         </View>
                     ) : (
                         <View className='userinfo-login'>
-                            <AtButton circle type='primary' onClick={() => Taro.navigateTo({url : '/pages/login/login'})}>去登录</AtButton>
+                            <AtButton circle type='secondary' onClick={() => Taro.navigateTo({url : '/pages/login/login'})}>去登录</AtButton>
                         </View>
                     )
                 }
@@ -252,7 +253,13 @@ const UserInfo = () => {
                         >发送</AtButton>
                     </View>
                 </AtFloatLayout>
-                <AtActionSheet isOpened={shareOpen} cancelText='取消' onClose={() => setShareOpen(false)} onCancel={() => setShareOpen(false)}>
+                <AtActionSheet
+                  isOpened={shareOpen}
+                  cancelText='取消'
+                  title='请选择操作'
+                  onClose={() => setShareOpen(false)}
+                  onCancel={() => setShareOpen(false)}
+                >
                     {
                         shareList.map((v, i) => (
                             <AtActionSheetItem key={i} onClick={() => handleShare(v.url)}>{'分享' + v.title}</AtActionSheetItem>

@@ -12,8 +12,8 @@ const rootReducer = (state = initState, action) => {
                 user : {
                     token : Taro.getStorageSync('token') || ''
                 },
-                report : {
-                    current : Taro.getStorageSync('VIEW_current') || ''
+                report : Taro.getStorageSync('VIEW_current') || {
+                    current : ''
                 },
                 add : {
                     barCode : Taro.getStorageSync('ADD_barCode') || '',
@@ -31,7 +31,12 @@ const rootReducer = (state = initState, action) => {
                 guide : {
                     add : Taro.getStorageSync('GUIDE_add') || '',
                     signup : Taro.getStorageSync('GUIDE_signup') || '',
-                    report : Taro.getStorageSync('GUIDE_report') || ''
+                    report : Taro.getStorageSync('GUIDE_report') || {
+                        passwordRequired : true,
+                        password : '',
+                        code : ''
+                    },
+                    _use : Taro.getStorageSync('GUIDE_use') || false
                 }
             }
         }
@@ -122,7 +127,7 @@ const rootReducer = (state = initState, action) => {
             const report = clone(state['report']);
             report.current = current;
             // 保存查看报告编号
-            Taro.setStorageSync('VIEW_current', current);
+            Taro.setStorageSync('VIEW_current', report);
             return {
                 ...state,
                 report
@@ -145,14 +150,6 @@ const rootReducer = (state = initState, action) => {
                 sampleList
             }
         }
-        case BIO.REPORT_READ_OVER : {
-            const report = clone(initState['report']);
-            localStorage.removeItem('VIEW_current');
-            return {
-                ...state,
-                report
-            }
-        }
         case BIO.REPORT_EDIT : {
             const { current } = action.data;
             const edit = clone(state['edit']);
@@ -173,6 +170,15 @@ const rootReducer = (state = initState, action) => {
             }
         }
         // 接受分享
+        case BIO.GUIDE_USE : {
+            const guide = clone(state['guide']);
+            guide._use = true;
+            Taro.setStorageSync('GUIDE_use', guide._use);
+            return {
+                ...state,
+                guide
+            }
+        }
         case BIO.GUIDE_REPORT_ADD : {
             const guide = clone(state['guide']);
             guide.add = action.data;
@@ -184,10 +190,15 @@ const rootReducer = (state = initState, action) => {
         }
         case BIO.GUIDE_REPORT : {
             const guide = clone(state['guide']);
-            guide.report = action.data;
-            Taro.setStorageSync('GUIDE_report', action.data);
+            const report = clone(state['report']);
+            let {code, current, passwordRequired, password } = action.data;
+            guide.report = { passwordRequired, code, password };
+            report.current = current;
+            Taro.setStorageSync('GUIDE_report', guide.report);
+            Taro.setStorageSync('VIEW_current', report);
             return {
                 ...state,
+                report,
                 guide
             }
         }

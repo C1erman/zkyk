@@ -21,7 +21,8 @@ const ModuleB = () => {
             data : {
                 id : report.current,
                 'access-token' : _user.token,
-                'access-code' : guide.report
+                'access-code' : guide.report.code,
+                password : guide.report.password
             },
             header : {
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -32,7 +33,7 @@ const ModuleB = () => {
             if(data.code === 'success') setFlora(data.data);
         })
         .catch(e => console.log(e))
-    }, [report])
+    }, [report, guide, _user])
 
     const mapRisk = {
         'low-risk' : 'low-risk',

@@ -114,7 +114,7 @@ const Index = () => {
           </AtModalContent>
           <AtModalAction><Button onClick={() => { setModalOpen(false); setSelected(true) }}>同意</Button></AtModalAction>
         </AtModal>
-        <AtButton type='secondary' circle onClick={handleSubmit} loading={btnLoading} disabled={btnLoading}>绑定采样</AtButton>
+        <AtButton type='primary' circle onClick={handleSubmit} loading={btnLoading} disabled={btnLoading}>绑定采样</AtButton>
       </View>
     </View>
   </>);

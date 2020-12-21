@@ -30,7 +30,12 @@ const initState = {
     guide : {
         add : '',
         signup : '',
-        report : ''
+        report : {
+            passwordRequired : true,
+            password : '',
+            code : '',
+        },
+        _use : false
     },
     // 抗生素搜索引导
     antibiotics : {

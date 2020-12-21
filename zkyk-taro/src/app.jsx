@@ -19,8 +19,8 @@ const Data = () => {
 }
 // Taro 响应拦截器
 const Interceptor = () => {
-  const guide = useSelector(state => state.guide);
   const dispatch = useDispatch();
+  const guide = useSelector(state => state.guide);
 
   const BioInterceptor = (chain) => {
     const requestParams = chain.requestParams;
@@ -28,18 +28,30 @@ const Interceptor = () => {
       let code = response.statusCode || response.status;
       switch(code){
         case 401 : {
-          // if(guide.)
-          dispatch({
-            type : BIO.LOGIN_EXPIRED
-          });
-          Taro.atMessage({
-            type : 'error',
-            message : '登录状态过期，请重新登录',
-            duration : 2000
-          });
-          setTimeout(() => Taro.navigateTo({
-            url : '/pages/login/login'
-          }), 2000)
+          // 如果是通过分享浏览报告
+          if(guide._use){
+            Taro.atMessage({
+              type : 'info',
+              message : '二维码已过期，请使用新的二维码',
+              duration : 2000
+            });
+            setTimeout(() => Taro.reLaunch({
+              url : '/pages/index/index'
+            }), 2000)
+          }
+          else{
+            dispatch({
+              type : BIO.LOGIN_EXPIRED
+            });
+            Taro.atMessage({
+              type : 'error',
+              message : '登录状态过期，请重新登录',
+              duration : 2000
+            });
+            setTimeout(() => Taro.reLaunch({
+              url : '/pages/login/login'
+            }), 2000)
+          }
           break;
         }
         case 403 : {
@@ -68,7 +80,7 @@ const Interceptor = () => {
   useEffect(() => {
     Taro.addInterceptor(BioInterceptor);
     console.log('拦截器添加成功')
-  }, [])
+  }, [guide._use])
   return <></>;
 }
 
