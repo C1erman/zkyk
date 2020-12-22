@@ -154,7 +154,7 @@ const Add = () => {
         }
         setSubmitBtnLoading(true);
         Taro.request({
-            url : host() + '/sample/bind?access-token=' + user.token + '&access-code=' + guide.add,
+            url : host() + '/sample/bind?access-token=' + user.token + '&access-code=' + guide.add.code,
             method : 'POST',
             data : data,
             header : {
@@ -189,7 +189,7 @@ const Add = () => {
                 });
                 setSubmitBtnLoading(false);
             }
-        }).catch(e => console.log(e))
+        }).catch(e => console.log(e));
     }
     const handleFirst = () => {
         setSubmitBtnLoading(true)
@@ -198,7 +198,7 @@ const Add = () => {
             method : 'GET',
             data : {
                 'access-token' : user.token,
-                'access-code' : guide.add
+                'access-code' : guide.add.code
             },
             header : {
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -234,7 +234,7 @@ const Add = () => {
             method : 'GET',
             data : {
                 'access-token' : user.token,
-                'access-code' : guide.add,
+                'access-code' : guide.add.code,
                 code : testee.testeeCode
             },
             header : {
@@ -314,7 +314,7 @@ const Add = () => {
             method : 'GET',
             data : {
                 'access-token' : user.token,
-                'access-code' : guide.add
+                'access-code' : guide.add.code
             },
             header : { 
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -326,7 +326,7 @@ const Add = () => {
             else console.log(data.info)
         })
         .catch(e => console.log(e))
-    }, [user]);
+    }, [user, guide.add]);
     useDidShow(() => {
         if(antibiotics.add){
             handleSetOtherValue(antibiotics.add, 'antibiotics')
@@ -410,7 +410,7 @@ const Add = () => {
                 </Picker>
                 <View className='add-indexes'>
                     <AtInput name='antibiotics' title='抗生素' placeholder='一周内服用过的抗生素' value={addOtherInfo.antibiotics} onChange={(value) => handleSetOtherValue(value, 'antibiotics')} />
-                    <AtButton type='primary' size='small' onClick={handleAntibiotics}>搜索</AtButton>
+                    <AtButton type='primary' size='small' onClick={handleAntibiotics}>选择</AtButton>
                 </View>
                 <AtButton customStyle={{margin : '1rem 0'}} circle type='secondary' onClick={handleGoNext}>下一步</AtButton>
                 <AtFloatLayout isOpened={layoutOpened} title='受测人信息确认' onClose={() => setLayoutOpened(false)}>

@@ -32,6 +32,7 @@ const GUIDE_USE = 'guide-use';
 const GUIDE_REPORT_ADD = 'guide-report-add';
 const GUIDE_SIGN_UP = 'guide-sign-up';
 const GUIDE_REPORT = 'guide-report';
+const GUIDE_SIGN_UP_SUCCESS = 'guide-sign-up-success';
 // 违规操作
 const DENY_UNAUTHORIZED = 'deny-unauthorized';
 
@@ -62,5 +63,6 @@ export {
     GUIDE_REPORT_ADD,
     GUIDE_SIGN_UP,
     GUIDE_REPORT,
+    GUIDE_SIGN_UP_SUCCESS,
     DENY_UNAUTHORIZED
 }

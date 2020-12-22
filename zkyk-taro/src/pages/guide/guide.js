@@ -16,31 +16,44 @@ const Guide = () => {
     let [visible, setVisible] = useState(false)
     let [codePassword, setPassword] = useState('')
 
+    let [submitLoading, setSubmitLoading] = useState(false)
+
     const TYPE = {
         BIND : 'bind',
         SIGNUP : 'signup',
         REPORT : 'report'
     }
     const handleGuide = (data) => {
-        let { type, access_code, password_required } = data;
+        let { type, access_code, password, password_required } = data;
         switch(type){
             case TYPE.BIND : {
-                dispatch({ type : BIO.GUIDE_REPORT_ADD, data : access_code });
+                dispatch({ type : BIO.GUIDE_REPORT_ADD, data : {
+                    code : access_code,
+                    password,
+                    passwordRequired : password_required
+                }});
                 Taro.reLaunch({ url : '/pages/index/index' });
                 break;
             }
             case TYPE.SIGNUP : {
-                dispatch({ type : BIO.GUIDE_SIGN_UP, data : access_code });
+                let { user_id } = data;
+
+                dispatch({ type : BIO.GUIDE_SIGN_UP, data : {
+                    code : access_code,
+                    userId : user_id,
+                    password,
+                    passwordRequired : password_required
+                }});
                 Taro.reLaunch({ url : '/pages/login/login' });
                 break;
             }
             case TYPE.REPORT : {
-                let { report_id, password } = data;
+                let { report_id } = data;
                 dispatch({ type : BIO.GUIDE_REPORT, data : {
-                    passwordRequired : password_required,
                     code : access_code,
                     current : report_id,
-                    password
+                    password,
+                    passwordRequired : password_required
                 }});
                 Taro.reLaunch({ url : '/pages/view/view' });
                 break;
@@ -57,16 +70,58 @@ const Guide = () => {
             type : 'error',
             message : '请输入密码或使用凭证'
         })
-        else handleGuide({
-            ...guideData,
-            password : codePassword
-        });
+        else{
+            setSubmitLoading(true);
+            let { user_id, type, access_code } = guideData;
+            Taro.request({
+                url : host() + '/ds/check/password',
+                method : 'GET',
+                data : {
+                    id : user_id,
+                    type,
+                    'access-code' : access_code,
+                    password : codePassword
+                },
+                header : {
+                    'Content-Type' : 'application/json; charset=UTF-8'
+                }
+            })
+            .then(res => {
+                let { data } = res;
+                if(data.code === 'success'){
+                    if(data.data) handleGuide({
+                        ...guideData,
+                        password : codePassword
+                    })
+                    else Taro.atMessage({
+                        type : 'error',
+                        message : '请输入正确的密码或凭证',
+                        duration : 2500
+                    });
+                }
+                else Taro.atMessage({
+                    type : 'error',
+                    message : data.info,
+                    duration : 2500
+                });
+                setTimeout(() => setSubmitLoading(false), 2500);
+            })
+            .catch(e => {
+                console.log(e);
+                setTimeout(() => setSubmitLoading(false), 2500);
+            });
+        }
     }
 
     useDidShow(() => {
-        // let { q } = getCurrentInstance().router.params;
-        // let q = 'http://p.biohuge.cn/q/yhh1j1x4f';
-        let q = 'http://p.biohuge.cn/q/4xabtvhyzs';
+        let { q } = getCurrentInstance().router.params;
+        // let q = 'http://p.biohuge.cn/q/yuex53vno'; // 送样填表 dev
+        // let q = 'http://p.biohuge.cn/q/yhh1j1x4f'; // 分享报告 dev
+        // let q = 'http://p.biohuge.cn/q/4xabtvhyzs'; // 下级注册 dev
+
+        // let q = 'http://p.biohuge.cn/q/yuex53vno'; // 送样填表 109
+        // let q = 'http://p.biohuge.cn/q/yhh1j1x4f'; // 分享报告 109
+        // let q = 'http://p.biohuge.cn/q/cbk0j3b'; // 下级注册 109
         if(!q){
             Taro.atMessage({
                 type : 'error',
@@ -131,7 +186,7 @@ const Guide = () => {
                     <View className='input'>
                         <AtInput name='password' type='password' value={codePassword} onChange={(value) => setPassword(value)} placeholder='请输入密码' />
                     </View>
-                    <AtButton className='button' circle type='secondary' onClick={handleSubmitPassword}>下一步</AtButton>
+                    <AtButton loading={submitLoading} disabled={submitLoading} className='button' circle type='secondary' onClick={handleSubmitPassword}>下一步</AtButton>
                 </View>
             }
             />

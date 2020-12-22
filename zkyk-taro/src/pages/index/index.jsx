@@ -25,7 +25,7 @@ const Index = () => {
   }
 
   const handleSubmit = () => {
-    if(!user.token && !guide.add){
+    if(!user.token && !guide.add.code){
       setToast('请先登录');
       setTimeout(() => {
         Taro.navigateTo({

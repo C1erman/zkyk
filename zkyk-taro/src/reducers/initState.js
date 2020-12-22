@@ -28,8 +28,17 @@ const initState = {
     // 使用二维码
         // 存放 access-code
     guide : {
-        add : '',
-        signup : '',
+        add : {
+            passwordRequired : false,
+            password : '',
+            code : ''
+        },
+        signup : {
+            passwordRequired : '',
+            password : '',
+            code : '',
+            userId : ''
+        },
         report : {
             passwordRequired : true,
             password : '',
