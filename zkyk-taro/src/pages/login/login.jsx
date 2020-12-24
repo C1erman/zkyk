@@ -83,7 +83,7 @@ const Login = () => {
                                 duration : 2500
                             })
                             setTimeout(() => {
-                                setLoading(false)
+                                setLoading(false);
                                 Taro.navigateBack();
                             }, 2500)
                         }
@@ -147,6 +147,9 @@ const Login = () => {
         <>
             <AtMessage />
             <View className='login-container'>
+                <View className='login-guide'>
+                    { guide.signup?.code ? '您正通过扫描二维码方式注册，请点击微信账号快捷登录按钮完成注册及登录。' : '' }
+                </View>
                 <AtButton className='login-btn-wechat' type='primary' circle loading={btnLoading} disabled={btnLoading}
                   openType='getUserInfo' onGetUserInfo={(e) => handleGetUserInfo(e)}
                 >微信账号快捷登录</AtButton>

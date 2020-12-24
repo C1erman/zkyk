@@ -172,6 +172,7 @@ const Add = () => {
                 dispatch({
                     type : BIO.ADD_SUCCESS
                 });
+                if(guide.add?.code) dispatch({ type : BIO.GUIDE_REPORT_ADD_SUCCESS });
                 dispatch({
                     type : BIO.ADD_SET_ANTIBIOTICS,
                     data : ''

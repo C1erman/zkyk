@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Taro from '@tarojs/taro'
+import Taro, { useDidShow } from '@tarojs/taro'
 import { View, Text, Checkbox, Label, Button, CheckboxGroup} from '@tarojs/components'
 import { AtButton, AtInput, AtModal, AtModalHeader, AtModalContent, AtModalAction, AtToast, AtMessage } from 'taro-ui'
 import './index.css'
@@ -73,6 +73,13 @@ const Index = () => {
       }
     }
   }
+
+  useDidShow(() => {
+    // 处理 guide._use
+    let { add, report } = guide;
+    if(add.code) Taro.atMessage({ type : 'info', message : '请进行绑定采样操作', duration : 2500 });
+    if(report.code) dispatch({ type : BIO.GUIDE_REPORT_OVER });
+  })
 
   return (<>
     <AtMessage />

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Taro, { useDidShow, getCurrentInstance } from '@tarojs/taro';
 import { View } from '@tarojs/components';
 import { AtActivityIndicator, AtMessage, AtInput, AtButton } from 'taro-ui';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as BIO from '../../actions';
 import './guide.css';
 import { host } from '../../config';
@@ -10,7 +10,9 @@ import Modal from '../../component/Modal';
 
 
 const Guide = () => {
-    const dispatch = useDispatch() 
+    const dispatch = useDispatch()
+    
+    const user = useSelector(state => state.user)
 
     let [guideData, setGuideData] = useState({})
     let [visible, setVisible] = useState(false)
@@ -24,6 +26,7 @@ const Guide = () => {
         REPORT : 'report'
     }
     const handleGuide = (data) => {
+        dispatch({ type : BIO.GUIDE_USE });
         let { type, access_code, password, password_required } = data;
         switch(type){
             case TYPE.BIND : {
@@ -36,15 +39,25 @@ const Guide = () => {
                 break;
             }
             case TYPE.SIGNUP : {
-                let { user_id } = data;
-
-                dispatch({ type : BIO.GUIDE_SIGN_UP, data : {
-                    code : access_code,
-                    userId : user_id,
-                    password,
-                    passwordRequired : password_required
-                }});
-                Taro.reLaunch({ url : '/pages/login/login' });
+                if(user.token){
+                    Taro.atMessage({
+                        type : 'warning',
+                        message : '您已登录，无法进行注册操作',
+                        duration : 2500
+                    });
+                    dispatch({ type : BIO.GUIDE_USE_SUCCESS });
+                    setTimeout(() => Taro.reLaunch({ url : '/pages/index/index' }), 2500);
+                }
+                else{
+                    let { user_id } = data;
+                    dispatch({ type : BIO.GUIDE_SIGN_UP, data : {
+                        code : access_code,
+                        userId : user_id,
+                        password,
+                        passwordRequired : password_required
+                    }});
+                    Taro.reLaunch({ url : '/pages/login/login' });
+                }
                 break;
             }
             case TYPE.REPORT : {
@@ -150,9 +163,6 @@ const Guide = () => {
                 let { data } = res;
                 if(data.code === 'success'){
                     setGuideData(data.data);
-                    dispatch({
-                        type : BIO.GUIDE_USE
-                    })
                     // 统一处理是否需要密码进行后续操作
                     let { password_required } = data.data;
                     if(password_required) setVisible(true);
@@ -184,7 +194,7 @@ const Guide = () => {
                 <View className='guide-modal'>
                     <View className='info'>本次操作需要输入密码或使用凭证：</View>
                     <View className='input'>
-                        <AtInput name='password' type='password' value={codePassword} onChange={(value) => setPassword(value)} placeholder='请输入密码' />
+                        <AtInput name='password' type='number' value={codePassword} onChange={(value) => setPassword(value)} placeholder='请输入密码' />
                     </View>
                     <AtButton loading={submitLoading} disabled={submitLoading} className='button' circle type='secondary' onClick={handleSubmitPassword}>下一步</AtButton>
                 </View>

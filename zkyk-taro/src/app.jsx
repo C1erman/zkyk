@@ -79,7 +79,7 @@ const Interceptor = () => {
   }
   useEffect(() => {
     Taro.addInterceptor(BioInterceptor);
-    console.log('拦截器添加成功')
+    console.log('拦截器更新成功')
   }, [guide._use])
   return <></>;
 }

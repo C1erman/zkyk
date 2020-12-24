@@ -188,11 +188,31 @@ const rootReducer = (state = initState, action) => {
                 guide
             }
         }
+        case BIO.GUIDE_USE_SUCCESS : {
+            const guide = clone(state['guide']);
+            guide._use = false;
+            Taro.removeStorageSync('GUIDE_use');
+            return {
+                ...state,
+                guide
+            }
+        }
         case BIO.GUIDE_REPORT_ADD : {
             const guide = clone(state['guide']);
             let { code, password, passwordRequired } = action.data;
             guide.add = { code, password, passwordRequired };
             Taro.setStorageSync('GUIDE_add', guide.add);
+            return {
+                ...state,
+                guide
+            }
+        }
+        case BIO.GUIDE_REPORT_ADD_SUCCESS : {
+            const guide = clone(state['guide']);
+            guide.add = clone(initState['guide']['add']);
+            guide._use = false;
+            Taro.removeStorageSync('GUIDE_add');
+            Taro.removeStorageSync('GUIDE_use');
             return {
                 ...state,
                 guide
@@ -210,6 +230,19 @@ const rootReducer = (state = initState, action) => {
                 ...state,
                 report,
                 guide
+            }
+        }
+        case BIO.GUIDE_REPORT_OVER : {
+            const guide = clone(state['guide']);
+            guide.report = clone(initState['guide']['report']);
+            guide._use = false;
+            Taro.removeStorageSync('GUIDE_report');
+            Taro.removeStorageSync('VIEW_current');
+            Taro.removeStorageSync('GUIDE_use');
+            return {
+                ...state,
+                guide,
+                report : clone(initState['report'])
             }
         }
         case BIO.GUIDE_SIGN_UP : {

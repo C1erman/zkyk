@@ -56,14 +56,6 @@ export default {
         iconPath : 'icons/tab/user.png',
         selectedIconPath : 'icons/tab/user_selected.png'
       },
-      // {
-      //   pagePath : 'pages/shareSign/shareSign',
-      //   text : '分享注册',
-      // },
-      // {
-      //   pagePath : 'pages/guide/guide',
-      //   text : '引导页面',
-      // },
     ]
   }
 }

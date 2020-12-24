@@ -29,10 +29,13 @@ const REPORT_DOWNLOAD = 'report-download';
 const REPORT_DOWNLOAD_SUCCESS = 'report-download-success';
 // 使用分享
 const GUIDE_USE = 'guide-use';
+const GUIDE_USE_SUCCESS = 'guide-use-success';
 const GUIDE_REPORT_ADD = 'guide-report-add';
+const GUIDE_REPORT_ADD_SUCCESS = 'guide-report-add-success';
 const GUIDE_SIGN_UP = 'guide-sign-up';
-const GUIDE_REPORT = 'guide-report';
 const GUIDE_SIGN_UP_SUCCESS = 'guide-sign-up-success';
+const GUIDE_REPORT = 'guide-report';
+const GUIDE_REPORT_OVER = 'guide-report-over';
 // 违规操作
 const DENY_UNAUTHORIZED = 'deny-unauthorized';
 
@@ -60,9 +63,12 @@ export {
     REPORT_DOWNLOAD,
     REPORT_DOWNLOAD_SUCCESS,
     GUIDE_USE,
+    GUIDE_USE_SUCCESS,
     GUIDE_REPORT_ADD,
+    GUIDE_REPORT_ADD_SUCCESS,
     GUIDE_SIGN_UP,
-    GUIDE_REPORT,
     GUIDE_SIGN_UP_SUCCESS,
+    GUIDE_REPORT,
+    GUIDE_REPORT_OVER,
     DENY_UNAUTHORIZED
 }
