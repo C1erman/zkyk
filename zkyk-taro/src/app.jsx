@@ -20,7 +20,8 @@ const Data = () => {
 // Taro 响应拦截器
 const Interceptor = () => {
   const dispatch = useDispatch();
-  const guide = useSelector(state => state.guide);
+  const state = useSelector(appState => appState);
+  const { guide } = state;
 
   const BioInterceptor = (chain) => {
     const requestParams = chain.requestParams;
@@ -40,17 +41,22 @@ const Interceptor = () => {
             }), 2000)
           }
           else{
-            dispatch({
-              type : BIO.LOGIN_EXPIRED
-            });
-            Taro.atMessage({
-              type : 'error',
-              message : '登录状态过期，请重新登录',
-              duration : 2000
-            });
-            setTimeout(() => Taro.reLaunch({
-              url : '/pages/login/login'
-            }), 2000)
+            if(Taro.getStorageSync('token')){
+              // 做一些同步性的清除工作
+                // 涉及到视图的更新
+              Taro.clearStorageSync();
+              dispatch({
+                type : BIO.LOGIN_EXPIRED
+              });
+              Taro.atMessage({
+                type : 'error',
+                message : '登录状态过期，请重新登录',
+                duration : 2000
+              });
+              setTimeout(() => Taro.navigateTo({
+                url : '/pages/login/login'
+              }), 2000);
+            }
           }
           break;
         }

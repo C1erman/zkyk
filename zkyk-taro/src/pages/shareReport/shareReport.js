@@ -172,7 +172,7 @@ const ShareReport = () => {
                 <View className='shareReport-generate'>
                     <AtButton className='button' type='primary' circle onClick={() => setFloatGenOpen(true)}>创建</AtButton>
                 </View> */}
-                <AtFloatLayout isOpened={floatGenOpen} title='选择过期时间' onClose={() => setFloatGenOpen(false)}>
+                {/* <AtFloatLayout isOpened={floatGenOpen} title='选择过期时间' onClose={() => setFloatGenOpen(false)}>
                     <View className='shareReport-gen'>
                         <AtRadio className='radio'
                           options={[
@@ -186,14 +186,14 @@ const ShareReport = () => {
                         />
                         <AtButton type='secondary' circle onClick={handleGenerate}>生成</AtButton>
                     </View>
-                </AtFloatLayout>
-                {/* <AtFloatLayout isOpened={floatShowOpen} title='向其他人分享' onClose={() => setFloatShowOpen(false)}>
+                </AtFloatLayout> */}
+                <AtFloatLayout isOpened={floatShowOpen} title='向其他人分享' onClose={() => setFloatShowOpen(false)}>
                     <View className='shareReport-show-code'>
                         <Image className='img' src={showContent.src} showMenuByLongpress />
                         <View className='time'>过期时间为：<Text className='time-detail'>{showContent.expire}</Text></View>
                         { showContent.password ? (<View className='pass'>使用二维码时请对方输入分享码：{showContent.password}</View>) : null }
                     </View>
-                </AtFloatLayout> */}
+                </AtFloatLayout>
             </View>
         </>
     );
