@@ -1,6 +1,6 @@
 {
   "miniprogramRoot": "dist/",
-  "projectname": "zkyk-taro",
+  "projectname": "%E8%B0%83%E6%9F%A5%E9%97%AE%E5%8D%B7",
   "description": "",
   "appid": "wxa4136b5fb22e136e",
   "setting": {
@@ -33,7 +33,6 @@
     "useIsolateContext": true,
     "useCompilerModule": true,
     "userConfirmedUseCompilerModuleSwitch": false,
-    "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
     "packNpmRelationList": [],
     "minifyWXSS": true

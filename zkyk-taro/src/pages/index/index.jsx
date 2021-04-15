@@ -61,8 +61,11 @@ const Index = () => {
                       sampleId : sample_id
                   }
               })
+              // Taro.navigateTo({
+              //   url : '/pages/add/add'
+              // })
               Taro.navigateTo({
-                url : '/pages/add/add'
+                url : '/pages/questionnaire/questionnaire'
               })
           }
           setLoading(false)

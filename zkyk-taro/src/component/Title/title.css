@@ -1,0 +1,23 @@
+.bio-title{
+    text-align: center;
+    margin: 1.5rem;
+    font-weight: bolder;
+    font-size: 0.95rem;
+}
+.bio-title > .text{
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+}
+.bio-title > .text::after{
+    display: block;
+    content: '';
+    width: 120%;
+    height: 0.6rem;
+    position: relative;
+    z-index: -1;
+    background-color: var(--fakeTheme);
+    opacity: 0.5;
+    left: -10%;
+    top: -0.6rem;
+}

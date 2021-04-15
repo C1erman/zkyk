@@ -4,7 +4,8 @@ import Taro from '@tarojs/taro';
 import { Provider, useDispatch, useSelector } from 'react-redux'
 import store from './store';
 import * as BIO from './actions';
-import './app.css'
+import './app.css';
+import './reset.scss';
 
 // 数据缓存
 const Data = () => {

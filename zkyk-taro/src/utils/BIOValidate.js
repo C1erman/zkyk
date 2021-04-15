@@ -31,10 +31,19 @@ const userNameValidate = (userNameString) => {
     const userNameRegexp = /^[\u4e00-\u9fa5\dA-Za-z]{4,20}$/;
     return userNameRegexp.test(userNameString);
 }
+const ageValidate = (ageString) => {
+    const ageRegexp = /^(?:[1-9][0-9]?|1[01][0-9]|120)$/;
+    return ageRegexp.test(ageString);
+}
+const textValidate = (text) => {
+    const textRegexp = /.+/;
+    return textRegexp.test(text);
+} 
 
 const TYPE = {
     TEL : 'tel', HEIGHT : 'height', WEIGHT : 'weight',
-    NAME : 'name', EMAIL : 'email', ZH : 'zh', PASS : 'pass', USERNAME : 'username'
+    NAME : 'name', EMAIL : 'email', ZH : 'zh', PASS : 'pass', USERNAME : 'username',
+    AGE : 'age', TEXT: 'text',
 }
 const typeMaper = {
     [TYPE.TEL] : telValidate,
@@ -44,7 +53,9 @@ const typeMaper = {
     [TYPE.EMAIL] : emailValidate,
     [TYPE.ZH] : zhValidate,
     [TYPE.PASS] : passValidate,
-    [TYPE.USERNAME] : userNameValidate
+    [TYPE.USERNAME] : userNameValidate,
+    [TYPE.AGE] : ageValidate,
+    [TYPE.TEXT] : textValidate,
 }
 const infoMaper = {
     [TYPE.TEL] : '请输入正确的电话号码',
@@ -54,7 +65,9 @@ const infoMaper = {
     [TYPE.EMAIL] : '请输入正确的邮箱地址',
     [TYPE.ZH] : '请输入汉字',
     [TYPE.PASS] : '请输入6到20位的密码，支持大小写字母、数字与下划线组合',
-    [TYPE.USERNAME] : '请输入4到20位的用户名，支持中英文与数字组合'
+    [TYPE.USERNAME] : '请输入4到20位的用户名，支持中英文与数字组合',
+    [TYPE.AGE] : '请输入有效的年龄',
+    [TYPE.TEXT] : '请输入有效的文字',
 }
 
 const validate = (obj = [

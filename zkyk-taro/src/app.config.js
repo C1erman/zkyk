@@ -20,6 +20,9 @@ export default {
     'pages/moduleD/moduleD',
     'pages/moduleE/moduleE',
     'pages/moduleF/moduleF',
+
+    'pages/questionnaire/questionnaire',
+    'pages/questionnaireEdit/questionnaireEdit',
   ],
   window: {
     backgroundTextStyle: 'light',
@@ -56,6 +59,18 @@ export default {
         iconPath : 'icons/tab/user.png',
         selectedIconPath : 'icons/tab/user_selected.png'
       },
+      // {
+      //   pagePath : 'pages/questionnaire/questionnaire',
+      //   text : '我的',
+      //   iconPath : 'icons/tab/user.png',
+      //   selectedIconPath : 'icons/tab/user_selected.png'
+      // },
+      // {
+      //   pagePath : 'pages/questionnaireEdit/questionnaireEdit',
+      //   text : '修改',
+      //   iconPath : 'icons/tab/user.png',
+      //   selectedIconPath : 'icons/tab/user_selected.png'
+      // },
     ]
   }
 }
